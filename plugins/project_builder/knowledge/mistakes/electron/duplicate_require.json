@@ -1,0 +1,34 @@
+{
+    "id": "ELEC-ERROR-001",
+
+    "title": "requireを重複して書かない",
+
+    "keywords": [
+        "electron",
+        "ipcMain",
+        "dialog",
+        "require"
+    ],
+
+    "error": {
+        "message": "Identifier 'ipcMain' has already been declared"
+    },
+
+    "cause": "const { ipcMain, dialog } = require('electron'); を同じファイル内で2回宣言した",
+
+    "solution": [
+        "既に宣言されているか確認する",
+        "requireはファイル先頭で1回だけ書く",
+        "既存の宣言に必要なモジュールを追加する"
+    ],
+
+    "good_example": {
+        "code": "const { app, BrowserWindow, ipcMain, dialog } = require('electron');"
+    },
+
+    "bad_example": {
+        "code": "const { ipcMain, dialog } = require('electron'); // ←2回目"
+    },
+
+    "severity": "common"
+}

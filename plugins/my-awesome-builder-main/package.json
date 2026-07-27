@@ -1,0 +1,24 @@
+{
+  "name": "my-awesome-builder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Educational website builder with Tailwind CSS theming framework",
+  "packageManager": "pnpm@8.15.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev": "pnpm -r run dev",
+    "lint": "pnpm -r run lint",
+    "test": "pnpm -r run test",
+    "type-check": "pnpm -r run type-check"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

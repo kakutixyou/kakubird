@@ -1,0 +1,280 @@
+{
+  "company_id": "cmp_solxyz_2026_001",
+
+  "company": {
+    "name": "株式会社ソルクシーズ",
+    "industry": "SIer・クラウド・IoT・AIソリューション",
+    "employment_type": "正社員想定",
+    "location": "東京都",
+    "source_type": "面談確約スカウト",
+    "received_date": "2026-05-22",
+    "expiration_days_left": 6,
+
+    "business_model_estimation": {
+      "si_business": true,
+      "stock_business": true,
+      "cloud_services": true,
+      "iot_business": true,
+      "ai_related_business": true,
+      "system_integration": true
+    }
+  },
+
+  "offer_summary": {
+    "headline": "未経験歓迎｜現役SEと同じ研修で学ぶエンジニアファーストSIer",
+
+    "salary_range": {
+      "min": 3000000,
+      "max": 4000000,
+      "currency": "JPY"
+    },
+
+    "benefits_summary": [
+      "3カ月研修",
+      "自社学習カリキュラム",
+      "講師サポート",
+      "エンジニアファースト文化",
+      "平均残業月10h"
+    ],
+
+    "work_style": {
+      "average_overtime_hours": 10,
+      "training_available": true,
+      "mentor_support": true,
+      "beginner_friendly": true,
+      "engineer_first_culture": true,
+      "long_term_skill_growth": true
+    }
+  },
+
+  "technical_domain": {
+    "main_fields": [
+      "システム開発",
+      "インフラ構築",
+      "クラウド",
+      "IoT",
+      "AI",
+      "運用保守"
+    ],
+
+    "engineering_characteristics": {
+      "full_cycle_development": true,
+      "enterprise_systems": true,
+      "modern_technology_focus": true,
+      "broad_engineering_scope": true,
+      "consultative_engineering": true
+    },
+
+    "training_platform": {
+      "name": "Solxyz Academy",
+      "duration_months": 3,
+      "same_as_internal_engineers": true,
+      "hands_on_learning": true
+    }
+  },
+
+  "career_features": {
+    "requirements_definition": true,
+    "design": true,
+    "development": true,
+    "infrastructure": true,
+    "operation_maintenance": true,
+
+    "engineer_ratio_high": true,
+    "career_growth_support": true,
+    "practical_training": true,
+    "supportive_management": true,
+
+    "career_path": {
+      "system_engineer": true,
+      "cloud_engineer": true,
+      "iot_engineer": true,
+      "ai_related_engineer": true,
+      "full_stack_possible": true
+    }
+  },
+
+  "company_culture": {
+    "keywords": [
+      "エンジニアファースト",
+      "未経験歓迎",
+      "研修充実",
+      "Solxyz Academy",
+      "クラウド",
+      "IoT",
+      "AI",
+      "ワンストップ",
+      "ストックビジネス",
+      "SIビジネス"
+    ],
+
+    "positive_points": [
+      "研修制度が比較的しっかりしている",
+      "現役SEと同じ研修",
+      "エンジニア比率が高い",
+      "相談しやすい文化",
+      "残業少なめ",
+      "技術領域が幅広い",
+      "未経験サポートあり"
+    ],
+
+    "risk_points": [
+      "幅広すぎて専門性分散の可能性",
+      "SES的配属可能性",
+      "AI・IoTは一部案件のみの可能性",
+      "未経験枠は運用保守スタート可能性",
+      "技術ワードが広めで抽象度あり"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "growth_pressure_score": 52,
+    "stability_score": 76,
+    "work_life_balance_score": 84,
+    "technical_growth_score": 79,
+    "abstract_expression_score": 51,
+    "ses_risk_score": 41,
+
+    "detected_patterns": [
+      {
+        "word": "未経験",
+        "count": 4,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "研修",
+        "count": 5,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "AI",
+        "count": 1,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "IoT",
+        "count": 1,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "エンジニアファースト",
+        "count": 1,
+        "risk_weight": 1
+      }
+    ]
+  },
+
+  "interview_checkpoints": {
+    "important_questions": [
+      "実際の配属先例",
+      "未経験配属の業務内容",
+      "自社内開発比率",
+      "客先常駐割合",
+      "Solxyz Academyの内容",
+      "使用技術スタック",
+      "クラウド・AI案件割合",
+      "キャリアチェンジ可能性"
+    ],
+
+    "red_flag_patterns": [
+      "研修後すぐ単独常駐",
+      "保守固定",
+      "AI・IoT案件がごく少数",
+      "実態がSES中心",
+      "教育が自己学習依存"
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "light_gray_to_white",
+
+    "estimated_risk_level": 34,
+
+    "estimated_black_probability": 0.21,
+
+    "analysis_comment": [
+      "未経験育成に比較的力を入れている印象",
+      "研修制度は他社より強め",
+      "エンジニア比率の高さはプラス材料",
+      "SIer色は強めだが極端なブラック感は薄い",
+      "技術領域は広いが専門特化ではない",
+      "キャリア初期としては安定寄り"
+    ],
+
+    "recommendation": [
+      "配属実績確認",
+      "客先常駐割合確認",
+      "研修後の案件内容確認",
+      "AI・IoT案件参加条件確認",
+      "キャリアパス確認",
+      "開発案件比率確認"
+    ],
+
+    "suitable_for": [
+      "未経験から入りたい人",
+      "研修重視",
+      "幅広く経験したい人",
+      "安定したSIerを探している人",
+      "エンジニア文化を重視する人"
+    ],
+
+    "not_suitable_for": [
+      "研究開発特化志向",
+      "完全自社サービス志向",
+      "最先端AIだけやりたい人",
+      "フルリモート固定希望",
+      "超高年収スタート希望"
+    ]
+  },
+
+  "raw_text": {
+    "original_message_summary": "現役SEと同じ3カ月研修を受けられる未経験歓迎SIer。クラウド・IoT・AIにも対応。平均残業10h。",
+
+    "important_quotes": [
+      "現役エンジニアと同じ研修",
+      "Solxyz Academy",
+      "エンジニアファースト",
+      "IoTやクラウド、AI",
+      "ワンストップで対応"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "analysis_mode": "heuristic_plus_keyword",
+    "confidence_score": 0.82
+  },
+
+  "message": [
+    "■未経験歓迎／3カ月研修あり",
+    "■現役SEと同じカリキュラムで学習",
+    "■平均残業月10h程度",
+    "■クラウド・IoT・AI領域あり",
+    "■エンジニアファースト文化",
+
+    "株式会社ソルクシーズ 採用担当です。",
+
+    "当社では、システムエンジニアとしてご活躍いただける方を募集しております。",
+
+    "システム企画・設計・開発からインフラ構築、運用までワンストップで対応しています。",
+
+    "また、IoTやクラウド、AIなど最先端技術を活用したストックビジネスにも取り組んでいます。",
+
+    "入社後は、現役エンジニアも利用する『Solxyz Academy』で3カ月間研修を実施します。",
+
+    "未経験の方でも、講師陣が一人ひとりに合わせてサポートするため安心して学習できます。",
+
+    "社員の9割がエンジニアであり、相談しやすい環境づくりを重視しています。",
+
+    "平均残業は月10h程度と、働きやすさにも力を入れています。",
+
+    "まずはカジュアル面談にて、開発環境やキャリアについてご紹介できれば幸いです。"
+  ]
+}

@@ -1,0 +1,37 @@
+IntentInspector
+        │
+        ▼
+Orchestra.py
+        │
+        ▼
+RepomixHandler
+        │
+        ▼
+RepomixAnalyzer
+        │   
+        ├──DependencyAnalyzer（）
+        ├──
+        ├──
+        ├── ComponentAnalyzer()
+        ├── ApiAnalyzer
+        ├── DependencyAnalyzer
+        ├── PythonAnalyzer
+        ├── ReactAnalyzer
+        ├── ClassAnalyzer
+        ├── FunctionAnalyzer
+        ├── TodoAnalyzer
+        ├── CommentAnalyzer（）
+        └── SummaryAnalyzer（）
+                │
+                ▼
+KnowledgeManager
+        │
+        ├── save()
+        ├── update()
+        ├── backup()
+        ├── search()
+        ├── version()
+        └── merge()
+                │
+                ▼
+Knowledge(JSON)

@@ -1,0 +1,38 @@
+
+🧪 具体例で説明（超重要）
+🎯 やりたいこと
+
+「SIERセット一式のデータが欲しい」
+
+Step① APIを作る
+GET /api/data/sier-set
+Step② backend
+@router.get("/sier-set")
+def get_sier_set(api_key: str = Header(...)):
+    validate(api_key)
+
+    return {
+        "companies": [...],
+        "projects": [...]
+    }
+Step③ フロント（App.jsx的には）
+callAPI("GET", "/api/data/sier-set")
+
+
+エンドポイントURLを教えて→http://127.0.0.1:8765/api
+
+
+
+
+# routes_chat.py
+# ↓
+# run_custom_ai()
+# ↓
+# get_schema_text()
+# ↓
+# build_prompt()
+# ↓
+# Claude/Gemini
+# ↓
+# judge
+

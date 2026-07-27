@@ -1,0 +1,11 @@
+{
+  "plugin_id": "php_engine",
+  "name": "PHP & SQL 学習・補完エンジン",
+  "version": "1.0.0",
+  "trigger_keywords": ["php", "sql", "mysql", "sqlite", "pdo", "echo"],
+  "paths": {
+    "knowledge": "knowledge",
+    "templates": "templates",
+    "sandbox": "sandbox"
+  }
+}

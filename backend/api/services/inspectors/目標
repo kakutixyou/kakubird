@@ -1,0 +1,67 @@
+backend/
+└── inspectors/
+
+    IntentInspector.py
+        ↓
+        司令塔だけ
+
+    MessageTypeDetector.py
+        ↓
+        型判定
+
+    ActionDetector.py
+        ↓
+        Actionだけ
+
+    TargetDetector.py
+        ↓
+        Targetだけ
+
+    ThemeDetector.py
+        ↓
+        UI関連
+
+    DeploymentDetector.py
+        ↓
+        deploymentだけ
+
+    mode_rule.py
+        ↓
+        ModeRule全部
+
+    inspector_config.json
+
+    mode_rules.json
+
+
+mode_rule.pyはかなり良くできています
+
+実はmode_rule.pyは設計がかなり綺麗です。
+
+例えば
+
+GenericModeRule
+
+だけでも
+
+match()
+
+calculate_score()
+
+があり
+
+JSONだけ追加すれば
+
+新しいMode
+
+を作れます。
+
+さらに
+
+PYTHON_MODE_RULES
+
+があるので
+
+特殊なModeだけPythonで書けばいい。
+
+これはかなり拡張性があります。

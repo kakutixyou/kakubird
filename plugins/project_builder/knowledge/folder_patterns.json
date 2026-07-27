@@ -1,0 +1,543 @@
+{
+  "version": "1.0",
+  "patterns": [
+    {
+      "id": "python_cli",
+      "name": "Python CLI",
+      "framework": "python",
+      "description": "Pythonコマンドラインアプリ",
+      "folders": [
+        "src",
+        "src/core",
+        "src/utils",
+        "src/models",
+        "src/services",
+        "tests",
+        "docs",
+        "config"
+      ],
+      "files": [
+        "README.md",
+        "requirements.txt",
+        ".gitignore",
+        "main.py"
+      ]
+    },
+    {
+      "id": "fastapi",
+      "name": "FastAPI",
+      "framework": "fastapi",
+      "description": "FastAPI REST API",
+      "folders": [
+        "app",
+        "app/api",
+        "app/models",
+        "app/schemas",
+        "app/services",
+        "app/core",
+        "app/utils",
+        "tests",
+        "docs"
+      ],
+      "files": [
+        "README.md",
+        "requirements.txt",
+        ".env",
+        ".gitignore",
+        "app/main.py"
+      ]
+    },
+    {
+      "id": "flask",
+      "name": "Flask",
+      "framework": "flask",
+      "description": "Flask Web Application",
+      "folders": [
+        "app",
+        "app/routes",
+        "app/models",
+        "app/templates",
+        "app/static",
+        "tests",
+        "config"
+      ],
+      "files": [
+        "README.md",
+        "requirements.txt",
+        "run.py",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "framework": "react",
+      "description": "React Application",
+      "folders": [
+        "src",
+        "src/components",
+        "src/pages",
+        "src/hooks",
+        "src/store",
+        "src/utils",
+        "src/assets",
+        "public"
+      ],
+      "files": [
+        "package.json",
+        "vite.config.js",
+        "README.md",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "electron_react",
+      "name": "Electron + React",
+      "framework": "electron",
+      "description": "Electron Desktop Application",
+      "folders": [
+        "electron",
+        "electron/main",
+        "electron/preload",
+        "src",
+        "src/components",
+        "src/pages",
+        "src/hooks",
+        "src/store",
+        "src/assets",
+        "public"
+      ],
+      "files": [
+        "package.json",
+        "electron/main.ts",
+        "electron/preload.ts",
+        "vite.config.ts",
+        ".gitignore",
+        "README.md"
+      ]
+    },
+    {
+      "id": "vscode_extension",
+      "name": "VSCode Extension",
+      "framework": "vscode",
+      "description": "VSCode Extension",
+      "folders": [
+        "src",
+        "src/commands",
+        "src/providers",
+        "src/utils",
+        "media",
+        "resources",
+        ".vscode"
+      ],
+      "files": [
+        "package.json",
+        "tsconfig.json",
+        "README.md",
+        ".vscodeignore"
+      ]
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js",
+      "framework": "nodejs",
+      "description": "Node.js Application",
+      "folders": [
+        "src",
+        "src/controllers",
+        "src/models",
+        "src/routes",
+        "src/services",
+        "src/utils",
+        "tests"
+      ],
+      "files": [
+        "package.json",
+        "tsconfig.json",
+        ".gitignore",
+        "README.md"
+      ]
+    },
+    {
+      "id": "expressjs",
+      "name": "Express.js",
+      "framework": "expressjs",
+      "description": "Express.js REST API",
+      "folders": [
+        "src",
+        "src/controllers",
+        "src/models",
+        "src/routes",
+        "src/middleware",
+        "tests"
+      ],
+      "files": [
+        "package.json",
+        ".env",
+        ".gitignore",
+        "README.md"
+      ]
+},
+    {
+      "id": "nextjs",
+      "name": "Next.js",
+      "framework": "nextjs",
+      "description": "Next.js Full Stack Application",
+      "folders": [
+        "app",
+        "components",
+        "lib",
+        "hooks",
+        "public",
+        "styles",
+        "types"
+      ],
+      "files": [
+        "package.json",
+        "next.config.js",
+        "tsconfig.json",
+        "README.md",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "django",
+      "name": "Django",
+      "framework": "django",
+      "description": "Django Web Application",
+      "folders": [
+        "project",
+        "project/settings",
+        "apps",
+        "templates",
+        "static",
+        "media",
+        "tests"
+      ],
+      "files": [
+        "manage.py",
+        "requirements.txt",
+        "README.md",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "scraping",
+      "name": "Python Scraping",
+      "framework": "python",
+      "description": "Web Scraping Project",
+      "folders": [
+        "collectors",
+        "extractors",
+        "parsers",
+        "pipelines",
+        "storage",
+        "config",
+        "logs",
+        "tests"
+      ],
+      "files": [
+        "main.py",
+        "requirements.txt",
+        "README.md",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "ai_assistant",
+      "name": "AI Assistant",
+      "framework": "python",
+      "description": "LLM Assistant Project",
+      "folders": [
+        "handlers",
+        "plugins",
+        "knowledge",
+        "memory",
+        "models",
+        "prompts",
+        "tools",
+        "config",
+        "tests"
+      ],
+      "files": [
+        "main.py",
+        "requirements.txt",
+        "README.md",
+        ".env",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "plugin_system",
+      "name": "Plugin Architecture",
+      "framework": "python",
+      "description": "Extensible Plugin System",
+      "folders": [
+        "plugins",
+        "plugins/core",
+        "plugins/models",
+        "plugins/knowledge",
+        "plugins/builders",
+        "plugins/registry",
+        "shared",
+        "tests"
+      ],
+      "files": [
+        "main.py",
+        "requirements.txt",
+        "README.md",
+        ".gitignore"
+      ]
+    },
+{
+  "id": "react_fastapi",
+  "name": "React + FastAPI",
+  "framework": "fullstack",
+  "description": "React Frontend + FastAPI Backend",
+  "folders": [
+    "frontend/src",
+    "frontend/src/components",
+    "frontend/src/pages",
+    "frontend/src/hooks",
+    "frontend/public",
+    "backend/app",
+    "backend/app/api",
+    "backend/app/models",
+    "backend/app/services",
+    "backend/tests",
+    "docker"
+  ],
+  "files": [
+    "README.md",
+    "docker-compose.yml",
+    ".gitignore"
+  ]
+},
+{
+  "id": "electron_fastapi",
+  "name": "Electron + FastAPI",
+  "framework": "desktop",
+  "description": "Electron Desktop with FastAPI Backend",
+  "folders": [
+    "electron",
+    "electron/main",
+    "electron/preload",
+    "frontend",
+    "backend",
+    "backend/app",
+    "backend/app/api",
+    "backend/app/services",
+    "shared"
+  ],
+  "files": [
+    "package.json",
+    "requirements.txt",
+    "README.md"
+  ]
+},
+{
+  "id": "rag_system",
+  "name": "RAG System",
+  "framework": "python",
+  "description": "Retrieval-Augmented Generation",
+  "folders": [
+    "collectors",
+    "cleaners",
+    "chunkers",
+    "embeddings",
+    "vectordb",
+    "retrievers",
+    "knowledge",
+    "llm",
+    "prompts",
+    "tests"
+  ],
+  "files": [
+    "main.py",
+    "requirements.txt",
+    ".env",
+    "README.md"
+  ]
+},
+{
+  "id": "multi_agent",
+  "name": "Multi Agent",
+  "framework": "python",
+  "description": "Multi-Agent AI Architecture",
+  "folders": [
+    "agents",
+    "agents/planner",
+    "agents/executor",
+    "agents/reviewer",
+    "agents/memory",
+    "shared",
+    "knowledge",
+    "config"
+  ],
+  "files": [
+    "main.py",
+    "requirements.txt",
+    "README.md"
+  ]
+},
+{
+  "id": "mcp_server",
+  "name": "MCP Server",
+  "framework": "python",
+  "description": "Model Context Protocol Server",
+  "folders": [
+    "server",
+    "handlers",
+    "resources",
+    "tools",
+    "schemas",
+    "tests"
+  ],
+  "files": [
+    "main.py",
+    "requirements.txt",
+    "README.md"
+  ]
+},
+{
+  "id": "browser_automation",
+  "name": "Browser Automation",
+  "framework": "python",
+  "description": "Playwright / Selenium Automation",
+  "folders": [
+    "automation",
+    "automation/scripts",
+    "automation/pages",
+    "automation/utils",
+    "logs",
+    "downloads",
+    "tests"
+  ],
+  "files": [
+    "main.py",
+    "requirements.txt",
+    "README.md"
+  ]
+},
+{
+  "id": "chrome_extension",
+  "name": "Chrome Extension",
+  "framework": "javascript",
+  "description": "Browser Extension",
+  "folders": [
+    "src",
+    "src/background",
+    "src/content",
+    "src/popup",
+    "src/options",
+    "assets"
+  ],
+  "files": [
+    "manifest.json",
+    "package.json",
+    "README.md"
+  ]
+},
+{
+  "id": "library",
+  "name": "Python Library",
+  "framework": "python",
+  "description": "Reusable Python Package",
+  "folders": [
+    "src",
+    "src/package",
+    "tests",
+    "docs",
+    "examples"
+  ],
+  "files": [
+    "pyproject.toml",
+    "README.md",
+    "LICENSE"
+  ]
+},
+{
+  "id": "microservice",
+  "name": "Microservice",
+  "framework": "python",
+  "description": "Microservice Architecture",
+  "folders": [
+    "app",
+    "app/api",
+    "app/services",
+    "app/events",
+    "config",
+    "tests"
+  ],
+  "files": [
+    "Dockerfile",
+    "docker-compose.yml",
+    "requirements.txt",
+    "README.md"
+  ]
+},
+{
+  "id": "data_pipeline",
+  "name": "Data Pipeline",
+  "framework": "python",
+  "description": "ETL/Data Processing Pipeline",
+  "folders": [
+    "extract",
+    "transform",
+    "load",
+    "pipelines",
+    "storage",
+    "logs",
+    "config"
+  ],
+  "files": [
+    "main.py",
+    "requirements.txt",
+    "README.md"
+  ]
+
+},
+ {
+      "id": "flutter",
+      "name": "Flutter",
+      "framework": "flutter",
+      "description": "Flutter Mobile Application",
+      "folders": [
+        "lib",
+        "lib/screens",
+        "lib/widgets",
+        "lib/models",
+        "lib/services",
+        "lib/utils",
+        "assets",
+        "test"
+      ],
+      "files": [
+        "pubspec.yaml",
+        "README.md",
+        ".gitignore"
+      ]
+    },
+
+    {
+      "id": "unity",
+      "name": "Unity",
+      "framework": "unity",
+      "description": "Unity Game Project",
+      "folders": [
+        "Assets",
+        "Assets/Scripts",
+        "Assets/Scenes",
+        "Assets/Prefabs",
+        "Assets/Resources",
+        "Packages",
+        "ProjectSettings"
+      ],
+      "files": [
+        "README.md",
+        ".gitignore"
+      ]
+    }
+
+  ]
+}

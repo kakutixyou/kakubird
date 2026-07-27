@@ -1,0 +1,102 @@
+{
+  "id": "git_push_specific_folder_001",
+  "type": "technical_knowledge",
+  "category": "Git",
+  "title": "指定したフォルダだけをGitHubへPushする手順",
+  "summary": "特定のフォルダ（output/opendata_jsons）のみをGitHubへ安全にPushし、Pull Requestを作成する手順。",
+  "topic": [
+    "Git",
+    "GitHub",
+    "Branch",
+    "Pull Request"
+  ],
+  "keywords": [
+    "git checkout",
+    "git add",
+    "git commit",
+    "git push",
+    "GitHub",
+    "Pull Request",
+    "feature branch",
+    "output/opendata_jsons"
+  ],
+  "purpose": {
+    "goal": "指定したフォルダのみをGitHubへ投稿する",
+    "reason": "不要なファイルを誤ってコミット・Pushしないため"
+  },
+  "workflow": [
+    {
+      "step": 1,
+      "title": "作業用ブランチを作成する",
+      "description": "メインブランチへ直接変更を加えないため、新しいブランチを作成する。",
+      "command": "git checkout -b add-opendata-jsons"
+    },
+    {
+      "step": 2,
+      "title": "対象フォルダのみをステージングする",
+      "description": "output/opendata_jsons フォルダだけをGitの管理対象に追加する。",
+      "command": "git add output/opendata_jsons/"
+    },
+    {
+      "step": 3,
+      "title": "コミットを作成する",
+      "description": "変更内容を分かりやすいメッセージで記録する。",
+      "command": "git commit -m \"messageなどのJSONデータ（opendata_jsons）を追加\""
+    },
+    {
+      "step": 4,
+      "title": "GitHubへPushする",
+      "description": "作成したブランチをリモートリポジトリへ送信する。",
+      "command": "git push origin add-opendata-jsons"
+    }
+  ],
+  "authentication": {
+    "title": "GitHubログイン画面が表示された場合",
+    "description": "git push 実行時にGitHubの認証画面が表示されることがある。GitHubアカウントで認証を完了するとPushが続行される。"
+  },
+  "next_steps": [
+    {
+      "title": "Pull Requestを作成する",
+      "description": "Push完了後、GitHub上で Compare & Pull Request を選択し、変更内容をレビュー依頼する。"
+    }
+  ],
+  "best_practices": [
+    "必ず作業用ブランチを作成してから変更を行う",
+    "git add は必要なフォルダだけを指定する",
+    "コミットメッセージは変更内容が分かるように記述する",
+    "Push後はPull Requestを作成してレビューを受ける"
+  ],
+  "warnings": [
+    "git add . を実行すると不要なファイルまでコミット対象になる可能性がある",
+    "mainブランチへ直接Pushしない",
+    "Push前に git status で変更内容を確認することを推奨"
+  ],
+  "verification": [
+    {
+      "command": "git status",
+      "purpose": "コミット対象のファイルを確認する"
+    },
+    {
+      "command": "git branch",
+      "purpose": "現在のブランチを確認する"
+    },
+    {
+      "command": "git log --oneline -5",
+      "purpose": "直近のコミット履歴を確認する"
+    }
+  ],
+  "related_commands": {
+    "create_branch": "git checkout -b add-opendata-jsons",
+    "stage_folder": "git add output/opendata_jsons/",
+    "commit": "git commit -m \"messageなどのJSONデータ（opendata_jsons）を追加\"",
+    "push": "git push origin add-opendata-jsons",
+    "status": "git status",
+    "branch": "git branch"
+  },
+  "metadata": {
+    "knowledge_type": "workflow",
+    "difficulty": "beginner",
+    "confidence": "high",
+    "created_from": "ChatGPT conversation"
+  }
+}

@@ -1,0 +1,516 @@
+{
+  "version": "1.0.0",
+  "description": "Block library — all 30 block types × 3 variants with metadata",
+  "blocks": {
+    "hero": {
+      "description": "Full-width hero/banner section at the top of a page",
+      "variants": {
+        "center-title": {
+          "description": "Centred headline, subtitle, and CTA buttons",
+          "tailwindClasses": "flex flex-col items-center text-center py-24 px-6"
+        },
+        "left-image": {
+          "description": "Text on the left, hero image on the right",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-16 px-6"
+        },
+        "full-background": {
+          "description": "Full-bleed image or gradient with overlaid text",
+          "tailwindClasses": "relative min-h-screen flex items-center overflow-hidden"
+        }
+      }
+    },
+    "split_hero": {
+      "description": "Split-screen section with two balanced columns",
+      "variants": {
+        "image-right": {
+          "description": "Content left, image right",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-2 gap-10 items-center py-16 px-6"
+        },
+        "image-left": {
+          "description": "Image left, content right",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-2 gap-10 items-center py-16 px-6 [&>*:first-child]:order-last lg:[&>*:first-child]:order-first"
+        },
+        "alternate": {
+          "description": "Image and content alternate sides on each row",
+          "tailwindClasses": "flex flex-col gap-20 py-16 px-6"
+        }
+      }
+    },
+    "info_cards": {
+      "description": "Grid of informational feature/topic cards",
+      "variants": {
+        "flat": {
+          "description": "Clean white cards with subtle shadow",
+          "tailwindClasses": "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+        },
+        "glass": {
+          "description": "Frosted-glass cards ideal for dark themes",
+          "tailwindClasses": "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+        },
+        "bordered": {
+          "description": "Cards with primary-colour border accent",
+          "tailwindClasses": "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+        }
+      }
+    },
+    "timeline": {
+      "description": "Chronological or step-by-step sequence",
+      "variants": {
+        "vertical": {
+          "description": "Vertical line with stacked entries",
+          "tailwindClasses": "relative pl-8 space-y-10"
+        },
+        "horizontal": {
+          "description": "Scrollable horizontal timeline track",
+          "tailwindClasses": "flex overflow-x-auto gap-0 pb-4"
+        },
+        "minimal": {
+          "description": "Numbered list with no connector lines",
+          "tailwindClasses": "space-y-6"
+        }
+      }
+    },
+    "quiz": {
+      "description": "Interactive knowledge-check block",
+      "variants": {
+        "choice": {
+          "description": "Multiple-choice question with immediate feedback",
+          "tailwindClasses": "space-y-6 max-w-2xl mx-auto"
+        },
+        "flashcard": {
+          "description": "Flip card showing question front / answer back",
+          "tailwindClasses": "space-y-6 max-w-md mx-auto"
+        },
+        "instant-check": {
+          "description": "Fill-in-the-blank with live correctness highlight",
+          "tailwindClasses": "space-y-6 max-w-2xl mx-auto"
+        }
+      }
+    },
+    "section_header": {
+      "description": "Decorative heading that introduces a content section",
+      "variants": {
+        "simple": {
+          "description": "Title and optional subtitle, left-aligned",
+          "tailwindClasses": "mb-10"
+        },
+        "decorated": {
+          "description": "Title with gradient underline and badge",
+          "tailwindClasses": "mb-10 text-center"
+        },
+        "full-width": {
+          "description": "Full-width band with title and description",
+          "tailwindClasses": "w-full py-12 px-6 bg-[var(--color-surface)]"
+        }
+      }
+    },
+    "anchor_nav": {
+      "description": "In-page navigation anchors / table of contents",
+      "variants": {
+        "horizontal": {
+          "description": "Pill-style links in a horizontal scrollable row",
+          "tailwindClasses": "flex overflow-x-auto gap-2 py-3 sticky top-0 bg-[var(--color-bg)] z-40"
+        },
+        "vertical": {
+          "description": "Stacked sidebar links",
+          "tailwindClasses": "flex flex-col gap-1"
+        },
+        "floating": {
+          "description": "Fixed pill that expands on click",
+          "tailwindClasses": "fixed bottom-6 right-6 z-50"
+        }
+      }
+    },
+    "sidebar_index": {
+      "description": "Table-of-contents sidebar",
+      "variants": {
+        "simple": {
+          "description": "Plain flat link list",
+          "tailwindClasses": "space-y-1 text-sm"
+        },
+        "numbered": {
+          "description": "Auto-numbered section links",
+          "tailwindClasses": "space-y-1 text-sm list-decimal list-inside"
+        },
+        "collapsible": {
+          "description": "Expandable/collapsible nested sections",
+          "tailwindClasses": "space-y-1 text-sm"
+        }
+      }
+    },
+    "two_column_layout": {
+      "description": "Generic two-column layout wrapper",
+      "variants": {
+        "equal": {
+          "description": "Two equal 50/50 columns",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-2 gap-10"
+        },
+        "sidebar-right": {
+          "description": "Wide main column + narrow right sidebar",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10"
+        },
+        "sidebar-left": {
+          "description": "Narrow left sidebar + wide main column",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-10"
+        }
+      }
+    },
+    "footer": {
+      "description": "Page footer with links and branding",
+      "variants": {
+        "minimal": {
+          "description": "Single-line copyright and links",
+          "tailwindClasses": "flex items-center justify-between py-6 px-6 border-t border-[var(--color-border)]"
+        },
+        "rich": {
+          "description": "Multi-column footer with sections",
+          "tailwindClasses": "grid grid-cols-2 lg:grid-cols-4 gap-8 py-12 px-6"
+        },
+        "centered": {
+          "description": "Centred logo, links, and social icons",
+          "tailwindClasses": "flex flex-col items-center gap-6 py-10 px-6"
+        }
+      }
+    },
+    "profile_cards": {
+      "description": "Team member or instructor profile cards",
+      "variants": {
+        "portrait": {
+          "description": "Vertical card with avatar on top",
+          "tailwindClasses": "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+        },
+        "horizontal": {
+          "description": "Horizontal card with avatar on the left",
+          "tailwindClasses": "flex flex-col gap-5"
+        },
+        "featured": {
+          "description": "Large featured instructor card",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8 items-center"
+        }
+      }
+    },
+    "step_flow": {
+      "description": "Step-by-step process or how-it-works section",
+      "variants": {
+        "numbered": {
+          "description": "Large numbers above each step",
+          "tailwindClasses": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        },
+        "arrow": {
+          "description": "Steps connected with arrow icons",
+          "tailwindClasses": "flex flex-wrap items-center justify-center gap-4"
+        },
+        "circular": {
+          "description": "Circular nodes in an arc layout",
+          "tailwindClasses": "flex flex-wrap justify-center gap-8"
+        }
+      }
+    },
+    "table_section": {
+      "description": "Data table section",
+      "variants": {
+        "simple": {
+          "description": "Clean borderless table",
+          "tailwindClasses": "overflow-x-auto"
+        },
+        "striped": {
+          "description": "Zebra-striped rows",
+          "tailwindClasses": "overflow-x-auto [&_tr:nth-child(even)]:bg-[var(--color-surface-alt)]"
+        },
+        "comparison": {
+          "description": "Feature comparison table with tick/cross icons",
+          "tailwindClasses": "overflow-x-auto"
+        }
+      }
+    },
+    "definition_box": {
+      "description": "Callout box defining a term or concept",
+      "variants": {
+        "simple": {
+          "description": "Bordered left-edge callout",
+          "tailwindClasses": "border-l-4 border-[var(--color-primary)] pl-4 py-2"
+        },
+        "highlighted": {
+          "description": "Coloured background callout",
+          "tailwindClasses": "rounded-xl p-5 bg-[rgba(var(--color-primary-rgb,37,99,235),0.08)]"
+        },
+        "card": {
+          "description": "Full card with header and body",
+          "tailwindClasses": "card"
+        }
+      }
+    },
+    "quote_panel": {
+      "description": "Pull quote or testimonial block",
+      "variants": {
+        "simple": {
+          "description": "Italic quote with attribution",
+          "tailwindClasses": "border-l-4 border-[var(--color-primary)] pl-6 py-2"
+        },
+        "large": {
+          "description": "Full-width large decorative quote",
+          "tailwindClasses": "text-center py-12 px-6"
+        },
+        "attributed": {
+          "description": "Quote card with avatar and role",
+          "tailwindClasses": "card flex gap-5"
+        }
+      }
+    },
+    "code_panel": {
+      "description": "Syntax-highlighted code block",
+      "variants": {
+        "simple": {
+          "description": "Plain dark code block with copy button",
+          "tailwindClasses": "code-block rounded-xl overflow-hidden"
+        },
+        "terminal": {
+          "description": "macOS-style terminal window chrome",
+          "tailwindClasses": "code-block-terminal rounded-xl overflow-hidden"
+        },
+        "highlighted": {
+          "description": "Code block with line highlighting",
+          "tailwindClasses": "code-block rounded-xl overflow-hidden"
+        }
+      }
+    },
+    "diagram_cards": {
+      "description": "Visual diagram or concept map rendered as cards",
+      "variants": {
+        "grid": {
+          "description": "Concept cards in a responsive grid",
+          "tailwindClasses": "grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+        },
+        "flow": {
+          "description": "Cards connected with arrows to show flow",
+          "tailwindClasses": "flex flex-wrap items-center justify-center gap-4"
+        },
+        "feature": {
+          "description": "Large icon-led feature cards",
+          "tailwindClasses": "grid gap-8 grid-cols-1 sm:grid-cols-2"
+        }
+      }
+    },
+    "accordion_faq": {
+      "description": "Expandable FAQ accordion",
+      "variants": {
+        "simple": {
+          "description": "Clean borderless accordion",
+          "tailwindClasses": "divide-y divide-[var(--color-border)]"
+        },
+        "bordered": {
+          "description": "Each item has a border and rounded corners",
+          "tailwindClasses": "space-y-3"
+        },
+        "colored": {
+          "description": "Open item has coloured background",
+          "tailwindClasses": "space-y-3"
+        }
+      }
+    },
+    "checklist_summary": {
+      "description": "Checklist with progress tracking",
+      "variants": {
+        "simple": {
+          "description": "Plain checkboxes",
+          "tailwindClasses": "space-y-3"
+        },
+        "detailed": {
+          "description": "Checklist items with descriptions",
+          "tailwindClasses": "space-y-4"
+        },
+        "progress": {
+          "description": "Checklist with overall progress bar",
+          "tailwindClasses": "space-y-4"
+        }
+      }
+    },
+    "image_gallery": {
+      "description": "Image gallery / media grid",
+      "variants": {
+        "grid": {
+          "description": "Uniform grid of images",
+          "tailwindClasses": "grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+        },
+        "masonry": {
+          "description": "Pinterest-style masonry columns",
+          "tailwindClasses": "columns-2 sm:columns-3 lg:columns-4 gap-3"
+        },
+        "carousel": {
+          "description": "Horizontal scrollable image strip",
+          "tailwindClasses": "flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2"
+        }
+      }
+    },
+    "feature_banner": {
+      "description": "Promotional banner highlighting a feature",
+      "variants": {
+        "simple": {
+          "description": "Icon + title + description row",
+          "tailwindClasses": "flex items-center gap-6 rounded-xl p-6 bg-[var(--color-surface)]"
+        },
+        "gradient": {
+          "description": "Full gradient background banner",
+          "tailwindClasses": "rounded-2xl p-8 overflow-hidden relative"
+        },
+        "pattern": {
+          "description": "Patterned background banner",
+          "tailwindClasses": "rounded-2xl p-8 overflow-hidden relative bg-alexandros-pattern"
+        }
+      }
+    },
+    "progress_meter": {
+      "description": "Visual progress indicator",
+      "variants": {
+        "bar": {
+          "description": "Horizontal progress bar",
+          "tailwindClasses": "space-y-3"
+        },
+        "circle": {
+          "description": "Circular SVG progress ring",
+          "tailwindClasses": "flex flex-wrap gap-6 justify-center"
+        },
+        "steps": {
+          "description": "Step-indicator with completion state",
+          "tailwindClasses": "flex items-center gap-0"
+        }
+      }
+    },
+    "statistic_circle": {
+      "description": "Big-number statistics display",
+      "variants": {
+        "simple": {
+          "description": "Number + label cards",
+          "tailwindClasses": "grid gap-6 grid-cols-2 lg:grid-cols-4"
+        },
+        "animated": {
+          "description": "Count-up animation on scroll",
+          "tailwindClasses": "grid gap-6 grid-cols-2 lg:grid-cols-4"
+        },
+        "comparison": {
+          "description": "Side-by-side before/after statistics",
+          "tailwindClasses": "grid gap-8 grid-cols-1 sm:grid-cols-2"
+        }
+      }
+    },
+    "comparison_split": {
+      "description": "Side-by-side comparison (plans, before/after, etc.)",
+      "variants": {
+        "side-by-side": {
+          "description": "Two cards displayed side by side",
+          "tailwindClasses": "grid grid-cols-1 sm:grid-cols-2 gap-6"
+        },
+        "overlay": {
+          "description": "Slider overlay comparing two images",
+          "tailwindClasses": "relative overflow-hidden rounded-xl"
+        },
+        "table": {
+          "description": "Feature matrix comparison table",
+          "tailwindClasses": "overflow-x-auto"
+        }
+      }
+    },
+    "spotlight_panel": {
+      "description": "Highlight a single concept or resource",
+      "variants": {
+        "centered": {
+          "description": "Centred icon, title, description",
+          "tailwindClasses": "flex flex-col items-center text-center gap-4 py-12"
+        },
+        "split": {
+          "description": "Half-and-half coloured/image split",
+          "tailwindClasses": "grid grid-cols-1 lg:grid-cols-2 min-h-[400px]"
+        },
+        "hero": {
+          "description": "Full-width spotlight panel with CTA",
+          "tailwindClasses": "relative rounded-2xl overflow-hidden p-10 min-h-[320px] flex items-center"
+        }
+      }
+    },
+    "mini_test": {
+      "description": "Lightweight embedded test / self-assessment",
+      "variants": {
+        "text": {
+          "description": "Short open-ended text response",
+          "tailwindClasses": "card max-w-xl mx-auto space-y-4"
+        },
+        "fill-blank": {
+          "description": "Cloze / fill-in-the-blank sentence",
+          "tailwindClasses": "card max-w-xl mx-auto space-y-4"
+        },
+        "matching": {
+          "description": "Drag-and-drop matching pairs",
+          "tailwindClasses": "grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto"
+        }
+      }
+    },
+    "download_cta": {
+      "description": "Call-to-action for downloading a resource",
+      "variants": {
+        "button": {
+          "description": "Simple icon + label button",
+          "tailwindClasses": "inline-flex items-center gap-3"
+        },
+        "card": {
+          "description": "Download card with thumbnail and metadata",
+          "tailwindClasses": "card flex gap-4 items-start"
+        },
+        "banner": {
+          "description": "Full-width download banner",
+          "tailwindClasses": "flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl p-6 bg-[var(--color-surface-alt)]"
+        }
+      }
+    },
+    "next_lesson": {
+      "description": "Navigation prompt to the next lesson or module",
+      "variants": {
+        "simple": {
+          "description": "Arrow link to next lesson",
+          "tailwindClasses": "flex items-center justify-between py-6 border-t border-[var(--color-border)]"
+        },
+        "preview": {
+          "description": "Card with thumbnail and title of next lesson",
+          "tailwindClasses": "card flex gap-5 items-center"
+        },
+        "progress": {
+          "description": "Next lesson with course progress bar",
+          "tailwindClasses": "card space-y-4"
+        }
+      }
+    },
+    "contact_box": {
+      "description": "Contact form or information block",
+      "variants": {
+        "simple": {
+          "description": "Email + social links list",
+          "tailwindClasses": "space-y-4"
+        },
+        "card": {
+          "description": "Card with contact form",
+          "tailwindClasses": "card space-y-5 max-w-lg mx-auto"
+        },
+        "sidebar": {
+          "description": "Sidebar contact info widget",
+          "tailwindClasses": "card space-y-3 text-sm"
+        }
+      }
+    },
+    "final_message": {
+      "description": "End-of-module or end-of-course congratulatory message",
+      "variants": {
+        "simple": {
+          "description": "Heading + body message",
+          "tailwindClasses": "text-center py-12 space-y-4"
+        },
+        "celebration": {
+          "description": "Animated confetti + badge",
+          "tailwindClasses": "text-center py-16 space-y-6 relative overflow-hidden"
+        },
+        "summary": {
+          "description": "Recap of what was learned + next steps",
+          "tailwindClasses": "card max-w-2xl mx-auto space-y-6"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+"name": "google_generativeai_import_error_01",
+"description": "google.generativeai のインポートエラーやVS Codeの赤線表示を解決するための知識",
+"topic": "Python / Google Generative AI",
+"keywords": [
+"google.generativeai",
+"google-generativeai",
+"インポートエラー",
+"import error",
+"赤線",
+"VS Code",
+"Python",
+"pip",
+"Pythonインタープリター",
+"インタープリター",
+"venv",
+"conda"
+],
+"problem": {
+"title": "google.generativeai の下に赤線が表示される",
+"description": "VS Codeなどのエディタで google.generativeai の下に赤線が表示され、インポートエラーが発生する場合がある。主な原因は、必要なパッケージがインストールされていないか、エディタが参照しているPython環境とパッケージをインストールした環境が異なっていることである。"
+},
+"solutions": [
+{
+"step": 1,
+"title": "google-generativeai パッケージをインストールする",
+"description": "pipで正しいパッケージ名を指定してインストールする。パッケージ名は google-generativeai であり、インポート時の google.generativeai とは表記が異なる。",
+"commands": [
+"pip install google-generativeai",
+"pip install --upgrade google-generativeai"
+]
+},
+{
+"step": 2,
+"title": "Python環境を確認する",
+"description": "pip installを実行したPython環境と、VS Codeなどのエディタがコード解析に使用しているPython環境が一致しているか確認する。仮想環境やconda環境が異なると、パッケージがインストール済みでもインポートエラーが表示される場合がある。",
+"vscode_steps": [
+"Ctrl + Shift + Pを押してコマンドパレットを開く",
+"Python: Select Interpreterを選択する",
+"pip installを実行したPython環境を選択する",
+"venvやcondaなど、実際にパッケージをインストールした環境を選択する"
+]
+},
+{
+"step": 3,
+"title": "インポート文を確認する",
+"description": "パッケージのインストール名とPythonコード内のインポート名は異なる。",
+"correct_import": "import google.generativeai as genai",
+"incorrect_import": "import google-generativeai",
+"explanation": "google-generativeaiはpipで使用するパッケージ名であり、google.generativeaiはPythonコードで使用するインポートパスである。ハイフンを含むgoogle-generativeaiをimport文に書くと構文エラーになる。"
+}
+],
+"diagnosis": [
+{
+"symptom": "google.generativeai の下に赤線が表示される",
+"likely_causes": [
+"google-generativeaiがインストールされていない",
+"pip installしたPython環境とVS CodeのPython環境が異なる",
+"インポート文の記述が間違っている"
+]
+}
+],
+"code_examples": {
+"install": "pip install google-generativeai",
+"upgrade": "pip install --upgrade google-generativeai",
+"correct_import": "import google.generativeai as genai"
+},
+"important_distinction": {
+"pip_package_name": "google-generativeai",
+"python_import_name": "google.generativeai"
+}
+}

@@ -1,0 +1,311 @@
+/*
+ * themes.css
+ *
+ * CSS custom properties for all three themes (default, future-purple,
+ * alexandros) including light/dark variants and geometric pattern backgrounds.
+ *
+ * Usage:
+ *   <html data-theme="default">              → default light
+ *   <html data-theme="default" class="dark"> → default dark
+ *   <html data-theme="future-purple">        → future purple (always dark)
+ *   <html data-theme="alexandros">           → alexandros light
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. DEFAULT THEME — Light mode (also used as :root fallback)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root,
+[data-theme="default"] {
+  /* Brand */
+  --color-primary:       #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark:  #1d4ed8;
+  --color-secondary:     #7c3aed;
+  --color-secondary-light: #8b5cf6;
+  --color-accent:        #0ea5e9;
+  --color-accent-light:  #38bdf8;
+
+  /* Surfaces */
+  --color-bg:            #f8fafc;
+  --color-surface:       #ffffff;
+  --color-surface-alt:   #f1f5f9;
+
+  /* Text */
+  --color-text:          #1e293b;
+  --color-text-muted:    #64748b;
+  --color-text-inverse:  #ffffff;
+
+  /* Borders */
+  --color-border:        #e2e8f0;
+  --color-border-strong: #cbd5e1;
+
+  /* Glow / focus ring */
+  --color-glow:          rgba(37, 99, 235, 0.4);
+  --color-focus-ring:    rgba(37, 99, 235, 0.5);
+
+  /* Semantic */
+  --color-success:       #16a34a;
+  --color-warning:       #d97706;
+  --color-error:         #dc2626;
+  --color-info:          #0284c7;
+
+  /* Radii */
+  --radius-sm:  0.25rem;
+  --radius-md:  0.5rem;
+  --radius-lg:  0.75rem;
+  --radius-xl:  1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 8px 32px -4px rgba(0, 0, 0, 0.18);
+  --shadow-glow: 0 0 16px 4px rgba(37, 99, 235, 0.3);
+
+  /* Spacing (component-level) */
+  --space-block-y:  4rem;
+  --space-block-x:  1.5rem;
+  --space-card-p:   1.5rem;
+  --max-width-page: 1440px;
+}
+
+/* ─── Default: Dark mode ──────────────────────────────────────────────────── */
+
+[data-theme="default"].dark,
+[data-theme="default"] .dark {
+  --color-primary:       #3b82f6;
+  --color-primary-light: #60a5fa;
+  --color-primary-dark:  #2563eb;
+  --color-secondary:     #8b5cf6;
+  --color-secondary-light: #a78bfa;
+  --color-accent:        #38bdf8;
+  --color-accent-light:  #7dd3fc;
+
+  --color-bg:            #0f172a;
+  --color-surface:       #1e293b;
+  --color-surface-alt:   #0f172a;
+
+  --color-text:          #f1f5f9;
+  --color-text-muted:    #94a3b8;
+  --color-text-inverse:  #0f172a;
+
+  --color-border:        #334155;
+  --color-border-strong: #475569;
+
+  --color-glow:          rgba(59, 130, 246, 0.5);
+  --color-focus-ring:    rgba(59, 130, 246, 0.6);
+
+  --shadow-card: 0 4px 24px -4px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 8px 32px -4px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 16px 4px rgba(59, 130, 246, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. FUTURE-PURPLE THEME — Always dark
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="future-purple"] {
+  /* Brand */
+  --color-primary:       #7c3aed;
+  --color-primary-light: #8b5cf6;
+  --color-primary-dark:  #6d28d9;
+  --color-secondary:     #a855f7;
+  --color-secondary-light: #c084fc;
+  --color-accent:        #06b6d4;
+  --color-accent-light:  #22d3ee;
+
+  /* Surfaces */
+  --color-bg:            #0f0a1e;
+  --color-surface:       #1a1035;
+  --color-surface-alt:   #13092a;
+
+  /* Text */
+  --color-text:          #f0e6ff;
+  --color-text-muted:    #a78bfa;
+  --color-text-inverse:  #0f0a1e;
+
+  /* Borders */
+  --color-border:        #3b1f6e;
+  --color-border-strong: #5b2d9e;
+
+  /* Glow — purple and cyan variants */
+  --color-glow:          rgba(192, 132, 252, 0.5);
+  --color-glow-cyan:     rgba(6, 182, 212, 0.5);
+  --color-focus-ring:    rgba(139, 92, 246, 0.6);
+
+  /* Semantic */
+  --color-success:       #34d399;
+  --color-warning:       #fbbf24;
+  --color-error:         #f87171;
+  --color-info:          #38bdf8;
+
+  /* Radii */
+  --radius-sm:  0.25rem;
+  --radius-md:  0.5rem;
+  --radius-lg:  0.75rem;
+  --radius-xl:  1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px -4px rgba(124, 58, 237, 0.3);
+  --shadow-hover: 0 8px 32px -4px rgba(124, 58, 237, 0.5);
+  --shadow-glow: 0 0 20px 6px rgba(192, 132, 252, 0.4);
+  --shadow-glow-cyan: 0 0 20px 6px rgba(6, 182, 212, 0.4);
+
+  /* Spacing */
+  --space-block-y:  4rem;
+  --space-block-x:  1.5rem;
+  --space-card-p:   1.5rem;
+  --max-width-page: 1440px;
+
+  /* Gradient presets used by components */
+  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  --gradient-accent:  linear-gradient(135deg, #06b6d4 0%, #7c3aed 100%);
+  --gradient-hero:    linear-gradient(135deg, #0f0a1e 0%, #1a0a2e 50%, #0a0a1e 100%);
+}
+
+/* ─── Future-purple: enhanced dark mode ──────────────────────────────────── */
+
+[data-theme="future-purple"].dark,
+[data-theme="future-purple"] .dark {
+  --color-primary:       #8b5cf6;
+  --color-secondary:     #c084fc;
+  --color-accent:        #22d3ee;
+  --color-bg:            #070413;
+  --color-surface:       #120b28;
+  --color-text:          #f5f0ff;
+  --color-text-muted:    #c4b5fd;
+  --color-border:        #4c1d95;
+  --color-glow:          rgba(216, 180, 254, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. ALEXANDROS THEME — Geometric squares and diamonds
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="alexandros"] {
+  /* Brand */
+  --color-primary:       #ff9f1c;
+  --color-primary-light: #ffb347;
+  --color-primary-dark:  #e8890a;
+  --color-secondary:     #2563eb;
+  --color-secondary-light: #3b82f6;
+  --color-accent:        #ffffff;
+  --color-accent-light:  #f0f9ff;
+
+  /* Surfaces */
+  --color-bg:            #fef9f0;
+  --color-surface:       #ffffff;
+  --color-surface-alt:   #fff3e0;
+
+  /* Text */
+  --color-text:          #1a1a2e;
+  --color-text-muted:    #6b5a3e;
+  --color-text-inverse:  #ffffff;
+
+  /* Borders */
+  --color-border:        #f0c080;
+  --color-border-strong: #d4a017;
+
+  /* Glow */
+  --color-glow:          rgba(255, 159, 28, 0.4);
+  --color-focus-ring:    rgba(255, 159, 28, 0.5);
+
+  /* Alexandros-specific geometric tokens */
+  --color-square:        #ff9f1c;  /* orange squares */
+  --color-diamond:       #2563eb;  /* blue diamonds  */
+  --color-highlight:     #ffd166;
+
+  /* Semantic */
+  --color-success:       #16a34a;
+  --color-warning:       #d97706;
+  --color-error:         #dc2626;
+  --color-info:          #2563eb;
+
+  /* Radii — slightly rounder to feel friendly */
+  --radius-sm:  0.375rem;
+  --radius-md:  0.625rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.25rem;
+  --radius-2xl: 2rem;
+
+  /* Shadows */
+  --shadow-card: 0 4px 16px -4px rgba(255, 159, 28, 0.2);
+  --shadow-hover: 0 8px 28px -4px rgba(255, 159, 28, 0.3);
+  --shadow-glow: 0 0 16px 4px rgba(255, 159, 28, 0.35);
+
+  /* Spacing */
+  --space-block-y:  4rem;
+  --space-block-x:  1.5rem;
+  --space-card-p:   1.5rem;
+  --max-width-page: 1440px;
+
+  /* Gradient presets */
+  --gradient-primary: linear-gradient(135deg, #ff9f1c 0%, #ffd166 100%);
+  --gradient-secondary: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+  --gradient-hero: linear-gradient(135deg, #fef9f0 0%, #fff3e0 100%);
+
+  /* Geometric pattern background (SVG inline) */
+  --pattern-geometric: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Crect x='5' y='5' width='12' height='12' fill='%23ff9f1c' opacity='0.15' rx='1'/%3E%3Crect x='35' y='35' width='12' height='12' fill='%23ff9f1c' opacity='0.10' rx='1' transform='rotate(45 41 41)'/%3E%3Cpolygon points='43,2 50,15 36,15' fill='%232563eb' opacity='0.12'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%232563eb' opacity='0.08'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ─── Alexandros: dark mode variant ─────────────────────────────────────── */
+
+[data-theme="alexandros"].dark,
+[data-theme="alexandros"] .dark {
+  --color-primary:       #ffb347;
+  --color-primary-light: #ffc875;
+  --color-primary-dark:  #ff9f1c;
+  --color-secondary:     #3b82f6;
+  --color-secondary-light: #60a5fa;
+
+  --color-bg:            #1a1205;
+  --color-surface:       #2a1e08;
+  --color-surface-alt:   #211608;
+
+  --color-text:          #fef9f0;
+  --color-text-muted:    #c8ab7e;
+  --color-text-inverse:  #1a1205;
+
+  --color-border:        #7a5a20;
+  --color-border-strong: #a07830;
+
+  --color-glow:          rgba(255, 179, 71, 0.5);
+
+  --shadow-card: 0 4px 16px -4px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 8px 28px -4px rgba(0, 0, 0, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. Background style presets  (applied via data-bg attribute)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* gradient-grid */
+[data-bg="gradient-grid"] {
+  background-image:
+    linear-gradient(rgba(var(--color-primary-rgb, 37,99,235), 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--color-primary-rgb, 37,99,235), 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-color: var(--color-bg);
+}
+
+/* solid */
+[data-bg="solid"] {
+  background-color: var(--color-bg);
+}
+
+/* pattern */
+[data-bg="pattern"] {
+  background-image: var(--pattern-geometric,
+    radial-gradient(circle, rgba(99,102,241,0.1) 1px, transparent 1px));
+  background-size: 60px 60px;
+  background-color: var(--color-bg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. Font scale modifiers  (applied via data-font-scale attribute)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-font-scale="small"]  { font-size: 14px; }
+[data-font-scale="medium"] { font-size: 16px; }
+[data-font-scale="large"]  { font-size: 18px; }

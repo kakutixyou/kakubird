@@ -1,0 +1,46 @@
+Q:Python側（Planner）が生成し、React側（Blocks）が受け取るこの「JSONデータ」の構造について、現状どのようなフォーマットにするかイメージは固まっていますか？
+
+A:Python側（AI）は、HTMLのコードそのものを書くのではなく、「Reactに渡すための指示書（JSON）」を作ります。
+
+Python（AI）が生成するJSONのイメージ
+ユーザーが「新しい機能をお知らせする目立つバナーを作って！」と指示したとします。Python側のAI（LayoutPlanner）は、以下のようなJSONデータを出力します。
+
+JSON
+{
+  "type": "HeroBlock",
+  "props": {
+    "title": "新機能リリース！",
+    "subtitle": "AIがUIを自動生成します",
+    "badge": "NEW",
+    "buttonText": "今すぐ試す",
+    "buttonLink": "/try",
+    "align": "center"
+  }
+}
+React側での受け取り方
+Reactアプリの中央管理室（Rendererコンポーネントなど）がこのJSONを受け取り、typeを見て「あ、今回はHeroBlockを使うんだな」と判断します。
+
+そして、JSONの全体を block という変数（プロパティ）として、先ほどの HeroBlock.jsx にポンと投げ入れます。
+
+JavaScript
+// Renderer側のイメージ
+import HeroBlock from './blocks/HeroBlock';
+
+// backendから受け取ったJSONデータ
+const aiGeneratedData = {
+  "type": "HeroBlock",
+  "props": { "title": "新機能リリース！", ... }
+};
+
+// コンポーネントを呼び出し、データを渡す
+<HeroBlock block={aiGeneratedData} />
+すると、HeroBlock.jsx の最初の部分にある以下のコードが、JSONの中身をパカッと開いて変数に割り当てます。
+
+JavaScript
+  const {
+    title = 'Hero Title', // JSONに title があるので「新機能リリース！」になる
+    badge = '',           // JSONに badge があるので「NEW」になる
+    description = '',     // JSONに無いので、空文字('')になる
+  } = props;
+これが「JSONドリブンなレンダリング」の正体です。
+AIに生のHTMLを書かせると、タグの閉じ忘れやCSSの崩れといった事故が多発しますが、「あらかじめ用意した安全なReact部品（block）の、中身のテキスト（props）だけをJSONで指定させる」ことで、絶対にデザインが崩れない強固なUIジェネレーターを作ることができます。

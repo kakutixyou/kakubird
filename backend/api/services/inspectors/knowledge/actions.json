@@ -1,0 +1,117 @@
+{
+  
+  "analyze_project": [
+    "解析",
+    "分析",
+    "全体像",
+    "構造",
+    "architecture",
+    "analyze",
+    "analyzer",
+    "repomix",
+    "repomix-output.xml"
+  ],
+
+  "parse_xml": [
+    "xml",
+    "読み込んで",
+    "読み取り",
+    "parse",
+    "タグ",
+    "<file",
+    "path="
+  ],
+
+  "generate_python": [
+    "python",
+    "pythonスクリプト",
+    ".py",
+    "作って",
+    "実装",
+    "生成"
+  ],
+
+  "extract_information": [
+    "抽出",
+    "整理",
+    "一覧",
+    "リスト",
+    "出力"
+  ],
+
+  "output_json": [
+    "json",
+    "jsonに出力",
+    "knowledge",
+    "project_architecture.json"
+  ],
+
+  "build_app": ["作る", "作って", "開発", "実装"],
+  "create": [
+    "作る",
+    "作成",
+    "生成",
+    "構築",
+    "build",
+    "create",
+    "新規"
+  ],
+
+  "update": [
+    "更新",
+    "修正",
+    "変更",
+    "編集",
+    "改善",
+    "リファクタリング"
+  ],
+
+  "delete": [
+    "削除",
+    "消す",
+    "remove"
+  ],
+
+  "search": [
+    "探す",
+    "検索",
+    "見つける",
+    "調べる"
+  ],
+
+  "convert": [
+    "変換",
+    "convert",
+    "json化",
+    "jsonに変換"
+  ],
+
+  "show": [
+    "見せて",
+    "表示",
+    "show",
+    "一覧"
+  ],
+
+  "save": [
+    "保存",
+    "save",
+    "残して",
+    "残しておき"
+  ],
+
+  "explain": [
+    "教えて",
+    "説明",
+    "解説",
+    "意味",
+    "どういうこと"
+  ],
+
+  "analyze": [
+    "解析",
+    "レビュー",
+    "評価",
+    "確認"
+  ]
+}

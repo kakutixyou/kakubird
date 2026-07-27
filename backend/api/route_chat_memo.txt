@@ -1,0 +1,34 @@
+engine/
+
+├── orchestrator/
+
+│   ├── __init__.py                 # このフォルダーのまとまりを定義するお約束のファイル
+
+│   ├── base_orchestrator.py        # 全オーケストレーターの共通ルール（基本の型）を書くファイル
+
+│   │
+
+│   ├── order_orchestrator.py       # 【ECサイト用】在庫→決済→配送→メールの流れを仕切る
+
+│   ├── registration_orchestrator.py# 【ユーザー登録用】入力チェック→DB保存→メール送信を仕切る
+
+│   │
+
+│   ├── copilot_orchestrator.py     # 【コード生成用】権限確認(Allow)→AI生成→公開コード一致確認(Block/Allow)を仕切る
+
+│   ├── gemini_orchestrator.py      # 【チャットAI用】入力の安全確認→検索ツールの呼び出し→出力の安全確認を仕切る
+
+│   └── agent_orchestrator.py       # 【Claudeなどの自律AI用】AIの思考と、実際のファイル読み書き・コマンド実行の連携を仕切る
+
+│
+
+├── services/                       # ※参考（各オーケストレーターが呼び出す「専門の作業係」たち）
+
+│   ├── payment_service.py          
+
+│   ├── safety_filter_service.py    
+
+│   └── public_code_matcher.py      
+
+└── main.py 
+

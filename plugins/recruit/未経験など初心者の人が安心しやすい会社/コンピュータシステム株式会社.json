@@ -1,0 +1,222 @@
+{
+  "company_id": "cmp_computersystem_2026_001",
+
+  "company": {
+    "name": "コンピュータシステム株式会社",
+    "industry": "SES・受託開発・IT教育",
+    "employment_type": "正社員",
+    "location": "東京都",
+    "source_type": "スカウト",
+    "received_date": "2026-05-22",
+    "expiration_days_left": 6
+  },
+
+  "position": {
+    "title": "プログラマ",
+
+    "salary_range": {
+      "min": 2400000,
+      "max": 3200000,
+      "currency": "JPY"
+    },
+
+    "experience_requirement": {
+      "unexperienced_welcome": true,
+      "unexperienced_ratio": 90,
+      "training_months": 3
+    },
+
+    "career_goal": {
+      "possible_income": 10000000
+    }
+  },
+
+  "business_domain": {
+    "business_types": [
+      "ソフトウェア開発",
+      "スマホアプリ開発",
+      "運用保守",
+      "ITインフラ運用",
+      "技術者教育",
+      "SES",
+      "受託開発"
+    ],
+
+    "client_industries": [
+      "金融",
+      "運輸",
+      "製造",
+      "通信",
+      "サービス"
+    ],
+
+    "development_areas": [
+      "Webシステム",
+      "基幹システム",
+      "アプリケーション開発",
+      "インフラ構築",
+      "テスト",
+      "ITサポート"
+    ],
+
+    "business_ratio": {
+      "ses_percent": 80,
+      "contract_development_percent": 20
+    }
+  },
+
+  "education_system": {
+    "training_program": {
+      "basic_training": true,
+      "three_month_course": true,
+      "beginner_friendly": true
+    },
+
+    "public_training_projects": [
+      "東京都若者正社員チャレンジ事業",
+      "求職者支援訓練"
+    ],
+
+    "education_focus": true
+  },
+
+  "work_environment": {
+    "average_overtime_hours": 2,
+    "remote_work": {
+      "available": true,
+      "depends_on_project": true
+    },
+
+    "work_style": [
+      "SES",
+      "リモートワーク",
+      "客先常駐可能性"
+    ],
+
+    "work_life_balance": {
+      "mostly_no_overtime": true
+    }
+  },
+
+  "company_culture": {
+    "keywords": [
+      "未経験歓迎",
+      "研修3カ月",
+      "SES",
+      "教育",
+      "リモート",
+      "Web開発",
+      "キャリア形成"
+    ],
+
+    "positive_points": [
+      "教育制度にかなり力を入れている",
+      "残業が非常に少ない",
+      "未経験育成実績あり",
+      "リモート制度あり",
+      "公共系教育事業参加"
+    ],
+
+    "risk_points": [
+      "SES比率80%",
+      "給与レンジ低め",
+      "案件依存キャリア",
+      "年収1000万表現は誇張可能性",
+      "案件内容幅が広すぎる"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "education_score": 92,
+    "work_life_balance_score": 94,
+    "ses_risk_score": 86,
+    "career_growth_score": 71,
+    "beginner_support_score": 90,
+
+    "detected_patterns": [
+      {
+        "word": "未経験",
+        "count": 4,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "教育",
+        "count": 3,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "SES",
+        "count": 2,
+        "risk_weight": 5
+      },
+
+      {
+        "word": "研修",
+        "count": 3,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "年収1000万",
+        "count": 1,
+        "risk_weight": 4
+      }
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "gray_candidate",
+
+    "estimated_risk_level": 59,
+
+    "analysis_comment": [
+      "未経験育成特化SESとしては比較的丁寧",
+      "教育制度はかなり具体的",
+      "残業2時間はかなり良い数値",
+      "一方でSES比率80%はかなり高い",
+      "案件次第でキャリア差が大きく出そう"
+    ],
+
+    "recommendation": [
+      "待機時給与確認",
+      "案件選択自由度確認",
+      "リモート案件割合確認",
+      "開発案件比率確認",
+      "教育後配属実例確認",
+      "単価連動制度確認"
+    ]
+  },
+
+  "message": {
+    "title": "【リモート可／経験ゼロから活躍できるエンジニアへ】基礎から学べる研修3カ月",
+
+    "summary": [
+      "未経験歓迎",
+      "研修3カ月",
+      "SES比率80%",
+      "残業月2時間",
+      "リモート制度あり",
+      "教育制度重視"
+    ],
+
+    "body": [
+      "SES・受託開発・技術者教育などを展開しています。",
+      "Webシステムやアプリ開発案件があります。",
+      "社員の9割が未経験入社です。",
+      "東京都の若者正社員チャレンジ事業などに参画しています。",
+      "3カ月の研修制度があります。",
+      "月平均残業時間は2時間です。",
+      "リモートワーク制度があります。"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "source_format": "scout_mail"
+  }
+}

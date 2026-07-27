@@ -1,0 +1,78 @@
+おすすめデモDBセット案（本命6種類）
+A. 株主総会・企業経営DB（かなり映える）
+テーブル
+shareholders（株主）
+companies（保有企業）
+holdings（保有株数）
+dividends（配当金）
+board_members（役員）
+ユーザーが打てる日本語SQL例
+株主ごとの保有企業を表示したい
+配当金が100万円以上の株主を表示
+一番多く株を持つ株主を知りたい
+役員を兼任している株主を表示
+面白い理由
+
+数字が大きくて「経営分析してる感」が出る。
+
+しかもJOIN、副問い合わせ、GROUP BYが全部使える。
+
+B. カフェ経営DB（超わかりやすい）
+
+飲食店管理システムはSQL教材と相性がいい。
+注文・在庫・売上・顧客の関係が見せやすい。
+
+テーブル
+customers
+menu_items
+orders
+order_items
+ingredients
+stock
+SQL成功例
+一番売れたメニューを表示
+在庫が少ない材料を表示
+顧客ごとの注文回数を表示
+月別売上を表示
+C. 学校成績DB（初心者向け）
+テーブル
+students
+classes
+subjects
+scores
+teachers
+SQL成功例
+平均点以上の生徒
+教科ごとの平均点
+担任ごとの生徒数
+D. ゲームギルドDB（かなり楽しい）
+テーブル
+players
+guilds
+items
+quests
+rankings
+SQL例
+ギルド別平均レベル
+レアアイテム所持者
+クエスト達成率上位
+
+ゲーム好きに刺さる。
+
+E. ECショップDB（実務感）
+users
+products
+orders
+order_details
+reviews
+
+商品検索APIにもそのまま繋げやすい。
+
+F. 病院予約DB（高度）
+patients
+doctors
+appointments
+treatments
+bills
+
+副問い合わせが映える。

@@ -1,0 +1,74 @@
+{
+  "plugin_name": "css-command-plugin",
+  "command": "/css",
+  "description": "Natural language to CSS generation mode",
+
+  "system_prompt": {
+    "role": "expert_css_designer",
+    "instruction": "Generate highly creative CSS based on the user's description. Return both explanation and CSS code."
+  },
+
+  "defaults": {
+    "creativity_level": 0.9,
+    "realism_priority": 0.8,
+    "animation_level": "medium",
+    "allow_unusual_design": true,
+    "response_format": "html_summary"
+  },
+
+  "keyword_rules": [
+    {
+      "keywords": ["AIらしくない", "AIっぽくない", "人間が作ったような","AIのように見えないCSS", "AIらしさがないCSS"],
+      "overrides": {
+        "creativity_level": 0.7,
+        "realism_priority": 0.95,
+        "avoid_patterns": [
+          "glassmorphism",
+          "perfect_symmetry",
+          "generic_gradients"
+        ]
+      }
+    },
+    {
+      "keywords": ["月光", "Moonlight", "ベートーヴェン"],
+      "overrides": {
+        "palette": ["#020617", "#1d4ed8", "#ffffff"],
+        "effects": ["glow", "pulse", "high_contrast"],
+        "animation_level": "high"
+      }
+    },
+    {
+      "keywords": ["サイバー", "cyberpunk", "未来"],
+      "overrides": {
+        "palette": ["#0f172a", "#00ffff", "#ff00ff"],
+        "effects": ["neon", "glitch"]
+      }
+    },
+    {
+      "keywords": ["和風", "日本", "侘び寂び"],
+      "overrides": {
+        "palette": ["#f5f1e8", "#6b4f3b", "#1f2937"],
+        "effects": ["paper_texture", "subtle_shadow"],
+        "animation_level": "low"
+      }
+    }
+  ],
+
+  "ui": {
+    "show_multi_select": true,
+    "question": "このCSS生成で重視したい要素を選択してください",
+    "options": [
+      "リアルさを重視",
+      "AIらしさを抑える",
+      "アニメーションを強化",
+      "手作業感を出す",
+      "左右非対称にする"
+    ]
+  },
+
+  "console_logs": {
+    "enabled": true,
+    "show_plugin_name": true,
+    "show_final_config": true
+  }
+}

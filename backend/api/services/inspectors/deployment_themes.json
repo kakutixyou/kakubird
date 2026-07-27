@@ -1,0 +1,312 @@
+{
+  "themes": [
+    {
+      "id": "react_dashboard",
+      "name": "React Dashboard",
+      "category": "dashboard",
+      "description": "Reactによる管理画面",
+      "framework": "React",
+      "language": "TypeScript",
+      "package_manager": "npm",
+      "template": "dashboard",
+      "default_folders": [
+        "src/components",
+        "src/pages",
+        "src/hooks",
+        "src/store",
+        "src/services",
+        "src/utils",
+        "public"
+      ],
+      "plugins": [
+        "ProjectPlanner",
+        "TemplateEngine",
+        "DependencyResolver",
+        "FileWriter"
+      ]
+    },
+
+    {
+      "id": "electron_desktop",
+      "name": "Electron Desktop",
+      "category": "desktop",
+      "description": "Electronデスクトップアプリ",
+      "framework": "Electron",
+      "language": "TypeScript",
+      "package_manager": "npm",
+      "template": "electron",
+      "default_folders": [
+        "src/main",
+        "src/renderer",
+        "src/preload",
+        "assets"
+      ],
+      "plugins": [
+        "ProjectPlanner",
+        "TemplateEngine",
+        "DependencyResolver",
+        "FileWriter"
+      ]
+    },
+
+    {
+      "id": "fastapi_backend",
+      "name": "FastAPI Backend",
+      "category": "backend",
+      "description": "Python APIサーバー",
+      "framework": "FastAPI",
+      "language": "Python",
+      "package_manager": "pip",
+      "template": "fastapi",
+      "default_folders": [
+        "backend/api",
+        "backend/core",
+        "backend/models",
+        "backend/routes",
+        "backend/services"
+      ],
+      "plugins": [
+        "ProjectPlanner",
+        "TemplateEngine",
+        "DependencyResolver",
+        "FileWriter"
+      ]
+    },
+
+    {
+      "id": "html_site",
+      "name": "HTML Website",
+      "category": "website",
+      "description": "HTML/CSS/JavaScriptサイト",
+      "framework": "None",
+      "language": "HTML",
+      "package_manager": "none",
+      "template": "website",
+      "default_folders": [
+        "html",
+        "css",
+        "js",
+        "assets/images",
+        "assets/icons"
+      ],
+      "plugins": [
+        "TemplateEngine",
+        "FileWriter"
+      ]
+    },
+
+    {
+      "id": "scraping_tool",
+      "name": "Scraping Tool",
+      "category": "automation",
+      "description": "スクレイピングツール",
+      "framework": "None",
+      "language": "Python",
+      "package_manager": "pip",
+      "template": "scraping",
+      "default_folders": [
+        "core",
+        "engines",
+        "handlers",
+        "models",
+        "plugins",
+        "output"
+      ],
+      "plugins": [
+        "ProjectPlanner",
+        "TemplateEngine",
+        "DependencyResolver",
+        "FileWriter"
+      ]
+    },
+
+    {
+      "id": "ai_assistant",
+      "name": "AI Assistant",
+      "category": "ai",
+      "description": "AIエージェント",
+      "framework": "FastAPI",
+      "language": "Python",
+      "package_manager": "pip",
+      "template": "ai_assistant",
+      "default_folders": [
+        "backend",
+        "core",
+        "engines",
+        "handlers",
+        "knowledge",
+        "plugins",
+        "prompts",
+        "frontend"
+      ],
+      "plugins": [
+        "ProjectPlanner",
+        "FolderAnalyzer",
+        "ProjectAnalyzer",
+        "DependencyResolver",
+        "TemplateEngine",
+        "FileWriter",
+        "BuildValidator"
+      ]
+    },
+    {  
+
+
+  "id": "portfolio_site",
+  "name": "Portfolio Website",
+  "category": "website",
+  "description": "ポートフォリオサイト",
+  "framework": "React",
+  "language": "TypeScript",
+  "package_manager": "npm",
+  "template": "portfolio",
+  "default_folders": [
+    "src/components",
+    "src/pages",
+    "src/assets",
+    "src/styles"
+  ],
+  "pipeline": [
+    "ProjectPlanner",
+    "TemplateEngine",
+    "DependencyResolver",
+    "FileWriter",
+    "BuildValidator"
+  ]
+},
+{
+  "id": "blog_site",
+  "name": "Blog Website",
+  "category": "website",
+  "description": "ブログサイト",
+  "framework": "Next.js",
+  "language": "TypeScript",
+  "package_manager": "npm",
+  "template": "blog",
+  "default_folders": [
+    "app",
+    "components",
+    "posts",
+    "public"
+  ],
+  "pipeline": [
+    "ProjectPlanner",
+    "TemplateEngine",
+    "DependencyResolver",
+    "FileWriter",
+    "BuildValidator"
+  ]
+},
+{
+  "id": "todo_app",
+  "name": "Todo App",
+  "category": "productivity",
+  "description": "Todo管理アプリ",
+  "framework": "React",
+  "language": "TypeScript",
+  "package_manager": "npm",
+  "template": "todo",
+  "default_folders": [
+    "src/components",
+    "src/pages",
+    "src/store",
+    "src/hooks"
+  ],
+  "pipeline": [
+    "ProjectPlanner",
+    "TemplateEngine",
+    "DependencyResolver",
+    "FileWriter",
+    "BuildValidator"
+  ]
+},
+{
+  "id": "kanban_board",
+  "name": "Kanban Board",
+  "category": "productivity",
+  "description": "カンバンボード",
+  "framework": "React",
+  "language": "TypeScript",
+  "package_manager": "npm",
+  "template": "kanban",
+  "default_folders": [
+    "src/components",
+    "src/store",
+    "src/utils"
+  ],
+  "pipeline": [
+    "ProjectPlanner",
+    "TemplateEngine",
+    "DependencyResolver",
+    "FileWriter",
+    "BuildValidator"
+  ]
+},
+{
+  "id": "chat_application",
+  "name": "Chat Application",
+  "category": "communication",
+  "description": "チャットアプリ",
+  "framework": "React",
+  "language": "TypeScript",
+  "package_manager": "npm",
+  "template": "chat",
+  "default_folders": [
+    "src/components",
+    "src/socket",
+    "src/hooks",
+    "src/pages"
+  ],
+  "pipeline": [
+    "ProjectPlanner",
+    "DependencyResolver",
+    "TemplateEngine",
+    "FileWriter",
+    "BuildValidator"
+  ]
+},
+{
+  "id": "game_2d",
+  "name": "2D Game",
+  "category": "game",
+  "description": "2Dゲーム",
+  "framework": "None",
+  "language": "JavaScript",
+  "package_manager": "npm",
+  "template": "game2d",
+  "default_folders": [
+    "assets",
+    "engine",
+    "scenes",
+    "scripts"
+  ],
+  "pipeline": [
+    "ProjectPlanner",
+    "TemplateEngine",
+    "FileWriter",
+    "BuildValidator"
+  ]
+},
+{
+  "id": "markdown_editor",
+  "name": "Markdown Editor",
+  "category": "desktop",
+  "description": "Markdownエディタ",
+  "framework": "Electron",
+  "language": "TypeScript",
+  "package_manager": "npm",
+  "template": "markdown_editor",
+  "default_folders": [
+    "src/main",
+    "src/renderer",
+    "src/editor"
+  ],
+  "pipeline": [
+    "ProjectPlanner",
+    "DependencyResolver",
+    "TemplateEngine",
+    "FileWriter",
+    "BuildValidator"
+  ]
+}
+  ]}

@@ -1,0 +1,5 @@
+AiChatPanel（React）→useaichat.js→routes_chat.py→ocr_recruit_handler.py→対応するblock.jsx
+
+AIChatMessageList.jsxについて：
+「OCRの処理自体（画像の読み取り）」はこのJSXを通過しませんが、「OCRで読み取ってAIが作ったJSONデータ」は、まさにこのJSXを通過します！
+

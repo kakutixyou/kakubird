@@ -1,0 +1,98 @@
+src/
+│
+├── api/
+│   └── client.ts
+│
+├── pages/
+│
+├── shared/              ← 共通部品
+│   ├── ui/
+│   ├── blocks/
+│   ├── utils/
+│   ├── hooks/
+│   ├── types/
+│   └── data/
+│
+├── features/
+│
+│   ├── aiChat/
+│   │
+│   │   ├── components/
+│   │   │    AiChatPanel.jsx
+│   │   │    AiChatHeader.jsx
+│   │   │    AiChatInput.jsx
+│   │   │    AiChatMessageList.jsx
+│   │   │    MultiSelectMessage.jsx
+│   │   │
+│   │   ├── hooks/
+│   │   │    useAiChat.js
+│   │   │    useCommandRouter.js
+│   │   │    useClipboardPaste.js
+│   │   │    useVSCodeBridge.js
+│   │   │
+│   │   ├── services/
+│   │   │    ChatService.js
+│   │   │
+│   │   └── index.ts
+│
+│   ├── memory/
+│   │
+│   │   ├── components/
+│   │   │    MemoryDrawer.tsx
+│   │   │    MemoryContent.tsx
+│   │   │
+│   │   ├── hooks/
+│   │   │    useMemory.ts
+│   │   │    useMemoryManager.ts
+│   │   │
+│   │   ├── services/
+│   │   │    MemoryService.ts
+│   │   │
+│   │   └── store/
+│
+│   ├── builder/
+│   │
+│   │   ├── components/
+│   │   │
+│   │   │    Canvas.tsx
+│   │   │    CanvasArea.tsx
+│   │   │    DragDropBuilder.tsx
+│   │   │    ComponentPalette.tsx
+│   │   │    PropertyPanel.tsx
+│   │   │    BuilderToolbar.tsx
+│   │   │    RuleEditorPanel.tsx
+│   │   │
+│   │   ├── hooks/
+│   │   │    useHtmlBuilder.ts
+│   │   │
+│   │   ├── services/
+│   │   │
+│   │   └── store/
+│
+│   ├── database/
+│   │
+│   │   ├── components/
+│   │   │    DatabaseManager.jsx
+│   │   │    DatabasePage.tsx
+│   │   │
+│   │   ├── hooks/
+│   │   │    useDatabases.ts
+│   │   │
+│   │   ├── services/
+│   │   │
+│   │   └── store/
+│
+│   ├── onboarding/
+│   │
+│   ├── dashboard/
+│   │
+│   ├── plugin/
+│   │
+│   └── layout/
+│
+├── services/
+│
+├── store/
+│
+├── App.tsx
+└── main.tsx

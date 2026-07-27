@@ -1,0 +1,129 @@
+{
+  "$schema": "../metadata/schema.json",
+  "version": "1.0.0",
+
+  "frameworks": {
+    "react": {
+      "display_name": "React",
+      "language": "JavaScript",
+      "package_manager": "npm",
+
+      "folders": [
+        "public",
+        "src",
+        "src/components",
+        "src/pages",
+        "src/layouts",
+        "src/hooks",
+        "src/utils",
+        "src/services",
+        "src/assets",
+        "src/styles"
+      ],
+
+      "files": [
+        "package.json",
+        "vite.config.js",
+        "index.html",
+        "src/main.jsx",
+        "src/App.jsx",
+        "src/styles/index.css",
+        ".gitignore",
+        "README.md"
+      ]
+    },
+
+    "fastapi": {
+      "display_name": "FastAPI",
+      "language": "Python",
+
+      "folders": [
+        "app",
+        "app/api",
+        "app/models",
+        "app/schemas",
+        "app/services",
+        "app/core",
+        "app/utils",
+        "tests"
+      ],
+
+      "files": [
+        "main.py",
+        "requirements.txt",
+        ".env",
+        ".gitignore",
+        "README.md"
+      ]
+    },
+
+    "flask": {
+      "display_name": "Flask",
+      "language": "Python",
+
+      "folders": [
+        "app",
+        "app/routes",
+        "app/models",
+        "app/templates",
+        "app/static",
+        "tests"
+      ],
+
+      "files": [
+        "app.py",
+        "requirements.txt",
+        ".env",
+        ".gitignore",
+        "README.md"
+      ]
+    },
+
+    "electron": {
+      "display_name": "Electron",
+      "language": "JavaScript",
+
+      "folders": [
+        "src",
+        "src/main",
+        "src/renderer",
+        "src/preload",
+        "assets"
+      ],
+
+      "files": [
+        "package.json",
+        "main.js",
+        "preload.js",
+        "index.html",
+        ".gitignore",
+        "README.md"
+      ]
+    },
+
+    "vscode_extension": {
+      "display_name": "VSCode Extension",
+      "language": "TypeScript",
+
+      "folders": [
+        "src",
+        "src/commands",
+        "src/handlers",
+        "src/providers",
+        "src/utils",
+        "media",
+        ".vscode"
+      ],
+
+      "files": [
+        "package.json",
+        "tsconfig.json",
+        "extension.ts",
+        ".vscodeignore",
+        ".gitignore",
+        "README.md",
+        "CHANGELOG.md"
+      ]
+    }
+  }
+}

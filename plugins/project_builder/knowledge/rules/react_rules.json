@@ -1,0 +1,30 @@
+{
+  "knowledge": {
+    "rules": {
+      "react_rules": {},
+      "python_rules": {},
+      "architecture_rules": {}
+    },
+    "examples": {
+      "react_login": {},
+      "drag_drop": {},
+      "canvas": {}
+    },
+    "tips": {
+      "performance": {},
+      "security": {},
+      "prompt_engineering": {}
+    },
+    "mistakes": {
+      "common_errors": {}
+    },
+    "explanations": {
+      "dependency_injection": {},
+      "clean_architecture": {}
+    },
+    "source": {
+      "chatgpt": {},
+      "gemini": {}
+    }
+  }
+}

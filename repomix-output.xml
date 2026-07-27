@@ -1,0 +1,2004 @@
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+main/
+  main.js
+  preload.js
+python/
+  .gitignore
+  app.py
+  calendar_api.py
+  requirements.txt
+  tasks.db
+src/
+  views/
+    TodoView.jsx
+  App.jsx
+.gitignore
+3. Python側のコード（API・重い処理） モダンで高速な FastAPI を採用した構成例です。.txt
+index.html
+launch.py
+package.json
+script.js
+style.css
+vite.config.js
+順番を入れ替える.txt
+目標となるフォルダー構成
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="main/main.js">
+const { app, BrowserWindow, Notification, ipcMain } = require('electron');
+const path = require('path');
+const { spawn } = require('child_process');
+
+let mainWindow;
+let pythonProcess;
+
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    }
+  });
+
+  // 開発環境ではViteのサーバーを、本番環境ではビルドされたHTMLを読み込む
+  const isDev = !app.isPackaged;
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:5173');
+  } else {
+    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+  }
+}
+
+// ★ PC起動時の自動起動設定
+app.setLoginItemSettings({
+  openAtLogin: true,
+  path: app.getPath('exe')
+});
+
+app.whenReady().then(() => {
+  // Pythonバックエンドの起動
+  startPythonBackend();
+  
+  createWindow();
+
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+// Pythonプロセスの立ち上げ
+function startPythonBackend() {
+  // 開発中はpythonコマンド、本番環境(PyInstaller等でexe化後)の分岐などをここに書きます
+  const scriptPath = path.join(__dirname, '../python/app.py');
+  pythonProcess = spawn('python', [scriptPath]);
+
+  pythonProcess.stdout.on('data', (data) => {
+    console.log(`Python: ${data}`);
+  });
+}
+
+// ★ デスクトップ通知の実行（React側から呼び出せるようにする）
+ipcMain.on('show-notification', (event, { title, body }) => {
+  new Notification({ title, body }).show();
+});
+
+// アプリ終了時のクリーンアップ
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('will-quit', () => {
+  if (pythonProcess) {
+    pythonProcess.kill();
+  }
+});
+</file>
+
+<file path="main/preload.js">
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  // React側から electronAPI.showNotification(...) として呼び出せる
+  showNotification: (payload) => ipcRenderer.send('show-notification', payload)
+});
+</file>
+
+<file path="python/.gitignore">
+# 認証キーは絶対にコミットしない
+credentials.json
+</file>
+
+<file path="python/app.py">
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
+from calendar_api import get_upcoming_events
+import os
+import sqlite3
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+import uvicorn
+
+# calendar_api.py から関数をインポート
+from calendar_api import add_task_to_calendar
+
+app = FastAPI()
+
+# Reactからのアクセスを許可
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# データベースファイルのパス設定
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILE = os.path.join(BASE_DIR, "tasks.db")
+
+def init_db():
+    """アプリ起動時にデータベースとテーブルを作成する"""
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    # tasksテーブルが存在しなければ作成
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            event_id TEXT,
+            summary TEXT NOT NULL,
+            target_date TEXT NOT NULL,
+            html_link TEXT,
+            registered_at TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# サーバー起動時にデータベースを初期化
+init_db()
+
+# リクエストデータの型定義
+class TaskCreate(BaseModel):
+    summary: str
+    date: str  # YYYY-MM-DD 形式
+
+@app.get("/api/tasks")
+def get_tasks():
+    """データベースからタスクの一覧を取得するAPI"""
+    conn = sqlite3.connect(DB_FILE)
+    # 取得結果を辞書型(dict)として扱えるように設定
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT * FROM tasks ORDER BY id ASC")
+    rows = cursor.fetchall()
+    conn.close()
+    
+    # React側が期待する形式に整形して返す
+    formatted_tasks = []
+    for row in rows:
+        formatted_tasks.append({
+            "id": row["id"],
+            "event_id": row["event_id"],
+            "summary": row["summary"],
+            "date": row["target_date"],
+            "htmlLink": row["html_link"],
+            "registered_at": row["registered_at"]
+        })
+        
+    return {"tasks": formatted_tasks}
+
+# @app.post("/api/tasks")
+# def create_task(task: TaskCreate):
+#     """タスクをGoogleカレンダーに登録し、データベースに保存するAPI"""
+#     if not task.summary.strip() or not task.date.strip():
+#         raise HTTPException(status_code=400, detail="タスク名と日付は必須です。")
+    
+#     try:
+#         # 1. Googleカレンダーへ登録を実行
+#         created_event = add_task_to_calendar(task.summary, task.date)
+        
+#         # 2. SQLiteデータベースに保存 (INSERT)
+#         conn = sqlite3.connect(DB_FILE)
+#         cursor = conn.cursor()
+#         cursor.execute('''
+#             INSERT INTO tasks (event_id, summary, target_date, html_link, registered_at)
+#             VALUES (?, ?, ?, ?, ?)
+#         ''', (
+#             created_event.get("id"),
+#             task.summary,
+#             task.date,
+#             created_event.get("htmlLink"),
+#             created_event.get("created")
+#         ))
+#         conn.commit()
+        
+#         # 最後に挿入された行のIDを取得
+#         task_id = cursor.lastrowid
+#         conn.close()
+        
+#         # 3. Reactに返すためのデータ
+#         new_task_log = {
+#             "id": task_id,
+#             "event_id": created_event.get("id"),
+#             "summary": task.summary,
+#             "date": task.date,
+#             "htmlLink": created_event.get("htmlLink"),
+#             "registered_at": created_event.get("created")
+#         }
+        
+#         return {"status": "success", "task": new_task_log}
+        
+#     except ValueError as val_err:
+#         raise HTTPException(status_code=400, detail=str(val_err))
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"処理中にエラーが発生しました: {str(e)}")
+
+
+
+@app.get("/")
+def read_root():
+    return {"Status": "Python Backend is running!"}
+
+@app.get("/api/events")
+def fetch_events():
+    # ★ calendar_api.py のロジックを呼び出す
+    events = get_upcoming_events()
+    return {"events": events}
+
+if __name__ == "__main__":
+    # Electronから起動された際にポート8000でサーバーを立てる
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+</file>
+
+<file path="python/calendar_api.py">
+"""
+calendar_api.py
+
+Google Calendar API を使って、終日イベント（タスク）と
+前日のポップアップリマインダー（12:00 / 17:00）を自動登録するスクリプト。
+
+事前準備:
+    1. Google Cloud Console で Calendar API を有効化し、
+       OAuth クライアントID（デスクトップアプリ）を作成して
+       credentials.json をこのファイルと同じディレクトリに置く。
+    2. 必要なライブラリをインストールする（下記参照）。
+    3. 本ファイルを直接実行すると、初回はブラウザで認証が求められ、
+       成功すると token.json が生成され、以降はそれが再利用される。
+
+必要なライブラリ:
+    pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+"""
+
+import os
+import datetime
+
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+# カレンダーの読み書きを行うためのスコープ
+SCOPES = ["https://www.googleapis.com/auth/calendar"]
+
+CREDENTIALS_FILE = "credentials.json"
+TOKEN_FILE = "token.json"
+
+# 終日イベントを登録するカレンダーのタイムゾーン（必要に応じて変更）
+TIMEZONE = "Asia/Tokyo"
+
+
+# def get_calendar_service():
+#     """
+#     OAuth 2.0 認証を行い、Google Calendar API のサービスオブジェクトを返す。
+
+#     - token.json が存在し、有効な場合はそれをそのまま利用する。
+#     - 期限切れの場合は refresh_token を使って自動更新する。
+#     - token.json が存在しない場合は、credentials.json を使って
+#       ブラウザ経由の認証フローを実行し、成功した認証情報を
+#       token.json に保存する（次回以降はブラウザ操作が不要になる）。
+#     """
+#     creds = None
+
+#     if os.path.exists(TOKEN_FILE):
+#         creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
+
+#     if not creds or not creds.valid:
+#         if creds and creds.expired and creds.refresh_token:
+#             creds.refresh(Request())
+#         else:
+#             if not os.path.exists(CREDENTIALS_FILE):
+#                 raise FileNotFoundError(
+#                     f"{CREDENTIALS_FILE} が見つかりません。"
+#                     "Google Cloud Console から取得して同じディレクトリに置いてください。"
+#                 )
+#             flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
+#             creds = flow.run_local_server(port=0)
+
+#         # 次回以降のために認証情報を保存する
+#         with open(TOKEN_FILE, "w", encoding="utf-8") as token:
+#             token.write(creds.to_json())
+
+#     service = build("calendar", "v3", credentials=creds)
+#     return service
+
+
+def _calculate_reminder_minutes(date_str):
+    """
+    イベント当日（date_str, 00:00開始とみなす）に対して、
+    「前日12:00」「前日17:00」がそれぞれ何分前の通知に相当するかを計算する。
+
+    例）date_str = '2026-07-10' の場合
+        イベント開始 = 2026-07-10 00:00
+        前日12:00   = 2026-07-09 12:00  -> 720分前
+        前日17:00   = 2026-07-09 17:00  -> 420分前
+    """
+    event_start = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    day_before = event_start - datetime.timedelta(days=1)
+
+    reminder_noon = day_before.replace(hour=12, minute=0, second=0, microsecond=0)
+    reminder_evening = day_before.replace(hour=17, minute=0, second=0, microsecond=0)
+
+    minutes_noon = int((event_start - reminder_noon).total_seconds() // 60)
+    minutes_evening = int((event_start - reminder_evening).total_seconds() // 60)
+
+    return minutes_noon, minutes_evening
+
+
+def add_task_to_calendar(summary, date_str):
+    """
+    終日イベントとしてタスクをカレンダーに登録する。
+
+    Args:
+        summary (str): イベントのタイトル（タスク名）。
+        date_str (str): 'YYYY-MM-DD' 形式の日付文字列。
+
+    Returns:
+        dict: 作成されたイベントのレスポンス（event id 等を含む）。
+    """
+    # 日付形式のバリデーション
+    try:
+        start_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError as exc:
+        raise ValueError("date_str は 'YYYY-MM-DD' 形式で指定してください。") from exc
+
+    # 終日イベントの end は「翌日の日付」を指定するのが Google Calendar API の仕様
+    end_date = start_date + datetime.timedelta(days=1)
+
+    minutes_noon, minutes_evening = _calculate_reminder_minutes(date_str)
+
+    event_body = {
+        "summary": summary,
+        "start": {
+            "date": start_date.isoformat(),
+            "timeZone": TIMEZONE,
+        },
+        "end": {
+            "date": end_date.isoformat(),
+            "timeZone": TIMEZONE,
+        },
+        "reminders": {
+            "useDefault": False,
+            "overrides": [
+                {"method": "popup", "minutes": minutes_noon},
+                {"method": "popup", "minutes": minutes_evening},
+            ],
+        },
+    }
+
+    service = get_calendar_service()
+
+    try:
+        created_event = (
+            service.events().insert(calendarId="primary", body=event_body).execute()
+        )
+    except HttpError as error:
+        print(f"カレンダー登録中にエラーが発生しました: {error}")
+        raise
+
+    print(f"予定を登録しました: {created_event.get('summary')}")
+    print(f"  日付      : {start_date.isoformat()}")
+    print(f"  リマインダー: 前日12:00（{minutes_noon}分前） / 前日17:00（{minutes_evening}分前）")
+    print(f"  イベントURL : {created_event.get('htmlLink')}")
+
+    return created_event
+def get_calendar_service():
+    creds = None
+    if os.path.exists(TOKEN_FILE):
+        creds = Credentials.from_authorized_user_file(TOKEN_FILE, SCOPES)
+        
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
+            creds = flow.run_local_server(port=0)
+        with open(TOKEN_FILE, 'w') as token:
+            token.write(creds.to_json())
+
+    return build('calendar', 'v3', credentials=creds)
+
+def get_upcoming_events():
+    try:
+        service = get_calendar_service()
+        # ここにカレンダー取得のロジックを書く（今回はモックデータを返します）
+        # 実際には service.events().list(...).execute() 等を使用
+        return [
+            {"id": "1", "title": "会議", "time": "10:00"},
+            {"id": "2", "title": "プログラミング", "time": "13:00"}
+        ]
+    except Exception as e:
+        print(f"Calendar API Error: {e}")
+        return []
+
+if __name__ == "__main__":
+    # 単体テスト実行用コード。
+    # 他システムと切り離し、このファイル単体で動作確認するためのものです。
+    # 実行すると、明日の日付で「テストタスク」という終日イベントが
+    # 実際にご自身の Google カレンダー（primary）に登録されます。
+
+    test_summary = "テストタスク"
+    tomorrow = (datetime.date.today() + datetime.timedelta(days=1)).isoformat()
+
+    print(f"テスト実行: '{test_summary}' を {tomorrow} に終日イベントとして登録します。")
+    add_task_to_calendar(test_summary, tomorrow)
+</file>
+
+<file path="python/requirements.txt">
+fastapi
+uvicorn
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+</file>
+
+<file path="src/views/TodoView.jsx">
+import React, { useState, useEffect } from 'react';
+
+function TodoView() {
+  const [summary, setSummary] = useState('');
+  const [date, setDate] = useState('');
+  const [savedTasks, setSavedTasks] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // 1. 起動時にバックエンドのJSONファイルから過去の登録履歴を取得
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/tasks')
+      .then(res => res.json())
+      .then(data => setSavedTasks(data.tasks || []))
+      .catch(err => console.error("履歴の取得に失敗しました:", err));
+  }, []);
+
+  // 2. 新規タスクを送信する処理
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (!summary || !date) return alert("タスク名と日付を入力してください");
+
+    setLoading(true);
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ summary, date })
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert("GoogleカレンダーおよびローカルJSONに登録しました！");
+        setSavedTasks([...savedTasks, result.task]); // 画面上の一覧を更新
+        setSummary('');
+        setDate('');
+      } else {
+        alert(`エラー: ${result.detail}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("バックエンドサーバーとの通信に失敗しました。");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h3>Googleカレンダー連携 ToDoタスク登録</h3>
+      <form onSubmit={handleRegister} style={{ marginBottom: '30px' }}>
+        <div style={{ marginBottom: '10px' }}>
+          <label>タスク名: </label>
+          <input 
+            type="text" 
+            value={summary} 
+            onChange={(e) => setSummary(e.target.value)} 
+            placeholder="例: レポート提出" 
+          />
+        </div>
+        <div style={{ marginBottom: '10px' }}>
+          <label>期日(日付): </label>
+          <input 
+            type="date" 
+            value={date} 
+            onChange={(e) => setDate(e.target.value)} 
+          />
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? '登録中...' : 'カレンダーにタスクを追加'}
+        </button>
+      </form>
+
+      <h4>登録済みタスク履歴 (JSONより同期)</h4>
+      <ul>
+        {savedTasks.map((task, idx) => (
+          <li key={idx} style={{ marginBottom: '8px' }}>
+            <strong>{task.date}</strong> - {task.summary} 
+            {task.htmlLink && (
+              <a href={task.htmlLink} target="_blank" rel="noreferrer" style={{ marginLeft: '10px', fontSize: '12px' }}>
+                [Googleカレンダーで確認]
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default TodoView;
+</file>
+
+<file path="src/App.jsx">
+import React, { useState, useEffect } from 'react';
+
+function App() {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // Pythonバックエンドからカレンダーの予定を取得
+    fetch('http://127.0.0.1:8000/api/events')
+      .then(res => res.json())
+      .then(data => {
+        if (data.events) setEvents(data.events);
+      })
+      .catch(err => console.error("Python APIに接続できません:", err));
+  }, []);
+
+  const triggerNotification = () => {
+    // preload.js で露出させたAPIを使ってElectronの通知を呼び出す
+    if (window.electronAPI) {
+      window.electronAPI.showNotification({
+        title: "To-Do アプリ",
+        body: "予定の通知テストです！"
+      });
+    } else {
+      alert("ブラウザ環境ではデスクトップ通知は動きません。");
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+      <h1>ダッシュボード</h1>
+      
+      <button 
+        onClick={triggerNotification}
+        style={{ padding: '10px 20px', cursor: 'pointer', marginBottom: '20px' }}
+      >
+        デスクトップ通知をテスト
+      </button>
+
+      <h2>今日の予定 (from Python & Google Calendar)</h2>
+      <ul>
+        {events.length > 0 ? (
+          events.map(ev => (
+            <li key={ev.id}>{ev.time} - {ev.title}</li>
+          ))
+        ) : (
+          <p>読み込み中...</p>
+        )}
+      </ul>
+      
+      {/* タイムラインアプリなどの静的HTMLは iframe で埋め込むなどのアプローチが可能です */}
+      <iframe 
+        src="/plugins/timeline/index.html" 
+        style={{ width: '100%', height: '400px', border: '1px solid #ccc', marginTop: '20px' }}
+        title="Timeline Plugin"
+      />
+    </div>
+  );
+}
+
+export default App;
+</file>
+
+<file path=".gitignore">
+# Node & Electron
+node_modules/
+dist/
+dist-electron/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Google API Credentials (超重要)
+python/credentials.json
+python/token.json
+
+# Environment Variables
+.env
+# 追加分
+python/credentials.json
+python/token.json
+python/tasks.json
+</file>
+
+<file path="3. Python側のコード（API・重い処理） モダンで高速な FastAPI を採用した構成例です。.txt">
+
+</file>
+
+<file path="index.html">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タイムライン & カレンダーエディタ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchView('timeline')">タイムラインエディタ</button>
+            <button class="tab-btn" onclick="switchView('calendar')">カレンダー表示</button>
+        </div>
+
+        <div class="config-section">
+            <div class="design-section">
+                <label for="graphDesignSelect">テーマカラー: </label>
+                <select id="graphDesignSelect" onchange="onDesignChange()">
+                    <option value="pattern-a">A: 真面目（会社・市役所風）</option>
+                    <option value="pattern-b">B: つぶつぶ（細めのバー）</option>
+                    <option value="pattern-c">C: ストロー風</option>
+                </select>
+
+                <label style="margin-left: 15px;">グラフの向き: </label>
+                <label><input type="radio" name="graphDirection" value="horizontal" checked> 横</label>
+                <label><input type="radio" name="graphDirection" value="vertical"> 縦</label>
+            </div>
+
+            <div class="date-settings-section" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                <label for="viewModeSelect">表示単位: </label>
+                <select id="viewModeSelect" onchange="onViewModeChange()">
+                    <option value="day">日付単位（1日）</option>
+                    <option value="month">月単位（1ヶ月）</option>
+                    <option value="year-month">年月単位（カスタム指定）</option>
+                </select>
+
+                <span id="dateInputContainer" style="margin-left: 15px;">
+                    <input type="date" id="targetDate">
+                </span>
+            </div>
+        </div>
+
+        <div id="timelineView" class="view-content active">
+            <div class="add-section" style="margin-top: 20px;">
+                <input type="text" id="newItemName" placeholder="新しい項目名（例: 読書）">
+                <button onclick="addNewItem()">追加</button>
+            </div>
+
+            <div id="formContainer" class="form-container"></div>
+
+<div class="action-section">
+            <button onclick="checkAndGenerateGraph()" class="btn-generate">グラフを生成</button>
+            <button onclick="printReport()" class="btn-print" style="margin-left: 10px; background-color: #4CAF50; color: white;">レポートを印刷 / PDF保存</button>
+            <p id="errorMessage" class="error-message"></p>
+        </div>
+
+            <div id="graphContainer"></div>
+        </div>
+
+        <div id="calendarView" class="view-content" style="display: none;">
+            <div class="calendar-header" style="margin-top: 20px; text-align: center;">
+                <h3 id="calendarTitle">カレンダー画面</h3>
+                <p style="font-size: 0.9em; color: #666;">FastAPIから取得したタスクやGoogleカレンダーのイベントを表示します</p>
+            </div>
+            
+            <div id="calendarContainer" class="calendar-container">
+                <p style="text-align: center; color: #999; padding: 40px 0;">（ここにカレンダーが生成されます）</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+</file>
+
+<file path="launch.py">
+import subprocess
+import sys
+import os
+import atexit
+import time
+
+# 起動した子プロセスを保持するリスト
+processes = []
+
+def cleanup():
+    """
+    プログラム終了時（エラーやCtrl+Cを含む）に呼び出され、
+    バックグラウンドで動いているプロセスを安全にキルします。
+    これをしないと、次回起動時に「ポート(8000)が既に使用されています」エラーになります。
+    """
+    print("\n[System] すべてのプロセスを終了しています...")
+    for p in processes:
+        if p.poll() is None: # プロセスがまだ実行中の場合
+            p.terminate()
+            p.wait()
+    print("[System] クリーンアップ完了")
+
+# アプリ終了時に cleanup 関数を必ず実行するように登録
+atexit.register(cleanup)
+
+def main():
+    print("="*45)
+    print(" 🚀 アプリケーション開発環境を起動します")
+    print("="*45)
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # 1. Pythonバックエンド(FastAPI)の起動
+    print("[1/2] バックエンド(FastAPI)を起動中...")
+    backend_path = os.path.join(base_dir, 'python', 'app.py')
+    
+    # 現在のPython環境（仮想環境など）を使ってサーバーを立ち上げる
+    backend_process = subprocess.Popen([sys.executable, backend_path])
+    processes.append(backend_process)
+
+    # サーバーが立ち上がるまで少し待機
+    time.sleep(2)
+
+    # 2. フロントエンド(Vite + Electron)の起動
+    print("[2/2] フロントエンド(Electron)を起動中...")
+    
+    # Windows環境とMac/Linux環境の両方で動作するように shell=True を指定
+    # package.json の "dev" スクリプトを呼び出します
+    frontend_process = subprocess.Popen("npm run dev", shell=True)
+    processes.append(frontend_process)
+
+    try:
+        # フロントエンド（Electronのウィンドウ）が閉じられるまでここで処理をブロックして待機
+        frontend_process.wait()
+    except KeyboardInterrupt:
+        # ターミナルで Ctrl+C が押された場合は速やかに終了処理へ
+        print("\n[System] ユーザーによって中断されました。")
+
+if __name__ == '__main__':
+    main()
+</file>
+
+<file path="package.json">
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "main": "main/main.js",
+  "scripts": {
+    "dev:react": "vite",
+    "dev:electron": "wait-on tcp:5173 && electron .",
+    "dev": "concurrently \"npm run dev:react\" \"npm run dev:electron\"",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "concurrently": "^8.2.0",
+    "electron": "^25.0.0",
+    "vite": "^4.4.0",
+    "wait-on": "^7.0.1"
+  }
+}
+</file>
+
+<file path="script.js">
+// public/plugins/timeline/script.js
+
+const DEFAULT_ITEMS = [
+    { name: "朝食", hours: 1 },
+    { name: "夕食", hours: 1 },
+    { name: "睡眠", hours: 8 }
+];
+
+const STORAGE_KEY = "my_timeline_json_data";
+const DESIGN_STORAGE_KEY = "my_timeline_design";
+const BACKEND_URL = "http://127.0.0.1:8000"; 
+
+const PALETTES = {
+    "pattern-a": ["#1b2a4a", "#2c3e60", "#3d5375", "#4e6889", "#5f7ea0", "#324a70", "#233657"],
+    "pattern-b": ["#7aa8d9", "#f2a679", "#8fbf8f", "#d99bc4", "#e0c268", "#9b8fd9", "#6fbfb0"],
+    "pattern-c": ["#e2574c", "#3f8fd9", "#f2b134", "#5cb85c", "#9b59b6", "#e67e22", "#1abc9c"]
+};
+
+let currentItems = [];
+let currentDesign = "pattern-a";
+let allDaysData = {}; 
+let currentDate = ""; 
+
+function initApp() {
+    const savedJson = localStorage.getItem(STORAGE_KEY);
+    if (savedJson) {
+        try {
+            const parsed = JSON.parse(savedJson);
+            // 【修正ポイント1】古いバージョンのデータ（配列）が残っていたらリセットして競合を防ぐ
+            if (Array.isArray(parsed)) {
+                allDaysData = {};
+            } else {
+                allDaysData = parsed;
+            }
+        } catch (error) {
+            allDaysData = {};
+        }
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+    const targetDateInput = document.getElementById("targetDate");
+    if (targetDateInput) {
+        targetDateInput.value = today;
+        currentDate = today;
+        
+        targetDateInput.addEventListener("change", (e) => {
+            currentDate = e.target.value;
+            loadDataForDate(currentDate);
+        });
+    }
+
+    // 今日のデータを読み込んで画面に反映
+    loadDataForDate(today);
+
+    const savedDesign = localStorage.getItem(DESIGN_STORAGE_KEY);
+    if (savedDesign && PALETTES[savedDesign]) {
+        currentDesign = savedDesign;
+    }
+    const designSelect = document.getElementById("graphDesignSelect");
+    if (designSelect) {
+        designSelect.value = currentDesign;
+    }
+
+    const directionRadios = document.querySelectorAll('input[name="graphDirection"]');
+    directionRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            const graphContainer = document.getElementById("graphContainer");
+            if (graphContainer && graphContainer.dataset.rendered === "true") {
+                checkAndGenerateGraph();
+            }
+        });
+    });
+}
+
+function loadDataForDate(dateStr) {
+    if (allDaysData[dateStr]) {
+        currentItems = JSON.parse(JSON.stringify(allDaysData[dateStr]));
+    } else {
+        currentItems = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+    }
+    renderInputForms();
+    
+    // 【修正ポイント2】データを読み込んだら、自動でグラフを描画して保存させる
+    checkAndGenerateGraph();
+}
+
+function saveCurrentData() {
+    allDaysData[currentDate] = currentItems;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(allDaysData));
+}
+
+function moveItemUp(index) {
+    if (index > 0) {
+        const temp = currentItems[index - 1];
+        currentItems[index - 1] = currentItems[index];
+        currentItems[index] = temp;
+        saveCurrentData();
+        renderInputForms();
+        updateGraphIfRendered();
+    }
+}
+
+function moveItemDown(index) {
+    if (index < currentItems.length - 1) {
+        const temp = currentItems[index + 1];
+        currentItems[index + 1] = currentItems[index];
+        currentItems[index] = temp;
+        saveCurrentData();
+        renderInputForms();
+        updateGraphIfRendered();
+    }
+}
+
+function updateGraphIfRendered() {
+    const graphContainer = document.getElementById("graphContainer");
+    if (graphContainer && graphContainer.dataset.rendered === "true") {
+        checkAndGenerateGraph();
+    }
+}
+
+function switchView(viewName) {
+    const timelineView = document.getElementById('timelineView');
+    const calendarView = document.getElementById('calendarView');
+    const tabs = document.querySelectorAll('.tab-btn');
+
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    if (viewName === 'timeline') {
+        timelineView.style.display = 'block';
+        calendarView.style.display = 'none';
+        event.currentTarget.classList.add('active');
+    } else if (viewName === 'calendar') {
+        timelineView.style.display = 'none';
+        calendarView.style.display = 'block';
+        event.currentTarget.classList.add('active');
+        fetchAndRenderCalendar();
+    }
+}
+
+function onViewModeChange() {
+    const mode = document.getElementById('viewModeSelect').value;
+    const container = document.getElementById('dateInputContainer');
+    const now = new Date();
+    const currentYearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    const today = now.toISOString().split('T')[0];
+
+    if (mode === 'day') {
+        container.innerHTML = `<input type="date" id="targetDate" value="${today}">`;
+    } else if (mode === 'month') {
+        container.innerHTML = `<input type="month" id="targetMonth" value="${currentYearMonth}">`;
+    } else if (mode === 'year-month') {
+        container.innerHTML = `
+            <input type="month" id="startDate" value="${currentYearMonth}"> 
+            <span> 〜 </span> 
+            <input type="month" id="endDate" value="${currentYearMonth}">
+        `;
+    }
+}
+
+function printReport() {
+    window.print();
+}
+
+function addNewItem() {
+    const inputElement = document.getElementById("newItemName");
+    const itemName = inputElement.value.trim();
+
+    if (!itemName) {
+        alert("項目名を入力してください。");
+        return;
+    }
+
+    const isDuplicate = currentItems.some(item => item.name === itemName);
+    if (isDuplicate) {
+        alert("既に存在する項目名です。");
+        return;
+    }
+
+    currentItems.push({ name: itemName, hours: 0 });
+    saveCurrentData();
+    renderInputForms();
+    inputElement.value = "";
+}
+
+function updateItemHours(index, value) {
+    const hours = parseFloat(value) || 0;
+    currentItems[index].hours = hours;
+    saveCurrentData();
+}
+
+function deleteItem(index) {
+    currentItems.splice(index, 1);
+    saveCurrentData();
+    renderInputForms();
+}
+
+function renderInputForms() {
+    const container = document.getElementById("formContainer");
+    container.innerHTML = "";
+
+    currentItems.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "form-row";
+
+        const nameLabel = document.createElement("label");
+        nameLabel.textContent = item.name;
+
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.value = item.name;
+        nameInput.style.display = "none"; 
+        nameInput.style.width = "100px"; 
+        nameInput.style.marginRight = "10px";
+
+        const hoursInput = document.createElement("input");
+        hoursInput.type = "number";
+        hoursInput.value = item.hours;
+        hoursInput.min = "0";
+        hoursInput.max = "24";
+        hoursInput.step = "0.5";
+        hoursInput.oninput = (e) => {
+            updateItemHours(index, e.target.value);
+            updateGraphIfRendered();
+        };
+
+        const upBtn = document.createElement("button");
+        upBtn.textContent = "↑";
+        upBtn.className = "btn-move";
+        upBtn.disabled = index === 0;
+        upBtn.onclick = () => moveItemUp(index);
+
+        const downBtn = document.createElement("button");
+        downBtn.textContent = "↓";
+        downBtn.className = "btn-move";
+        downBtn.disabled = index === currentItems.length - 1;
+        downBtn.onclick = () => moveItemDown(index);
+
+        const renameBtn = document.createElement("button");
+        renameBtn.textContent = "名前変更";
+        renameBtn.className = "btn-rename";
+        
+        let isEditing = false;
+        renameBtn.onclick = () => {
+            const errorElement = document.getElementById("errorMessage");
+
+            if (!isEditing) {
+                isEditing = true;
+                nameLabel.style.display = "none";        
+                nameInput.style.display = "inline-block";
+                renameBtn.textContent = "確定";           
+                nameInput.focus();
+            } else {
+                const newName = nameInput.value.trim();
+                
+                if (newName === "") {
+                    errorElement.textContent = "項目名を空にはできません。";
+                    nameInput.value = item.name; 
+                } else {
+                    const isDuplicate = currentItems.some((x, i) => i !== index && x.name === newName);
+                    if (isDuplicate) {
+                        errorElement.textContent = "既に存在する項目名です。";
+                        nameInput.value = item.name; 
+                    } else {
+                        currentItems[index].name = newName;
+                        errorElement.textContent = ""; 
+                        saveCurrentData();
+                        updateGraphIfRendered();
+                    }
+                }
+                
+                isEditing = false;
+                nameLabel.textContent = currentItems[index].name; 
+                nameLabel.style.display = "inline-block";
+                nameInput.style.display = "none";
+                renameBtn.textContent = "名前変更";
+            }
+        };
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "削除";
+        deleteBtn.className = "btn-delete";
+        deleteBtn.onclick = () => deleteItem(index);
+
+        row.appendChild(nameLabel);
+        row.appendChild(nameInput);
+        row.appendChild(hoursInput);
+        row.appendChild(upBtn);
+        row.appendChild(downBtn);
+        row.appendChild(renameBtn);
+        row.appendChild(deleteBtn);
+        
+        container.appendChild(row);
+    });
+}
+
+function onDesignChange() {
+    const designSelect = document.getElementById("graphDesignSelect");
+    currentDesign = designSelect.value;
+    localStorage.setItem(DESIGN_STORAGE_KEY, currentDesign);
+
+    const graphContainer = document.getElementById("graphContainer");
+    if (graphContainer && graphContainer.dataset.rendered === "true") {
+        checkAndGenerateGraph();
+    }
+}
+
+function checkAndGenerateGraph() {
+    const errorElement = document.getElementById("errorMessage");
+    if(errorElement) errorElement.textContent = "";
+
+    const totalHours = currentItems.reduce((sum, item) => sum + item.hours, 0);
+
+    if (totalHours > 24) {
+        const overHours = totalHours - 24;
+        if(errorElement) errorElement.textContent = `各項目を足して24になるよう調整してください（${overHours}時間over）`;
+        document.getElementById("graphContainer").innerHTML = "";
+        document.getElementById("graphContainer").dataset.rendered = "false";
+        return;
+    }
+
+    const targetItems = currentItems.filter(item => item.hours > 0);
+    const direction = document.querySelector('input[name="graphDirection"]:checked').value;
+    
+    // 生成と同時にデータもセーブしておく
+    saveCurrentData();
+    renderGraph(targetItems, direction);
+}
+
+function renderGraph(items, direction) {
+    const graphContainer = document.getElementById("graphContainer");
+    graphContainer.innerHTML = "";
+    graphContainer.dataset.rendered = "true";
+
+    if (items.length === 0) {
+        graphContainer.innerHTML = "<p>表示する項目がありません。時間を入力してください。</p>";
+        return;
+    }
+
+    const palette = PALETTES[currentDesign] || PALETTES["pattern-a"];
+    const graph = document.createElement("div");
+    graph.className = `timeline-graph ${currentDesign} ${direction}`;
+
+    const scale = document.createElement("div");
+    scale.className = "timeline-scale";
+    [0, 6, 12, 18, 24].forEach(hour => {
+        const tick = document.createElement("span");
+        tick.textContent = `${hour}h`;
+        scale.appendChild(tick);
+    });
+    graph.appendChild(scale);
+
+    const track = document.createElement("div");
+    track.className = "timeline-track";
+    graph.appendChild(track);
+
+    const legend = document.createElement("ul");
+    legend.className = "timeline-legend";
+
+    items.forEach((item, index) => {
+        const color = palette[index % palette.length];
+
+        const segment = document.createElement("div");
+        segment.className = "timeline-segment";
+        segment.style.background = color;
+        
+        if (direction === 'vertical') {
+            segment.style.height = "0%";
+            segment.style.width = "100%";
+        } else {
+            segment.style.width = "0%";
+            segment.style.height = "100%";
+        }
+        
+        segment.title = `${item.name}: ${item.hours}時間`;
+        
+        // 縦横で文字の表示方向を調整するためのスパン
+        const textSpan = document.createElement("span");
+        textSpan.className = "segment-text";
+        textSpan.textContent = `${item.name} ${item.hours}h`;
+        segment.appendChild(textSpan);
+        
+        track.appendChild(segment);
+
+        const legendItem = document.createElement("li");
+        const dot = document.createElement("span");
+        dot.className = "legend-dot";
+        dot.style.background = color;
+        legendItem.appendChild(dot);
+        legendItem.appendChild(document.createTextNode(`${item.name}（${item.hours}h）`));
+        legend.appendChild(legendItem);
+
+        const targetRatio = (item.hours / 24) * 100;
+        
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                if (direction === 'vertical') {
+                    segment.style.height = `${targetRatio}%`;
+                } else {
+                    segment.style.width = `${targetRatio}%`;
+                }
+            });
+        });
+    });
+
+    graph.appendChild(legend);
+    graphContainer.appendChild(graph);
+}
+
+function getWeekDays(baseDateStr) {
+    const date = new Date(baseDateStr);
+    const day = date.getDay(); 
+    const diffToMonday = day === 0 ? -6 : 1 - day;
+    
+    const monday = new Date(date);
+    monday.setDate(date.getDate() + diffToMonday);
+
+    const weekDates = [];
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        weekDates.push(d.toISOString().split('T')[0]);
+    }
+    return weekDates; 
+}
+
+function renderWeeklyTimelines(container, weekDates) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "weekly-report-wrapper";
+    
+    const weekTitle = document.createElement("h3");
+    weekTitle.textContent = `📊 週間レポート (${weekDates[0]} 〜 ${weekDates[6]})`;
+    weekTitle.style.width = "100%"; // タイトルは全幅
+    wrapper.appendChild(weekTitle);
+
+    const daysOfWeek = ["月", "火", "水", "木", "金", "土", "日"];
+    const direction = document.querySelector('input[name="graphDirection"]:checked').value;
+
+    // 【カレンダー表示用】コンテナ自身にも縦横のクラスを付けてCSSでレイアウトしやすくする
+    wrapper.classList.add(`layout-${direction}`);
+
+    weekDates.forEach((dateStr, index) => {
+        const dayData = allDaysData[dateStr] || []; 
+        
+        const daySection = document.createElement("div");
+        daySection.className = "weekly-day-section";
+
+        const dateHeader = document.createElement("h4");
+        dateHeader.textContent = `${dateStr} (${daysOfWeek[index]})`;
+        dateHeader.style.margin = "5px 0";
+        daySection.appendChild(dateHeader);
+
+        const tempGraphContainer = document.createElement("div");
+        tempGraphContainer.id = `weekly-graph-${dateStr}`;
+        daySection.appendChild(tempGraphContainer);
+        wrapper.appendChild(daySection);
+
+        if (dayData.length === 0) {
+            tempGraphContainer.innerHTML = "<p style='color:#999; font-size:0.9em;'>記録がありません</p>";
+        } else {
+            const totalHours = dayData.reduce((sum, item) => sum + item.hours, 0);
+            if (totalHours > 24) {
+                tempGraphContainer.innerHTML = "<p style='color:red;'>※24h over</p>";
+            } else {
+                const validItems = dayData.filter(item => item.hours > 0);
+                generateSingleGraphHtml(tempGraphContainer, validItems, direction);
+            }
+        }
+    });
+
+    container.appendChild(wrapper);
+}
+
+function generateSingleGraphHtml(targetElement, items, direction) {
+    const palette = PALETTES[currentDesign] || PALETTES["pattern-a"];
+    const graph = document.createElement("div");
+    graph.className = `timeline-graph ${currentDesign} ${direction}`;
+    graph.style.marginTop = "10px";
+
+    const scale = document.createElement("div");
+    scale.className = "timeline-scale";
+    [0, 6, 12, 18, 24].forEach(hour => {
+        const tick = document.createElement("span");
+        tick.textContent = `${hour}h`;
+        scale.appendChild(tick);
+    });
+    graph.appendChild(scale);
+
+    const track = document.createElement("div");
+    track.className = "timeline-track";
+    graph.appendChild(track);
+
+    const legend = document.createElement("ul");
+    legend.className = "timeline-legend";
+
+    items.forEach((item, index) => {
+        const color = palette[index % palette.length];
+        const segment = document.createElement("div");
+        segment.className = "timeline-segment";
+        segment.style.background = color;
+        
+        if (direction === 'vertical') {
+            segment.style.height = `${(item.hours / 24) * 100}%`;
+            segment.style.width = "100%";
+        } else {
+            segment.style.width = `${(item.hours / 24) * 100}%`;
+            segment.style.height = "100%";
+        }
+        
+        const textSpan = document.createElement("span");
+        textSpan.className = "segment-text";
+        textSpan.textContent = `${item.name} ${item.hours}h`;
+        segment.appendChild(textSpan);
+        
+        track.appendChild(segment);
+
+        const legendItem = document.createElement("li");
+        const dot = document.createElement("span");
+        dot.className = "legend-dot";
+        dot.style.background = color;
+        legendItem.appendChild(dot);
+        legendItem.appendChild(document.createTextNode(`${item.name}（${item.hours}h）`));
+        legend.appendChild(legendItem);
+    });
+
+    graph.appendChild(legend);
+    targetElement.appendChild(graph);
+}
+
+async function fetchAndRenderCalendar() {
+    const calendarContainer = document.getElementById("calendarContainer");
+    calendarContainer.innerHTML = "<p style='text-align:center; padding:20px;'>データを読み込み中...</p>";
+
+    const baseDate = document.getElementById("targetDate").value;
+    const weekDates = getWeekDays(baseDate);
+
+    calendarContainer.innerHTML = ""; 
+
+    renderWeeklyTimelines(calendarContainer, weekDates);
+
+    try {
+        const [tasksResponse, eventsResponse] = await Promise.all([
+            fetch(`${BACKEND_URL}/api/tasks`).then(res => res.json()).catch(() => ({ tasks: [] })),
+            fetch(`${BACKEND_URL}/api/events`).then(res => res.json()).catch(() => ({ events: [] }))
+        ]);
+
+        const tasks = tasksResponse.tasks || [];
+        const events = eventsResponse.events || [];
+        
+        const listWrapper = document.createElement("div");
+        listWrapper.className = "calendar-list-wrapper";
+        // 略：APIからのタスク表示（既存のロジック）
+        // calendarContainer.appendChild(listWrapper);
+
+    } catch (error) {
+        console.error("API取得エラー:", error);
+    }
+}
+
+// 【重要】画面読み込み時に初期化を走らせるトリガー（前回抜けていました）
+document.addEventListener("DOMContentLoaded", initApp);
+</file>
+
+<file path="style.css">
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background: #f5f6f8;
+    margin: 0;
+    padding: 40px 16px;
+    color: #222;
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- 入力フォーム ---------- */
+
+.add-item-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.add-item-form input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-item-form button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    background: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.form-row label {
+    flex: 0 0 120px;
+}
+
+.form-row input[type="number"] {
+    width: 80px;
+    padding: 4px 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-delete {
+    margin-left: auto;
+    border: none;
+    background: #e0e0e0;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.design-select {
+    margin: 16px 0;
+    font-size: 14px;
+}
+
+.design-select select {
+    padding: 4px 8px;
+    margin-left: 6px;
+}
+
+.actions {
+    margin: 16px 0;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    background: #2d6cdf;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.error-message {
+    color: #c0392b;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+/* ---------- グラフ共通 ---------- */
+
+.graph-container {
+    margin-top: 24px;
+}
+
+.timeline-graph {
+    width: 100%;
+}
+
+.timeline-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 4px;
+    padding: 0 2px;
+}
+
+.timeline-track {
+    position: relative;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.timeline-segment {
+    height: 100%;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 12px;
+    transition: width 1.1s cubic-bezier(0.25, 0.8, 0.35, 1);
+}
+
+.timeline-legend {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    font-size: 13px;
+}
+
+.timeline-legend li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   パターンA：真面目（会社・市役所で使われそうな）グラフ
+   ネイビー/ダークグレー基調、フラットでカチッとしたデザイン
+   ========================================================= */
+
+.timeline-graph.pattern-a .timeline-track {
+    height: 42px;
+    background: #e9ecef;
+    border-radius: 3px;
+    border: 1px solid #c7cdd4;
+}
+
+.timeline-graph.pattern-a .timeline-segment {
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+    font-weight: 600;
+    padding-left: 8px;
+    letter-spacing: 0.02em;
+}
+
+.timeline-graph.pattern-a .timeline-segment:last-child {
+    border-right: none;
+}
+
+.timeline-graph.pattern-a .legend-dot {
+    border-radius: 2px;
+}
+
+/* =========================================================
+   パターンB：細くて邪魔にならない程度のつぶつぶがあるグラフ
+   バー自体は細く、周囲に控えめなドットパターン
+   ========================================================= */
+
+.timeline-graph.pattern-b {
+    position: relative;
+    padding: 24px 20px;
+    background-image: radial-gradient(circle, #d5d9df 1px, transparent 1.4px);
+    background-size: 12px 12px;
+    border-radius: 10px;
+}
+
+.timeline-graph.pattern-b .timeline-track {
+    height: 10px;
+    background: #eef0f3;
+    border-radius: 6px;
+}
+
+.timeline-graph.pattern-b .timeline-segment {
+    font-size: 0; /* 細いバーには文字を入れない */
+    border-right: 2px solid #fff;
+}
+
+.timeline-graph.pattern-b .timeline-segment:last-child {
+    border-right: none;
+}
+
+.timeline-graph.pattern-b .legend-dot {
+    border-radius: 50%;
+}
+
+/* =========================================================
+   パターンC：ストローのように見えるグラフ
+   斜め縞模様 + box-shadowで円柱状の立体感
+   ========================================================= */
+
+.timeline-graph.pattern-c .timeline-track {
+    height: 30px;
+    border-radius: 999px;
+    background: #eee;
+    box-shadow:
+        inset 0 5px 6px rgba(0, 0, 0, 0.25),
+        inset 0 -5px 6px rgba(255, 255, 255, 0.25),
+        0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.timeline-graph.pattern-c .timeline-track::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background-image: repeating-linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.35) 0px,
+        rgba(255, 255, 255, 0.35) 6px,
+        rgba(0, 0, 0, 0.12) 6px,
+        rgba(0, 0, 0, 0.12) 12px
+    );
+    mix-blend-mode: overlay;
+}
+
+.timeline-graph.pattern-c .timeline-segment {
+    font-size: 0; /* ストロー本体には文字を乗せない */
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.timeline-graph.pattern-c .legend-dot {
+    border-radius: 50%;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+}
+/* 縦向きグラフの場合のトラック方向切り替え */
+.timeline-graph.vertical .timeline-track {
+    display: flex;
+    flex-direction: column; /* 縦に積み重ねる */
+    height: 400px;         /* 縦向きの時の高さを固定 */
+    width: 60px;          /* 縦向きの時のバーの太さ */
+}
+
+/* カレンダー画面の簡易リスト用スタイル */
+.calendar-list-wrapper {
+    text-align: left;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 6px;
+}
+.event-item, .task-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    list-style: none;
+}
+/* style.css に追加 */
+.btn-move {
+    margin-left: 5px;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+.btn-move:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+/* style.css に追加 */
+.btn-rename {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   印刷・PDF出力用のスタイル (@media print)
+========================================= */
+@media print {
+    /* 印刷時に不要なUI（ボタン、タブ、入力枠など）をすべて隠す */
+    .nav-tabs, 
+    .config-section, 
+    .add-section, 
+    .action-section, 
+    .form-row input, 
+    .btn-move, 
+    .btn-rename, 
+    .btn-delete {
+        display: none !important;
+    }
+
+    /* 印刷用にレイアウトをリセット */
+    body {
+        background-color: white;
+        color: black;
+    }
+    
+    .container {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    /* グラフの背景色が印刷時に消えないようにする魔法の設定 */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* グラフがページの途中でぶった切られるのを防ぐ */
+    .timeline-graph {
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+    }
+}
+
+/* =========================================
+   縦向きグラフ用のスタイル
+========================================= */
+/* 縦向きの時のトラック（バー全体）の枠組み */
+.timeline-graph.vertical .timeline-track {
+    display: flex;
+    flex-direction: column; /* 縦に積み重ねる */
+    height: 400px;         /* 縦グラフの全体の高さ */
+    width: 60px;           /* 縦グラフの太さ */
+    margin-left: 30px;     /* 目盛り用の余白 */
+}
+
+/* 縦向きの時の目盛りの位置調整 */
+.timeline-graph.vertical .timeline-scale {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
+    width: 30px;
+}
+
+/* 縦向きの時のバー内のテキストの向き */
+.timeline-graph.vertical .segment-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl; /* 文字を縦書きに */
+    font-size: 0.8em;
+    height: 100%;
+}
+
+/* =========================================
+   カレンダー画面（週間レポート）のレイアウト
+========================================= */
+/* 7日分のグラフを並べる親枠 */
+.weekly-report-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* 画面端で折り返す */
+    gap: 15px;       /* グラフ同士の隙間 */
+    margin-bottom: 30px;
+}
+
+/* 1日分のエリア */
+.weekly-day-section {
+    flex: 1;               /* 均等に横に並べる */
+    min-width: 120px;      /* スマホ等で狭くなりすぎないように */
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 横向き(horizontal)の場合は、7日分を縦に積み重ねた方が見やすい */
+.weekly-report-wrapper.layout-horizontal {
+    flex-direction: column; 
+}
+.weekly-report-wrapper.layout-horizontal .weekly-day-section {
+    width: 100%; /* 横幅いっぱいに使う */
+}
+
+/* 縦向き(vertical)の場合は、7日分を横に並べる */
+.weekly-report-wrapper.layout-vertical {
+    flex-direction: row; 
+}
+</file>
+
+<file path="vite.config.js">
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  base: './', // Electron環境でのパス解決のため相対パスに設定
+})
+</file>
+
+<file path="順番を入れ替える.txt">
+削除ボタンの隣に順番を入れ替えるボタンを作ることは可能？もちろんグラフも反映してほしい。
+
+削除ボタンの隣に「↑（上へ）」「↓（下へ）」ボタンを配置して順番を入れ替える機能ですね。自分好みにUIを作り込んでいくの、とても良いですね！
+
+JavaScriptの配列（currentItems）の要素を入れ替える（スワップする）処理を追加することで、簡単に実装できます。もちろん、グラフを描画した状態で順番を入れ替えたら、リアルタイムでグラフ側にも反映されるようにしましょう。
+
+script.js に以下の2つの変更を加えてください。
+
+1. 順番入れ替え用の新しい関数を追加する
+script.js の適当な場所（deleteItem 関数の下あたりなど）に、以下の関数を丸ごとコピペして追加してください。
+
+JavaScript
+/**
+ * 項目を1つ上へ移動
+ */
+function moveItemUp(index) {
+    if (index > 0) {
+        // 配列の要素を入れ替える（スワップ）
+        const temp = currentItems[index - 1];
+        currentItems[index - 1] = currentItems[index];
+        currentItems[index] = temp;
+        
+        saveCurrentData();
+        renderInputForms();
+        updateGraphIfRendered(); // グラフが既に表示されていれば更新
+    }
+}
+
+/**
+ * 項目を1つ下へ移動
+ */
+function moveItemDown(index) {
+    if (index < currentItems.length - 1) {
+        // 配列の要素を入れ替える（スワップ）
+        const temp = currentItems[index + 1];
+        currentItems[index + 1] = currentItems[index];
+        currentItems[index] = temp;
+        
+        saveCurrentData();
+        renderInputForms();
+        updateGraphIfRendered(); // グラフが既に表示されていれば更新
+    }
+}
+
+/**
+ * グラフが描画済みの場合のみ、再描画を走らせる補助関数
+ */
+function updateGraphIfRendered() {
+    const graphContainer = document.getElementById("graphContainer");
+    if (graphContainer && graphContainer.dataset.rendered === "true") {
+        checkAndGenerateGraph();
+    }
+}
+2. renderInputForms 関数を書き換える
+既存の renderInputForms 関数を、以下のコードにまるごと差し替えてください。削除ボタンの横に「↑」「↓」ボタンを生成する処理を追加しています。
+
+JavaScript
+function renderInputForms() {
+    const container = document.getElementById("formContainer");
+    container.innerHTML = "";
+
+    currentItems.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "form-row";
+
+        const label = document.createElement("label");
+        label.textContent = item.name;
+
+        const input = document.createElement("input");
+        input.type = "number";
+        input.value = item.hours;
+        input.min = "0";
+        input.max = "24";
+        input.step = "0.5";
+        input.oninput = (e) => {
+            updateItemHours(index, e.target.value);
+            updateGraphIfRendered(); // 数値変更時もリアルタイムでグラフに反映
+        };
+
+        // --- 追加：上へ移動ボタン ---
+        const upBtn = document.createElement("button");
+        upBtn.textContent = "↑";
+        upBtn.className = "btn-move";
+        upBtn.disabled = index === 0; // 一番上なら押せないようにする
+        upBtn.onclick = () => moveItemUp(index);
+
+        // --- 追加：下へ移動ボタン ---
+        const downBtn = document.createElement("button");
+        downBtn.textContent = "↓";
+        downBtn.className = "btn-move";
+        downBtn.disabled = index === currentItems.length - 1; // 一番下なら押せないようにする
+        downBtn.onclick = () => moveItemDown(index);
+
+        // 既存：削除ボタン
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "削除";
+        deleteBtn.className = "btn-delete";
+        deleteBtn.onclick = () => deleteItem(index);
+
+        // 順番通りにrowへ追加していく
+        row.appendChild(label);
+        row.appendChild(input);
+        row.appendChild(upBtn);
+        row.appendChild(downBtn);
+        row.appendChild(deleteBtn);
+        container.appendChild(row);
+    });
+}
+</file>
+
+<file path="目標となるフォルダー構成">
+my-app/
+
+├── src/                 # React側のコード（メインUI）
+
+│   ├── App.jsx          
+
+│   ├── components/      # UIパーツ
+
+│   └── views/           # ToDo入力画面などのページ
+
+│
+
+├── main/                # Electron側のコード（メインプロセス）
+
+│   ├── main.js          # ★ PC起動時の自動起動設定、デスクトップ通知の実行
+
+│   └── preload.js       # フロントとバックの通信ブリッジ
+
+│
+
+├── python/              # Python側のコード（API・重い処理）
+
+│   ├── app.py           # メインのAPIサーバー（Flask/FastAPIなど）
+
+│   ├── calendar_api.py  # ★ Google Calendar APIとの通信ロジックを独立
+
+│   ├── credentials.json # ★ Google APIの認証キー（Gitには絶対に含めない）
+
+│   └── requirements.txt 
+
+│
+
+├── public/              # 静的ファイル置き場
+
+│   └── plugins/         
+
+│       ├── timeline/    # 先ほどのタイムラインアプリ
+
+│       └── todo_list/   # ★ もしToDoもHTML/JSで作るならここに追加
+
+│
+
+├── deployment/          # ビルドやパッケージング用のスクリプト
+
+├── package.json         
+
+└── vite.config.js
+</file>
+
+</files>

@@ -1,0 +1,213 @@
+のようにトップ階層へ無限に Engine を増やすより、
+
+frontend
+backend
+engines
+plugins
+
+の方が後々管理しやすい。
+
+例えば：
+
+project_root
+├── frontend
+├── backend
+├── engines
+│   ├── scene_engine
+│   ├── error_engine
+│   ├── programming_advice_engine
+│   ├── php_engine
+│   ├── memory_engine
+│   └── task_engine
+└── plugins
+
+みたいな感じ。
+
+Error Engine
+
+これはかなり有用。
+
+役割：
+
+エラーログ
+↓
+解析
+↓
+原因候補
+↓
+修正候補
+
+例えば
+
+AttributeError:
+'NoneType' object has no attribute 'xxx'
+
+を見たら、
+
+変数がNoneの可能性
+
+を返す。
+
+さらに発展すると、
+
+過去に同じエラーが出た
+
+まで見られる。
+
+Programming Advice Engine
+
+これも面白い。
+
+ただ個人的には名前を少し広げる方がおすすめ。
+
+例えば：
+
+development_engine
+
+や
+
+architecture_engine
+
+など。
+
+なぜなら、
+
+プログラミング相談
+設計相談
+技術選定
+フォルダー構成
+DB設計
+
+全部扱えるから。
+
+Task Engine
+
+これは以前話していた、
+
+この作業は重い？
+無理がある？
+
+を判断するやつ。
+
+例えば
+
+React
+Electron
+Python
+AI
+動画編集
+
+を1週間で作る
+
+↓
+
+工数超過の可能性
+
+を出す。
+
+Memory Engine
+
+かなり重要。
+
+役割：
+
+会話履歴
+学習履歴
+失敗履歴
+成功履歴
+
+の管理。
+
+今後AIが賢くなる部分の多くはここから来る。
+
+Scene Engine
+
+今話しているやつ。
+
+画像
+↓
+タグ
+↓
+状況推定
+↓
+文脈生成
+Knowledge Engine
+
+これもおすすめ。
+
+knowledge_engine
+├── programming
+├── php
+├── react
+├── sql
+├── security
+
+のように知識を一元管理する。
+
+Risk Engine
+
+個人的に結構好き。
+
+例えば、
+
+このコード危険？
+
+を判定する。
+
+検出対象：
+
+SQL Injection
+XSS
+eval
+shell_exec
+APIキー漏洩
+
+など。
+
+将来的に面白そうなもの
+Learning Engine
+
+AI自身が知識を整理する。
+
+新しい知識
+↓
+分類
+↓
+保存
+Project Engine
+
+プロジェクト全体を見る。
+
+フォルダー構成
+依存関係
+進捗
+
+を管理。
+
+Intent Engine
+
+ユーザーが本当に何をしたいか推測する。
+
+例えば、
+
+PHPについて教えて
+
+でも、
+
+学びたい
+転職したい
+アプリ作りたい
+
+では返答を変える。
+
+個人的な優先順位
+
+もし今の開発状況なら、
+
+scene_engine
+error_engine
+memory_engine
+development_engine
+task_engine
+
+の順が面白いと思う。

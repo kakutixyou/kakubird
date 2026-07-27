@@ -1,0 +1,27 @@
+{
+  "plugin_name": "anti-ai-css",
+  "triggers": [
+    "AIらしさがないCSS",
+    "AIのように見えないCSS",
+    "AIっぽくないCSS",
+    "人間が作ったようなCSS"
+  ],
+  "instructions": {
+    "creativity_level": 0.7,
+    "realism_priority": 0.95,
+    "avoid_patterns": [
+      "glassmorphism",
+      "neon-glow",
+      "gradient-overuse"
+    ],
+    "preferred_styles": [
+      "handcrafted",
+      "imperfect",
+      "asymmetrical"
+    ]
+  },
+  "console_message": {
+    "mode": "ANTI_AI",
+    "description": "Reduce typical AI design patterns and prioritize handcrafted aesthetics."
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "company_id": "cmp_aska_planning_2026_001",
+
+  "company": {
+    "name": "株式会社アスカプランニング",
+    "industry": "SIer・受託開発・SES",
+    "employment_type": "正社員想定",
+    "location": "東京都",
+    "source_type": "スカウト",
+    "received_date": "2026-05-22",
+    "expiration_days_left": 6,
+
+    "business_model_estimation": {
+      "ses_ratio": 0.46,
+      "contract_development_ratio": 0.54,
+      "in_house_development_available": true,
+      "primary_contractor_projects": true,
+      "government_projects": true,
+      "large_enterprise_projects": true
+    }
+  },
+
+  "offer_summary": {
+    "headline": "未経験歓迎｜自社内開発あり・大手案件中心の成長型SIer",
+
+    "salary_range": {
+      "min": 3800000,
+      "max": 4800000,
+      "currency": "JPY"
+    },
+
+    "benefits_summary": [
+      "年間休日125日",
+      "平均残業月7.6h",
+      "リモート環境整備",
+      "引越支援制度",
+      "結婚祝金",
+      "出産祝金",
+      "フリードリンク",
+      "Webブース完備"
+    ],
+
+    "work_style": {
+      "remote_possible": true,
+      "average_overtime_hours": 7.6,
+      "work_life_balance_focus": true,
+      "training_available": true,
+      "team_assignment": true,
+      "in_house_development_possible": true,
+      "hybrid_work_possible": true
+    }
+  },
+
+  "technical_domain": {
+    "main_fields": [
+      "Webシステム開発",
+      "業務システム開発",
+      "運用保守",
+      "インフラ",
+      "ローコード開発"
+    ],
+
+    "target_industries": [
+      "官公庁",
+      "金融",
+      "流通",
+      "大手企業"
+    ],
+
+    "engineering_characteristics": {
+      "full_cycle_development": true,
+      "upstream_process": true,
+      "vendor_coordination": true,
+      "low_code_available": true,
+      "broad_career_paths": true
+    }
+  },
+
+  "career_features": {
+    "requirements_definition": true,
+    "design": true,
+    "development": true,
+    "operation_maintenance": true,
+    "infrastructure": true,
+
+    "team_development": true,
+    "career_growth_support": true,
+    "beginner_training": true,
+    "young_leader_opportunities": true,
+    "senior_support_structure": true,
+
+    "career_path": {
+      "full_stack_possible": true,
+      "management_path": true,
+      "technical_specialist_path": true,
+      "low_code_engineer_path": true,
+      "hybrid_engineer_growth": true
+    }
+  },
+
+  "company_culture": {
+    "keywords": [
+      "未経験育成",
+      "受託拡大",
+      "第二創業期",
+      "ワークライフバランス",
+      "若手活躍",
+      "リモート",
+      "自社内開発",
+      "上流工程",
+      "チーム開発",
+      "フォロー体制"
+    ],
+
+    "positive_points": [
+      "残業かなり少なめ",
+      "年休125日",
+      "未経験育成実績あり",
+      "自社内開発あり",
+      "一次請け案件多め",
+      "リモート整備あり",
+      "若手登用あり",
+      "福利厚生が比較的良い"
+    ],
+
+    "risk_points": [
+      "SES構造は残っている可能性",
+      "案件ガチャ要素",
+      "受託拡大途中",
+      "幅広業務で専門性分散の可能性",
+      "ローコード中心案件の可能性",
+      "客先常駐可能性あり"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "growth_pressure_score": 55,
+    "stability_score": 79,
+    "work_life_balance_score": 92,
+    "technical_growth_score": 74,
+    "abstract_expression_score": 47,
+    "ses_risk_score": 43,
+
+    "detected_patterns": [
+      {
+        "word": "未経験",
+        "count": 5,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "受託",
+        "count": 3,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "上流",
+        "count": 2,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "リモート",
+        "count": 2,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "フォロー",
+        "count": 2,
+        "risk_weight": 1
+      }
+    ]
+  },
+
+  "interview_checkpoints": {
+    "important_questions": [
+      "自社内開発比率",
+      "客先常駐割合",
+      "使用技術スタック",
+      "ローコード案件比率",
+      "リモート実施率",
+      "未経験配属実績",
+      "キャリアチェンジ可能性",
+      "受託案件の具体例"
+    ],
+
+    "red_flag_patterns": [
+      "実態が常駐メイン",
+      "研修後すぐ単独配属",
+      "運用保守固定",
+      "ローコードのみ",
+      "案件選択権なし"
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "light_gray_to_white",
+
+    "estimated_risk_level": 32,
+
+    "estimated_black_probability": 0.19,
+
+    "analysis_comment": [
+      "未経験育成と働きやすさをかなり重視している印象",
+      "SESと受託の中間型に近い",
+      "一次請け・自社内開発要素は比較的プラス",
+      "WLBはかなり良好そう",
+      "技術特化よりジェネラル寄りキャリア",
+      "若手育成には力を入れている可能性が高い"
+    ],
+
+    "recommendation": [
+      "自社内開発比率確認",
+      "客先常駐頻度確認",
+      "実際のリモート率確認",
+      "未経験の配属先確認",
+      "運用保守比率確認",
+      "技術スタック確認"
+    ],
+
+    "suitable_for": [
+      "未経験から入りたい人",
+      "WLB重視",
+      "幅広く経験したい人",
+      "受託寄り環境希望",
+      "安定して成長したい人"
+    ],
+
+    "not_suitable_for": [
+      "超技術特化志向",
+      "研究開発志向",
+      "完全自社サービス希望",
+      "高年収特化志向",
+      "最先端技術特化希望"
+    ]
+  },
+
+  "raw_text": {
+    "original_message_summary": "官公庁・金融・流通向けシステム開発。未経験歓迎。受託拡大中で自社内開発あり。リモート可、残業月7.6h、年休125日。",
+
+    "important_quotes": [
+      "第二創業期として変革",
+      "受託案件多数",
+      "自社内開発も可能",
+      "大手SIer1次請け",
+      "平均残業時間は7.6時間"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "analysis_mode": "heuristic_plus_keyword",
+    "confidence_score": 0.83
+  },
+
+  "message": [
+    "■未経験OK／研修制度あり",
+    "■リモート可／残業月7.6h程度",
+    "■年休125日／WLB重視",
+    "■受託案件多数／自社内開発あり",
+    "■大手SIer一次請け案件中心",
+
+    "株式会社アスカプランニング採用担当でございます。",
+
+    "現在当社では、システムエンジニア候補としてご活躍いただける方を募集しております。",
+
+    "官公庁・金融・流通などを中心に、多くのお客様から長年お取引をいただいております。",
+
+    "近年では受託事業の拡大に注力しており、第二創業期として組織変革を進めています。",
+
+    "業務内容としては、システム開発・運用保守・要件定義・業務設計など幅広く携わることが可能です。",
+
+    "プロジェクトの約9割が大手・上場企業案件であり、大手SIer一次請け案件が中心です。",
+
+    "未経験の方でも安心してスタートできるよう、IT基礎から研修を実施しています。",
+
+    "初期配属では必ず先輩社員とアサインするため、フォロー体制も整っています。",
+
+    "年間休日125日、平均残業7.6hと、働きやすい環境づくりにも力を入れています。",
+
+    "まずはカジュアル面談にて、具体的な開発環境や案件についてご紹介できれば幸いです。"
+  ]
+}

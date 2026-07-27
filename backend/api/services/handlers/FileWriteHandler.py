@@ -1,0 +1,1 @@
+# 同じ役割のKnowledgeManager.pyを頼って！

@@ -1,0 +1,17 @@
+/* Glow Surface */
+.glow {
+  background: rgba(124, 58, 237, 0.08);
+  border: 2px solid rgba(124, 58, 237, 0.4);
+  box-shadow: 
+    0 0 20px rgba(124, 58, 237, 0.3),
+    inset 0 0 20px rgba(124, 58, 237, 0.08);
+  border-radius: 12px;
+}
+
+.dark .glow {
+  background: rgba(124, 58, 237, 0.12);
+  border-color: rgba(124, 58, 237, 0.6);
+  box-shadow: 
+    0 0 30px rgba(124, 58, 237, 0.5),
+    inset 0 0 20px rgba(124, 58, 237, 0.1);
+}

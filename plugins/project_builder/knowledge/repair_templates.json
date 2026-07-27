@@ -1,0 +1,803 @@
+{
+  "version": "1.0.0",
+
+  "repairs": [
+
+    {
+      "id": "missing_package_json",
+      "title": "Missing package.json",
+      "category": "file",
+
+      "detect": {
+        "missing_files": [
+          "package.json"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": "package.json",
+        "target": "package.json"
+      },
+
+      "priority": 100
+    },
+
+    {
+      "id": "missing_requirements_txt",
+      "title": "Missing requirements.txt",
+      "category": "file",
+
+      "detect": {
+        "missing_files": [
+          "requirements.txt"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": "requirements.txt",
+        "target": "requirements.txt"
+      },
+
+      "priority": 95
+    },
+
+    {
+      "id": "missing_readme",
+      "title": "Missing README",
+
+      "category": "documentation",
+
+      "detect": {
+        "missing_files": [
+          "README.md"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": "README.md",
+        "target": "README.md"
+      },
+
+      "priority": 80
+    },
+
+    {
+      "id": "missing_gitignore",
+
+      "title": "Missing .gitignore",
+
+      "category": "configuration",
+
+      "detect": {
+        "missing_files": [
+          ".gitignore"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": ".gitignore",
+        "target": ".gitignore"
+      },
+
+      "priority": 85
+    },
+
+    {
+      "id": "missing_src_folder",
+
+      "title": "Missing src folder",
+
+      "category": "folder",
+
+      "detect": {
+        "missing_folders": [
+          "src"
+        ]
+      },
+
+      "repair": {
+        "action": "create_folder",
+        "target": "src"
+      },
+
+      "priority": 90
+    },
+
+    {
+      "id": "missing_app_entry",
+
+      "title": "Missing application entry file",
+
+      "category": "entry",
+
+      "detect": {
+        "framework": [
+          "react"
+        ],
+        "missing_files": [
+          "src/main.jsx"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": "main.jsx",
+        "target": "src/main.jsx"
+      },
+
+      "priority": 100
+    },
+
+    {
+      "id": "missing_fastapi_main",
+
+      "title": "Missing FastAPI main.py",
+
+      "category": "entry",
+
+      "detect": {
+        "framework": [
+          "fastapi"
+        ],
+        "missing_files": [
+          "main.py"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": "main.py",
+        "target": "main.py"
+      },
+
+      "priority": 100
+    },
+
+    {
+      "id": "missing_tests",
+
+      "title": "Missing tests folder",
+
+      "category": "testing",
+
+      "detect": {
+        "missing_folders": [
+          "tests"
+        ]
+      },
+
+      "repair": {
+        "action": "create_folder",
+        "target": "tests"
+      },
+
+      "priority": 50
+    },
+
+    {
+      "id": "missing_env",
+
+      "title": "Missing .env",
+
+      "category": "configuration",
+
+      "detect": {
+        "missing_files": [
+          ".env"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": ".env",
+        "target": ".env"
+      },
+
+      "priority": 70
+    },
+
+    {
+      "id": "missing_dockerfile",
+
+      "title": "Missing Dockerfile",
+
+      "category": "deployment",
+
+      "detect": {
+        "deployment": [
+          "docker"
+        ],
+        "missing_files": [
+          "Dockerfile"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+        "template": "Dockerfile",
+        "target": "Dockerfile"
+      },
+
+      "priority": 90
+    },
+    
+    {
+      "id": "missing_package_json",
+
+      "title": "Missing package.json",
+
+      "description": "package.json が存在しない場合に生成する",
+
+      "framework": [
+        "react",
+        "vue",
+        "electron",
+        "nextjs"
+      ],
+
+      "category": "configuration",
+
+      "severity": "critical",
+
+      "priority": 100,
+
+      "auto_fix": true,
+
+      "dependencies": [],
+
+      "detect": {
+        "missing_files": [
+          "package.json"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+
+        "template": "package.json",
+
+        "target": "package.json",
+
+        "overwrite": false
+      },
+
+      "verify": {
+        "exists": "package.json",
+
+        "json_valid": true
+      },
+
+      "rollback": {
+        "delete_created_file": true
+      },
+
+      "llm_prompt": {
+        "generator": "Generate package.json for the detected framework."
+      },
+
+      "metadata": {
+        "author": "ProjectBuilder",
+        "version": "2.0"
+      }
+    },
+    
+    {
+      "id": "missing_requirements_txt",
+
+      "title": "Missing requirements.txt",
+
+      "description": "requirements.txt が存在しない場合に生成する",
+
+      "framework": [
+        "fastapi",
+        "flask",
+        "django"
+      ],
+
+      "category": "configuration",
+
+      "severity": "critical",
+
+      "priority": 100,
+
+      "auto_fix": true,
+
+      "dependencies": [],
+
+      "detect": {
+        "missing_files": [
+          "requirements.txt"
+        ]
+      },
+
+      "repair": {
+        "action": "generate_file",
+
+        "template": "requirements.txt",
+
+        "target": "requirements.txt",
+
+        "overwrite": false
+      },
+
+      "verify": {
+        "exists": "requirements.txt"
+      },
+
+      "rollback": {
+        "delete_created_file": true
+      },
+
+      "llm_prompt": {
+        "generator": "Generate requirements.txt for the detected framework."
+      },
+
+      "metadata": {
+        "author": "ProjectBuilder",
+        "version": "2.0"
+      }
+    },
+ {
+  "id": "missing_src_folder",
+
+  "title": "Missing src folder",
+
+  "description": "src フォルダが存在しない場合に生成する",
+
+  "framework": [
+    "react"
+  ],
+
+  "conditions": {
+    "language": "typescript",
+    "deployment": "docker"
+  },
+
+  "category": "folder",
+
+  "severity": "warning",
+
+  "priority": 80,
+
+  "auto_fix": true,
+
+  "dependencies": [],
+
+  "detect": {
+    "missing_folders": [
+      "src"
+    ]
+  },
+
+  "repair": {
+    "action": "create_folder",
+
+    "target": "src"
+  },
+
+  "create_if_missing": [
+    "src/components",
+    "src/hooks",
+    "src/pages",
+    "src/services",
+    "src/utils"
+  ],
+
+  "verify": {
+    "exists": "src"
+  },
+
+  "rollback": {
+    "delete_created_folder": true
+  },
+
+  "llm_prompt": {
+    "generator": "Generate a standard React TypeScript src directory."
+  },
+
+  "metadata": {
+    "author": "ProjectBuilder",
+    "version": "2.0"
+  }
+
+},
+[
+  {
+    "id": "missing_components_folder",
+    "title": "Missing components folder",
+    "description": "src/components フォルダが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "warning",
+    "priority": 80,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "src/components" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "src/components"
+    },
+    "verify": {
+      "exists": "src/components"
+    }
+  },
+  {
+    "id": "missing_pages_folder",
+    "title": "Missing pages folder",
+    "description": "src/pages フォルダが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "warning",
+    "priority": 80,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "src/pages" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "src/pages"
+    },
+    "verify": {
+      "exists": "src/pages"
+    }
+  },
+  {
+    "id": "missing_hooks_folder",
+    "title": "Missing hooks folder",
+    "description": "src/hooks フォルダが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "info",
+    "priority": 75,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "src/hooks" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "src/hooks"
+    },
+    "verify": {
+      "exists": "src/hooks"
+    }
+  },
+  {
+    "id": "missing_utils_folder",
+    "title": "Missing utils folder",
+    "description": "src/utils フォルダが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "info",
+    "priority": 75,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "src/utils" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "src/utils"
+    },
+    "verify": {
+      "exists": "src/utils"
+    }
+  },
+  {
+    "id": "missing_services_folder",
+    "title": "Missing services folder",
+    "description": "src/services フォルダが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "info",
+    "priority": 75,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "src/services" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "src/services"
+    },
+    "verify": {
+      "exists": "src/services"
+    }
+  },
+  {
+    "id": "missing_assets_folder",
+    "title": "Missing assets folder",
+    "description": "src/assets フォルダが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "warning",
+    "priority": 80,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "src/assets" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "src/assets"
+    },
+    "verify": {
+      "exists": "src/assets"
+    }
+  },
+  {
+    "id": "missing_styles_folder",
+    "title": "Missing styles folder",
+    "description": "src/styles フォルダが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "warning",
+    "priority": 80,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "src/styles" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "src/styles"
+    },
+    "verify": {
+      "exists": "src/styles"
+    }
+  },
+  {
+    "id": "missing_main_tsx",
+    "title": "Missing main.tsx",
+    "description": "src/main.tsx が存在しない場合に生成する",
+    "category": "file",
+    "severity": "critical",
+    "priority": 100,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "src/main.tsx" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "main.tsx",
+      "target": "src/main.tsx"
+    },
+    "verify": {
+      "exists": "src/main.tsx"
+    }
+  },
+  {
+    "id": "missing_app_tsx",
+    "title": "Missing App.tsx",
+    "description": "src/App.tsx が存在しない場合に生成する",
+    "category": "file",
+    "severity": "critical",
+    "priority": 100,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "src/App.tsx" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "App.tsx",
+      "target": "src/App.tsx"
+    },
+    "verify": {
+      "exists": "src/App.tsx"
+    }
+  },
+  {
+    "id": "missing_vite_config",
+    "title": "Missing vite.config.ts",
+    "description": "vite.config.ts が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "critical",
+    "priority": 95,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "vite.config.ts" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "vite.config.ts",
+      "target": "vite.config.ts"
+    },
+    "verify": {
+      "exists": "vite.config.ts"
+    }
+  },
+  {
+    "id": "missing_tsconfig",
+    "title": "Missing tsconfig.json",
+    "description": "tsconfig.json が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "critical",
+    "priority": 95,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "tsconfig.json" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "tsconfig.json",
+      "target": "tsconfig.json"
+    },
+    "verify": {
+      "exists": "tsconfig.json"
+    }
+  },
+  {
+    "id": "missing_eslint_config",
+    "title": "Missing ESLint configuration",
+    "description": ".eslintrc または eslint.config.js が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "warning",
+    "priority": 85,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ ".eslintrc.json" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": ".eslintrc.json",
+      "target": ".eslintrc.json"
+    },
+    "verify": {
+      "exists": ".eslintrc.json"
+    }
+  },
+  {
+    "id": "missing_prettier_config",
+    "title": "Missing Prettier configuration",
+    "description": ".prettierrc が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "warning",
+    "priority": 80,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ ".prettierrc" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": ".prettierrc",
+      "target": ".prettierrc"
+    },
+    "verify": {
+      "exists": ".prettierrc"
+    }
+  },
+  {
+    "id": "missing_dockerfile",
+    "title": "Missing Dockerfile",
+    "description": "Dockerfile が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "critical",
+    "priority": 95,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "Dockerfile" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "Dockerfile",
+      "target": "Dockerfile"
+    },
+    "verify": {
+      "exists": "Dockerfile"
+    }
+  },
+  {
+    "id": "missing_docker_compose",
+    "title": "Missing docker-compose.yml",
+    "description": "docker-compose.yml が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "warning",
+    "priority": 90,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "docker-compose.yml" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "docker-compose.yml",
+      "target": "docker-compose.yml"
+    },
+    "verify": {
+      "exists": "docker-compose.yml"
+    }
+  },
+  {
+    "id": "missing_github_actions",
+    "title": "Missing GitHub Actions workflow",
+    "description": ".github/workflows のCI/CD設定が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "info",
+    "priority": 70,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ ".github/workflows" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "main.yml",
+      "target": ".github/workflows/main.yml"
+    },
+    "verify": {
+      "exists": ".github/workflows/main.yml"
+    }
+  },
+  {
+    "id": "missing_env",
+    "title": "Missing .env file",
+    "description": ".env または .env.example が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "warning",
+    "priority": 95,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ ".env.example" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": ".env.example",
+      "target": ".env.example"
+    },
+    "verify": {
+      "exists": ".env.example"
+    }
+  },
+  {
+    "id": "missing_tests",
+    "title": "Missing tests folder",
+    "description": "テストディレクトリが存在しない場合に生成する",
+    "category": "folder",
+    "severity": "warning",
+    "priority": 75,
+    "auto_fix": true,
+    "detect": {
+      "missing_folders": [ "tests", "__tests__" ]
+    },
+    "repair": {
+      "action": "create_folder",
+      "target": "__tests__"
+    },
+    "verify": {
+      "exists": "__tests__"
+    }
+  },
+  {
+    "id": "missing_requirements_txt",
+    "title": "Missing requirements.txt",
+    "description": "requirements.txt が存在しない場合に生成する",
+    "category": "configuration",
+    "severity": "critical",
+    "priority": 100,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "requirements.txt" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "requirements.txt",
+      "target": "requirements.txt"
+    },
+    "verify": {
+      "exists": "requirements.txt"
+    }
+  },
+  {
+    "id": "missing_readme",
+    "title": "Missing README.md",
+    "description": "README.md が存在しない場合に生成する",
+    "category": "documentation",
+    "severity": "warning",
+    "priority": 80,
+    "auto_fix": true,
+    "detect": {
+      "missing_files": [ "README.md" ]
+    },
+    "repair": {
+      "action": "generate_file",
+      "template": "README.md",
+      "target": "README.md"
+    },
+    "verify": {
+      "exists": "README.md"
+    }
+  }
+]
+    ]
+}

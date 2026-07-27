@@ -1,0 +1,280 @@
+{
+  "company_id": "cmp_nihon_amsco_2026_001",
+
+  "company": {
+    "name": "株式会社日本アムスコ",
+    "industry": "CAE解析・受託解析・エンジニアリング",
+    "employment_type": "正社員想定",
+    "location": "東京都",
+    "source_type": "スカウト",
+    "received_date": "2026-05-22",
+    "expiration_days_left": 6,
+
+    "business_model_estimation": {
+      "cae_consulting": true,
+      "engineering_service": true,
+      "client_direct_projects": true,
+      "major_manufacturer_clients": true,
+      "research_and_development_support": true
+    }
+  },
+
+  "offer_summary": {
+    "headline": "未経験理系歓迎｜大手メーカーの新製品開発に上流から関わるCAE解析エンジニア",
+
+    "salary_range": {
+      "min": 3210000,
+      "max": 5000000,
+      "currency": "JPY"
+    },
+
+    "benefits_summary": [
+      "未経験研修制度",
+      "専門スキル育成",
+      "大手メーカー案件",
+      "上流工程参画",
+      "安定した受託案件"
+    ],
+
+    "work_style": {
+      "training_available": true,
+      "entry_level_friendly": true,
+      "team_based_learning": true,
+      "research_oriented": true,
+      "specialized_engineering_focus": true
+    }
+  },
+
+  "technical_domain": {
+    "main_field": "CAE（Computer Aided Engineering）",
+    
+    "simulation_types": [
+      "構造解析",
+      "熱解析",
+      "衝撃シミュレーション",
+      "物理シミュレーション"
+    ],
+
+    "target_industries": [
+      "自動車",
+      "重工業",
+      "製造業",
+      "新製品開発"
+    ],
+
+    "engineering_characteristics": {
+      "mathematics_heavy": true,
+      "physics_based": true,
+      "simulation_engineering": true,
+      "visualization_tools_usage": true,
+      "high_specialization": true
+    }
+  },
+
+  "career_features": {
+    "upstream_process": true,
+    "design_phase_participation": true,
+    "research_support": true,
+    "simulation_specialist": true,
+    "advanced_technical_skill": true,
+
+    "training_system": {
+      "available": true,
+      "beginner_friendly": true,
+      "science_background_required": true,
+      "professional_development_focus": true
+    },
+
+    "career_path": {
+      "cae_specialist": true,
+      "simulation_engineer": true,
+      "manufacturing_r_and_d_support": true,
+      "technical_consulting_possible": true
+    }
+  },
+
+  "company_culture": {
+    "keywords": [
+      "CAE",
+      "物理シミュレーション",
+      "設計初期段階",
+      "専門技術",
+      "理系歓迎",
+      "未経験育成",
+      "ものづくり",
+      "尊重",
+      "切磋琢磨",
+      "長期キャリア"
+    ],
+
+    "positive_points": [
+      "未経験理系歓迎",
+      "研修制度あり",
+      "専門性が高い",
+      "大手メーカー直請け",
+      "上流工程参加可能",
+      "安定業界",
+      "技術市場価値が高い"
+    ],
+
+    "risk_points": [
+      "技術難易度が高い",
+      "専門分野依存",
+      "数学・物理適性必要",
+      "汎用Web開発とは異なる",
+      "キャリア分岐が特殊",
+      "学習コスト高め"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "growth_pressure_score": 58,
+    "stability_score": 84,
+    "work_life_balance_score": 68,
+    "technical_growth_score": 94,
+    "abstract_expression_score": 42,
+    "specialization_score": 96,
+    "ses_risk_score": 18,
+
+    "detected_patterns": [
+      {
+        "word": "CAE",
+        "count": 8,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "上流工程",
+        "count": 3,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "未経験",
+        "count": 4,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "専門技術",
+        "count": 2,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "設計初期段階",
+        "count": 3,
+        "risk_weight": 1
+      }
+    ]
+  },
+
+  "interview_checkpoints": {
+    "important_questions": [
+      "使用するCAEソフトの種類",
+      "研修期間と内容",
+      "数学・物理レベルの期待値",
+      "解析対象分野",
+      "客先常駐割合",
+      "キャリアパス",
+      "論文・研究経験の活用可否",
+      "リモート可否"
+    ],
+
+    "red_flag_patterns": [
+      "研修が実質OJTのみ",
+      "単純オペレーター業務",
+      "長期常駐固定",
+      "解析より入力作業中心",
+      "キャリア幅が極端に狭い"
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "white_to_gray",
+
+    "estimated_risk_level": 24,
+
+    "estimated_black_probability": 0.12,
+
+    "analysis_comment": [
+      "SES色はかなり薄め",
+      "専門技術職としての色が強い",
+      "CAE分野は市場価値が高い",
+      "理系バックグラウンドを活かしやすい",
+      "未経験育成には比較的本気度を感じる",
+      "Web系とはかなり異なるキャリアになる可能性"
+    ],
+
+    "recommendation": [
+      "CAEソフト名を確認",
+      "解析業務比率を確認",
+      "プログラミング使用有無を確認",
+      "常駐割合を確認",
+      "技術者のキャリア事例確認",
+      "将来的な年収レンジ確認"
+    ],
+
+    "suitable_for": [
+      "物理・数学が好きな人",
+      "専門職志向",
+      "製造業に興味がある人",
+      "研究開発寄りに興味がある人",
+      "理系知識を活かしたい人"
+    ],
+
+    "not_suitable_for": [
+      "Web系開発志向",
+      "短期間で転職市場を広げたい人",
+      "フロントエンド志向",
+      "汎用アプリ開発希望",
+      "数学・物理が苦手な人"
+    ]
+  },
+
+  "raw_text": {
+    "original_message_summary": "大手メーカー新製品開発の設計初期段階から参加するCAE解析エンジニア募集。未経験理系歓迎。物理シミュレーション中心。",
+
+    "important_quotes": [
+      "設計初期段階という最上流工程",
+      "物理シミュレーション",
+      "未経験からプロへ育てる絶対の自信",
+      "一生モノのCAE専門スキル",
+      "世界的な自動車メーカー"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "analysis_mode": "heuristic_plus_keyword",
+    "confidence_score": 0.88
+  },
+
+  "message": [
+    "■理系大学卒歓迎／未経験ENTRY歓迎",
+    "■新製品開発の設計初期段階から参画可能",
+    "■物理シミュレーションを扱うCAE専門職",
+    "■大手自動車・重工業メーカー直請け案件",
+    "■未経験からプロへ育成する研修制度あり",
+
+    "株式会社日本アムスコの採用担当の神谷と申します。",
+
+    "1987年の設立以来、CAE受託解析・CAEコンサルティングを軸に、日本のものづくりを支えてきました。",
+
+    "世界的な自動車メーカーや重工業メーカーの新製品開発において、設計初期段階から参画しています。",
+
+    "CAE解析エンジニアとして、物理シミュレーションを通じてモノづくりを支えていただきます。",
+
+    "使用するソフトは、解析計算ソフトと、結果を可視化するソフトの2種類です。",
+
+    "理系出身であれば未経験でも問題ありません。",
+    "研修を通じて、CAE専門スキルを基礎から学べます。",
+
+    "市場価値の高いシミュレーション技術者として、長期的なキャリア形成が可能です。",
+
+    "まずはカジュアル面談にて、CAE業務やキャリアについて詳しくお話しできればと思います。"
+  ]
+}

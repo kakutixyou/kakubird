@@ -1,0 +1,458 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "PHPセキュリティレビュー・採点ルール集",
+    "domains": ["sql_injection", "xss_csrf", "auth_session", "api_security"],
+    "scoring": {
+      "critical": -30,
+      "high": -15,
+      "medium": -8,
+      "low": -3,
+      "pass": 0
+    }
+  },
+
+  "sql_injection": {
+    "label": "SQLインジェクション対策",
+    "rules": [
+      {
+        "id": "sqli_001",
+        "severity": "critical",
+        "title": "プリペアドステートメント未使用",
+        "description": "ユーザー入力を文字列結合でSQLに直接埋め込んでいる",
+        "bad_patterns": [
+          "\"SELECT * FROM users WHERE id = \" . $_GET",
+          "\"SELECT * FROM users WHERE id = \" . $_POST",
+          "\"SELECT * FROM users WHERE id = \" . $id",
+          "'SELECT * FROM users WHERE name = \\'' . $name . '\\''",
+          "mysql_query(\"SELECT"
+        ],
+        "good_patterns": [
+          "$stmt = $pdo->prepare(\"SELECT * FROM users WHERE id = ?\")",
+          "$stmt->execute([$id])",
+          "$stmt = $pdo->prepare(\"SELECT * FROM users WHERE name = :name\")",
+          "$stmt->bindParam(':name', $name, PDO::PARAM_STR)"
+        ],
+        "fix_template": "PDO + プリペアドステートメントを使用し、ユーザー入力は必ずバインド変数で渡す",
+        "references": ["OWASP A03:2021", "CWE-89"]
+      },
+      {
+        "id": "sqli_002",
+        "severity": "critical",
+        "title": "非推奨のmysql_*関数使用",
+        "description": "PHP5.5で非推奨、PHP7で削除されたmysql_*関数を使用している",
+        "bad_patterns": [
+          "mysql_connect(",
+          "mysql_query(",
+          "mysql_fetch_array(",
+          "mysql_real_escape_string("
+        ],
+        "good_patterns": [
+          "new PDO(",
+          "mysqli_connect(",
+          "$mysqli = new mysqli("
+        ],
+        "fix_template": "PDOまたはmysqliに移行し、プリペアドステートメントを使用する",
+        "references": ["PHP公式ドキュメント", "CWE-89"]
+      },
+      {
+        "id": "sqli_003",
+        "severity": "high",
+        "title": "エスケープのみでのSQLインジェクション対策",
+        "description": "addslashesやmysqli_real_escape_stringのみで対策しており、プリペアドステートメントを使っていない",
+        "bad_patterns": [
+          "addslashes($",
+          "mysqli_real_escape_string($conn, $",
+          "htmlspecialchars($id"
+        ],
+        "good_patterns": [
+          "$stmt = $pdo->prepare(",
+          "$stmt->execute(["
+        ],
+        "fix_template": "エスケープは補助手段。プリペアドステートメントへ移行する",
+        "references": ["OWASP SQL Injection Prevention Cheat Sheet"]
+      },
+      {
+        "id": "sqli_004",
+        "severity": "medium",
+        "title": "動的なORDER BY句にユーザー入力を使用",
+        "description": "ORDER BY句はバインド変数が使えないため、ホワイトリスト検証が必要",
+        "bad_patterns": [
+          "ORDER BY \" . $_GET['sort']",
+          "ORDER BY \" . $sort",
+          "ORDER BY \" . $_POST['column']"
+        ],
+        "good_patterns": [
+          "$allowed = ['name', 'created_at', 'price'];\nif (!in_array($sort, $allowed)) { $sort = 'id'; }\n$sql = \"SELECT * FROM items ORDER BY {$sort}\";"
+        ],
+        "fix_template": "ORDER BY / GROUP BY にユーザー入力を使う場合はホワイトリスト検証を必ず行う",
+        "references": ["OWASP SQL Injection Prevention Cheat Sheet"]
+      }
+    ]
+  },
+
+  "xss_csrf": {
+    "label": "XSS・CSRF対策",
+    "rules": [
+      {
+        "id": "xss_001",
+        "severity": "critical",
+        "title": "出力エスケープ未実施（Reflected XSS）",
+        "description": "ユーザー入力をhtmlspecialcharsなしで直接echoしている",
+        "bad_patterns": [
+          "echo $_GET[",
+          "echo $_POST[",
+          "echo $name;",
+          "print $_REQUEST[",
+          "<?= $_GET["
+        ],
+        "good_patterns": [
+          "echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8');",
+          "<?= htmlspecialchars($value, ENT_QUOTES, 'UTF-8') ?>"
+        ],
+        "fix_template": "すべての出力にhtmlspecialchars($val, ENT_QUOTES, 'UTF-8')を適用する",
+        "references": ["OWASP A03:2021", "CWE-79"]
+      },
+      {
+        "id": "xss_002",
+        "severity": "high",
+        "title": "Content-Security-Policyヘッダー未設定",
+        "description": "CSPヘッダーがなく、XSS攻撃の被害を緩和できない",
+        "bad_patterns": [],
+        "check_absence_of": [
+          "Content-Security-Policy",
+          "header(\"Content-Security-Policy"
+        ],
+        "good_patterns": [
+          "header(\"Content-Security-Policy: default-src 'self'; script-src 'self'; object-src 'none';\");"
+        ],
+        "fix_template": "全レスポンスにContent-Security-Policyヘッダーを設定する",
+        "references": ["MDN CSP", "OWASP CSP Cheat Sheet"]
+      },
+      {
+        "id": "xss_003",
+        "severity": "high",
+        "title": "X-XSS-ProtectionおよびX-Content-Type-Optionsヘッダー未設定",
+        "description": "ブラウザのXSS保護機能を有効化するヘッダーが未設定",
+        "bad_patterns": [],
+        "check_absence_of": [
+          "X-Content-Type-Options",
+          "X-XSS-Protection"
+        ],
+        "good_patterns": [
+          "header('X-Content-Type-Options: nosniff');",
+          "header('X-XSS-Protection: 1; mode=block');"
+        ],
+        "fix_template": "セキュリティ関連ヘッダーをまとめて設定するヘルパー関数を作成し、全ページで呼び出す",
+        "references": ["OWASP Secure Headers Project"]
+      },
+      {
+        "id": "csrf_001",
+        "severity": "critical",
+        "title": "CSRFトークン未実装（POSTフォーム）",
+        "description": "状態を変更するフォームにCSRFトークンがない",
+        "bad_patterns": [
+          "<form method=\"POST\"",
+          "<form method='POST'"
+        ],
+        "check_absence_of": [
+          "csrf_token",
+          "$_SESSION['csrf_token']",
+          "csrf"
+        ],
+        "good_patterns": [
+          "// トークン生成（セッション開始後）\n$_SESSION['csrf_token'] = bin2hex(random_bytes(32));\n// フォーム内\n<input type=\"hidden\" name=\"csrf_token\" value=\"<?= $_SESSION['csrf_token'] ?>\">",
+          "// 検証\nif (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {\n    http_response_code(403);\n    die('CSRF token mismatch');\n}"
+        ],
+        "fix_template": "すべてのPOST/PUT/DELETEフォームにCSRFトークンを実装し、サーバー側で検証する",
+        "references": ["OWASP CSRF Prevention Cheat Sheet", "CWE-352"]
+      },
+      {
+        "id": "csrf_002",
+        "severity": "medium",
+        "title": "SameSite Cookie属性未設定",
+        "description": "CookieにSameSite属性がなく、CSRF攻撃のリスクが高まる",
+        "bad_patterns": [
+          "setcookie($name, $value, $expires",
+          "setcookie($name, $value, time()"
+        ],
+        "check_absence_of": [
+          "SameSite=Strict",
+          "SameSite=Lax",
+          "'samesite'"
+        ],
+        "good_patterns": [
+          "setcookie($name, $value, [\n    'expires'  => time() + 3600,\n    'path'     => '/',\n    'secure'   => true,\n    'httponly' => true,\n    'samesite' => 'Strict'\n]);"
+        ],
+        "fix_template": "setcookieの配列形式オプションでsamesite・secure・httponlyをすべて設定する",
+        "references": ["MDN SameSite cookies", "OWASP Session Management Cheat Sheet"]
+      }
+    ]
+  },
+
+  "auth_session": {
+    "label": "認証・セッション管理",
+    "rules": [
+      {
+        "id": "auth_001",
+        "severity": "critical",
+        "title": "パスワードの平文保存またはMD5/SHA1ハッシュ",
+        "description": "パスワードを平文・MD5・SHA1で保存しており、漏洩時に即座に解読される",
+        "bad_patterns": [
+          "md5($password",
+          "sha1($password",
+          "MD5(",
+          "SHA1(",
+          "$password == $db_password",
+          "password = '$password'"
+        ],
+        "good_patterns": [
+          "$hash = password_hash($password, PASSWORD_BCRYPT);",
+          "$hash = password_hash($password, PASSWORD_ARGON2ID);",
+          "if (password_verify($input, $hash)) {"
+        ],
+        "fix_template": "password_hash(PASSWORD_BCRYPT or PASSWORD_ARGON2ID)でハッシュ化し、password_verify()で検証する",
+        "references": ["OWASP Password Storage Cheat Sheet", "CWE-916"]
+      },
+      {
+        "id": "auth_002",
+        "severity": "critical",
+        "title": "ログイン後のセッションID再生成なし",
+        "description": "認証成功後にsession_regenerate_id()を呼ばず、セッション固定攻撃に脆弱",
+        "bad_patterns": [
+          "session_start();\n$_SESSION['user_id'] = $user['id'];"
+        ],
+        "check_absence_of": [
+          "session_regenerate_id"
+        ],
+        "good_patterns": [
+          "session_start();\n// 認証成功後\nsession_regenerate_id(true);\n$_SESSION['user_id'] = $user['id'];"
+        ],
+        "fix_template": "認証成功直後にsession_regenerate_id(true)を呼び出す（trueで古いセッションを削除）",
+        "references": ["OWASP Session Management Cheat Sheet", "CWE-384"]
+      },
+      {
+        "id": "auth_003",
+        "severity": "high",
+        "title": "セッションの有効期限・タイムアウト未設定",
+        "description": "セッションが永続し、放置された端末からの不正アクセスを許す",
+        "bad_patterns": [],
+        "check_absence_of": [
+          "session_timeout",
+          "LAST_ACTIVITY",
+          "gc_maxlifetime"
+        ],
+        "good_patterns": [
+          "// セッション開始時のタイムアウト処理\nif (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > 1800) {\n    session_unset();\n    session_destroy();\n    header('Location: /login');\n    exit;\n}\n$_SESSION['LAST_ACTIVITY'] = time();"
+        ],
+        "fix_template": "LAST_ACTIVITYをセッションに記録し、アクセスごとにタイムアウト（例: 30分）をチェックする",
+        "references": ["OWASP Session Management Cheat Sheet"]
+      },
+      {
+        "id": "auth_004",
+        "severity": "high",
+        "title": "総当たり攻撃（ブルートフォース）対策なし",
+        "description": "ログイン試行回数に制限がなく、パスワードの総当たりが可能",
+        "bad_patterns": [],
+        "check_absence_of": [
+          "login_attempts",
+          "lockout",
+          "rate_limit",
+          "failed_attempts"
+        ],
+        "good_patterns": [
+          "// ログイン失敗カウント（DBまたはセッション）\n$stmt = $pdo->prepare('SELECT failed_attempts, locked_until FROM users WHERE email = ?');\n$stmt->execute([$email]);\n$user = $stmt->fetch();\nif ($user['failed_attempts'] >= 5 && strtotime($user['locked_until']) > time()) {\n    die('アカウントがロックされています。しばらく後に再試行してください。');\n}"
+        ],
+        "fix_template": "ログイン失敗回数をDBに記録し、5回失敗で一定時間ロックアウトする",
+        "references": ["OWASP Authentication Cheat Sheet", "CWE-307"]
+      },
+      {
+        "id": "auth_005",
+        "severity": "medium",
+        "title": "ログアウト時のセッション完全破棄なし",
+        "description": "session_destroy()のみでセッションデータが残存するケースがある",
+        "bad_patterns": [
+          "session_destroy();"
+        ],
+        "check_absence_of": [
+          "session_unset",
+          "$_SESSION = []",
+          "setcookie(session_name"
+        ],
+        "good_patterns": [
+          "$_SESSION = [];\nif (ini_get('session.use_cookies')) {\n    $params = session_get_cookie_params();\n    setcookie(session_name(), '', time() - 42000,\n        $params['path'], $params['domain'],\n        $params['secure'], $params['httponly']\n    );\n}\nsession_destroy();"
+        ],
+        "fix_template": "ログアウト時は①$_SESSION=[]でデータクリア ②Cookieを無効化 ③session_destroy()の3ステップを踏む",
+        "references": ["PHP公式ドキュメント session_destroy()"]
+      },
+      {
+        "id": "auth_006",
+        "severity": "medium",
+        "title": "認証チェックのないページへの直接アクセス",
+        "description": "管理画面や保護ページの先頭でセッション確認をしていない",
+        "bad_patterns": [
+          "<?php\n// セッション確認なしでページ処理が始まる"
+        ],
+        "check_absence_of": [
+          "session_start()",
+          "$_SESSION['user_id']",
+          "is_logged_in()",
+          "require_login()"
+        ],
+        "good_patterns": [
+          "<?php\nsession_start();\nif (empty($_SESSION['user_id'])) {\n    header('Location: /login');\n    exit;\n}"
+        ],
+        "fix_template": "保護が必要なページは必ず先頭でsession_start()とセッション検証を行い、未認証はリダイレクト+exitする",
+        "references": ["OWASP Access Control Cheat Sheet"]
+      }
+    ]
+  },
+
+  "api_security": {
+    "label": "APIセキュリティ",
+    "rules": [
+      {
+        "id": "api_001",
+        "severity": "critical",
+        "title": "APIキー・シークレットのハードコード",
+        "description": "ソースコード内にAPIキーや接続情報を直接記述しており、リポジトリ漏洩で即座に悪用される",
+        "bad_patterns": [
+          "define('DB_PASSWORD', 'secret123')",
+          "$api_key = 'sk-",
+          "password = \"password\"",
+          "SECRET_KEY = \"",
+          "define('API_SECRET'"
+        ],
+        "good_patterns": [
+          "// .envファイルから読み込む（vlucas/phpdotenvなど）\n$dotenv = Dotenv\\Dotenv::createImmutable(__DIR__);\n$dotenv->load();\n$api_key = $_ENV['OPENAI_API_KEY'];",
+          "// または環境変数から\n$db_pass = getenv('DB_PASSWORD');"
+        ],
+        "fix_template": ".envファイルと.gitignoreを使用し、シークレット類はすべて環境変数で管理する",
+        "references": ["OWASP A02:2021", "CWE-798", "12 Factor App - Config"]
+      },
+      {
+        "id": "api_002",
+        "severity": "critical",
+        "title": "APIエンドポイントの認証・認可なし",
+        "description": "REST APIエンドポイントでトークン検証や権限チェックをしていない",
+        "bad_patterns": [],
+        "check_absence_of": [
+          "Authorization",
+          "Bearer",
+          "api_key",
+          "verify_token",
+          "JWT"
+        ],
+        "good_patterns": [
+          "// Bearerトークン検証の例\n$headers = getallheaders();\n$auth = $headers['Authorization'] ?? '';\nif (!preg_match('/^Bearer (.+)$/', $auth, $matches)) {\n    http_response_code(401);\n    echo json_encode(['error' => 'Unauthorized']);\n    exit;\n}\n$token = $matches[1];\n// トークン検証処理...",
+          "// APIキー検証\n$api_key = $_SERVER['HTTP_X_API_KEY'] ?? '';\nif (!hash_equals($valid_key, $api_key)) {\n    http_response_code(403);\n    exit;\n}"
+        ],
+        "fix_template": "すべてのAPIエンドポイントにBearerトークンまたはAPIキー検証を実装する",
+        "references": ["OWASP API Security Top 10 - API1, API5", "CWE-862"]
+      },
+      {
+        "id": "api_003",
+        "severity": "high",
+        "title": "CORS設定が全オリジン許可",
+        "description": "Access-Control-Allow-Origin: * は本番環境で危険",
+        "bad_patterns": [
+          "Access-Control-Allow-Origin: *",
+          "header('Access-Control-Allow-Origin: *')",
+          "header(\"Access-Control-Allow-Origin: *\")"
+        ],
+        "good_patterns": [
+          "$allowed_origins = ['https://example.com', 'https://app.example.com'];\n$origin = $_SERVER['HTTP_ORIGIN'] ?? '';\nif (in_array($origin, $allowed_origins)) {\n    header(\"Access-Control-Allow-Origin: {$origin}\");\n    header('Vary: Origin');\n}"
+        ],
+        "fix_template": "許可オリジンをホワイトリストで管理し、動的にAccess-Control-Allow-Originを設定する",
+        "references": ["OWASP CORS Cheat Sheet", "CWE-942"]
+      },
+      {
+        "id": "api_004",
+        "severity": "high",
+        "title": "レートリミット未実装",
+        "description": "APIへの連続リクエストを制限しておらず、DDoSや総当たりのリスクがある",
+        "bad_patterns": [],
+        "check_absence_of": [
+          "rate_limit",
+          "X-RateLimit",
+          "throttle",
+          "429"
+        ],
+        "good_patterns": [
+          "// Redisを使ったシンプルなレートリミット例\n$key = 'rate:' . $_SERVER['REMOTE_ADDR'];\n$count = $redis->incr($key);\nif ($count === 1) { $redis->expire($key, 60); }\nif ($count > 60) {\n    http_response_code(429);\n    header('Retry-After: 60');\n    echo json_encode(['error' => 'Too Many Requests']);\n    exit;\n}"
+        ],
+        "fix_template": "IPアドレス単位で単位時間あたりのリクエスト数を制限し、超過時は429を返す",
+        "references": ["OWASP API Security Top 10 - API4"]
+      },
+      {
+        "id": "api_005",
+        "severity": "high",
+        "title": "エラーレスポンスに内部情報が露出",
+        "description": "スタックトレースやDBエラー、ファイルパスをAPIレスポンスに含めている",
+        "bad_patterns": [
+          "echo $e->getMessage()",
+          "echo $e->getTraceAsString()",
+          "print_r($e)",
+          "var_dump($e",
+          "die($e->getMessage())"
+        ],
+        "good_patterns": [
+          "try {\n    // 処理\n} catch (Exception $e) {\n    error_log($e->getMessage()); // サーバーログへ\n    http_response_code(500);\n    echo json_encode(['error' => 'Internal Server Error']); // クライアントには一般的なメッセージのみ\n}"
+        ],
+        "fix_template": "例外のdetailはerror_log()でサーバーログに記録し、クライアントには汎用エラーメッセージのみ返す",
+        "references": ["OWASP Error Handling Cheat Sheet", "CWE-209"]
+      },
+      {
+        "id": "api_006",
+        "severity": "medium",
+        "title": "JSONレスポンスのContent-Type未設定",
+        "description": "APIがContent-Type: application/jsonを返さず、ブラウザが誤解釈する可能性がある",
+        "bad_patterns": [
+          "echo json_encode($data);"
+        ],
+        "check_absence_of": [
+          "Content-Type: application/json",
+          "header('Content-Type: application/json"
+        ],
+        "good_patterns": [
+          "header('Content-Type: application/json; charset=UTF-8');\necho json_encode($data, JSON_UNESCAPED_UNICODE);"
+        ],
+        "fix_template": "json_encode前に必ずContent-Type: application/json; charset=UTF-8ヘッダーを送信する",
+        "references": ["RFC 4627"]
+      },
+      {
+        "id": "api_007",
+        "severity": "medium",
+        "title": "入力バリデーション未実施",
+        "description": "APIリクエストのパラメーターを型・範囲・形式のチェックなしに使用している",
+        "bad_patterns": [
+          "$id = $_POST['id'];",
+          "$email = $_GET['email'];",
+          "$page = $_REQUEST['page'];"
+        ],
+        "good_patterns": [
+          "// 型・範囲チェック\n$id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);\nif ($id === false || $id === null || $id <= 0) {\n    http_response_code(400);\n    echo json_encode(['error' => 'Invalid id']);\n    exit;\n}",
+          "// メール形式チェック\n$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);\nif (!$email) {\n    http_response_code(400);\n    echo json_encode(['error' => 'Invalid email']);\n    exit;\n}"
+        ],
+        "fix_template": "filter_input()またはカスタムバリデーションで型・形式・範囲を検証し、不正な入力は400で早期リターンする",
+        "references": ["OWASP Input Validation Cheat Sheet", "CWE-20"]
+      }
+    ]
+  },
+
+  "scoring_guide": {
+    "description": "コードレビュー時の採点方法",
+    "base_score": 100,
+    "grade": [
+      { "range": [90, 100], "label": "A", "message": "セキュリティ基準を満たしています" },
+      { "range": [70,  89], "label": "B", "message": "軽微な改善が必要です" },
+      { "range": [50,  69], "label": "C", "message": "複数の問題があります。修正を推奨します" },
+      { "range": [0,   49], "label": "D", "message": "重大な脆弱性があります。本番デプロイ前に必ず修正してください" }
+    ],
+    "auto_fail_conditions": [
+      "sqli_001が検出された場合は即座にD判定",
+      "auth_001（平文パスワード）が検出された場合は即座にD判定",
+      "api_001（シークレットのハードコード）が検出された場合は即座にD判定"
+    ]
+  }
+}

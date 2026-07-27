@@ -1,0 +1,35 @@
+-- 既存の壊れたポリシーを削除
+DROP POLICY IF EXISTS "org_select"   ON organizations;
+DROP POLICY IF EXISTS "dept_select"  ON departments;
+DROP POLICY IF EXISTS "dept_insert"  ON departments;
+DROP POLICY IF EXISTS "dept_update"  ON departments;
+DROP POLICY IF EXISTS "users_select" ON users;
+DROP POLICY IF EXISTS "users_update" ON users;
+DROP POLICY IF EXISTS "users_delete" ON users;
+DROP POLICY IF EXISTS "audit_select" ON audit_logs;
+
+-- 無限再帰を回避する関数を作成
+CREATE OR REPLACE FUNCTION public.get_my_org_id()
+RETURNS UUID
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT org_id FROM public.users WHERE id = auth.uid() LIMIT 1;
+$$;
+
+-- 新しいポリシーを設定
+CREATE POLICY "org_select"   ON organizations FOR SELECT USING (id = public.get_my_org_id());
+CREATE POLICY "users_select" ON users         FOR SELECT USING (org_id = public.get_my_org_id());
+CREATE POLICY "users_insert" ON users         FOR INSERT WITH CHECK (org_id = public.get_my_org_id());
+CREATE POLICY "users_update" ON users         FOR UPDATE USING (org_id = public.get_my_org_id());
+CREATE POLICY "users_delete" ON users         FOR DELETE USING (org_id = public.get_my_org_id() AND id != auth.uid());
+CREATE POLICY "dept_select"  ON departments   FOR SELECT USING (org_id = public.get_my_org_id());
+CREATE POLICY "dept_insert"  ON departments   FOR INSERT WITH CHECK (org_id = public.get_my_org_id());
+CREATE POLICY "dept_update"  ON departments   FOR UPDATE USING (org_id = public.get_my_org_id());
+CREATE POLICY "dept_delete"  ON departments   FOR DELETE USING (org_id = public.get_my_org_id());
+CREATE POLICY "audit_select" ON audit_logs    FOR SELECT USING (org_id = public.get_my_org_id());
+CREATE POLICY "audit_insert" ON audit_logs    FOR INSERT WITH CHECK (org_id = public.get_my_org_id());
+
+SELECT 'RLS修正完了 ✅' AS status;

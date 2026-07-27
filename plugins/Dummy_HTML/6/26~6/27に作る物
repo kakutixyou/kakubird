@@ -1,0 +1,4 @@
+MessageTypeDetector（HTML・CSS・JavaScript・自然言語を判定）
+HTMLInspector（HTML構造を解析）
+ScriptInspector（<script>を解析）
+HTMLEngine（knowledge_coreを利用して解析結果を統合）

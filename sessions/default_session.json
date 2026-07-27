@@ -1,0 +1,17 @@
+{
+    "history": [
+        {
+            "role": "user",
+            "content": "コードを読みつつ.env_sampleとgitignoreを作ってほしい。PORT=3001\nJWT_SECRET=your-super-secret-jwt-key-change-this-in-production\nNODE_ENV=development\nDATABASE_PATH=./data/platform.db\nFRONTEND_URL=http://localhost:8000\n# VITE_GEMINI_API_KEY=AIzaSyCd-kOyzkK7ApEWPjMAHjTHRFPwcsPXEhA\nGEMINI_API_KEY=AIzaSyCd-kOyzkK7ApEWPjMAHjTHRFPwcsPXEhA\nMY_CUSTOM_API_KEY=\n# VITE_CUSTOM_API_KEY=\nCUSTOM_API_KEY=sk-eWheL6Tr_14l26mFiYpXygeY6kZaCiWI53ylYb8B1d0\nOLLAMA_URL = os.getenv(\"OLLAMA_URL\", \"http://localhost:11434/api/chat\")\nOLLAMA_BASE_URL=http://100.85.26.46:11434\nOLLAMA_URL=http://100.85.26.46:11434\ncace904ae9a2784d216ea38a2c9b5b2d34c94863(qiita_k022c0001のアカウント、スクレイピングアプリで使われる想定なのにこちらで書いてる)\n# ポート設定\nMAIN_PORT=8000\nHTML_ENGINE_PORT=8001\nCSS_ENGINE_PORT=8002\nSQL_ENGINE_PORT=8003\nAI_ENGINE_PORT=8004\nMEMORY_ENGINE_PORT=8005\n\n# API Gateway設定\nAPI_GATEWAY_URL=http://localhost:8000\nOLLAMA_ROUTER_MODEL=\"llama3:latest\"\nOLLAMA_EMBED_MODEL=nomic-embed-text\n# ollama run qwen2.5:14b"
+        },
+        {
+            "role": "assistant",
+            "content": "⚠️ Ollamaサーバーに接続できませんでした。\n\n---\n\n[{'type': 'MarkdownChatBlock', 'props': {'content': 'GitHubへのPushですね！\\nセキュリティと整理のために、まずは **`.gitignore`** と **`.env_sample`** をプロジェクトのルート（一番上の階層）に作成しましょう。'}}, {'type': 'CodeBlock', 'props': {'language': 'ignore', 'filename': '.gitignore', 'code': '# Node.js / React / Frontend\\nnode_modules/\\nbuild/\\ndist/\\n.npm/\\n\\n# Environment Variables\\n.env\\n.env.local\\n.env.development.local\\n.env.test.local\\n.env.production.local\\n\\n# Python / Backend\\n__pycache__/\\n*.py[cod]\\n*$py.class\\nvenv/\\nenv/\\n.venv/\\nPipfile.lock\\n\\n# OS / Editor\\n.DS_Store\\n.vscode/\\n.idea/\\n*.suo\\n*.ntvs*\\n*.njsproj\\n'}}, {'type': 'CodeBlock', 'props': {'language': 'bash', 'filename': '.env_sample', 'code': '# データベース設定\\nDB_HOST=localhost\\nDB_PORT=5432\\nDB_USER=your_db_user_here\\nDB_PASSWORD=your_db_password_here\\n\\n# API連携（OpenAIやGitHubなど）\\nOPENAI_API_KEY=sk-...\\nGITHUB_TOKEN=ghp_...\\n\\n# アプリケーション設定\\nDEBUG=True\\nPORT=3000\\nFRONTEND_URL=http://localhost:3000\\n'}}, {'type': 'MarkdownChatBlock', 'props': {'content': 'ファイルの作成と保存が終わったら、ターミナルで以下のコマンドを上から順に実行してください。\\n\\n```bash\\n# 1. Gitの初期化\\ngit init\\n\\n# 2. 変更した全てのファイルをステージング (※ .envなどは無視されます)\\ngit add .\\n\\n# 3. コミット\\ngit commit -m \"Initial commit: プロジェクトの初期設定\"\\n\\n# 4. ブランチ名を main に変更\\ngit branch -M main\\n\\n# 5. リモートリポジトリの登録 (※ <URL>を自分のものに変更してください)\\ngit remote add origin <あなたのGitHubリポジトリURL>\\n\\n# 6. GitHubへプッシュ\\ngit push -u origin main\\n```\\n\\nもし途中でエラーが出たり、`<あなたのGitHubリポジトリURL>` の取得方法がわからなければ教えてください！'}}]"
+        }
+    ],
+    "current_mode": "github_search",
+    "current_error": null,
+    "current_code": null,
+    "active_artifact_name": "app.py",
+    "version": 1
+}

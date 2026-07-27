@@ -1,0 +1,90 @@
+[
+  {
+    "chunk_id": 0,
+    "content": "Branches\nTags\nOpen more actions menu\nFolders and files\nName\nName\nLast commit message\nLast commit date\nLatest commit\nHistory"
+  },
+  {
+    "chunk_id": 1,
+    "content": "3,663 Commits\n3,663 Commits\n.devcontainer\n.devcontainer\n.github\n.github\n.vscode\n.vscode\naudio_filters\naudio_filters"
+  },
+  {
+    "chunk_id": 2,
+    "content": "backtracking\nbacktracking\nbit_manipulation\nbit_manipulation\nblockchain\nblockchain\nboolean_algebra\nboolean_algebra\ncellular_automata\ncellular_automata"
+  },
+  {
+    "chunk_id": 3,
+    "content": "ciphers\nciphers\ncomputer_vision\ncomputer_vision\nconversions\nconversions\ndata_compression\ndata_compression\ndata_structures\ndata_structures"
+  },
+  {
+    "chunk_id": 4,
+    "content": "digital_image_processing\ndigital_image_processing\ndivide_and_conquer\ndivide_and_conquer\ndocs\ndocs\ndynamic_programming\ndynamic_programming\nelectronics\nelectronics"
+  },
+  {
+    "chunk_id": 5,
+    "content": "file_transfer\nfile_transfer\nfinancial\nfinancial\nfractals\nfractals\nfuzzy_logic\nfuzzy_logic\ngenetic_algorithm\ngenetic_algorithm"
+  },
+  {
+    "chunk_id": 6,
+    "content": "geodesy\ngeodesy\ngeometry\ngeometry\ngraphics\ngraphics\ngraphs\ngraphs\ngreedy_methods\ngreedy_methods"
+  },
+  {
+    "chunk_id": 7,
+    "content": "hashes\nhashes\nknapsack\nknapsack\nlinear_algebra\nlinear_algebra\nlinear_programming\nlinear_programming\nmachine_learning\nmachine_learning"
+  },
+  {
+    "chunk_id": 8,
+    "content": "maths\nmaths\nmatrix\nmatrix\nnetworking_flow\nnetworking_flow\nneural_network\nneural_network\nother\nother"
+  },
+  {
+    "chunk_id": 9,
+    "content": "physics\nphysics\nproject_euler\nproject_euler\nquantum\nquantum\nscheduling\nscheduling\nscripts\nscripts"
+  },
+  {
+    "chunk_id": 10,
+    "content": "searches\nsearches\nsorts\nsorts\nstrings\nstrings\nweb_programming\nweb_programming\n.gitattributes\n.gitattributes"
+  },
+  {
+    "chunk_id": 11,
+    "content": ".gitignore\n.gitignore\n.gitpod.yml\n.gitpod.yml\n.pre-commit-config.yaml\n.pre-commit-config.yaml\nCONTRIBUTING.md\nCONTRIBUTING.md\nDIRECTORY.md\nDIRECTORY.md"
+  },
+  {
+    "chunk_id": 12,
+    "content": "LICENSE.md\nLICENSE.md\nREADME.md\nREADME.md\nindex.md\nindex.md\npyproject.toml\npyproject.toml\nuv.lock\nuv.lock"
+  },
+  {
+    "chunk_id": 13,
+    "content": "Repository files navigation\nThe Algorithms\n- Python\nAll algorithms implemented in Python - for education 📚\nImplementations are for learning purposes only. They may be less efficient than the implementations in the Python standard library. Use them at your discretion.\n🚀 Getting Started\n📋 Read through our\nContribution Guidelines\nbefore you contribute.\n🌐 Community Channels"
+  },
+  {
+    "chunk_id": 14,
+    "content": "We are on\nDiscord\nand\nGitter\n! Community channels are a great way for you to ask questions and get help. Please join us!\n📜 List of Algorithms\nSee our\ndirectory\nfor easier navigation and a better overview of the project.\nAbout"
+  },
+  {
+    "chunk_id": 15,
+    "content": "All Algorithms implemented in Python\nthealgorithms.github.io/Python/\nTopics\npython\neducation\nalgorithm\npractice\ninterview\nsorting-algorithms\nlearn"
+  },
+  {
+    "chunk_id": 16,
+    "content": "algos\nalgorithm-competitions\nsorts\nhacktoberfest\nalgorithms-implemented\ncommunity-driven\nsearches\nResources\nReadme\nLicense"
+  },
+  {
+    "chunk_id": 17,
+    "content": "MIT license\nCode of conduct\nCode of conduct\nContributing\nContributing\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nActivity"
+  },
+  {
+    "chunk_id": 18,
+    "content": "Custom properties\nStars\n222k\nstars\nWatchers\n6k\nwatching\nForks\n50.7k\nforks"
+  },
+  {
+    "chunk_id": 19,
+    "content": "Report repository\nReleases\nNo releases published\nSponsor this project\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nliberapay.com/\nTheAlgorithms"
+  },
+  {
+    "chunk_id": 20,
+    "content": "Packages\n0\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nUh oh!\nThere was an error while loading.\nPlease reload this page\n."
+  },
+  {
+    "chunk_id": 21,
+    "content": "Contributors\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nLanguages\nPython\n99.8%\nOther\n0.2%"
+  }
+]

@@ -1,0 +1,86 @@
+{
+  "repomix": ["repomix", "xml", "全体コード"],
+  "app_target": ["カレンダー", "todo", "タスク管理", "アプリ"],
+  "deployment": [
+    "フォルダ構成",
+    "ディレクトリ",
+    "構成",
+    "deployment"
+  ],
+  
+  "project_analysis": [
+    "プロジェクト",
+    "リポジトリ",
+    "repository",
+    "repomix",
+    "repomix-output.xml"
+  ],
+
+  "architecture": [
+    "アーキテクチャ",
+    "architecture",
+    "構造",
+    "全体像",
+    "設計"
+  ],
+
+  "source_code": [
+    "コード",
+    "python",
+    "ファイル",
+    ".py",
+    ".json",
+    ".xml"
+  ],
+
+
+  "class_structure": [
+    "Analyzer",
+    "クラス",
+    "クラス構造",
+    "継承"
+  ],
+
+  "filesystem": [
+    "file path",
+    "path",
+    "拡張子",
+    "フォルダ"
+  ],
+
+
+  "code": [
+    "コード",
+    "python",
+    "react",
+    "tsx",
+    "javascript",
+    "クラス"
+  ],
+
+  "database": [
+    "sqlite",
+    "mysql",
+    "postgres",
+    "db",
+    "データベース"
+  ],
+
+  "ui": [
+    "画面",
+    "UI",
+    "コンポーネント",
+    "デザイン"
+  ],
+
+  "knowledge": [
+    "knowledge",
+    "knowledge_builder",
+    "project_architecture.json",
+    "知識",
+    "json",
+    "rag",
+    "embedding"
+  ],
+  "general": ["メンタル", "法律", "労働法", "下請法", "ガントチャート", "進捗", "リスケ", "限界", "眠いしきつい", "ねむいしきつい"] 
+}

@@ -1,0 +1,88 @@
+{
+  "commands": [
+    "/deploy",
+    "/deployment",
+    "/project",
+    "/builder"
+  ],
+
+  "intent_keywords": {
+    "ja": [
+      "作って",
+      "生成",
+      "構築",
+      "作成",
+      "設計",
+      "ビルド",
+      "フォルダ構成",
+      "フォルダー構成"
+    ],
+    "en": [
+      "create",
+      "build",
+      "generate",
+      "project",
+      "deployment"
+    ]
+  },
+
+  "frameworks": {
+    "react": [
+      "react",
+      "reactjs"
+    ],
+
+    "electron": [
+      "electron"
+    ],
+
+    "fastapi": [
+      "fastapi"
+    ],
+
+    "flask": [
+      "flask"
+    ],
+
+    "django": [
+      "django"
+    ]
+  },
+
+  "languages": {
+    "python": [
+      "python",
+      ".py"
+    ],
+
+    "typescript": [
+      "typescript",
+      "ts",
+      ".ts"
+    ],
+
+    "javascript": [
+      "javascript",
+      "js",
+      ".js"
+    ]
+  },
+
+  "targets": {
+    "html": [
+      "html",
+      "webページ",
+      "ホームページ"
+    ],
+
+    "game": [
+      "ゲーム",
+      "game"
+    ],
+
+    "api": [
+      "api",
+      "backend"
+    ]
+  }
+}

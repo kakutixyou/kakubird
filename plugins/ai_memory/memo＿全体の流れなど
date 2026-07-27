@@ -1,0 +1,456 @@
+Workspace Scanner
+      ↓
+Code Chunker
+      ↓
+Embedding Service
+      ↓
+Vector Store
+      ↓
+Context Retriever
+      ↓
+Focus Guard
+      ↓
+Task Memory
+      ↓
+LLM
+
+
+
+Browser (MemoryPage.tsx)
+        ↓ fetch()
+FastAPI routes_memory.py
+        ↓ load_json()
+.ai_memory/*.json
+        ↓
+JSON response
+        ↓
+MemoryPage.tsx
+        ↓
+画面に表示
+
+
+# AI が自動で `.ai_memory/*.json` に書き込む仕組み
+
+この構成にすると、AI チャットのたびに以下のファイルが自動更新されます。
+
+```text
+.ai_memory/
+├── conversation.json
+├── notes.json
+├── tasks.json
+└── files.json
+```
+
+---
+
+# 全体の流れ
+1. FAISSはどこに配置すべきか？
+現在の構成表の「1. データ保存層（JSON / DB）」における ai_memory の役割をパワーアップさせます。
+
+FAISSの最大の特徴は「ベクトル（数値）の検索は爆速だが、テキストそのものやファイルパスは保存できない」という点です。そのため、FAISSインデックスとJSON（またはDB）をペアで運用します。
+
+FAISSの保存先: .ai_memory/workspace.index (FAISS専用のバイナリファイル)
+
+メタデータの保存先: .ai_memory/files.json (FAISSのIDと、実際のファイルパス・コードの中身を紐付ける辞書)
+
+2. FAISSを組み込んだ「最強のroutes_chat.py」のフロー
+今の routes_chat.py はメッセージを受け取って返すだけの状態ですが、ここにFAISSを挟むことで、AIがあなたのプロジェクト全体を理解した上でコードを生成できるようになります。
+
+【新しい処理フロー】
+
+フロントエンド: 「Button.jsxのスタイルを直して、全文書いて」と送信。
+
+FastAPI (routes_chat.py): メッセージを受信。
+
+FAISS起動 (ai_memory):
+
+ユーザーのメッセージをベクトル化（Embedding）。
+
+FAISSインデックスを検索し、関連度の高いコードスニペット（今回は既存のButton.jsxなど）のIDをトップ3つ取得。
+
+メタデータ取得 (files.json):
+
+FAISSから返ってきたIDを元に、files.json から実際のコード文字列を取得。
+
+LLM呼び出し:
+
+システムプロンプトに「以下の関連コードを参考にしてください: [FAISSで見つけたコード]」を結合。
+
+LLMに投げてコードを生成。
+
+AI Editor連携:
+
+生成されたコードを ApprovalService に回し、フロントエンドにJSONレスポンスを返す。
+
+3. 今すぐ始める実装ステップ
+ChatGPTのメモにある「残っているのは、LLM と routes_chat.py の接続です」というステップの直前に、FAISSの処理を差し込みます。
+
+Step 1: FAISSの土台を作る (vector_store.py などの作成)
+まずは、指定したフォルダ内の .py や .js ファイルを読み込み、ベクトル化してFAISSインデックスを作成し、.ai_memory/workspace.index として保存するスクリプトを書きます。
+
+Step 2: routes_chat.py にダミーのFAISS検索を組み込む
+いきなりLLMに繋ぐ前に、今の「固定テキストを返す」テストの延長でFAISSのテストをします。
+
+Python
+# routes_chat.py のイメージ
+@router.post("/api/chat")
+async def chat(request: ChatRequest):
+    user_message = request.message
+    
+    # 1. FAISSで関連コードを検索する処理（今はダミーでテスト）
+    # relevant_codes = vector_store.search(user_message, top_k=2)
+    relevant_codes = "ダミーの検索結果: def hello(): print('Hello')"
+    
+    # 2. 本来はここでLLMに「Userの指示 + 検索したコード」を渡す
+    
+    if "全文書いて" in user_message:
+        return {
+            "reply": f"関連コードとして以下を見つけました:\n{relevant_codes}\n\nこれを元にコードを生成します（LLM接続準備中）"
+        }
+    
+    return {"reply": "メッセージを受信しました"}
+このように実装すれば、フロントエンドで「全文書いて」とチャットしたときに、裏側でFAISSが正しく動いて関連コードを引っ張ってこれているか確認できます。
+
+```text
+ユーザーが質問
+   ↓
+/api/chat
+   ↓
+AI が回答
+   ↓
+MemoryManager.record_interaction()
+   ↓
+conversation.json 更新
+notes.json 更新
+tasks.json 更新
+files.json 更新
+```
+
+---
+
+# 1. `memory_manager.py`
+
+保存場所:
+
+```text
+plugins/
+└── ai_memory/
+    └── memory_manager.py
+```
+
+```python
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+from .conversation_memory import ConversationMemory
+
+
+class MemoryManager:
+    """
+    AI Memory 全体を管理する。
+    """
+
+    def __init__(self, storage_dir: str | Path = ".ai_memory") -> None:
+        self.storage_dir = Path(storage_dir)
+        self.storage_dir.mkdir(parents=True, exist_ok=True)
+
+        self.conversation = ConversationMemory(
+            self.storage_dir / "conversation.json"
+        )
+
+        self.notes_path = self.storage_dir / "notes.json"
+        self.tasks_path = self.storage_dir / "tasks.json"
+        self.files_path = self.storage_dir / "files.json"
+
+    # -------------------------------------------------
+    # Public API
+    # -------------------------------------------------
+
+    def record_interaction(
+        self,
+        user_message: str,
+        assistant_message: str,
+        notes: list[str] | None = None,
+        tasks: list[dict[str, Any]] | None = None,
+        files: list[dict[str, Any]] | None = None,
+    ) -> None:
+        """
+        1 回の会話結果をすべて保存する。
+        """
+
+        # 会話履歴
+        self.conversation.add("user", user_message)
+        self.conversation.add("assistant", assistant_message)
+
+        # メモ
+        if notes:
+            self.append_unique_items(self.notes_path, notes)
+
+        # タスク
+        if tasks:
+            self.save_json(self.tasks_path, tasks)
+
+        # 関連ファイル
+        if files:
+            self.save_json(self.files_path, files)
+
+    # -------------------------------------------------
+    # Helpers
+    # -------------------------------------------------
+
+    def load_json(self, path: Path, default):
+        if not path.exists():
+            return default
+
+        try:
+            with path.open("r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return default
+
+    def save_json(self, path: Path, data) -> None:
+        with path.open("w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def append_unique_items(self, path: Path, items: list[str]) -> None:
+        existing = self.load_json(path, [])
+
+        for item in items:
+            if item not in existing:
+                existing.append(item)
+
+        self.save_json(path, existing)
+```
+
+---
+
+# 2. `__init__.py`
+
+```text
+plugins/
+└── ai_memory/
+    └── __init__.py
+```
+
+```python
+from .memory_manager import MemoryManager
+
+__all__ = ["MemoryManager"]
+```
+
+---
+
+# 3. `api/routes_chat.py` で自動保存
+
+AI が返答した直後に保存します。
+
+```python
+from plugins.ai_memory import MemoryManager
+
+memory = MemoryManager()
+```
+
+AI の返答生成後:
+
+```python
+reply = ai_response
+
+memory.record_interaction(
+    user_message=message,
+    assistant_message=reply,
+    notes=[
+        "ユーザーは Copilot のような機能を作りたい",
+    ],
+    tasks=[
+        {
+            "title": "approval_service.py を作成",
+            "status": "todo",
+            "priority": 2,
+        }
+    ],
+    files=[
+        {
+            "path": "plugins/ai_memory/workspace_scanner.py",
+            "language": "python",
+            "size": 4820,
+        }
+    ],
+)
+```
+
+---
+
+# 4. 最低限の実装例
+
+もし最初は会話履歴だけ保存したいなら:
+
+```python
+memory.record_interaction(
+    user_message=message,
+    assistant_message=reply,
+)
+```
+
+これだけで `conversation.json` が自動更新されます。
+
+---
+
+# 5. AI に notes/tasks を抽出させる
+
+AI の返答時に JSON を返させることもできます。
+
+```json
+{
+  "reply": "workspace_scanner.py を作成しましょう。",
+  "notes": [
+    "Copilot 風 AI を作成中"
+  ],
+  "tasks": [
+    {
+      "title": "workspace_scanner.py を実装",
+      "status": "todo",
+      "priority": 1
+    }
+  ]
+}
+```
+
+そして:
+
+```python
+memory.record_interaction(
+    user_message=message,
+    assistant_message=result["reply"],
+    notes=result.get("notes", []),
+    tasks=result.get("tasks", []),
+    files=result.get("files", []),
+)
+```
+
+---
+
+# 6. `files.json` を自動更新
+
+`workspace_scanner.py` を使って関連ファイル一覧を保存できます。
+
+```python
+from plugins.ai_memory.workspace_scanner import WorkspaceScanner
+
+scanner = WorkspaceScanner()
+files = [f.to_dict() for f in scanner.scan(".")[:100]]
+
+memory.record_interaction(
+    user_message=message,
+    assistant_message=reply,
+    files=files,
+)
+```
+
+---
+
+# 7. JSON の自動更新例
+
+## `conversation.json`
+
+```json
+[
+  {
+    "role": "user",
+    "content": "SQLについて教えて",
+    "timestamp": "2026-05-10T12:00:00"
+  },
+  {
+    "role": "assistant",
+    "content": "SQLはデータベースを操作する言語です。",
+    "timestamp": "2026-05-10T12:00:05"
+  }
+]
+```
+
+## `notes.json`
+
+```json
+[
+  "Copilot 風 AI を作りたい",
+  "Unity と Blender に対応したい"
+]
+```
+
+## `tasks.json`
+
+```json
+[
+  {
+    "title": "approval_service.py を作成",
+    "status": "todo",
+    "priority": 2
+  }
+]
+```
+
+---
+
+# 8. 実運用レベルの推奨
+
+### 常に保存
+
+* conversation.json → 毎回追記
+* notes.json → 重複なしで追記
+* tasks.json → 最新状態で上書き
+* files.json → スキャン結果で上書き
+
+### 保存タイミング
+
+* AI の回答成功後
+* ユーザーの明示的な「覚えて」指示時
+* ワークスペース再スキャン時
+
+---
+
+# 9. 最小構成での導入順
+
+1. `conversation.json` の自動保存
+2. `notes.json` の自動保存
+3. `tasks.json` の自動保存
+4. `files.json` の自動保存
+5. `MemoryPage.tsx` で表示
+
+---
+
+# 10. 将来追加できる機能
+
+* 重要度スコア
+* ノートの編集
+* タスク完了チェック
+* ファイル検索
+* ベクトル検索結果表示
+* セッションごとの履歴
+
+---
+
+# 11. あなたのプロジェクトでの最終形
+
+```text
+plugins/
+└── ai_memory/
+    ├── models.py
+    ├── workspace_scanner.py
+    ├── code_chunker.py
+    ├── embedding_service.py
+    ├── vector_store.py
+    ├── context_retriever.py
+    ├── conversation_memory.py
+    └── memory_manager.py
+
+.ai_memory/
+├── conversation.json
+├── notes.json
+├── tasks.json
+└── files.json
+```
+
+これで AI は毎回の会話のたびに、自分の記憶を更新しながら学習的に振る舞えるようになります。
+

@@ -1,0 +1,10 @@
+{
+  "幽霊のようなcssを書いてほしい": {
+    "DesignHandler": 5,
+    "OllamaHandler": -5
+  },
+  "富山の求人情報を教えて": {
+    "RecruitHandler": 10,
+    "DesignHandler": -5
+  }
+}

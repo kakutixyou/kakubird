@@ -1,0 +1,82 @@
+[
+  {
+    "chunk_id": 0,
+    "content": "Branches\nTags\nOpen more actions menu\nFolders and files\nName\nName\nLast commit message\nLast commit date\nLatest commit\nHistory"
+  },
+  {
+    "chunk_id": 1,
+    "content": "1,536 Commits\n1,536 Commits\n.github\n.github\n.vscode\n.vscode\naudio\naudio\ncipher\ncipher"
+  },
+  {
+    "chunk_id": 2,
+    "content": "client_server\nclient_server\nconversions\nconversions\ndata_structures\ndata_structures\ndeveloper_tools\ndeveloper_tools\ndynamic_programming\ndynamic_programming"
+  },
+  {
+    "chunk_id": 3,
+    "content": "exercism\nexercism\ngames\ngames\ngeometry\ngeometry\ngraphics\ngraphics\ngreedy_approach\ngreedy_approach"
+  },
+  {
+    "chunk_id": 4,
+    "content": "hash\nhash\nleetcode\nleetcode\nmachine_learning\nmachine_learning\nmath\nmath\nmisc\nmisc"
+  },
+  {
+    "chunk_id": 5,
+    "content": "numerical_methods\nnumerical_methods\nprocess_scheduling_algorithms\nprocess_scheduling_algorithms\nproject_euler\nproject_euler\nscripts\nscripts\nsearching\nsearching"
+  },
+  {
+    "chunk_id": 6,
+    "content": "sorting\nsorting\n.clang-format\n.clang-format\n.clang-tidy\n.clang-tidy\n.gitignore\n.gitignore\n.gitpod.dockerfile\n.gitpod.dockerfile"
+  },
+  {
+    "chunk_id": 7,
+    "content": ".gitpod.yml\n.gitpod.yml\nCMakeLists.txt\nCMakeLists.txt\nCODE_OF_CONDUCT.md\nCODE_OF_CONDUCT.md\nCONTRIBUTING.md\nCONTRIBUTING.md\nCodingGuidelines.md\nCodingGuidelines.md"
+  },
+  {
+    "chunk_id": 8,
+    "content": "DIRECTORY.md\nDIRECTORY.md\nDoxyfile\nDoxyfile\nLICENSE\nLICENSE\nREADME.md\nREADME.md\nREVIEWER_CODE.md\nREVIEWER_CODE.md"
+  },
+  {
+    "chunk_id": 9,
+    "content": "Repository files navigation\nThe Algorithms - C # {#mainpage}\nOverview\nThe repository is a collection of open-source implementations of a variety of algorithms implemented in C and licensed under\nGPLv3 License\n. The algorithms span a variety of topics from computer science, mathematics and statistics, data science, machine learning, engineering, etc.. The implementations and their associated documentations are meant to provide a learning resource for educators and students. Hence, one may find more than one implementation for the same objective but using different algorithm strategies and optimizations.\nFeatures\nThe repository provides implementations of various algorithms in one of the most fundamental general purpose languages -\nC\n."
+  },
+  {
+    "chunk_id": 10,
+    "content": "Well documented source code with detailed explanations provide a valuable resource for educators and students alike.\nEach source code is atomic using standard C library\nlibc\nand\nno external libraries\nare required for their compilation and execution. Thus the fundamentals of the algorithms can be studied in much depth.\nSource codes are\ncompiled and tested\nfor every commit on the latest versions of two major operating systems viz., MacOS and Ubuntu (Linux) using AppleClang 14.0.0 and GNU 11.3.0 respectively.\nStrict adherence to"
+  },
+  {
+    "chunk_id": 11,
+    "content": "C11\nstandard ensures portability of code to embedded systems as well like ESP32, ARM Cortex, etc. with little to no changes.\nSelf-checks within programs ensure correct implementations with confidence.\nModular implementations and OpenSource licensing enable the functions to be utilized conveniently in other applications.\nDocumentation\nOnline Documentation\nis generated from the repository source codes directly. The documentation contains all resources including source code snippets, details on execution of the programs, diagrammatic representation of program flow, and links to external resources where necessary.\nClick on\nFiles menu\nto see the list of all the files documented with the code."
+  },
+  {
+    "chunk_id": 12,
+    "content": "Documentation of Algorithms in C\nby\nThe Algorithms Contributors\nis licensed under\nCC BY-SA 4.0\nContributions\nAs a community developed and maintained repository, we welcome new un-plagiarized quality contributions. Please read our\nContribution Guidelines\n.\nAbout"
+  },
+  {
+    "chunk_id": 13,
+    "content": "Collection of various algorithms in mathematics, machine learning, computer science, physics, etc implemented in C for educational purposes.\nthealgorithms.github.io/C\nTopics\nc\nsearch\ncomputer-science\neducation\nmachine-learning\nalgorithms\ndatastructures"
+  },
+  {
+    "chunk_id": 14,
+    "content": "machine-learning-algorithms\nmathematics\ninterview\nsort\nlearn-to-code\ndata-structures\neducational\nalgorithm-competitions\ninterview-questions\nalgorithm-challenges"
+  },
+  {
+    "chunk_id": 15,
+    "content": "hacktoberfest\ncommunity-driven\nResources\nReadme\nLicense\nGPL-3.0 license\nCode of conduct\nCode of conduct\nContributing\nContributing"
+  },
+  {
+    "chunk_id": 16,
+    "content": "Uh oh!\nThere was an error while loading.\nPlease reload this page\n.\nActivity\nCustom properties\nStars\n22.1k\nstars\nWatchers"
+  },
+  {
+    "chunk_id": 17,
+    "content": "526\nwatching\nForks\n4.8k\nforks\nReport repository\nSponsor this project\nUh oh!\nThere was an error while loading.\nPlease reload this page"
+  },
+  {
+    "chunk_id": 18,
+    "content": ".\nliberapay.com/\nTheAlgorithms\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nContributors\nUh oh!\nThere was an error while loading."
+  },
+  {
+    "chunk_id": 19,
+    "content": "Please reload this page\n.\nLanguages\nC\n96.8%\nCMake\n2.4%\nOther\n0.8%"
+  }
+]

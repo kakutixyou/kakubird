@@ -1,0 +1,6 @@
+命名案（役割別）Analyzer名役割とニュアンス採用すべきケースSynthesisAnalyzer各Analyzerから上がってきたバラバラの解析結果を「合成（Synthesis）」し、一つの意味のあるパッケージにまとめる役割。UI、API、依存関係などの情報を結びつけ、「この機能はどう動くか」という相関関係をAIに教えたい場合。ContextDistillationAnalyzer自作AIの入力制限（コンテキストサイズ）に合わせて、不要な情報を削ぎ落とし、純度の高い重要な情報だけを「蒸留（Distillation）」する役割。抽出したコードやコメントの量が膨大になりやすく、AIへの入力を極力スリムに最適化したい場合。SemanticBuilderAnalyzer単なるコードの文字列ではなく、「このクラスはあのコンポーネントで使われている」といった「意味（Semantic）」を持ったJSON構造を構築する役割。
+自作AIがテキストベースではなく、キーとバリューが明確に定義された厳密なJSONツリーを要求する場合。
+
+SynthesisAnalyzer
+ContextDistillationAnalyzer
+SemanticBuilderAnalyzer

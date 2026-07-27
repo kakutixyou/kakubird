@@ -1,0 +1,5 @@
+ERR-001：require の重複宣言
+ERR-002：同じ関数を2回定義
+ERR-003：ipcMain.handle のチャンネル名重複
+ERR-004：contextBridge にAPIを公開し忘れた
+ERR-005：Reactで useState の import を忘れた

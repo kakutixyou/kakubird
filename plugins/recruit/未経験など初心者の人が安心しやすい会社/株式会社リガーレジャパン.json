@@ -1,0 +1,189 @@
+{
+  "company_id": "cmp_ligarejapan_2026_001",
+
+  "company": {
+    "name": "株式会社リガーレジャパン",
+    "industry": "SES・システム開発",
+    "employment_type": "正社員",
+    "location": "東京都",
+    "founded_year": 2016,
+    "source_type": "スカウト",
+    "received_date": "2026-05-21",
+    "expiration_days_left": 5
+  },
+
+  "position": {
+    "title": "開発エンジニア",
+
+    "salary_range": {
+      "min": 2800000,
+      "max": null,
+      "currency": "JPY"
+    },
+
+    "experience_requirement": {
+      "unexperienced_welcome": true,
+      "unexperienced_hiring_ratio": 90
+    },
+
+    "main_technology": [
+      "Java",
+      "Unity"
+    ]
+  },
+
+  "work_environment": {
+    "average_overtime_hours": 20,
+
+    "work_style": [
+      "客先常駐",
+      "チーム開発",
+      "大手SI案件"
+    ],
+
+    "support_system": {
+      "business_manner_training": true,
+      "technical_training": true,
+      "one_on_one_training": true,
+      "follow_system": true
+    }
+  },
+
+  "project_types": [
+    "Javaシステム開発",
+    "Unityゲーム制作",
+    "アニメ業界向けシステム",
+    "大手SI案件"
+  ],
+
+  "career_features": {
+    "self_development_possible": true,
+    "game_development_possible": true,
+    "anime_industry_related": true,
+
+    "growth_support": [
+      "社内研修",
+      "技術フォロー",
+      "メンター対応"
+    ]
+  },
+
+  "company_culture": {
+    "keywords": [
+      "未経験歓迎",
+      "Java",
+      "成長",
+      "研修",
+      "大手SI",
+      "Unity",
+      "フォロー"
+    ],
+
+    "positive_points": [
+      "未経験採用率高い",
+      "ワンツーマン研修あり",
+      "残業少なめ",
+      "ゲーム系案件あり",
+      "Java案件あり"
+    ],
+
+    "risk_points": [
+      "SES色がかなり強い",
+      "客先常駐前提",
+      "配属ガチャ可能性",
+      "研修後即現場投入の可能性",
+      "給与レンジ低め"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "training_score": 79,
+    "stability_score": 58,
+    "growth_pressure_score": 61,
+    "ses_risk_score": 82,
+    "creative_project_score": 64,
+
+    "detected_patterns": [
+      {
+        "word": "未経験",
+        "count": 4,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "成長",
+        "count": 2,
+        "risk_weight": 3
+      },
+
+      {
+        "word": "研修",
+        "count": 4,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "常駐",
+        "count": 1,
+        "risk_weight": 5
+      },
+
+      {
+        "word": "フォロー",
+        "count": 2,
+        "risk_weight": 1
+      }
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "gray_candidate",
+
+    "estimated_risk_level": 57,
+
+    "analysis_comment": [
+      "未経験育成企業としては標準的",
+      "SES構造がかなり明確",
+      "Java経験を積む入口としては悪くない可能性",
+      "Unityやアニメ系案件は魅力",
+      "ただし案件配属次第で実態差が大きそう"
+    ],
+
+    "recommendation": [
+      "客先常駐割合確認",
+      "研修期間給与確認",
+      "Java案件割合確認",
+      "Unity案件参加条件確認",
+      "待機時給与確認",
+      "自社開発比率確認"
+    ]
+  },
+
+  "message": {
+    "title": "【スカウト】未経験採用90%／残業20H以下／Java開発案件メンバー募集中",
+
+    "summary": [
+      "未経験採用90%",
+      "Java案件",
+      "残業20H以下",
+      "Unity案件あり",
+      "ワンツーマン研修あり"
+    ],
+
+    "body": [
+      "2016年設立のシステム開発会社です。",
+      "大手クライアント企業へ常駐する形でプロジェクト開発を行っています。",
+      "入社後はビジネスマナー研修・技術研修を実施します。",
+      "技術的に不安な場合はワンツーマン研修があります。",
+      "Unity使用のゲーム制作やアニメ業界向けシステムにも携われます。"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "source_format": "scout_mail"
+  }
+}

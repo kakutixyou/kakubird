@@ -1,0 +1,55 @@
+ai_server.py、 useAiChat.js、routes_chat.pyは基本的に編集しなくても大丈夫な段階
+↓
+ユーザー入力 (useAiChat.js がAPIへ送信)
+↓
+受付 (routes_chat.py がリクエストを受け取る)
+↓
+chat_orchestrator.pyを経由する。
+↓
+handle_ai_chatでエラーが起きた場合はfrontendにあるblocksフォルダーの中にあるjsxを見に行く(読み込めないのが原因の為)
+↓
+司令塔 (chat_orchestrator.py がどう処理するか判断する)
+↓
+実行部隊 (github_service.py や evaluator.py 、MemoryManager.jsxなどが動く)
+
+
+
+To(と)\plugins\recruitが絡んだ時のbackendの挙動：
+求人・スカウト分析プラグインの処理フロー
+1. ユーザー入力 (Frontend: useAiChat.js)
+
+チャット欄に「スカウトメールの長文」や「求人票のテキスト」が貼り付けられ、送信されます。
+
+2. 受付窓口 (Backend: api/routes_chat.py)
+
+handle_ai_chat がPOSTリクエストを受け取ります。
+
+FastAPIの検証を通過したのち、会話履歴をデータベース（Memory）に保存し、そのままリクエストを司令塔に丸投げします。
+
+3. 司令塔の判断 (Backend: api/services/chat_orchestrator.py)
+
+route_and_execute の中で、_is_recruit_job() が文章をチェックします。
+
+「給与」「勤務地」といったキーワードや、文章の長さなどから「これは求人の分析依頼だ！」と判断し、求人専用レーンである _execute_recruit() へ処理を流します。
+
+4. 実行部隊の稼働 (Plugin: plugins/recruit/evaluator.py)
+
+ここが今回の主役であり、一番重い処理を行います。
+
+フェーズA（ルールベース）: まず rules/black_patterns.json や white_patterns.json を読み込み、オフラインでもできる機械的なキーワード採点を行います。
+
+フェーズB（OSINT検索）: 企業名が判明していれば、web_search.py がこっそり裏でBrave検索を回し、ネット上の口コミや残業の実態などのスニペット（断片）をかき集めます。
+
+フェーズC（AI分析）: AI（Ollamaなど）に「メール本文」「フェーズAの採点結果」「フェーズBの検索結果」、そして「指定のJSONフォーマット」をすべて渡し、完璧なJSONデータを生成させます。
+
+5. 司令塔から受付へ戻る (Backend: chat_orchestrator.py → routes_chat.py)
+
+evaluator.py が作り上げた「構造化されたJSON」を司令塔が受け取ります。
+
+司令塔は「これはUI用の特別なデータだよ」という意味を込めて、response_type = "ui_code" として受付に返し、そのままフロントエンドへ送信されます。
+
+6. 画面への描画 (Frontend: blocks/*.jsx)
+
+先ほどのGitHub一覧の時と同じように、フロントエンドが response_type: "ui_code" を検知します。
+
+今回は GithubRepoListBlock.jsx ではなく、求人用の新しいUIブロック（例えば RecruitReportBlock.jsx のようなもの）がデータを受け取り、レーダーチャートや危険度の警告などを綺麗に画面に表示します。

@@ -1,0 +1,233 @@
+{
+  "company_id": "cmp_ifreekmobile_dx_2026_001",
+
+  "company": {
+    "name": "株式会社アイフリークモバイル DX事業部",
+    "industry": "SES・ITエンジニア支援",
+    "employment_type": "正社員",
+    "location": "東京都",
+    "source_type": "スカウト",
+    "received_date": "2026-05-21",
+    "expiration_days_left": 5,
+
+    "listed_company": true
+  },
+
+  "position": {
+    "title": "ITエンジニア",
+
+    "salary_range": {
+      "min": 3300000,
+      "max": 7000000,
+      "currency": "JPY"
+    },
+
+    "experience_requirement": {
+      "practical_experience_not_required": true,
+      "self_learning_evaluation": true,
+      "paiza_evaluation": true
+    }
+  },
+
+  "business_domain": {
+    "project_count": 4500,
+
+    "project_types": [
+      "テスト",
+      "運用保守",
+      "システム開発",
+      "インフラ構築"
+    ],
+
+    "career_paths": [
+      "開発エンジニア",
+      "インフラエンジニア",
+      "ステップアップ転職",
+      "スキルチェンジ"
+    ]
+  },
+
+  "support_system": {
+    "dedicated_sales_support": true,
+    "sales_per_engineer_ratio": "1:1",
+
+    "career_support": [
+      "チャット相談",
+      "定期面談",
+      "キャリア相談",
+      "案件相談"
+    ],
+
+    "training_system": {
+      "veteran_instructors": true,
+      "continuous_learning": true,
+      "beginner_support": true,
+      "blank_support": true
+    },
+
+    "information_disclosure": {
+      "project_details_open": true,
+      "career_path_open": true,
+      "skill_acquisition_open": true
+    }
+  },
+
+  "company_culture": {
+    "keywords": [
+      "教育",
+      "安心感",
+      "SES",
+      "キャリア形成",
+      "サポート",
+      "自己学習",
+      "案件選択"
+    ],
+
+    "positive_points": [
+      "案件情報開示を強調",
+      "営業サポートが厚い",
+      "案件数が非常に多い",
+      "未経験層への配慮あり",
+      "自己学習を評価"
+    ],
+
+    "risk_points": [
+      "SES色が非常に強い",
+      "案件依存のキャリアになりやすい",
+      "営業品質依存",
+      "案件数の多さ＝選別難易度",
+      "配属先環境差が大きい可能性"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "support_score": 91,
+    "career_flexibility_score": 84,
+    "ses_risk_score": 88,
+    "transparency_score": 82,
+    "training_score": 76,
+    "growth_pressure_score": 64,
+
+    "detected_patterns": [
+      {
+        "word": "安心",
+        "count": 4,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "キャリア",
+        "count": 7,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "案件",
+        "count": 8,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "サポート",
+        "count": 5,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "SES",
+        "count": 1,
+        "risk_weight": 5
+      }
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "gray_candidate",
+
+    "estimated_risk_level": 54,
+
+    "analysis_comment": [
+      "SES企業としてはフォロー体制をかなり重視している印象",
+      "案件情報開示を前面に出している点は比較的好印象",
+      "案件数が非常に多くキャリア選択肢は広そう",
+      "一方でSES構造由来の不安定さは残る",
+      "営業担当の質によって満足度差が出やすい可能性"
+    ],
+
+    "recommendation": [
+      "案件選択拒否可能か確認",
+      "待機時給与確認",
+      "リモート案件割合確認",
+      "単価連動制度確認",
+      "開発案件比率確認",
+      "営業変更可能か確認"
+    ]
+  },
+
+  "message": {
+    "title": "案件情報は打診時にすべて開示！今の会社のフォロー体制やキャリアパスに不安がある方へ",
+
+    "summary": [
+      "案件4500件以上",
+      "エンジニア1名につき営業1名",
+      "案件情報完全開示",
+      "未経験歓迎",
+      "自己学習評価",
+      "上場企業"
+    ],
+
+    "body": [
+      "エンジニアの教育と安心感を重視するSES企業です。",
+      "テスト・運用保守から開発・インフラ構築まで幅広い案件があります。",
+      "案件打診時に業務内容やキャリア情報を全面開示しています。",
+      "エンジニア1名につき営業1名の専任サポート体制があります。",
+      "ベテラン講師による研修制度があります。",
+      "paizaランクや自己学習を評価しています。"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "source_format": "scout_mail"
+  },
+  "message_2": [
+    
+
+"株式会社アイフリークモバイル DX事業部 採用担当の木山と申します。",
+
+"様のご登録情報を拝見し、プログラミングへの学習意欲やこれまでのご経験に大変魅力を感じ、ぜひ一度カジュアルにお話しする機会をいただきたくご連絡いたしました。",
+
+"現在、エンジニアとして少しずつ経験を積まれる中で、こんな「モヤモヤ」を抱えていませんか？",
+
+"「もっと開発スキルを伸ばしたいのに、今の環境ではチャンスが少ない」",
+"「心機一転、別のプロジェクトに挑戦してステップアップ・収入アップを目指したい」",
+"「現場に配属されたものの、会社のフォロー体制に不安を感じている」",
+
+"もし一つでも当てはまるものがあれば、弊社の環境が必ずお役に立てるはずです。",
+
+"弊社は、エンジニアの「教育」と「安心感」を第一に掲げるSES企業です。",
+"経験が浅い方でも、確実に理想のキャリアへ近づける3つの理由があります。",
+
+"① 常時4500件以上！幅広いプロジェクトで「やりたい」が叶う",
+"テストや運用保守といった基礎固めのフェーズから、開発、インフラ構築など、幅広い案件を保有しています。",
+"今のスキルでこの技術に挑戦したいなら、この案件」と、無理のないステップアップが可能です。",
+
+"② 情報の完全開示と「エンジニア1名につき営業1名」の専任サポート",
+"案件を打診する際は、業務内容や開発環境はもちろん、「身につくスキル」や「今後のキャリア」まで全面開示し、野村 心吾様の希望を最優先します。",
+"さらに、エンジニア1名に対して必ず1名の担当営業がつき、チャットや定期面談で手厚くフォロー。",
+"「現場で言いにくいこと」も代わりにお伝えし、決してあなたを一人にしません。",
+
+"③ ベテラン講師による手厚い研修制度",
+"「経験が浅い」「ブランクがある」という方でも安心できるよう、ベテラン講師による研修制度や、継続的に学べる環境をご用意しています。",
+
+"▼まずは「カジュアル面談」でお話ししませんか？",
+
+"「今のスキルでどんな案件に行けるか知りたい」",
+"「まずは会社の雰囲気だけ聞いてみたい」",
+"といったスタンスで全く問題ございません。"
+
+  ]
+}

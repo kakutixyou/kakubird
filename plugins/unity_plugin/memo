@@ -1,0 +1,8 @@
+unity_plugin/
+├── project_scanner.py
+├── asset_generator.py
+├── script_generator.py
+├── scene_editor.py
+├── prefab_builder.py
+├── test_runner.py
+└── command_bridge.cs

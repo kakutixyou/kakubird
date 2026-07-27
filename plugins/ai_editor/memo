@@ -1,0 +1,36 @@
+
+1.docs/goal.json を作成
+2.routes_chat.py に組み込む
+3.LLM プロンプトへ進捗情報を渡す
+
+| Claude 的機能 | あなたのモジュール              |
+| ---------- | ---------------------- |
+| プロジェクト解析   | `workspace_scanner.py` |
+| コード分割      | `code_chunker.py`      |
+| ベクトル検索     | `vector_store.py`      |
+| 文脈取得       | `context_retriever.py` |
+| 進捗管理       | `task_memory.py`       |
+| 優先順位       | `priority_engine.py`   |
+| 次の提案       | `roadmap_planner.py`   |
+| コード生成      | LLM                    |
+| 差分生成       | `diff_generator.py`    |
+| 承認         | `approval_service.py`  |
+
+
+User Request
+    ↓
+Context Retriever
+    ↓
+LLM
+    ↓
+diff_generator
+    ↓
+patch_validator
+    ↓
+patch_preview
+    ↓
+approval_service
+    ↓
+patch_applier
+    ↓
+rollback_manager

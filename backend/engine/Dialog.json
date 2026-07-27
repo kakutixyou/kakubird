@@ -1,0 +1,12 @@
+{
+  "topic": "Electron ネイティブダイアログ",
+  "rules": [
+    "ファイル選択には dialog.showOpenDialog() をメインプロセス側で呼ぶ",
+    "レンダラーから直接 dialog モジュールは呼べないため、必ず IPC 経由にする"
+  ],
+  "project_specific": {
+    "default_filters": [
+      { "name": "動画ファイル", "extensions": ["mp4", "mov"] }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "company": {
+    "name": "株式会社ハイテックス",
+    "industry": null,
+    "location": "当社は、派遣に頼らない独立系システム会社として富山で37年、"
+  },
+  "offer_summary": {
+    "headline": "【オフライン解析】文章から自動抽出したデータです",
+    "salary_range": {
+      "min": 3500000,
+      "max": 4500000
+    },
+    "work_style": {
+      "average_overtime_hours": 20,
+      "remote_possible": null,
+      "project_selection": null
+    }
+  },
+  "recruitment_text_analysis": {
+    "work_life_balance_score": 50,
+    "technical_growth_score": 50,
+    "growth_pressure_score": 50,
+    "ses_risk_score": 50,
+    "abstract_expression_score": 50,
+    "detected_patterns": []
+  },
+  "ai_analysis": {
+    "overall_label": "gray",
+    "analysis_comment": [
+      "⚠️ AI（Ollama）がオフラインのため、高度な文脈解析は行えませんでした。",
+      "💡 その代わり、正規表現エンジンとルール辞書を用いて文章を自動解析しました。"
+    ],
+    "recommendation": [
+      "Ollamaを起動して再度送信すると、より詳細なAI分析が行われます。"
+    ]
+  }
+}

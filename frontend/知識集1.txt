@@ -1,0 +1,28 @@
+ cd C:\Users\shing\Documents\special\新たに作るもの\To\frontend  
+ →npm run dev
+
+セットアップ(CSS)cd my-awesome-builder-main  cd packages/ai-engine  python design_api.py
+ Pythonのバックエンド（SQL Builder）を動かしているなら：[http://127.0.0.1:8777/api]
+基本的にはこのコードで動くhttp://127.0.0.1/api
+→APIキーのみで動くか確認中
+
+ geminiのAPIが読み込めない → npm install @google/genai
+
+[ フロント ]
+AiChatPanel（React）
+   ↓ POST
+
+[ バックエンド ]
+design_api.py（Flask）
+or apiEndpoints.js
+   ↓ 判定
+
+[ 処理 ]
+SQL / CSS / Design / Chat
+
+   ↓
+
+[ フロントに返す ]
+JSON（reply）
+
+

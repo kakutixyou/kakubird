@@ -1,0 +1,11 @@
+/* Flat Surface */
+.flat {
+  background: var(--flat-bg, #f5f5f5);
+  border: none;
+  box-shadow: none;
+  border-radius: 8px;
+}
+
+.dark .flat {
+  background: var(--flat-bg, #1f1f1f);
+}

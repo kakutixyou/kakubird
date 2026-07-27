@@ -1,0 +1,47 @@
+AI
+├── ai_assistant
+├── chatbot
+├── rag_system
+├── local_llm
+
+Web
+├── portfolio
+├── blog
+├── landing_page
+├── dashboard
+├── admin_panel
+
+Business
+├── inventory
+├── crm
+├── erp
+├── accounting
+
+Education
+├── quiz
+├── flashcard
+├── lms
+
+Game
+├── 2d_game
+├── visual_novel
+├── puzzle
+├── rpg
+
+Automation
+├── scraper
+├── crawler
+├── batch_tool
+├── pdf_generator
+
+Desktop
+├── electron
+├── note_app
+├── markdown_editor
+├── image_viewer
+
+Developer
+├── vscode_extension
+├── cli_tool
+├── library
+├── api_server

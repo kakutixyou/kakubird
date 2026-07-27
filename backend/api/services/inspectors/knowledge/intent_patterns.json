@@ -1,0 +1,33 @@
+{
+  "patterns": [
+    {
+      "name": "repomix_analyzer",
+      "must_have": [
+        "repomix",
+        "xml",
+        "project_architecture.json"
+      ],
+      "mode": "project_analysis",
+      "priority": 100
+    },
+    {
+      "name": "knowledge_builder",
+      "must_have": [
+        "knowledge",
+        "builder",
+        "Analyzer"
+      ],
+      "mode": "knowledge_builder",
+      "priority": 95
+    },
+    {
+      "name": "xml_to_json",
+      "must_have": [
+        "xml",
+        "json"
+      ],
+      "mode": "data_conversion",
+      "priority": 80
+    }
+  ]
+}

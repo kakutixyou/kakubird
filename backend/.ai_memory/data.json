@@ -1,0 +1,43 @@
+// data.json
+{
+    "blocks": [
+        {
+            "type": "hero",
+            "props": {
+                "title": "Hero Title",
+                "subtitle": "Hero Subtitle"
+            }
+        },
+        {
+            "type": "card-grid",
+            "props": {
+                "title": "Card Grid Title",
+                "cards": [
+                    {
+                        "title": "Card 1",
+                        "description": "Card 1 Description"
+                    },
+                    {
+                        "title": "Card 2",
+                        "description": "Card 2 Description"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "table",
+            "props": {
+                "title": "Table Title",
+                "headers": ["Header 1", "Header 2"],
+                "rows": [
+                    {
+                        "cells": ["Cell 1", "Cell 2"]
+                    },
+                    {
+                        "cells": ["Cell 3", "Cell 4"]
+                    }
+                ]
+            }
+        }
+    ]
+}

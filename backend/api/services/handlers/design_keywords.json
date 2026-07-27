@@ -1,0 +1,568 @@
+{
+  "_comment": "DesignHandler.py が参照するキーワード辞書。design_rules.py の MOOD_TYPES / DOMAIN_TYPES と対応。",
+  "_version": "1.0.0",
+  "triggers": {
+    "_comment": "このキーワードが1つでも含まれていればDesignHandlerが起動を検討する",
+    "commands": [
+      "/css",
+      "/design",
+      "/html"
+    ],
+    "ja": [
+      "デザイン",
+      "スタイル",
+      "スタイルシート",
+      "テーマ",
+      "サーフェス",
+      "アニメーション",
+      "レイアウト",
+      "ページ",
+      "サイト",
+      "画面",
+      "色",
+      "カラー",
+      "フォント",
+      "背景",
+      "見た目",
+      "見せて"
+    ],
+    "en": [
+      "css",
+      "html",
+      "style",
+      "stylesheet",
+      "theme",
+      "surface",
+      "animation",
+      "layout",
+      "page",
+      "design",
+      "card",
+      "block",
+      "color",
+      "font",
+      "background",
+      "ui"
+    ]
+  },
+  "surface_keywords": {
+    "_comment": "キーワード → surface名。design_rules.pyのBASE_MOOD_RULESのpreferred_surfacesと対応。",
+    "glass": {
+      "ja": [
+        "幽霊",
+        "透明",
+        "ガラス",
+        "すりガラス",
+        "霞",
+        "透過",
+        "クリア"
+      ],
+      "en": [
+        "glass",
+        "ghost",
+        "transparent",
+        "clear",
+        "frosted",
+        "translucent"
+      ]
+    },
+    "frosted-dark": {
+      "ja": [
+        "月光",
+        "夜",
+        "月",
+        "ピアノ",
+        "ベートーベン",
+        "霧",
+        "靄",
+        "暗闇",
+        "漆黒",
+        "ソナタ",
+        "夕暮れ",
+        "黄昏"
+      ],
+      "en": [
+        "moonlight",
+        "night",
+        "moon",
+        "piano",
+        "beethoven",
+        "fog",
+        "smoke",
+        "dark",
+        "sonata",
+        "dusk"
+      ]
+    },
+    "glow": {
+      "ja": [
+        "革命",
+        "爆発",
+        "炎",
+        "エネルギー",
+        "発光",
+        "輝き",
+        "ネオン",
+        "サイバー",
+        "光",
+        "閃光",
+        "衝撃"
+      ],
+      "en": [
+        "revolution",
+        "explosion",
+        "fire",
+        "energy",
+        "glow",
+        "neon",
+        "cyber",
+        "light",
+        "flash",
+        "impact"
+      ]
+    },
+    "neumorphism": {
+      "ja": [
+        "ニューモーフィズム",
+        "立体",
+        "浮き出し",
+        "柔らかい",
+        "やわらかい",
+        "粘土",
+        "クレイ"
+      ],
+      "en": [
+        "neumorphism",
+        "clay",
+        "soft",
+        "3d",
+        "emboss",
+        "press"
+      ]
+    },
+    "elevated": {
+      "ja": [
+        "影",
+        "浮いた",
+        "カード",
+        "立体的",
+        "奥行き"
+      ],
+      "en": [
+        "shadow",
+        "elevated",
+        "floating",
+        "card",
+        "depth",
+        "material"
+      ]
+    },
+    "paper": {
+      "ja": [
+        "紙",
+        "手書き",
+        "スケッチ",
+        "ノート",
+        "原稿",
+        "羊皮紙",
+        "古文書",
+        "アナログ"
+      ],
+      "en": [
+        "paper",
+        "sketch",
+        "handwritten",
+        "notebook",
+        "manuscript",
+        "analog",
+        "parchment"
+      ]
+    },
+    "bordered": {
+      "ja": [
+        "枠線",
+        "アウトライン",
+        "ボーダー",
+        "シャープ",
+        "幾何学",
+        "直線",
+        "モノクロ"
+      ],
+      "en": [
+        "border",
+        "outline",
+        "sharp",
+        "geometric",
+        "linear",
+        "monochrome",
+        "brutalist"
+      ]
+    },
+    "flat": {
+      "ja": [
+        "フラット",
+        "シンプル",
+        "ミニマル",
+        "すっきり",
+        "余白",
+        "整然"
+      ],
+      "en": [
+        "flat",
+        "simple",
+        "minimal",
+        "clean",
+        "whitespace",
+        "pure"
+      ]
+    }
+  },
+  "mood_keywords": {
+    "_comment": "design_rules.py の MOOD_TYPES と対応。mood → preferred_surfacesへの橋渡し。",
+    "futuristic": {
+      "ja": [
+        "未来的",
+        "サイバー",
+        "スペース",
+        "宇宙",
+        "SF",
+        "テクノ",
+        "デジタル",
+        "ハイテク"
+      ],
+      "en": [
+        "futuristic",
+        "cyber",
+        "space",
+        "scifi",
+        "techno",
+        "digital",
+        "hitech",
+        "future"
+      ]
+    },
+    "elegant": {
+      "ja": [
+        "エレガント",
+        "優雅",
+        "上品",
+        "クラシック",
+        "高級",
+        "洗練",
+        "品のある",
+        "美しい"
+      ],
+      "en": [
+        "elegant",
+        "graceful",
+        "classy",
+        "classic",
+        "luxury",
+        "refined",
+        "sophisticated"
+      ]
+    },
+    "academic": {
+      "ja": [
+        "学術的",
+        "論文",
+        "研究",
+        "教育",
+        "学習",
+        "知的",
+        "知識"
+      ],
+      "en": [
+        "academic",
+        "thesis",
+        "research",
+        "education",
+        "learning",
+        "intellectual",
+        "knowledge"
+      ]
+    },
+    "historical": {
+      "ja": [
+        "歴史的",
+        "古風",
+        "レトロ",
+        "ヴィンテージ",
+        "古典",
+        "アンティーク",
+        "懐かしい"
+      ],
+      "en": [
+        "historical",
+        "vintage",
+        "retro",
+        "antique",
+        "classic",
+        "nostalgic",
+        "old"
+      ]
+    },
+    "playful": {
+      "ja": [
+        "楽しい",
+        "かわいい",
+        "ポップ",
+        "カジュアル",
+        "元気",
+        "明るい",
+        "キュート",
+        "カラフル"
+      ],
+      "en": [
+        "playful",
+        "cute",
+        "pop",
+        "casual",
+        "fun",
+        "bright",
+        "colorful",
+        "cheerful"
+      ]
+    },
+    "corporate": {
+      "ja": [
+        "ビジネス",
+        "企業",
+        "プロフェッショナル",
+        "オフィス",
+        "フォーマル",
+        "仕事"
+      ],
+      "en": [
+        "business",
+        "corporate",
+        "professional",
+        "office",
+        "formal",
+        "work"
+      ]
+    },
+    "minimal": {
+      "ja": [
+        "シンプル",
+        "ミニマル",
+        "すっきり",
+        "余白",
+        "無駄なし",
+        "モノトーン"
+      ],
+      "en": [
+        "minimal",
+        "simple",
+        "clean",
+        "whitespace",
+        "monochrome",
+        "sparse"
+      ]
+    }
+  },
+  "mood_to_surface": {
+    "_comment": "design_rules.py BASE_MOOD_RULES の preferred_surfaces と完全対応",
+    "futuristic": [
+      "glass",
+      "glow"
+    ],
+    "elegant": [
+      "paper",
+      "elevated"
+    ],
+    "academic": [
+      "flat",
+      "bordered"
+    ],
+    "historical": [
+      "paper"
+    ],
+    "playful": [
+      "neumorphism",
+      "glass"
+    ],
+    "corporate": [
+      "flat",
+      "elevated"
+    ],
+    "minimal": [
+      "flat"
+    ]
+  },
+  "output_mode_keywords": {
+    "_comment": "出力形式を判定するキーワード",
+    "html": {
+      "ja": [
+        "ページ",
+        "サイト",
+        "ブロック",
+        "全体",
+        "作って",
+        "生成して"
+      ],
+      "en": [
+        "html",
+        "page",
+        "site",
+        "block",
+        "full",
+        "create",
+        "generate"
+      ]
+    },
+    "css_only": {
+      "ja": [
+        "cssだけ",
+        "cssのみ",
+        "css のみ",
+        "css だけ",
+        "スタイルだけ",
+        "スタイルのみ",
+        "クラスだけ",
+        "クラスのみ",
+        "cssのみ",
+        "のみ"
+      ],
+      "en": [
+        "/css",
+        "css only",
+        "just css",
+        "styles only",
+        "cssonly"
+      ]
+    }
+  },
+  "named_themes": {
+    "_comment": "特定の固有名詞・作品名 → surface + テーマ名のマッピング",
+    "月光ソナタ": {
+      "surface": "frosted-dark",
+      "title": "月光ソナタ · 第三楽章"
+    },
+    "moonlight sonata": {
+      "surface": "frosted-dark",
+      "title": "Moonlight Sonata · III"
+    },
+    "革命のエチュード": {
+      "surface": "glow",
+      "title": "革命のエチュード"
+    },
+    "革命": {
+      "surface": "glow",
+      "title": "CSS 革命宣言"
+    },
+    "幽霊": {
+      "surface": "glass",
+      "title": "Ghost Interface"
+    },
+    "ghost": {
+      "surface": "glass",
+      "title": "Ghost Interface"
+    }
+  },
+  "domain_keywords": {
+    "_comment": "design_rules.py の DOMAIN_TYPES と対応。将来の拡張用。",
+    "engineering": {
+      "ja": [
+        "エンジニアリング",
+        "技術",
+        "プログラム",
+        "コード",
+        "システム",
+        "インフラ"
+      ],
+      "en": [
+        "engineering",
+        "technical",
+        "code",
+        "system",
+        "infrastructure"
+      ]
+    },
+    "history": {
+      "ja": [
+        "歴史",
+        "年表",
+        "史",
+        "時代"
+      ],
+      "en": [
+        "history",
+        "timeline",
+        "historical",
+        "era"
+      ]
+    },
+    "medical": {
+      "ja": [
+        "医療",
+        "医学",
+        "病院",
+        "健康",
+        "症状"
+      ],
+      "en": [
+        "medical",
+        "health",
+        "hospital",
+        "symptom"
+      ]
+    },
+    "business": {
+      "ja": [
+        "ビジネス",
+        "経営",
+        "売上",
+        "利益",
+        "KPI",
+        "戦略"
+      ],
+      "en": [
+        "business",
+        "management",
+        "revenue",
+        "profit",
+        "strategy"
+      ]
+    },
+    "language": {
+      "ja": [
+        "語学",
+        "言語",
+        "英語",
+        "翻訳",
+        "単語",
+        "文法"
+      ],
+      "en": [
+        "language",
+        "english",
+        "translation",
+        "vocabulary",
+        "grammar"
+      ]
+    },
+    "science": {
+      "ja": [
+        "科学",
+        "物理",
+        "化学",
+        "生物",
+        "数学",
+        "研究"
+      ],
+      "en": [
+        "science",
+        "physics",
+        "chemistry",
+        "biology",
+        "math",
+        "research"
+      ]
+    },
+    "general": {
+      "ja": [],
+      "en": []
+    }
+  }
+}

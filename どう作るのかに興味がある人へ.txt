@@ -1,0 +1,73 @@
+// To側でバックエンドと通信する時のイメージ
+const savedApiKey = localStorage.getItem("jimdo_saved_api_key"); // 画面で入力・保存したキー
+
+const response = await fetch("http://127.0.0.1:8765/api/...", {
+  method: "GET", // または POST
+  headers: {
+    "Content-Type": "application/json",
+    // 認証ヘッダーとしてAPIキーを渡す（Bearer認証のスタイル）
+    "Authorization": `Bearer ${savedApiKey}` 
+  }
+});
+
+const data = await response.json();
+console.log("取得したデータ:", data);
+
+apiSettingsStore.ts+client.ts+ApiSettingsPage.tsx(画面を表示するところ)でAPIを管理しています。
+Electronで立ち上げてAPIキーを作成しているURLがわからなかったら次のURLになるみたいです。http://127.0.0.1:8765/api
+
+
+
+それでは、「npm run dev だけで両方起動する魔法の設定」 を行いましょう！非常に簡単です。
+
+ステップ1：同時起動を助けるツール（concurrently）を入れる
+まずは、複数のコマンドを同時に動かすための便利なツールをインストールします。
+
+frontend フォルダにいる状態で、ターミナルで以下のコマンドを実行してください。
+
+PowerShell
+npm install -D concurrently
+ステップ2：package.json を書き換える
+次に、コマンドの設計図である package.json を編集します。
+frontend/package.json をエディタで開き、"scripts" の部分を見つけてください。
+
+【変更前】（だいたいこんな感じになっているはずです）
+
+JSON
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+【変更後】（以下のように書き換えて上書き保存します）
+
+JSON
+  "scripts": {
+    "dev:vite": "vite",
+    "dev:python": "cd ../backend/api && python -m uvicorn ai_server:app --port 8765 --reload",
+    "dev": "concurrently \"npm run dev:vite\" \"npm run dev:python\"",
+    "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+💡 何をしたのか？
+
+dev:vite ： 今までの「画面を表示する」コマンドです。
+
+dev:python ： 「1つ上の階層の backend/api に移動して、先ほどの ai_server.py を起動する」コマンドです。
+
+dev ： concurrently を使って、上の2つを同時に実行するように指示しています。
+
+ステップ3：いざ、実行！
+ターミナルを1つだけ開いて（他で動いているものがあれば一旦 Ctrl + C で全部止めます）、いつものコマンドを打ってみてください。
+
+PowerShell
+npm run dev
+
+RAGを作りたい人向け:
+backend/api/ai_server.py
+frontend/src/hooks/useAiChat.js
+frontend/src/components/ZipUploadModal.jsx
+frontend/src/components/Memory/MemoryContent.tsx
+を編集する必要があります!

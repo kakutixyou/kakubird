@@ -1,0 +1,61 @@
+{
+  "global": {
+    "max_score_cap": 85
+  },
+  "save_author_knowledge": {
+    "base_score": 100
+  },
+  "project_builder": {
+    "base_score": 60,
+    "app_name_bonus": 40
+  },
+  "ui_design": {
+    "action_weight": 20,
+    "target_weight": 10,
+    "theme_bonus": 10,
+    "surface_bonus": 10,
+    "responsive_bonus": 10
+  },
+  "deployment": {
+    "intent_weight": 20,
+    "trigger_weight": 15,
+    "surface_weight": 10,
+    "mood_weight": 5,
+    "named_theme_bonus": 40,
+    "surface_trigger_bonus": 20
+  },
+  "line_format": {
+    "base_score": 85
+  },
+  "line_break": {
+    "base_score": 85
+  },
+  "database_operation": {
+    "base_score": 50,
+    "action_show_bonus": 20,
+    "target_db_bonus": 15
+  },
+  "weights": {
+    "action": 2.0,
+    "target": 1.5,
+    "theme": 2.5,
+    "keyword": 1.0
+  },
+  "thresholds": {
+    "high": 8,
+    "medium": 5,
+    "low": 3
+  },
+  "bonuses": {
+    "action_target_match": 2,
+    "theme_match": 3
+  },
+  "project_analysis": {
+    "base_score": 90,
+    "analysis_bonus": 30,
+    "architecture_bonus": 20,
+    "xml_bonus": 20,
+    "python_bonus": 20,
+    "knowledge_bonus": 20
+  }
+}

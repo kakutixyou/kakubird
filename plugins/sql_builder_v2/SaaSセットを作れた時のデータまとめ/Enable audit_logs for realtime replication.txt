@@ -1,0 +1,94 @@
+-- ============================================================
+-- infra/migrations/006_auto_create_user_profile.sql
+--
+-- Supabase Auth でユーザーが作成されたとき（サインアップ・招待）
+-- に自動で public.users にプロファイルを作成するトリガー。
+--
+-- これがないと：
+--   auth.users にはレコードがある
+--   public.users にはレコードがない
+--   → アプリがプロファイル取得に失敗する
+--
+-- 適用方法：
+--   Supabase ダッシュボード → SQL Editor → 貼り付けて RUN
+-- ============================================================
+
+-- -----------------------------------------------------------
+-- 1. デフォルト組織を作成（まだなければ）
+--    初回サインアップ時に所属させる組織
+-- -----------------------------------------------------------
+INSERT INTO organizations (id, name, slug, is_pro_plan)
+VALUES (
+  '00000000-0000-0000-0000-000000000001',
+  'My Organization',
+  'my-org',
+  false
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- -----------------------------------------------------------
+-- 2. auth.users への INSERT 時に public.users を自動作成する関数
+-- -----------------------------------------------------------
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (
+    id,
+    org_id,
+    email,
+    display_name,
+    role
+  )
+  VALUES (
+    NEW.id,
+    '00000000-0000-0000-0000-000000000001',  -- デフォルト組織
+    NEW.email,
+    -- display_name: メタデータにあれば使う、なければメールの@前
+    COALESCE(
+      NEW.raw_user_meta_data->>'display_name',
+      NEW.raw_user_meta_data->>'full_name',
+      split_part(NEW.email, '@', 1)
+    ),
+    -- 最初のユーザーは owner、以降は member
+    CASE
+      WHEN (SELECT COUNT(*) FROM public.users) = 0 THEN 'owner'
+      ELSE 'member'
+    END
+  )
+  ON CONFLICT (id) DO NOTHING;  -- 既存レコードは上書きしない
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- -----------------------------------------------------------
+-- 3. トリガー登録（auth.users の INSERT 後に発火）
+-- -----------------------------------------------------------
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_new_user();
+
+-- -----------------------------------------------------------
+-- 4. 既存の auth.users に対してプロファイルを一括作成
+--    （すでにサインアップ済みのユーザーに対応）
+-- -----------------------------------------------------------
+INSERT INTO public.users (id, org_id, email, display_name, role)
+SELECT
+  au.id,
+  '00000000-0000-0000-0000-000000000001',
+  au.email,
+  COALESCE(
+    au.raw_user_meta_data->>'display_name',
+    split_part(au.email, '@', 1)
+  ),
+  CASE
+    WHEN ROW_NUMBER() OVER (ORDER BY au.created_at) = 1 THEN 'owner'
+    ELSE 'member'
+  END
+FROM auth.users au
+WHERE NOT EXISTS (
+  SELECT 1 FROM public.users pu WHERE pu.id = au.id
+);

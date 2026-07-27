@@ -1,0 +1,25 @@
+{
+  "rules": [
+    {
+      "id": "missing_package_json",
+      "target": "react",
+      "check": "package.json",
+      "severity": "error",
+      "message": "package.json が見つかりません。"
+    },
+    {
+      "id": "missing_requirements",
+      "target": "fastapi",
+      "check": "requirements.txt",
+      "severity": "error",
+      "message": "requirements.txt が必要です。"
+    },
+    {
+      "id": "missing_src",
+      "target": "react",
+      "check": "src",
+      "severity": "warning",
+      "message": "srcフォルダが存在しません。"
+    }
+  ]
+}

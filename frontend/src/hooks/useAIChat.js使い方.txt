@@ -1,0 +1,9 @@
+JSONをデータベースに保存ボタンを押したときの処理は、以下の通りです。
+
+ボタンを押したとき、next_promptに"この求人データをJSONとしてデータベースに保存して"が設定されます。
+このnext_promptは、sendMessage関数に渡されます。
+sendMessage関数では、nextHistoryForApiにcorrectedTextが追加されます。
+correctedTextは、buildCommandPayload関数で解析されます。
+buildCommandPayload関数では、correctedTextが"この求人データをJSONとしてデータベースに保存して"にマッチした場合、commandPayloadにsave_jsonコマンドが追加されます。
+commandPayloadは、バックエンドに送信されます。
+バックエンドでは、save_jsonコマンドを受け取った場合、JSONデータをデータベースに保存します。

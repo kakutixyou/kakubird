@@ -1,0 +1,12 @@
+{
+  "topic": "Electron IPC通信",
+  "rules": [
+    "メインプロセスからレンダラーへは webContents.send() を使う",
+    "レンダラーからメインへは ipcRenderer.invoke() + ipcMain.handle() のペアで実装する",
+    "contextIsolation: true の場合は preload.js で contextBridge.exposeInMainWorld を経由する"
+  ],
+  "project_specific": {
+    "preload_path": "src/preload.ts",
+    "naming_convention": "チャンネル名は 'domain:action' 形式（例: 'file:open'）"
+  }
+}

@@ -1,0 +1,116 @@
+
+{
+  "title": "GitHubリポジトリへの書き込み権限・フォーク許可方法_001",
+  "category": "github",
+  "subcategory": "repository_permissions",
+  "tags": [
+    "manual",
+    "github",
+    "repository",
+    "collaborator",
+    "write",
+    "fork",
+    "private-repository",
+    "public-repository",
+    "pull-request",
+    "gh-cli"
+  ],
+  "difficulty": "beginner",
+  "language": "ja",
+  "summary": "GitHubリポジトリでコラボレータへWrite権限を付与する方法、フォークを許可する方法、PRを作成する流れをまとめたマニュアル。",
+  "sections": [
+    {
+      "title": "Web画面からコラボレータへWrite権限を付与する",
+      "steps": [
+        "GitHubへログインする。",
+        "対象リポジトリを開く。",
+        "Settingsを開く。",
+        "Manage access（または Collaborators & teams）を開く。",
+        "Invite a collaboratorをクリックする。",
+        "GitHubユーザー名を入力して選択する。",
+        "権限をWriteに設定する。",
+        "招待を送信する。",
+        "相手が承諾すると有効になる。(githubcopliotが動かない場合folkボタンを押して設定する)"
+      ],
+      "notes": [
+        "Write権限ではコミット・プッシュ・ブランチ作成が可能。",
+        "リポジトリ設定の変更にはAdmin権限が必要。",
+        "招待は相手が承諾するまで有効にならない。"
+      ]
+    },
+    {
+      "title": "GitHub CLIでコラボレータを追加する",
+      "requirements": [
+        "GitHub CLI（gh）がインストール済み",
+        "GitHubへ認証済み"
+      ],
+      "command": "gh repo add-collaborator OWNER/REPOSITORY USERNAME --permission write",
+      "example": "gh repo add-collaborator k022c0001-alt/scraiping_json_-extraction kakutixyou --permission write"
+    },
+    {
+      "title": "フォークを許可する",
+      "public_repository": [
+        "Publicリポジトリはデフォルトで誰でもFork可能。"
+      ],
+      "private_repository": [
+        "Settings → Options → Allow forking（Allow forks）を有効にする。",
+        "組織リポジトリでは組織ポリシーに従う。"
+      ]
+    },
+    {
+      "title": "フォーク後の作業手順",
+      "steps": [
+        "リポジトリをForkする。",
+        "Fork先のリポジトリ名を確認する。",
+        "変更を加える。",
+        "コミットしてPushする。",
+        "Pull Requestを作成する。"
+      ]
+    },
+    {
+      "title": "代替手段",
+      "methods": [
+        "パッチ(diff)を適用する。",
+        "zipやtar形式でファイルを受け取る。",
+        "チャット上でファイル内容をコピーして利用する。"
+      ]
+    },
+    {
+      "title": "推奨ワークフロー",
+      "options": [
+        {
+          "id": "A",
+          "title": "Write権限を付与する",
+          "description": "コラボレータへWrite権限を与えて直接Push・PRを行う。"
+        },
+        {
+          "id": "B",
+          "title": "Forkして作業する",
+          "description": "Forkしたリポジトリで作業し、Pull Requestを送る。"
+        },
+        {
+          "id": "C",
+          "title": "パッチを適用する",
+          "description": "差分ファイルを適用して手動で反映する。"
+        },
+        {
+          "id": "D",
+          "title": "その他",
+          "description": "希望する方法に応じて対応する。"
+        }
+      ]
+    }
+  ],
+  "keywords": [
+    "GitHub",
+    "Write権限",
+    "Collaborator",
+    "Fork",
+    "Pull Request",
+    "Repository",
+    "GitHub CLI",
+    "gh"
+  ],
+  "source_type": "manual",
+  "reusable": true
+}

@@ -1,0 +1,43 @@
+Handler.pyの中でProjectKnowledgeEngine.pyにつなげるのがおすすめ
+
+PHPEngine
+
+│
+
+├── __init__()
+
+├── generate()
+
+│
+
+├── _search_knowledge()
+
+├── _search_templates()
+
+├── _search_examples()
+
+├── _load_json()
+
+├── _load_php()
+
+├── _build_prompt()
+
+├── _build_php_block()
+
+├── _merge_context()
+
+├── _safe_read()
+
+├── _collect_files()
+
+└── _score_file() 
+
+ProjectKnowledgeEngine.py→knowledgeシリーズへつなげる場合、
+PHPEngine (あるいは共通の KnowledgeEngine)
+│
+├── __init__()
+├── generate()
+│
+├── _load_from_json()  ← 地図(JSON)を見て必要なものをサクッと読むだけ
+└── _build_prompt()    ← 読んだものをLLMに渡す形にまとめるだけ
+ファイルを探し回ったり、スコアを計算したりする複雑なメソッドは一切不要になります

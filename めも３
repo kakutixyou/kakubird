@@ -1,0 +1,1 @@
+useaichat.jsを全文読んで、backendフォルダーの構成を読んだあと、orchestra.pyのコードを読んで、pluginのSQLがないことに気づいて、改修のついでにuseaichat.jsを少し短くしてほしい。(SQLはorchestra実装前に作っており、useaichat.jsが

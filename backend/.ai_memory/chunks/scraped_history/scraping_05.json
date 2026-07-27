@@ -1,0 +1,434 @@
+[
+  {
+    "chunk_id": 0,
+    "content": "Branches\nTags\nOpen more actions menu\nFolders and files\nName\nName\nLast commit message\nLast commit date\nLatest commit\nHistory"
+  },
+  {
+    "chunk_id": 1,
+    "content": "621 Commits\n621 Commits\n.github\n.github\ncache\ncache\nchecksum\nchecksum\ncipher\ncipher"
+  },
+  {
+    "chunk_id": 2,
+    "content": "compression\ncompression\nconstraints\nconstraints\nconversion\nconversion\ndynamic\ndynamic\ngraph\ngraph"
+  },
+  {
+    "chunk_id": 3,
+    "content": "hashing\nhashing\nmath\nmath\nother\nother\nproject_euler\nproject_euler\nsearch\nsearch"
+  },
+  {
+    "chunk_id": 4,
+    "content": "sort\nsort\nsqrt\nsqrt\nstrings\nstrings\nstructure\nstructure\n.gitignore\n.gitignore"
+  },
+  {
+    "chunk_id": 5,
+    "content": ".gitpod.dockerfile\n.gitpod.dockerfile\n.gitpod.yml\n.gitpod.yml\n.golangci.yml\n.golangci.yml\nCONTRIBUTING.md\nCONTRIBUTING.md\nLICENSE\nLICENSE"
+  },
+  {
+    "chunk_id": 6,
+    "content": "README.md\nREADME.md\nSTYLE.md\nSTYLE.md\ngo.mod\ngo.mod\ngo.sum\ngo.sum\nRepository files navigation\nThe Algorithms - Go"
+  },
+  {
+    "chunk_id": 7,
+    "content": "Algorithms implemented in Go (for education)\nThe repository is a collection of open-source implementation of a variety of algorithms implemented in Go and licensed under\nMIT License\n.\nRead our\nContribution Guidelines\nbefore you contribute.\nList of Algorithms\nPackages:\nahocorasick"
+  },
+  {
+    "chunk_id": 8,
+    "content": "Functions:\nAdvanced\n:  Advanced Function performing the Advanced Aho-Corasick algorithm. Finds and prints occurrences of each pattern.\nAhoCorasick\n:  AhoCorasick Function performing the Basic Aho-Corasick algorithm. Finds and prints occurrences of each pattern.\nArrayUnion\n:  ArrayUnion Concats two arrays of int's into one.\nBoolArrayCapUp\n:  BoolArrayCapUp Dynamically increases an array size of bool's by 1.\nBuildAc"
+  },
+  {
+    "chunk_id": 9,
+    "content": ":  Functions that builds Aho Corasick automaton.\nBuildExtendedAc\n:  BuildExtendedAc Functions that builds extended Aho Corasick automaton.\nComputeAlphabet\n:  ComputeAlphabet Function that returns string of all the possible characters in given patterns.\nConstructTrie\n:  ConstructTrie Function that constructs Trie as an automaton for a set of reversed & trimmed strings.\nContains\n:  Contains Returns 'true' if array of int's 's' contains int 'e', 'false' otherwise.\nCreateNewState"
+  },
+  {
+    "chunk_id": 10,
+    "content": ":  CreateNewState Automaton function for creating a new state 'state'.\nCreateTransition\n:  CreateTransition Creates a transition for function σ(state,letter) = end.\nGetParent\n:  GetParent Function that finds the first previous state of a state and returns it. Used for trie where there is only one parent.\nGetTransition\n:  GetTransition Returns ending state for transition σ(fromState,overChar), '-1' if there is none.\nGetWord\n:  GetWord Function that returns word found in text 't' at position range 'begin' to 'end'.\nIntArrayCapUp"
+  },
+  {
+    "chunk_id": 11,
+    "content": ":  IntArrayCapUp Dynamically increases an array size of int's by 1.\nStateExists\n:  StateExists Checks if state 'state' exists. Returns 'true' if it does, 'false' otherwise.\nTypes\nResult\n: No description provided.\narmstrong\nFunctions:\nIsArmstrong\n: No description provided."
+  },
+  {
+    "chunk_id": 12,
+    "content": "binary\nPackage binary describes algorithms that use binary operations for different calculations.\nFunctions:\nAbs\n:  Abs returns absolute value using binary operation Principle of operation: 1) Get the mask by right shift by the base 2) Base is the size of an integer variable in bits, for example, for int32 it will be 32, for int64 it will be 64 3) For negative numbers, above step sets mask as 1 1 1 1 1 1 1 1 and 0 0 0 0 0 0 0 0 for positive numbers. 4) Add the mask to the given number. 5) XOR of mask + n and mask gives the absolute value.\nBitCounter\n:  BitCounter - The function returns the number of set bits for an unsigned integer number\nFastInverseSqrt\n:  FastInverseSqrt assumes that argument is always positive, and it does not deal with negative numbers. The \"magic\" number 0x5f3759df is hex for 1597463007 in decimals. The math.Float32bits is alias to *(*uint32)(unsafe.Pointer(&f)) and math.Float32frombits is to *(*float32)(unsafe.Pointer(&b)).\nIsPowerOfTwo"
+  },
+  {
+    "chunk_id": 13,
+    "content": ":  IsPowerOfTwo This function uses the fact that powers of 2 are represented like 10...0 in binary, and numbers one less than the power of 2 are represented like 11...1. Therefore, using the and function:\t  10...0\t& 01...1\t  00...0 -> 0 This is also true for 0, which is not a power of 2, for which we have to add and extra condition.\nIsPowerOfTwoLeftShift\n:  IsPowerOfTwoLeftShift This function takes advantage of the fact that left shifting a number by 1 is equivalent to multiplying by 2. For example, binary 00000001 when shifted by 3 becomes 00001000, which in decimal system is 8 or = 2 * 2 * 2\nLogBase2\n:  LogBase2 Finding the exponent of n = 2**x using bitwise operations (logarithm in base 2 of n)\nSee more\nMeanUsingAndXor\n:  MeanUsingAndXor This function finds arithmetic mean using \"AND\" and \"XOR\" operations\nMeanUsingRightShift\n:  MeanUsingRightShift This function finds arithmetic mean using right shift"
+  },
+  {
+    "chunk_id": 14,
+    "content": "ReverseBits\n:  ReverseBits This function initialized the result by 0 (all bits 0) and process the given number starting from its least significant bit. If the current bit is 1, set the corresponding most significant bit in the result and finally move on to the next bit in the input number. Repeat this till all its bits are processed.\nSequenceGrayCode\n:  SequenceGrayCode The function generates an \"Gray code\" sequence of length n\nSqrt\n: No description provided.\nXorSearchMissingNumber\n:  XorSearchMissingNumber This function finds a missing number in a sequence\ncache\nFunctions:"
+  },
+  {
+    "chunk_id": 15,
+    "content": "NewLRU\n: NewLRU represent initiate lru cache with capacity\nNewLFU\n: NewLFU represent initiate lfu cache with capacity\nGet\n: Get the value by key from LFU cache\nPut\n: Put the key and value in LFU cache\nTypes\nLRU"
+  },
+  {
+    "chunk_id": 16,
+    "content": ": Default the struct of lru cache algorithm.\nLFU\n: Default the struct of lfu cache algorithm.\ncaesar\nPackage caesar is the shift cipher ref:\nhttps://en.wikipedia.org/wiki/Caesar_cipher\nFunctions:\nDecrypt\n:  Decrypt decrypts by left shift of \"key\" each character of \"input\"\nEncrypt"
+  },
+  {
+    "chunk_id": 17,
+    "content": ":  Encrypt encrypts by right shift of \"key\" each character of \"input\"\nFuzzCaesar\n: No description provided.\ncatalan\nFunctions:\nCatalanNumber\n:  CatalanNumber This function returns the\nnth\nCatalan number\nchecksum"
+  },
+  {
+    "chunk_id": 18,
+    "content": "Package checksum describes algorithms for finding various checksums\nFunctions:\nCRC8\n:  CRC8 calculates CRC8 checksum of the given data.\nLuhn\n:  Luhn validates the provided data using the Luhn algorithm.\nTypes\nCRCModel\n: No description provided.\ncoloring"
+  },
+  {
+    "chunk_id": 19,
+    "content": "Package coloring provides implementation of different graph coloring algorithms, e.g. coloring using BFS, using Backtracking, using greedy approach. Author(s):\nShivam\nFunctions:\nBipartiteCheck\n:  basically tries to color the graph in two colors if each edge connects 2 differently colored nodes the graph can be considered bipartite\nTypes\nGraph\n: No description provided.\ncombination\nPackage combination ..."
+  },
+  {
+    "chunk_id": 20,
+    "content": "Functions:\nStart\n:  Start ...\nTypes\nCombinations\n: No description provided.\ncompression\nFunctions:\nHuffDecode\n:  HuffDecode recursively decodes the binary code in, by traversing the Huffman compression tree pointed by root. current stores the current node of the traversing algorithm. out stores the current decoded string."
+  },
+  {
+    "chunk_id": 21,
+    "content": "HuffEncode\n:  HuffEncode encodes the string in by applying the mapping defined by codes.\nHuffEncoding\n:  HuffEncoding recursively traverses the Huffman tree pointed by node to obtain the map codes, that associates a rune with a slice of booleans. Each code is prefixed by prefix and left and right children are labelled with the booleans false and true, respectively.\nHuffTree\n:  HuffTree returns the root Node of the Huffman tree by compressing listfreq. The compression produces the most optimal code lengths, provided listfreq is ordered, i.e.: listfreq[i] <= listfreq[j], whenever i < j.\nTypes\nNode\n: No description provided.\nSymbolFreq"
+  },
+  {
+    "chunk_id": 22,
+    "content": ": No description provided.\ncompression_test\nFunctions:\nSymbolCountOrd\n:  SymbolCountOrd computes sorted symbol-frequency list of input message\nconversion\nPackage conversion is a package of implementations which converts one data structure to another.\nFunctions:\nBase64Decode\n:  Base64Decode decodes the received input base64 string into a byte slice. The implementation follows the RFC4648 standard, which is documented at"
+  },
+  {
+    "chunk_id": 23,
+    "content": "https://datatracker.ietf.org/doc/html/rfc4648#section-4\nBase64Encode\n:  Base64Encode encodes the received input bytes slice into a base64 string. The implementation follows the RFC4648 standard, which is documented at\nhttps://datatracker.ietf.org/doc/html/rfc4648#section-4\nBinaryToDecimal\n:  BinaryToDecimal() function that will take Binary number as string, and return its Decimal equivalent as integer.\nDecimalToBinary\n:  DecimalToBinary() function that will take Decimal number as int, and return its Binary equivalent as string.\nFuzzBase64Encode\n: No description provided."
+  },
+  {
+    "chunk_id": 24,
+    "content": "HEXToRGB\n:  HEXToRGB splits an RGB input (e.g. a color in hex format; 0x) into the individual components: red, green and blue\nIntToRoman\n:  IntToRoman converts an integer value to a roman numeral string. An error is returned if the integer is not between 1 and 3999.\nRGBToHEX\n:  RGBToHEX does exactly the opposite of HEXToRGB: it combines the three components red, green and blue to an RGB value, which can be converted to e.g. Hex\nReverse\n:  Reverse() function that will take string, and returns the reverse of that string.\nRomanToInt\n:  RomanToInt converts a roman numeral string to an integer. Roman numerals for numbers outside the range 1 to 3,999 will return an error. Nil or empty string return 0 with no error thrown."
+  },
+  {
+    "chunk_id": 25,
+    "content": "deque\nPackage deque implements a Double Ended Queue data structure.\nFunctions:\nNew\n:  New returns a new DoublyEndedQueue.\nTypes\nDoublyEndedQueue\n: No description provided.\ndeque_test\nTypes"
+  },
+  {
+    "chunk_id": 26,
+    "content": "QueryStructure\n: No description provided.\nTestCaseData\n: No description provided.\ndiffiehellman\nPackage diffiehellman implements Diffie-Hellman Key Exchange Algorithm for more information watch :\nhttps://www.youtube.com/watch?v=NmM9HA2MQGI\nFunctions:\nGenerateMutualKey\n:  GenerateMutualKey : generates a mutual key that can be used by only alice and bob mutualKey = (shareKey^prvKey)%primeNumber"
+  },
+  {
+    "chunk_id": 27,
+    "content": "GenerateShareKey\n:  GenerateShareKey : generates a key using client private key , generator and primeNumber this key can be made public shareKey = (g^key)%primeNumber\ndynamic\nPackage dynamic is a package of certain implementations of dynamically run algorithms.\nFunctions:\nAbbreviation\n:  Returns true if it is possible to make a equals b (if b is an abbreviation of a), returns false otherwise\nBin2\n:  Bin2 function\nCoinChange"
+  },
+  {
+    "chunk_id": 28,
+    "content": ":  CoinChange finds the number of possible combinations of coins of different values which can get to the target amount.\nCutRodDp\n:  CutRodDp solve the same problem using dynamic programming\nCutRodRec\n:  CutRodRec solve the problem recursively: initial approach\nEditDistanceDP\n:  EditDistanceDP is an optimised implementation which builds on the ideas of the recursive implementation. We use dynamic programming to compute the DP table where dp[i][j] denotes the edit distance value of first[0..i-1] and second[0..j-1]. Time complexity is O(m * n) where m and n are lengths of the strings, first and second respectively.\nEditDistanceRecursive\n:  EditDistanceRecursive is a naive implementation with exponential time complexity.\nIsSubsetSum"
+  },
+  {
+    "chunk_id": 29,
+    "content": ": No description provided.\nKnapsack\n:  Knapsack solves knapsack problem return maxProfit\nLongestCommonSubsequence\n:  LongestCommonSubsequence function\nLongestIncreasingSubsequence\n:  LongestIncreasingSubsequence returns the longest increasing subsequence where all elements of the subsequence are sorted in increasing order\nLongestIncreasingSubsequenceGreedy\n:  LongestIncreasingSubsequenceGreedy is a function to find the longest increasing subsequence in a given array using a greedy approach. The dynamic programming approach is implemented alongside this one. Worst Case Time Complexity: O(nlogn) Auxiliary Space: O(n), where n is the length of the array(slice). Reference:\nhttps://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/"
+  },
+  {
+    "chunk_id": 30,
+    "content": "LpsDp\n:  LpsDp function\nLpsRec\n:  LpsRec function\nMatrixChainDp\n:  MatrixChainDp function\nMatrixChainRec\n:  MatrixChainRec function\nMax\n:  Max function - possible duplicate"
+  },
+  {
+    "chunk_id": 31,
+    "content": "NthCatalanNumber\n:  NthCatalan returns the n-th Catalan Number Complexity: O(n²)\nNthFibonacci\n:  NthFibonacci returns the nth Fibonacci Number\nTrapRainWater\n: Calculate the amount of trapped rainwater between bars represented by an elevation map using dynamic programming.\ndynamicarray\nPackage dynamicarray A dynamic array is quite similar to a regular array, but its Size is modifiable during program runtime, very similar to how a slice in Go works. The implementation is for educational purposes and explains how one might go about implementing their own version of slices.  For more details check out those links below here: GeeksForGeeks article :\nhttps://www.geeksforgeeks.org/how-do-dynamic-arrays-work/\nGo blog:"
+  },
+  {
+    "chunk_id": 32,
+    "content": "https://blog.golang.org/slices-intro\nGo blog:\nhttps://blog.golang.org/slices\nauthors\nWesllhey Holanda\n,\nMilad\nsee dynamicarray.go, dynamicarray_test.go\nTypes\nDynamicArray"
+  },
+  {
+    "chunk_id": 33,
+    "content": ": No description provided.\nfactorial\nPackage factorial describes algorithms Factorials calculations.\nFunctions:\nIterative\n:  Iterative returns the iteratively brute forced factorial of n\nRecursive\n:  Recursive This function recursively computes the factorial of a number\nUsingTree\n:  UsingTree This function finds the factorial of a number using a binary tree"
+  },
+  {
+    "chunk_id": 34,
+    "content": "fibonacci\nFunctions:\nFormula\n:  Formula This function calculates the n-th fibonacci number using the\nformula\nAttention! Tests for large values fall due to rounding error of floating point numbers, works well, only on small numbers\nMatrix\n:  Matrix This function calculates the n-th fibonacci number using the matrix method.\nSee\nRecursive"
+  },
+  {
+    "chunk_id": 35,
+    "content": ":  Recursive calculates the n-th fibonacci number recursively by adding the previous two Fibonacci numbers. This algorithm is extremely slow for bigger numbers, but provides a simpler implementation.\ngcd\nFunctions:\nExtended\n:  Extended simple extended gcd\nExtendedIterative\n:  ExtendedIterative finds and returns gcd(a, b), x, y satisfying a\nx + b\ny = gcd(a, b).\nExtendedRecursive"
+  },
+  {
+    "chunk_id": 36,
+    "content": ":  ExtendedRecursive finds and returns gcd(a, b), x, y satisfying a\nx + b\ny = gcd(a, b).\nIterative\n:  Iterative Faster iterative version of GcdRecursive without holding up too much of the stack\nRecursive\n:  Recursive finds and returns the greatest common divisor of a given integer.\nTemplateBenchmarkExtendedGCD\n: No description provided.\nTemplateBenchmarkGCD"
+  },
+  {
+    "chunk_id": 37,
+    "content": ": No description provided.\nTemplateTestExtendedGCD\n: No description provided.\nTemplateTestGCD\n: No description provided.\ngenerateparentheses\nFunctions:\nGenerateParenthesis\n: No description provided.\ngenetic"
+  },
+  {
+    "chunk_id": 38,
+    "content": "Package genetic provides functions to work with strings using genetic algorithm.\nhttps://en.wikipedia.org/wiki/Genetic_algorithm\nAuthor: D4rkia\nFunctions:\nGeneticString\n:  GeneticString generates PopulationItem based on the imputed target string, and a set of possible runes to build a string with. In order to optimise string generation additional configurations can be provided with Conf instance. Empty instance of Conf (&Conf{}) can be provided, then default values would be set. Link to the same algorithm implemented in python:\nhttps://github.com/TheAlgorithms/Python/blob/master/genetic_algorithm/basic_string.py\nTypes\nConf\n: No description provided."
+  },
+  {
+    "chunk_id": 39,
+    "content": "PopulationItem\n: No description provided.\nResult\n: No description provided.\ngeometry\nPackage geometry contains geometric algorithms Package geometry contains geometric algorithms\nFunctions:\nDistance\n:  Distance calculates the shortest distance between two points.\nEuclideanDistance"
+  },
+  {
+    "chunk_id": 40,
+    "content": ":  EuclideanDistance returns the Euclidean distance between points in any\nn\ndimensional Euclidean space.\nIsParallel\n:  IsParallel checks if two lines are parallel or not.\nIsPerpendicular\n:  IsPerpendicular checks if two lines are perpendicular or not.\nPointDistance\n:  PointDistance calculates the distance of a given Point from a given line. The slice should contain the coefficiet of x, the coefficient of y and the constant in the respective order.\nSection"
+  },
+  {
+    "chunk_id": 41,
+    "content": ":  Section calculates the Point that divides a line in specific ratio. DO NOT specify the ratio in the form m:n, specify it as r, where r = m / n.\nSlope\n:  Slope calculates the slope (gradient) of a line.\nYIntercept\n:  YIntercept calculates the Y-Intercept of a line from a specific Point.\nTypes\nEuclideanPoint\n: No description provided.\nLine\n: No description provided."
+  },
+  {
+    "chunk_id": 42,
+    "content": "Point\n: No description provided.\ngraph\nPackage graph demonstrates Graph search algorithms reference:\nhttps://en.wikipedia.org/wiki/Tree_traversal\nFunctions:\nArticulationPoint\n:  ArticulationPoint is a function to identify articulation points in a graph. The function takes the graph as an argument and returns a boolean slice which indicates whether a vertex is an articulation point or not. Worst Case Time Complexity: O(|V| + |E|) Auxiliary Space: O(|V|) reference:\nhttps://en.wikipedia.org/wiki/Biconnected_component\nand"
+  },
+  {
+    "chunk_id": 43,
+    "content": "https://cptalks.quora.com/Cut-Vertex-Articulation-point\nBreadthFirstSearch\n:  BreadthFirstSearch is an algorithm for traversing and searching graph data structures. It starts at an arbitrary node of a graph, and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level. Worst-case performance\t \t\tO(|V|+|E|)=O(b^{d})}O(|V|+|E|)=O(b^{d}) Worst-case space complexity\t \tO(|V|)=O(b^{d})}O(|V|)=O(b^{d}) reference:\nhttps://en.wikipedia.org/wiki/Breadth-first_search\nDepthFirstSearch\n: No description provided.\nDepthFirstSearchHelper\n: No description provided.\nFloydWarshall\n:  FloydWarshall Returns all pair's shortest path using Floyd Warshall algorithm"
+  },
+  {
+    "chunk_id": 44,
+    "content": "GetIdx\n: No description provided.\nKruskalMST\n: No description provided.\nPrimMST\n: Computes the minimum spanning tree of a weighted undirected graph\nLowestCommonAncestor\n:  For each node, we will precompute its ancestor above him, its ancestor two nodes above, its ancestor four nodes above, etc. Let's call\njump[j][u]\nis the"
+  },
+  {
+    "chunk_id": 45,
+    "content": "2^j\n-th ancestor above the node\nu\nwith\nu\nin range\n[0, numbersVertex)\n,\nj\nin range"
+  },
+  {
+    "chunk_id": 46,
+    "content": "[0,MAXLOG)\n. These information allow us to jump from any node to any ancestor above it in\nO(MAXLOG)\ntime.\nNew\n:  Constructor functions for graphs (undirected by default)\nNewTree\n: No description provided.\nNewUnionFind\n:  Initialise a new union find data structure with s nodes"
+  },
+  {
+    "chunk_id": 47,
+    "content": "NotExist\n: No description provided.\nTopological\n:  Topological assumes that graph given is valid and that its possible to get a topological ordering. constraints are array of []int{a, b}, representing an edge going from a to b\nEdmond-Karp\n: Computes the maximum possible flow between a pair of s-t vertices in a weighted graph\nTypes\nEdge\n: No description provided.\nGraph"
+  },
+  {
+    "chunk_id": 48,
+    "content": ": No description provided.\nItem\n: No description provided.\nQuery\n: No description provided.\nTree\n: No description provided.\nTreeEdge\n: No description provided.\nUnionFind"
+  },
+  {
+    "chunk_id": 49,
+    "content": ": No description provided.\nWeightedGraph\n: No description provided.\nguid\nPackage guid provides facilities for generating random globally unique identifiers.\nFunctions:\nNew\n:  New returns a randomly generated global unique identifier.\nhashmap\nFunctions:"
+  },
+  {
+    "chunk_id": 50,
+    "content": "Make\n:  Make creates a new HashMap instance with input size and capacity\nNew\n:  New return new HashMap instance\nTypes\nHashMap\n: No description provided.\nheap\nFunctions:\nNew"
+  },
+  {
+    "chunk_id": 51,
+    "content": ":  New gives a new heap object.\nNewAny\n:  NewAny gives a new heap object. element can be anything, but must provide less function.\nTypes\nHeap\n: No description provided.\nheap_test\nTypes\ntestInt\n:"
+  },
+  {
+    "chunk_id": 52,
+    "content": "Methods:\nLess\n: No description provided.\ntestStudent\n:\nMethods:\nLess\n: No description provided.\nhorspool\nFunctions:"
+  },
+  {
+    "chunk_id": 53,
+    "content": "Horspool\n: No description provided.\nkmp\nFunctions:\nKmp\n:  Kmp Function kmp performing the Knuth-Morris-Pratt algorithm.\nTypes\nargs\n: No description provided.\nlcm"
+  },
+  {
+    "chunk_id": 54,
+    "content": "Functions:\nLcm\n:  Lcm returns the lcm of two numbers using the fact that lcm(a,b) * gcd(a,b) = | a * b |\nlevenshtein\nFunctions:\nDistance\n:  Distance Function that gives Levenshtein Distance\nlinkedlist\nPackage linkedlist demonstrates different implementations on linkedlists.\nFunctions:"
+  },
+  {
+    "chunk_id": 55,
+    "content": "JosephusProblem\n:\nhttps://en.wikipedia.org/wiki/Josephus_problem\nThis is a struct-based solution for Josephus problem.\nNewCyclic\n:  Create new list.\nNewDoubly\n: No description provided.\nNewNode\n:  Create new node."
+  },
+  {
+    "chunk_id": 56,
+    "content": "NewSingly\n:  NewSingly returns a new instance of a linked list\nTypes\nCyclic\n: No description provided.\nDoubly\n: No description provided.\nNode\n: No description provided.\nSingly"
+  },
+  {
+    "chunk_id": 57,
+    "content": ": No description provided.\ntestCase\n: No description provided.\nmanacher\nFunctions:\nLongestPalindrome\n: No description provided.\nmath\nPackage math is a package that contains mathematical algorithms and its different implementations. filename : krishnamurthy.go description: A program which contains the function that returns true if a given number is Krishnamurthy number or not. details: A number is a Krishnamurthy number if the sum of all the factorials of the digits is equal to the number. Ex: 1! = 1, 145 = 1! + 4! + 5! author(s):\nGooMonk"
+  },
+  {
+    "chunk_id": 58,
+    "content": "see krishnamurthy_test.go\nFunctions:\nAbs\n:  Abs returns absolute value\nAliquotSum\n:  This function returns s(n) for given number\nCombinations\n:  C is Binomial Coefficient function This function returns C(n, k) for given n and k\nCos\n:  Cos  returns the cosine of the radian argument x."
+  },
+  {
+    "chunk_id": 59,
+    "content": "See more\nBased on the idea of Bhaskara approximation of cos(x)\nDefaultPolynomial\n:  DefaultPolynomial is the commonly used polynomial g(x) = (x^2 + 1) mod n\nFindKthMax\n:  FindKthMax returns the kth large element given an integer slice with nil\nerror\nif found and returns -1 with\nerror\nsearch.ErrNotFound"
+  },
+  {
+    "chunk_id": 60,
+    "content": "if not found. NOTE: The\nnums\nslice gets mutated in the process.\nFindKthMin\n:  FindKthMin returns kth small element given an integer slice with nil\nerror\nif found and returns -1 with\nerror\nsearch.ErrNotFound\nif not found. NOTE: The"
+  },
+  {
+    "chunk_id": 61,
+    "content": "nums\nslice gets mutated in the process.\nIsAutomorphic\n: No description provided.\nIsKrishnamurthyNumber\n:  IsKrishnamurthyNumber returns if the provided number n is a Krishnamurthy number or not.\nIsPerfectNumber\n:  Checks if inNumber is a perfect number\nIsPowOfTwoUseLog\n:  IsPowOfTwoUseLog This function checks if a number is a power of two using the logarithm. The limiting degree can be from 0 to 63. See alternatives in the binary package."
+  },
+  {
+    "chunk_id": 62,
+    "content": "Lerp\n:  Lerp or Linear interpolation This function will return new value in 't' percentage  between 'v0' and 'v1'\nLiouvilleLambda\n:  Lambda is the liouville function This function returns λ(n) for given number\nMean\n: No description provided.\nMedian\n: No description provided.\nMode\n: No description provided."
+  },
+  {
+    "chunk_id": 63,
+    "content": "Mu\n:  Mu is the Mobius function This function returns μ(n) for given number\nPhi\n:  Phi is the Euler totient function. This function computes the number of numbers less then n that are coprime with n.\nPollardsRhoFactorization\n:  PollardsRhoFactorization is an implementation of Pollard's rho factorization algorithm using the default parameters x = y = 2\nPronicNumber\n:  PronicNumber returns true if argument passed to the function is pronic and false otherwise.\nSin\n:  Sin returns the sine of the radian argument x."
+  },
+  {
+    "chunk_id": 64,
+    "content": "See more\nSumOfProperDivisors\n:  Returns the sum of proper divisors of inNumber.\nmatrix\nfilename: strassenmatrixmultiply.go description: Implements matrix multiplication using the Strassen algorithm. details: This program takes two matrices as input and performs matrix multiplication using the Strassen algorithm, which is an optimized divide-and-conquer approach. It allows for efficient multiplication of large matrices. author(s): Mohit Raghav(\nhttps://github.com/mohit07raghav19\n) See strassenmatrixmultiply_test.go for test cases\nFunctions:\nIsValid\n:  IsValid checks if the input matrix has consistent row lengths."
+  },
+  {
+    "chunk_id": 65,
+    "content": "New\n:  NewMatrix creates a new Matrix based on the provided arguments.\nNewFromElements\n:  NewFromElements creates a new Matrix from the given elements.\nTypes\nMatrix\n: No description provided.\nmatrix_test\nFunctions:\nMakeRandomMatrix"
+  },
+  {
+    "chunk_id": 66,
+    "content": ": No description provided.\nmax\nFunctions:\nBitwise\n:  Bitwise computes using bitwise operator the maximum of all the integer input and returns it\nInt\n:  Int is a function which returns the maximum of all the integers provided as arguments.\nmaxsubarraysum\nPackage maxsubarraysum is a package containing a solution to a common problem of finding max contiguous sum within a array of ints.\nFunctions:"
+  },
+  {
+    "chunk_id": 67,
+    "content": "MaxSubarraySum\n:  MaxSubarraySum returns the maximum subarray sum\nmin\nFunctions:\nBitwise\n:  Bitwise This function returns the minimum integer using bit operations\nInt\n:  Int is a function which returns the minimum of all the integers provided as arguments.\nmodular\nFunctions:"
+  },
+  {
+    "chunk_id": 68,
+    "content": "Exponentiation\n:  Exponentiation returns base^exponent % mod\nInverse\n:  Inverse Modular function\nMultiply64BitInt\n:  Multiply64BitInt Checking if the integer multiplication overflows\nmoserdebruijnsequence\nFunctions:\nMoserDeBruijnSequence\n: No description provided."
+  },
+  {
+    "chunk_id": 69,
+    "content": "nested\nPackage nested provides functions for testing strings proper brackets nesting.\nFunctions:\nIsBalanced\n:  IsBalanced returns true if provided input string is properly nested. Input is a sequence of brackets: '(', ')', '[', ']', '{', '}'. A sequence of brackets\ns\nis considered properly nested if any of the following conditions are true:   -\ns\nis empty;   -\ns"
+  },
+  {
+    "chunk_id": 70,
+    "content": "has the form (U) or [U] or {U} where U is a properly nested string;   -\ns\nhas the form VW where V and W are properly nested strings. For example, the string \"()()[()]\" is properly nested but \"[(()]\" is not.\nNote\nProviding characters other then brackets would return false, despite brackets sequence in the string. Make sure to filter input before usage.\npalindrome\nFunctions:\nIsPalindrome\n: No description provided.\nIsPalindromeRecursive"
+  },
+  {
+    "chunk_id": 71,
+    "content": ": No description provided.\npangram\nFunctions:\nIsPangram\n: No description provided.\nparenthesis\nFunctions:\nParenthesis\n:  Parenthesis algorithm checks if every opened parenthesis is closed correctly. When parcounter is less than 0 when a closing parenthesis is detected without an opening parenthesis that surrounds it and parcounter will be 0 if all open parenthesis are closed correctly.\npascal"
+  },
+  {
+    "chunk_id": 72,
+    "content": "Functions:\nGenerateTriangle\n:  GenerateTriangle This function generates a Pascal's triangle of n lines\npassword\nPackage password contains functions to help generate random passwords\nFunctions:\nGenerate\n:  Generate returns a newly generated password\npermutation\nFunctions:"
+  },
+  {
+    "chunk_id": 73,
+    "content": "GenerateElementSet\n: No description provided.\nHeaps\n:  Heap's Algorithm for generating all permutations of n objects\nNextPermutation\n: A solution to find next permutation of an integer array in constant memory\npi\nspigotpi_test.go description: Test for Spigot Algorithm for the Digits of Pi author(s)\nred_byte\nsee spigotpi.go"
+  },
+  {
+    "chunk_id": 74,
+    "content": "Functions:\nMonteCarloPi\n: No description provided.\nMonteCarloPiConcurrent\n:  MonteCarloPiConcurrent approximates the value of pi using the Monte Carlo method. Unlike the MonteCarloPi function (first version), this implementation uses goroutines and channels to parallelize the computation. More details on the Monte Carlo method available at\nhttps://en.wikipedia.org/wiki/Monte_Carlo_method\n. More details on goroutines parallelization available at\nhttps://go.dev/doc/effective_go#parallel\n.\nSpigot"
+  },
+  {
+    "chunk_id": 75,
+    "content": ": No description provided.\npolybius\nPackage polybius is encrypting method with polybius square ref:\nhttps://en.wikipedia.org/wiki/Polybius_square#Hybrid_Polybius_Playfair_Cipher\nFunctions:\nFuzzPolybius\n: No description provided.\nNewPolybius\n:  NewPolybius returns a pointer to object of Polybius. If the size of \"chars\" is longer than \"size\", \"chars\" are truncated to \"size\".\nTypes"
+  },
+  {
+    "chunk_id": 76,
+    "content": "Polybius\n: No description provided.\npower\nFunctions:\nIterativePower\n:  IterativePower is iterative O(logn) function for pow(x, y)\nRecursivePower\n:  RecursivePower is recursive O(logn) function for pow(x, y)\nRecursivePower1\n:  RecursivePower1 is recursive O(n) function for pow(x, y)"
+  },
+  {
+    "chunk_id": 77,
+    "content": "UsingLog\n: No description provided.\nprime\nFunctions:\nFactorize\n:  Factorize is a function that computes the exponents of each prime in the prime factorization of n\nGenerate\n:  Generate returns a int slice of prime numbers up to the limit\nGenerateChannel\n:  Generate generates the sequence of integers starting at 2 and sends it to the channel"
+  },
+  {
+    "chunk_id": 78,
+    "content": "ch\nMillerRabinDeterministic\n:  MillerRabinDeterministic is a Deterministic version of the Miller-Rabin test, which returns correct results for all valid int64 numbers.\nMillerRabinProbabilistic\n:  MillerRabinProbabilistic is a probabilistic test for primality of an integer based of the algorithm devised by Miller and Rabin.\nMillerRandomTest\n:  MillerRandomTest This is the intermediate step that repeats within the miller rabin primality test for better probabilitic chances of receiving the correct result with random witnesses.\nMillerTest\n:  MillerTest tests whether num is a strong probable prime to a witness. Formally: a^d ≡ 1 (mod n) or a^(2^r * d) ≡ -1 (mod n), 0 <= r <= s\nMillerTestMultiple"
+  },
+  {
+    "chunk_id": 79,
+    "content": ":  MillerTestMultiple is like MillerTest but runs the test for multiple witnesses.\nOptimizedTrialDivision\n:  OptimizedTrialDivision checks primality of an integer using an optimized trial division method. The optimizations include not checking divisibility by the even numbers and only checking up to the square root of the given number.\nSieve\n:  Sieve Sieving the numbers that are not prime from the channel - basically removing them from the channels\nTrialDivision\n:  TrialDivision tests whether a number is prime by trying to divide it by the numbers less than it.\nTwin\n:  This function returns twin prime for given number returns (n + 2) if both n and (n + 2) are prime -1 otherwise\npythagoras"
+  },
+  {
+    "chunk_id": 80,
+    "content": "Functions:\nDistance\n:  Distance calculates the distance between to vectors with the   Pythagoras theorem\nTypes\nVector\n: No description provided.\nqueue\nFunctions:\nBackQueue\n:  BackQueue return the Back value"
+  },
+  {
+    "chunk_id": 81,
+    "content": "DeQueue\n:  DeQueue it will be removed the first value that added into the list\nEnQueue\n:  EnQueue it will be added new value into our list\nFrontQueue\n:  FrontQueue return the Front value\nIsEmptyQueue\n:  IsEmptyQueue check our list is empty or not\nLenQueue\n:  LenQueue will return the length of the queue list"
+  },
+  {
+    "chunk_id": 82,
+    "content": "Types\nLQueue\n: No description provided.\nNode\n: No description provided.\nQueue\n: No description provided.\nrot13\nPackage rot13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet. ref:\nhttps://en.wikipedia.org/wiki/ROT13"
+  },
+  {
+    "chunk_id": 83,
+    "content": "Functions:\nFuzzRot13\n: No description provided.\nrsa\nPackage rsa shows a simple implementation of RSA algorithm\nFunctions:\nDecrypt\n:  Decrypt decrypts encrypted rune slice based on the RSA algorithm\nEncrypt\n:  Encrypt encrypts based on the RSA algorithm - uses modular exponentitation in math directory"
+  },
+  {
+    "chunk_id": 84,
+    "content": "FuzzRsa\n: No description provided.\nsearch\nFunctions:\nBoyerMoore\n:  Implementation of boyer moore string search O(l) where l=len(text)\nNaive\n:  Implementation of naive string search O(n*m) where n=len(txt) and m=len(pattern)\nsegmenttree\nFunctions:"
+  },
+  {
+    "chunk_id": 85,
+    "content": "NewSegmentTree\n: No description provided.\nTypes\nSegmentTree\n: No description provided.\nset\npackage set implements a Set using a golang map. This implies that only the types that are accepted as valid map keys can be used as set elements. For instance, do not try to Add a slice, or the program will panic.\nFunctions:\nNew\n:  New gives new set."
+  },
+  {
+    "chunk_id": 86,
+    "content": "sha256\nFunctions:\nHash\n:  Hash hashes the input message using the sha256 hashing function, and return a 32 byte array. The implementation follows the RGC6234 standard, which is documented at\nhttps://datatracker.ietf.org/doc/html/rfc6234\nsort\nPackage sort a package for demonstrating sorting algorithms in Go\nFunctions:\nBinaryInsertion\n: No description provided."
+  },
+  {
+    "chunk_id": 87,
+    "content": "Bogo\n: No description provided.\nBubble\n:  Bubble is a simple generic definition of Bubble sort algorithm.\nBucket\n:  Bucket sorts a slice. It is mainly useful when input is uniformly distributed over a range.\nCocktail\n:  Cocktail sort is a variation of bubble sort, operating in two directions (beginning to end, end to beginning)\nComb\n:  Comb is a simple sorting algorithm which is an improvement of the bubble sorting algorithm."
+  },
+  {
+    "chunk_id": 88,
+    "content": "Count\n: No description provided.\nCycle\n:  Cycle sort is an in-place, unstable sorting algorithm that is particularly useful when sorting arrays containing elements with a small range of values. It is theoretically optimal in terms of the total number of writes to the original array.\nExchange\n: No description provided.\nHeapSort\n: No description provided.\nImprovedSimple\n:  ImprovedSimple is a improve SimpleSort by skipping an unnecessary comparison of the first and last. This improved version is more similar to implementation of insertion sort"
+  },
+  {
+    "chunk_id": 89,
+    "content": "Insertion\n: No description provided.\nMerge\n:  Merge Perform merge sort on a slice\nMergeIter\n: No description provided.\nPancake\n:  Pancake sorts a slice using flip operations, where flip refers to the idea of reversing the slice from index\n0\nto"
+  },
+  {
+    "chunk_id": 90,
+    "content": "i\n.\nParallelMerge\n:  ParallelMerge Perform merge sort on a slice using goroutines\nPartition\n: No description provided.\nPatience\n: No description provided.\nPigeonhole\n:  Pigeonhole sorts a slice using pigeonhole sorting algorithm. NOTE: To maintain time complexity O(n + N), this is the reason for having only Integer constraint instead of Ordered."
+  },
+  {
+    "chunk_id": 91,
+    "content": "Quicksort\n:  Quicksort Sorts the entire array\nQuicksortRange\n:  QuicksortRange Sorts the specified range within the array\nRadixSort\n: No description provided.\nSelection\n: No description provided.\nShell\n: No description provided."
+  },
+  {
+    "chunk_id": 92,
+    "content": "Simple\n: No description provided.\nTypes\nMaxHeap\n: No description provided.\nsqrt\nPackage sqrt contains algorithms and data structures that contains a √n in their complexity\nFunctions:\nNewSqrtDecomposition\n:  Create a new SqrtDecomposition instance with the parameters as specified by SqrtDecomposition comment Assumptions:   - len(elements) > 0"
+  },
+  {
+    "chunk_id": 93,
+    "content": "Types\nSqrtDecomposition\n: No description provided.\nstack\nFunctions:\nNewStack\n:  NewStack creates and returns a new stack.\nTypes\nArray\n: No description provided."
+  },
+  {
+    "chunk_id": 94,
+    "content": "Node\n: No description provided.\nSList\n: No description provided.\nStack\n: No description provided.\nstrings\nPackage strings is a package that contains all algorithms that are used to analyse and manipulate strings.\nFunctions:\nCountChars"
+  },
+  {
+    "chunk_id": 95,
+    "content": ":  CountChars counts the number of a times a character has occurred in the provided string argument and returns a map with\nrune\nas keys and the count as value.\nIsIsogram\n: No description provided.\nIsSubsequence\n:  Returns true if s is subsequence of t, otherwise return false.\ntransposition\nFunctions:\nDecrypt"
+  },
+  {
+    "chunk_id": 96,
+    "content": ": No description provided.\nEncrypt\n: No description provided.\nFuzzTransposition\n: No description provided.\ntree\nFor more details check out those links below here: Wikipedia article:\nhttps://en.wikipedia.org/wiki/Binary_search_tree\nauthors\nguuzaa"
+  },
+  {
+    "chunk_id": 97,
+    "content": "Functions:\nNewAVL\n:  NewAVL creates a novel AVL tree\nNewBinarySearch\n:  NewBinarySearch creates a novel Binary-Search tree\nNewRB\n:  NewRB creates a new Red-Black Tree\nTypes\nAVL\n: No description provided."
+  },
+  {
+    "chunk_id": 98,
+    "content": "AVLNode\n: No description provided.\nBSNode\n: No description provided.\nBinarySearch\n: No description provided.\nRB\n: No description provided.\nRBNode\n: No description provided."
+  },
+  {
+    "chunk_id": 99,
+    "content": "trie\nPackage trie provides Trie data structures in golang.  Wikipedia:\nhttps://en.wikipedia.org/wiki/Trie\nFunctions:\nNewNode\n:  NewNode creates a new Trie node with initialized children map.\nTypes\nNode\n: No description provided.\nxor"
+  },
+  {
+    "chunk_id": 100,
+    "content": "Package xor is an encryption algorithm that operates the exclusive disjunction(XOR) ref:\nhttps://en.wikipedia.org/wiki/XOR_cipher\nFunctions:\nDecrypt\n:  Decrypt decrypts with Xor encryption\nEncrypt\n:  Encrypt encrypts with Xor encryption after converting each character to byte The returned value might not be readable because there is no guarantee which is within the ASCII range If using other type such as string, []int, or some other types, add the statements for converting the type to []byte.\nFuzzXOR\n: No description provided.\nPackage rail fence is a classical type of transposition cipher ref :"
+  },
+  {
+    "chunk_id": 101,
+    "content": "https://en.wikipedia.org/wiki/Rail_fence_cipher\nFunctions:\nEncrypt\n:  Encrypt encrypts a message using rail fence cipher\nDecrypt\n:  decrypt decrypts a message using rail fence cipher\nTestEncrypt\nTest function for Encrypt\nTestDecrypt\nTest function for Decrypt"
+  },
+  {
+    "chunk_id": 102,
+    "content": "About\nAlgorithms and Data Structures implemented in Go for beginners, following best practices.\nthe-algorithms.com/language/go\nTopics\nsearch\nsorting\nalgorithms\ndatastructures\ninterview\ndata-structures"
+  },
+  {
+    "chunk_id": 103,
+    "content": "preparation\nhacktoberfest\nalgorithms-implemented\ncommunity-driven\ninterview-preparation\nResources\nReadme\nLicense\nMIT license\nCode of conduct"
+  },
+  {
+    "chunk_id": 104,
+    "content": "Code of conduct\nContributing\nContributing\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nActivity\nCustom properties\nStars"
+  },
+  {
+    "chunk_id": 105,
+    "content": "18.1k\nstars\nWatchers\n297\nwatching\nForks\n2.8k\nforks\nReport repository\nSponsor this project"
+  },
+  {
+    "chunk_id": 106,
+    "content": "Uh oh!\nThere was an error while loading.\nPlease reload this page\n.\nliberapay.com/\nTheAlgorithms\nUh oh!\nThere was an error while loading.\nPlease reload this page\n."
+  },
+  {
+    "chunk_id": 107,
+    "content": "Contributors\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nLanguages\nGo\n100.0%"
+  }
+]
