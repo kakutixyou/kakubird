@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+<<<<<<< HEAD
   content: [
   './index.html',
   './src/**/*.{js,ts,jsx,tsx}',
   './Tokyo_hackson_23/src/**/*.{js,ts,jsx,tsx}',
 ],
+=======
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
   theme: {
     extend: {
       colors: {

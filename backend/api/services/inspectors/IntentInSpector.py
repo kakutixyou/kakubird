@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # Intentinspector.py
+=======
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 import os
 from typing import Any, Dict, List, Optional
 
@@ -320,6 +323,7 @@ class IntentInspector:
         ):
             best_mode = "unknown"
             highest_score = 0
+<<<<<<< HEAD
          #js抽出   
         if (
         "script" in self.msg_lower 
@@ -331,6 +335,9 @@ class IntentInspector:
         
         # もし forced_handler（強制ハンドラー指定）で動かしている場合は以下も追加
             forced_handler = "DecompositionHandler"
+=======
+
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         # =========================================================
         # Result
         # =========================================================

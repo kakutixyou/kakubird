@@ -30,18 +30,30 @@ class OllamaHandler(BaseHandler):
     async def calculate_score(self, message: str) -> int:
         """
         Ollamaの優先度スコアを計算します。
+<<<<<<< HEAD
         通常のチャットは0点、明示的な指名があれば200点とします。
+=======
+        通常のチャットは60点、明示的な指名があれば160点とします。
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         """
         msg_lower = message.lower()
         
         # ユーザーが明示的に「Ollama」と入力した場合（絶対勝つスコア）
 
         if "ollama" in msg_lower:
+<<<<<<< HEAD
                     return 200
             
         # 通常の会話のベーススコア
         # （元々は60点に設定）
         return 0
+=======
+                    return 160
+            
+        # 通常の会話のベーススコア
+        # （ScrapingHandlerの90点に負けるように、あえて60点に設定）
+        return 60
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     # 🌟 追加ここまで
     async def handle(self, message: str) -> Tuple[str, Any] | None:
         """

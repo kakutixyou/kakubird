@@ -374,7 +374,11 @@ PRAGMA table_info()
 
 2. Real SQL Query Execution
 --------------------------------------------------------
+<<<<<<< HEAD
 SELECT * FROM 
+=======
+SELECT * FROM ...
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
 3. Query Safety Layer
 --------------------------------------------------------

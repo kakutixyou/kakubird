@@ -92,6 +92,7 @@ export function useAiChat({ onImportDB }) {
       });
 
       console.log("📡 [useAiChat] 2. レスポンス受信 - ステータス:", response.status, response.statusText);
+<<<<<<< HEAD
       
       // 👇 ==========================================
       // 👇 エラーハンドリングを親切に強化
@@ -102,6 +103,9 @@ export function useAiChat({ onImportDB }) {
         }
         throw new Error(`HTTP ${response.status}`);
       }
+=======
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
       const contentType = response.headers.get('content-type');
       console.log("ℹ️ [useAiChat] 3. Content-Type:", contentType);
@@ -114,7 +118,13 @@ export function useAiChat({ onImportDB }) {
         console.log("📥 バックエンドから届いたデータ:", data);
 
         // 💡 【最優先：今回の ui_code 構造を確実にキャッチする】
+<<<<<<< HEAD
         if (data.response_type === 'ui_code' || data.content?.blocks) {
+=======
+        // data.response_type が 'ui_code' であるか、または data.content の中に blocks が存在する場合
+        if (data.response_type === 'ui_code' || data.content?.blocks) {
+          // data.content 内、または data 直下の message と blocks を安全に救出
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
           const blocks = data.content?.blocks || data.blocks || [];
           const textMsg = data.content?.message || data.message || data.response || "フォルダ構造を生成しました。";
           
@@ -126,6 +136,10 @@ export function useAiChat({ onImportDB }) {
               source: data.source || 'ui_code',
               type: 'ui_code',
               response_type: 'ui_code',
+<<<<<<< HEAD
+=======
+              // 💡 ChatMessage.jsx が一番読み込みやすいオブジェクト形式に変換して text に格納
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
               text: {
                 message: textMsg,
                 blocks: blocks
@@ -133,10 +147,17 @@ export function useAiChat({ onImportDB }) {
               blocks: blocks
             },
           ]);
+<<<<<<< HEAD
           return;
         }
 
         // ② 統一フォーマット対応のフォールバック
+=======
+          return; // 処理完了なのでここで終了
+        }
+
+        // ② 統一フォーマット対応のフォールバック (SQLHandlerなど、以前正常に動いていた定義)
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         if (data.response !== undefined && data.source !== undefined) {
           const hasBlocks = data.blocks && data.blocks.length > 0;
           setMessages((prev) => [
@@ -156,7 +177,11 @@ export function useAiChat({ onImportDB }) {
           return;
         }
 
+<<<<<<< HEAD
         // ③ 既存の特殊コンポーネント用フォーマット分岐
+=======
+        // ③ 既存の特殊コンポーネント用フォーマット分岐 (条件が重ならないもの)
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         if (data.response_type === 'multi_select' || data.type === 'multi_select') {
           setMessages((prev) => [
             ...prev,
@@ -195,6 +220,10 @@ export function useAiChat({ onImportDB }) {
         const decoder = new TextDecoder('utf-8');
         const assistantMsgId = Date.now() + 2;
 
+<<<<<<< HEAD
+=======
+        // ストリーミング時は最初はプレーンテキスト(content属性ではなくChatMessageに合わせるため型を共通化)
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         setMessages((prev) => [...prev, { id: assistantMsgId, role: 'assistant', type: 'text', text: '' }]);
 
         while (true) {
@@ -226,6 +255,10 @@ export function useAiChat({ onImportDB }) {
           }
         }
 
+<<<<<<< HEAD
+=======
+        // ストリーム終了後のエラーチェック
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         setMessages((prev) => {
           const assistantMessage = prev.find((msg) => msg.id === assistantMsgId);
           if (assistantMessage && String(assistantMessage.text).includes('[Ollama Stream Error')) {
@@ -243,6 +276,7 @@ export function useAiChat({ onImportDB }) {
       }
     } catch (error) {
       console.error('通信エラー:', error);
+<<<<<<< HEAD
       // 👇 ==========================================
       // 👇 エラーメッセージを親切なものに変更
       // 👇 ==========================================
@@ -251,6 +285,9 @@ export function useAiChat({ onImportDB }) {
       } else {
         addSystemMessage('⚠️ サーバー通信エラーが発生しました。バックエンドの状態を確認してください。');
       }
+=======
+      addSystemMessage('⚠️ サーバー通信エラーが発生しました。バックエンドの状態を確認してください。');
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     } finally {
       setIsLoading(false);
     }
@@ -287,6 +324,7 @@ export function useAiChat({ onImportDB }) {
         body: JSON.stringify(apiPayload),
       });
 
+<<<<<<< HEAD
       // 👇 画像側も同じく404対策
       if (!response.ok) {
         if (response.status === 404) {
@@ -295,6 +333,9 @@ export function useAiChat({ onImportDB }) {
         throw new Error(`HTTP ${response.status}`);
       }
 
+=======
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
       const data = await response.json();
 
       if (data.response !== undefined || data.content !== undefined) {
@@ -314,11 +355,15 @@ export function useAiChat({ onImportDB }) {
       }
     } catch (error) {
       console.error('画像送信・OCR通信エラー:', error);
+<<<<<<< HEAD
       if (error.message === "404_NOT_FOUND") {
         addSystemMessage('⚠️ AIサーバーが見つかりません。画像解析の受付窓口が存在しません。');
       } else {
         addSystemMessage('⚠️ 画像解析エラー。バックエンドのOCRモジュールまたはAPIの状態を確認してください。');
       }
+=======
+      addSystemMessage('⚠️ 画像解析エラー。バックエンドのOCRモジュールまたはAPIの状態を確認してください。');
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     } finally {
       setIsLoading(false);
     }

@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 
 const NAV_ITEMS = [
+<<<<<<< HEAD
  
     { path: '/', label: 'ダッシュボード', icon: '📊', exact: true },
   { path: '/templates', label: 'テンプレートを探す', icon: '🎨', sub: 'HTMLサンプル集' },
@@ -14,6 +15,44 @@ const NAV_ITEMS = [
   { path: '/memory', label: 'AIメモリー', icon: '🧠', sub: '会話履歴・メモ・タスク' },
   // 👇 新規追加: 移住スコアリングアプリへのリンク
   { path: '/relocation-map', label: '移住スコアリング', icon: '🗺️', sub: '住みやすさ可視化' }
+=======
+  {
+    path: "/",
+    label: "ダッシュボード",
+    icon: "📊",
+    exact: true
+  },
+  {
+    path: "/templates",
+    label: "テンプレートを探す",
+    icon: "🎨",
+    sub: "HTMLサンプル集"
+  },
+  {
+    path: "/builder",
+    label: "HTMLビルダー",
+    icon: "🏗",
+    sub: "自由に編集する"
+  },
+  {
+    path: "/databases",
+    label: "データベース",
+    icon: "🗄️",
+    sub: "生成済みDB管理"
+  },
+  {
+    path: "/settings-api",
+    label: "API設定",
+    icon: "🔌",
+    sub: "データ連携"
+  },
+  {
+    path: "/memory",
+    label: "AIメモリー",
+    icon: "🧠",
+    sub: "会話履歴・メモ・タスク"
+  }
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 ];
 
 export default function SidebarDefault() {

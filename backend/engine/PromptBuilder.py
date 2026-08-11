@@ -19,7 +19,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+<<<<<<< HEAD
 from .KnowledgeLoader import LoadResult, LoadedKnowledge
+=======
+from KnowledgeLoader import LoadResult, LoadedKnowledge
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
 
 @dataclass

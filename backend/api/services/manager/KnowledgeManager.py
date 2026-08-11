@@ -206,12 +206,16 @@ class KnowledgeManager:
         # オブジェクトの生成 (ここはメタデータを渡すだけなので一瞬)
         loaded_list = []
         for rel_path, metadata in index_data.items():
+<<<<<<< HEAD
             # ▼ _safe_join_path を経由させて index.json 改ざん時のトラバーサルも防ぐ
             try:
                 full_path = self._safe_join_path(rel_path)
             except ValueError:
                 logger.warning(f"インデックス内に不正なパスを検出したためスキップ: {rel_path}")
                 continue
+=======
+            full_path = os.path.join(self.base_dir, rel_path)
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
             
             # 本体が削除されている場合はスキップ
             if not os.path.exists(full_path):
@@ -221,6 +225,7 @@ class KnowledgeManager:
             loaded_list.append(lazy_item)
 
         return loaded_list
+<<<<<<< HEAD
     # =========================================================
     # ✅ 4. キーワード検索（Orchestrator側から呼び出す想定）
     # =========================================================
@@ -262,6 +267,9 @@ class KnowledgeManager:
                     logger.error(f"知識ファイルのロードに失敗 ({item.rel_path}): {e}")
 
         return matched
+=======
+
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     # =========================================================
     # ファイル書き込み系 (既存維持)
     # =========================================================

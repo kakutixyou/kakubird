@@ -15,6 +15,7 @@ class ChatRequest(BaseModel):
     """React/Electronから受け取る入力"""
 
     message: str = Field(..., description="ユーザー入力")
+<<<<<<< HEAD
     mode: str = "custom"
     image_base64: Optional[str] = None
     session_id: Optional[str] = None
@@ -22,13 +23,34 @@ class ChatRequest(BaseModel):
     force_json_ui: bool = False
     db_type: str = "sqlite"
     db_path: str = "backend/history.db"
+=======
+
+    mode: str = "custom"
+
+    image_base64: Optional[str] = None
+
+    session_id: Optional[str] = None
+
+    history: List[ChatMessage] = Field(default_factory=list)
+
+    force_json_ui: bool = False
+
+    db_type: str = "sqlite"
+
+    db_path: str = "backend/history.db"
+
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     conn_str: str = ""
 
     # KnowledgeServiceが組み立てる知識
     world_knowledge: Dict[str, Any] = Field(default_factory=dict)
 
+<<<<<<< HEAD
     # ✅ 追加：Orchestratorが実行直前に注入するナレッジ
     loaded_knowledge: Dict[str, Any] = Field(default_factory=dict)
+=======
+
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 class OrchestratorResponse(BaseModel):
     """Orchestratorから返る共通レスポンス"""
 

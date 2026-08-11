@@ -35,8 +35,13 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 
 sys.path.insert(0, ROOT_DIR)
 sys.path.insert(0, BASE_DIR)
+<<<<<<< HEAD
 # from api.routes_memory import router as memory_router
 # ↑を#で止めても、別の所で読み込んでいるとか・・・サーバーがエラーを起こすと一緒に止まる。
+=======
+from api.routes_memory import router as memory_router
+
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 SRC_DIR = os.path.join(BASE_DIR, "src")
 
 PLUGIN_DIR = os.path.join(ROOT_DIR, "plugins")

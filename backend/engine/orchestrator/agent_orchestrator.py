@@ -11,7 +11,11 @@ import openai
 
 # これまでに作成したモジュールのインポート（※パスは環境に合わせて調整してください）
 # 修正: repomix_Handler -> repomix_handler (小文字に統一)
+<<<<<<< HEAD
 from api.services.handlers.project.repomix_Handler import RepomixHandler
+=======
+from api.services.handlers.repomix_Handler import RepomixHandler
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 from api.services.manager.KnowledgeManager import KnowledgeManager
 
 logger = logging.getLogger(__name__)

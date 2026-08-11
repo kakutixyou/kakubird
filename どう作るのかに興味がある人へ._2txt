@@ -1,0 +1,53 @@
+本来
+
+ユーザー
+ ↓
+routes_chat
+ ↓
+MemoryManager
+ ↓
+conversation.json
+
+WorkspaceScanner
+ ↓
+CodeChunker
+ ↓
+Embedding
+ ↓
+ChromaDB
+
+ContextRetriever
+ ↓
+関連チャンク取得
+
+LLM
+のはず。
+しかし実際は
+
+ユーザー
+ ↓
+routes_chat
+ ↓
+何も保存していない
+
+ScrapingHandler
+ ↓
+ChromaDB保存
+
+ContextRetriever
+ ↓
+InMemoryVectorStore参照
+ ↓
+0件
+
+LLM
+ ↓
+過去会話なし
+ ↓
+知識なし
+になっている。
+
+routes_chat.pyがmemory_manager.pyを一切インポート・呼び出していない
+
+custom_ai.py、prompt.py、plugins/ai_memory/vector_store.py、embedding_service.py
+を調べに行く

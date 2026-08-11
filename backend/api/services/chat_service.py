@@ -5,7 +5,12 @@ from typing import Tuple, Any, Optional
 from fastapi import BackgroundTasks
 
 from api.services.knowledge_service import KnowledgeService
+<<<<<<< HEAD
 from api.services.handlers.ChatHandler import ChatHandler
+=======
+from plugins.project_builder.ChatHandler import ChatHandler 
+
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 from model.chat_models import ChatRequest, ChatContext
 
 # ★変更点: 特定のOrchestratorではなく、すべてのOrchestratorが従う「型（基底クラス）」があればそれをインポートするのがベストです

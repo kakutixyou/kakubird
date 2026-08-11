@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 # backend/services/orchestrator/chat_orchestrator.py
 
+=======
+# chat_orchestrator.py
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 import json
 import os
 import traceback
 import inspect
+<<<<<<< HEAD
 from pathlib import Path
 from typing import Any, Tuple, List, Dict, cast
 from engine.context.ContextManager import ContextManager
@@ -21,6 +26,30 @@ from api.services.manager.KnowledgeManager import KnowledgeManager
 from api.services.handlers.project.repomix_Handler import RepomixHandler
 from api.services.handlers.project.ProjectBuilderHandler import ProjectBuilderHandler
 from api.services.handlers.analysis.ocr_recruit_handler import OcrRecruitHandler
+=======
+from typing import Any, Tuple, List, Dict
+
+# =========================================================
+# 🚨 パスの安全なインポート
+# =========================================================
+from engine.context.ContextManager import ContextManager
+from engine.prompt.PromptBuilder import PromptBuilder
+
+# 1. IntentInspector のインポート（大文字小文字のパス崩壊を防止）
+
+from api.services.inspectors.IntentInSpector import IntentInspector
+
+# 2. KnowledgeRouter のインポート
+try:
+    from engine.KnowledgeRouter import KnowledgeRouter
+except ImportError:
+    KnowledgeRouter = None  # type: ignore
+
+# 3. ハンドラー群のインポート
+from api.services.handlers.repomix_Handler import RepomixHandler
+from api.services.handlers.ProjectBuilderHandler import ProjectBuilderHandler  # ✅ アプリ自動構築用
+from api.services.handlers.ocr_recruit_handler import OcrRecruitHandler
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 from api.services.handlers.github_handler import GithubHandler
 from api.services.handlers.recruit_handler import RecruitHandler
 from api.services.handlers.weather_handler import WeatherHandler
@@ -29,6 +58,7 @@ from api.services.handlers.ollama_handler import OllamaHandler
 from api.services.handlers.offline_handler import OfflineFallbackHandler
 from api.services.handlers.Scraping_Handler import ScrapingHandler
 from api.services.handlers.DesignHandler import DesignHandler  
+<<<<<<< HEAD
 from api.services.handlers.code.HtmlHandler import HTMLHandler
 from api.services.handlers.project.DeploymentHandler import DeploymentHandler
 from api.services.handlers.ChatHandler import ChatHandler
@@ -40,6 +70,17 @@ from api.services.handlers.Github_guide_handler import GithubGuideHandler
 from engine.orchestrator.base_orchestrator import BaseOrchestrator
 from api.services.handlers.LineFormatHandler import LineFormatHandler
 
+=======
+from api.services.handlers.HtmlHandler import HTMLHandler
+from plugins.project_builder.DeploymentHandler import DeploymentHandler
+from plugins.project_builder.ChatHandler import ChatHandler
+from plugins.line_formatter.LineFormatHandler import LineFormatHandler
+from api.services.handlers.conversion_jsonHandler import ConversionJsonHandler
+from api.services.handlers.PHPHandler import PhpHandler
+from engine.orchestrator.base_orchestrator import BaseOrchestrator
+from api.services.handlers.API_Collect_handler import APICollectHandler
+from plugins.Github.Github_guide_handler import GithubGuideHandler
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 class ChatOrchestrator(BaseOrchestrator):
     def __init__(
         self,
@@ -87,6 +128,7 @@ class ChatOrchestrator(BaseOrchestrator):
 
         self.last_used_handler = "Unknown"
         self.active_context = None
+<<<<<<< HEAD
         # 例: services/knowledge/domains などのナレッジが置かれている場所を指定
         base_dir = os.path.dirname(os.path.abspath(__file__))
         default_knowledge_dirs: list[str | Path] = [
@@ -140,12 +182,17 @@ class ChatOrchestrator(BaseOrchestrator):
 
         self.handlers = [
             DecompositionHandler(),
+=======
+            
+        self.handlers = [
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
             GithubGuideHandler(),
             APICollectHandler(),
             RepomixHandler(),
             ProjectBuilderHandler(),  # ✅ アプリ構築自動化エンジンを最優先
             PhpHandler(),
             ConversionJsonHandler(),
+<<<<<<< HEAD
             DeploymentHandler(knowledge_dirs=default_knowledge_dirs,
                 manager_base_dir=default_manager_base_dir,
                 cache_enabled=True),
@@ -153,6 +200,10 @@ class ChatOrchestrator(BaseOrchestrator):
                 occupation_titles=occupation_titles,
                 historical_figures_titles=historical_figures_titles,
             ),
+=======
+            DeploymentHandler(),
+            ChatHandler(),
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
             LineFormatHandler(),
             HTMLHandler(),
             GithubHandler(),
@@ -165,17 +216,25 @@ class ChatOrchestrator(BaseOrchestrator):
             OfflineFallbackHandler()
         ]
 
+<<<<<<< HEAD
 # chat_orchestrator.py の _save_assistant_response_and_state を改修
 
     def _save_assistant_response_and_state(self, res_content: Any):
+=======
+    def _save_assistant_response_and_state(self, res_content: Any):
+        """AIの返答を文脈に保存し、ファイル書き出し情報があればSignalsに記憶してステートを保存する"""
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         try:
             assistant_text = ""
             if isinstance(res_content, dict):
                 assistant_text = res_content.get("message", "")
+<<<<<<< HEAD
                 
                 # 👇 ハンドラーから状態更新の要求があれば保存する
                 if "update_signals" in res_content:
                     self._save_signals(res_content["update_signals"])
+=======
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
             else:
                 assistant_text = str(res_content)
 
@@ -188,6 +247,7 @@ class ChatOrchestrator(BaseOrchestrator):
         except Exception as e:
             print(f"⚠️ 記憶の保存中にエラーが発生しました: {e}")
 
+<<<<<<< HEAD
     def _save_signals(self, signals_data: dict):
         """新しいシグナルデータをファイルに上書き保存する"""
         try:
@@ -197,6 +257,8 @@ class ChatOrchestrator(BaseOrchestrator):
         except Exception as e:
             print(f"⚠️ 信号の保存に失敗しました: {e}")
 
+=======
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     def _get_current_signals(self) -> dict:
         """user_signals.jsonから現在のシグナル情報を読み込む。存在しない場合は空の辞書を返す。"""
         try:
@@ -231,6 +293,7 @@ class ChatOrchestrator(BaseOrchestrator):
             except Exception as e:
                 print(f"⚠️ 信号の保存に失敗しました: {e}")
 
+<<<<<<< HEAD
     
     # ✅ ナレッジ注入つきのHandler実行ヘルパー
     #    100点即実行・競合マージ・単独実行のすべての経路から呼ばれる。
@@ -267,6 +330,8 @@ class ChatOrchestrator(BaseOrchestrator):
 
         return await handler.handle(self.request)
 
+=======
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     async def route_and_execute(
         self,
         request,
@@ -278,9 +343,15 @@ class ChatOrchestrator(BaseOrchestrator):
         # ユーザー発話を履歴に追加
         self.context_manager.add_chat_history("user", self.message)
 
+<<<<<<< HEAD
         
         # 📚 1. 安全なナレッジルーティング & キーワード抽出
         
+=======
+        # =========================================================
+        # 📚 1. 安全なナレッジルーティング & キーワード抽出
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         available_keys = []
         loaded_knowledges = []
 
@@ -332,8 +403,15 @@ class ChatOrchestrator(BaseOrchestrator):
             except Exception as e:
                 print(f"⚠️ ナレッジルーティング中にエラー（続行します）: {e}")
                 traceback.print_exc()
+<<<<<<< HEAD
         # 🚨 2. メッセージ解析 (IntentInspector)
         
+=======
+
+        # =========================================================
+        # 🚨 2. メッセージ解析 (IntentInspector)
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         # ✅ 【引数不足エラー解決】available_knowledge_keys をキーワード引数で安全に渡す
         try:
             inspector = IntentInspector(self.message, available_knowledge_keys=available_keys)
@@ -345,9 +423,15 @@ class ChatOrchestrator(BaseOrchestrator):
         inspect_result = inspector.inspect()
         self.context_manager.apply_inspector_result(inspect_result)
 
+<<<<<<< HEAD
         
         # 📸 画像データがある場合のファストパス
         
+=======
+        # =========================================================
+        # 📸 画像データがある場合のファストパス
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         image_data = getattr(self.request, "image_base64", None)
 
         if image_data:
@@ -364,9 +448,15 @@ class ChatOrchestrator(BaseOrchestrator):
 
             return result
 
+<<<<<<< HEAD
         
         # 現在のSignalsを取得
         
+=======
+        # =========================================================
+        # 現在のSignalsを取得
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         current_signals = self._get_current_signals()
         self.active_context = current_signals.get("active_context")
 
@@ -375,9 +465,15 @@ class ChatOrchestrator(BaseOrchestrator):
 
         scored_handlers = []
 
+<<<<<<< HEAD
         
         # 各Handlerのスコアを計算
         
+=======
+        # =========================================================
+        # 各Handlerのスコアを計算
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         for handler in self.handlers:
             handler_name = handler.__class__.__name__
 
@@ -428,8 +524,14 @@ class ChatOrchestrator(BaseOrchestrator):
                 "size": estimated_size
             })
 
+<<<<<<< HEAD
         
         # スコア順に並び替え
+=======
+        # =========================================================
+        # スコア順に並び替え
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         scored_handlers.sort(
             key=lambda h: h["score"],
             reverse=True
@@ -449,9 +551,15 @@ class ChatOrchestrator(BaseOrchestrator):
             }
         )
 
+<<<<<<< HEAD
         
         # RoutingDebugBlock生成
         
+=======
+        # =========================================================
+        # RoutingDebugBlock生成
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         debug_block = {
             "type": "RoutingDebugBlock",
             "props": {
@@ -467,9 +575,15 @@ class ChatOrchestrator(BaseOrchestrator):
             }
         }
 
+<<<<<<< HEAD
         
         # 共通：データ構造保証 & 警告ブロック回避処理
         
+=======
+        # =========================================================
+        # 共通：データ構造保証 & 警告ブロック回避処理
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         def attach_debug_block(content: Any) -> Any:
             # 1. content が辞書型でない（単なる文字列など）場合、
             #    フロントエンドがクラッシュしないよう必ず {"message": ..., "blocks": []} にラップします
@@ -485,6 +599,7 @@ class ChatOrchestrator(BaseOrchestrator):
                 content["blocks"] = []
 
             return content
+<<<<<<< HEAD
         
         # 100点なら即実行
         
@@ -492,6 +607,15 @@ class ChatOrchestrator(BaseOrchestrator):
             print(f"🎯 {top['handler'].__class__.__name__} が100点を獲得")
             self.last_used_handler = top["handler"].__class__.__name__
             result = await self._invoke_handler(top["handler"])
+=======
+        # =========================================================
+        # 100点なら即実行
+        # =========================================================
+        if top["score"] == 100:
+            print(f"🎯 {top['handler'].__class__.__name__} が100点を獲得")
+            self.last_used_handler = top["handler"].__class__.__name__
+            result = await top["handler"].handle(self.request)
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
             if result is None:
                 return "text", "処理に失敗しました。"
@@ -501,18 +625,30 @@ class ChatOrchestrator(BaseOrchestrator):
 
             return res_type, attach_debug_block(res_content)
 
+<<<<<<< HEAD
         
         # 全員低スコア
         
+=======
+        # =========================================================
+        # 全員低スコア
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         if top["score"] < 40:
             return "text", {
                 "message": "どのエージェントも処理できませんでした。",
                 "blocks": [debug_block]
             }
 
+<<<<<<< HEAD
         
         # 競合判定
         
+=======
+        # =========================================================
+        # 競合判定
+        # =========================================================
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         if (
             second["handler"] is not None
             and
@@ -528,8 +664,13 @@ class ChatOrchestrator(BaseOrchestrator):
                 }
                 
             print("🚀 2つのHandlerを実行してマージします。")
+<<<<<<< HEAD
             result1 = await self._invoke_handler(top["handler"])
             result2 = await self._invoke_handler(second["handler"])
+=======
+            result1 = await top["handler"].handle(self.request)
+            result2 = await second["handler"].handle(self.request)
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
             if result1 is None and result2 is None:
                 return "text", {
@@ -559,10 +700,17 @@ class ChatOrchestrator(BaseOrchestrator):
 
             return final_type, attach_debug_block(merged)
 
+<<<<<<< HEAD
         
         # 単独実行
         
         result = await self._invoke_handler(top["handler"])
+=======
+        # =========================================================
+        # 単独実行
+        # =========================================================
+        result = await top["handler"].handle(self.request)
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
         if result is None:
             return "text", {

@@ -73,3 +73,9 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# JSONファイルをすべて除外（必要に応じて）
+*.json
+
+# 今回エラーになった巨大なフォルダごと除外
+plugins/Tokyo_hackson_23/
