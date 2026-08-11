@@ -1,0 +1,48 @@
+{
+  "id": "midwife",
+  "title": "助産師",
+  "category": "医療",
+  "summary": "妊娠・出産・産後のケアを専門的に支援する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "分娩の経過や体重増加のデータを記録・比較し異常の早期発見に使う。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学I データの分析",
+        "connection": "母子の健康指標を統計的に見て正常範囲からの逸脱を判断する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "生物基礎 生殖と発生",
+        "connection": "受精から出産までの体の変化を理解し適切な処置を行う。"
+      },
+      {
+        "stage": "中学",
+        "unit": "生命を維持する働き",
+        "connection": "母体の呼吸・循環の仕組みの理解が急変時の対応に役立つ。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "助産師",
+      "出産",
+      "妊娠",
+      "母子"
+    ],
+    "tags": [
+      "医療"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

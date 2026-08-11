@@ -1,0 +1,86 @@
+[
+  {
+    "id": "basic_001",
+    "title": "厳密な型付け (Strict Types)",
+    "description": "PHP7以降で推奨される、型指定を厳密に評価する宣言。予期せぬ型変換バグを防ぐため、PHPファイルの先頭（<?php の直後）に記述する。",
+    "example": "<?php\ndeclare(strict_types=1);\n\nfunction add(int $a, int $b): int {\n    return $a + $b;\n}",
+    "tags": ["type", "strict", "php7", "best_practice"]
+  },
+  {
+    "id": "basic_002",
+    "title": "変数の出力と文字列展開 (String Interpolation)",
+    "description": "ダブルクォート内で変数を展開する際、中括弧 {} で囲むことで変数名の境界を明確にする。プロパティやメソッドの戻り値も安全に展開できる。",
+    "example": "$name = 'Taro';\necho \"Hello, {$name}!\";\necho \"Price: {$item->getPrice()} yen\";",
+    "tags": ["string", "echo", "variables"]
+  },
+  {
+    "id": "basic_003",
+    "title": "型宣言とUnion型 / Nullable型",
+    "description": "関数の引数と戻り値には可能な限り型を指定する。PHP 8.0以降は複数の型を許容するUnion型（A|B）が使用可能。Nullableな型は先頭に ? を付ける。",
+    "example": "function processInput(int|float $value): ?string {\n    if ($value < 0) {\n        return null;\n    }\n    return (string)$value;\n}",
+    "tags": ["type", "union", "nullable", "php8"]
+  },
+  {
+    "id": "basic_004",
+    "title": "match式 (PHP 8.0+)",
+    "description": "従来のswitch文に代わる、より安全で簡潔な条件分岐。厳密な比較 (===) を行い、結果を直接値として返すことができる。breakが不要。",
+    "example": "$message = match($statusCode) {\n    200, 201 => 'Success',\n    400 => 'Bad Request',\n    404 => 'Not Found',\n    default => 'Unknown Error',\n};",
+    "tags": ["control_structure", "match", "switch", "php8"]
+  },
+  {
+    "id": "basic_005",
+    "title": "Nullsafe演算子 (PHP 8.0+)",
+    "description": "オブジェクトがnullかもしれない場合に、エラーを出さずにメソッドやプロパティを安全に呼び出すチェーン (?->)。途中でnullを検知した場合は処理を中断しnullを返す。",
+    "example": "// 従来: if ($session !== null && $session->user !== null) ...\n$country = $session?->user?->getAddress()?->country;",
+    "tags": ["operator", "nullsafe", "object", "php8"]
+  },
+  {
+    "id": "basic_006",
+    "title": "Null合体演算子 (Null Coalescing Operator)",
+    "description": "変数が存在しない、またはnullである場合のデフォルト値を指定する演算子 (??)。$_GETや$_POSTなどの配列アクセスでよく使用される。",
+    "example": "$page = $_GET['page'] ?? 1;\n$username = $user->name ?? 'Guest';",
+    "tags": ["operator", "null", "default"]
+  },
+  {
+    "id": "basic_007",
+    "title": "配列の基本操作 (array_map, array_filter)",
+    "description": "foreachを使わずに配列を変換・フィルタリングする関数型アプローチ。データの抽出や変換を簡潔に記述できる。",
+    "example": "$numbers = [1, 2, 3, 4, 5];\n// 偶数だけ抽出\n$evens = array_filter($numbers, fn($n) => $n % 2 === 0);\n// 2倍にする\n$doubles = array_map(fn($n) => $n * 2, $evens);",
+    "tags": ["array", "map", "filter", "collection"]
+  },
+  {
+    "id": "basic_008",
+    "title": "アロー関数 (Arrow Functions)",
+    "description": "親スコープの変数を自動でキャプチャする（useキーワード不要）、簡潔な無名関数の構文(fn() => ...)。単一の式を返すコールバックに最適。",
+    "example": "$multiplier = 3;\n$result = array_map(fn($n) => $n * $multiplier, [1, 2, 3]);",
+    "tags": ["function", "closure", "arrow", "php7.4"]
+  },
+  {
+    "id": "basic_009",
+    "title": "コンストラクタのプロパティ昇格 (Constructor Property Promotion)",
+    "description": "PHP 8.0以降、クラスのプロパティ宣言とコンストラクタでの初期化代入を一度に記述できる簡潔な構文。DTOやEntityの作成が容易になる。",
+    "example": "class User {\n    public function __construct(\n        public int $id,\n        public string $name,\n        private string $email = '',\n    ) {}\n}",
+    "tags": ["class", "oop", "constructor", "php8"]
+  },
+  {
+    "id": "basic_010",
+    "title": "例外処理 (try-catch)",
+    "description": "エラーを安全に捕捉し、プログラムの異常終了を防ぐ。PHP 8.0以降は、変数を使用しない場合はcatchする変数名を省略可能。",
+    "example": "try {\n    $pdo = new PDO($dsn, $user, $pass);\n} catch (PDOException) {\n    // エラー変数が不要な場合の記述\n    error_log('Database connection failed.');\n    exit('システムエラーが発生しました。');\n}",
+    "tags": ["error", "exception", "try_catch"]
+  },
+  {
+    "id": "basic_011",
+    "title": "三項演算子とエルビス演算子",
+    "description": "簡単なif-else文を短く書く方法。条件 ? 真の場合 : 偽の場合。真の場合の戻り値が条件式と同じ場合は、中央を省略できる（エルビス演算子 ?:）。",
+    "example": "// 三項演算子\n$status = ($age >= 18) ? 'Adult' : 'Minor';\n\n// エルビス演算子（$valがtruthyならそのまま、falsyなら'default'）\n$result = $val ?: 'default';",
+    "tags": ["operator", "ternary", "elvis"]
+  },
+  {
+    "id": "basic_012",
+    "title": "配列の展開 (Spread Operator)",
+    "description": "配列を別の配列の中に展開する際に使用する演算子 (...)。array_mergeの代わりに使え、視覚的にもわかりやすい。",
+    "example": "$defaultRoles = ['guest'];\n$adminRoles = ['admin', 'editor'];\n$allRoles = [...$defaultRoles, ...$adminRoles, 'subscriber'];",
+    "tags": ["array", "spread", "operator"]
+  }
+]

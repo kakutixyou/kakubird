@@ -1,0 +1,220 @@
+{
+  "company_id": "cmp_comedge_2026_001",
+
+  "company": {
+    "name": "株式会社コムエッジ",
+    "industry": "GIS・受託開発・SES",
+    "employment_type": "正社員",
+    "location": "東京都",
+    "founded_year": 2005,
+    "source_type": "スカウト",
+    "received_date": "2026-05-21",
+    "expiration_days_left": 5
+  },
+
+  "position": {
+    "title": "PG（プログラマー）",
+
+    "salary_range": {
+      "min": 3300000,
+      "max": 3500000,
+      "currency": "JPY"
+    },
+
+    "experience_requirement": {
+      "career_change_possible": true,
+      "ojt_months": 3
+    }
+  },
+
+  "business_domain": {
+    "specialties": [
+      "GIS",
+      "地理情報システム",
+      "公共系システム",
+      "自治体系システム",
+      "受託開発",
+      "SES"
+    ],
+
+    "products": [
+      "Com’s Mapper"
+    ],
+
+    "main_clients": [
+      "行政",
+      "自治体",
+      "建設コンサルタント",
+      "民間企業"
+    ]
+  },
+
+  "project_types": [
+    "GISシステム開発",
+    "モバイルアプリ開発",
+    "Webアプリ開発",
+    "固定資産管理システム",
+    "公有財産管理システム",
+    "CADソフトウェア開発",
+    "クラウドアプリ受託開発",
+    "SES案件"
+  ],
+
+  "work_environment": {
+    "average_overtime_hours": 16,
+    "annual_holidays": 125,
+
+    "remote_work": {
+      "available": true,
+      "mainly_for_inhouse_projects": true
+    },
+
+    "team_assignment": true,
+
+    "childcare_leave": {
+      "acquisition_rate": 100,
+      "return_rate": 100
+    }
+  },
+
+  "career_support": {
+    "mentor_support": true,
+    "technical_assignment_support": true,
+    "career_change_support": true,
+
+    "supported_backgrounds": [
+      "営業職",
+      "組み込み系"
+    ],
+
+    "growth_environment": [
+      "社内案件",
+      "自社製品カスタマイズ",
+      "異分野チャレンジ"
+    ]
+  },
+
+  "company_culture": {
+    "keywords": [
+      "GIS",
+      "公共系",
+      "受託開発",
+      "チーム配属",
+      "リモート",
+      "OJT",
+      "キャリアアップ"
+    ],
+
+    "positive_points": [
+      "公共系で安定傾向",
+      "自社製品あり",
+      "残業少なめ",
+      "年休125日",
+      "チーム配属",
+      "リモートあり",
+      "育休復帰率100%"
+    ],
+
+    "risk_points": [
+      "SES案件あり",
+      "給与レンジ低め",
+      "GIS特化キャリアになる可能性",
+      "案件によって技術差がありそう"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "stability_score": 84,
+    "work_life_balance_score": 88,
+    "technical_growth_score": 73,
+    "public_sector_score": 91,
+    "ses_risk_score": 48,
+    "specialized_domain_score": 79,
+
+    "detected_patterns": [
+      {
+        "word": "チーム",
+        "count": 3,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "安心",
+        "count": 2,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "成長",
+        "count": 3,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "SES",
+        "count": 2,
+        "risk_weight": 5
+      },
+
+      {
+        "word": "公共",
+        "count": 2,
+        "risk_weight": 1
+      }
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "white_candidate",
+
+    "estimated_risk_level": 31,
+
+    "analysis_comment": [
+      "公共系案件が多く比較的安定傾向",
+      "GIS特化という明確な強みあり",
+      "チーム配属やOJT体制は良好",
+      "働き方の数値開示が具体的",
+      "SES要素はあるが受託・自社開発比率もありそう"
+    ],
+
+    "recommendation": [
+      "SES比率確認",
+      "自社開発割合確認",
+      "使用技術スタック確認",
+      "GIS以外へのキャリア展開確認",
+      "リモート比率確認"
+    ]
+  },
+
+  "message": {
+    "title": "【残業月16h以下／年休125日】常駐先でも先輩社員とチーム配属なので安心！",
+
+    "summary": [
+      "GIS特化企業",
+      "年休125日",
+      "残業16h以下",
+      "チーム配属",
+      "公共系案件",
+      "リモート勤務あり"
+    ],
+
+    "body": [
+      "2005年設立のGISに強みを持つソフトウェア開発会社です。",
+      "自治体・行政向けシステム開発を行っています。",
+      "自社製品Com’s Mapperを展開しています。",
+      "SES・受託・自社開発案件があります。",
+      "3カ月程度のOJT後に案件配属されます。",
+      "月平均残業16時間です。",
+      "自社受託案件はリモート勤務が多いです。",
+      "育休取得率・復帰率ともに100%です。"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "source_format": "scout_mail"
+  }
+}

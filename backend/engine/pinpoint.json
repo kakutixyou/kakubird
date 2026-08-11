@@ -1,0 +1,12 @@
+{
+  "rules": [
+    "動画のインポート機能は src/features/video_import に実装すること。",
+    "対応フォーマットは .mp4, .webm のみとする。",
+    "ユーザーには必ずファイルサイズの上限(500MB)をアラートで通知すること。"
+  ],
+  "dependencies": {
+    "FFmpeg": "^6.0.0",
+    "react-dropzone": "^14.2.3"
+  },
+  "code_snippet_example": "function handleImport(file) { ... }"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "tatami-maker",
+  "title": "畳職人",
+  "category": "職人",
+  "summary": "畳床・畳表を組み合わせて畳を製作・施工する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "空間図形",
+        "connection": "部屋の形に合わせて畳の寸法を正確に採寸・裁断する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "植物の体のつくり",
+        "connection": "い草の繊維の性質(吸湿性など)を理解し素材選びに活かす。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "畳職人",
+      "畳",
+      "和室",
+      "職人"
+    ],
+    "tags": [
+      "職人"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

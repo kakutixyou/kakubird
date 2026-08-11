@@ -1,0 +1,21 @@
+{
+  "occupation_id": "midwife",
+  "occupation_title": "助産師",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "楠本イネ",
+        "era": "幕末〜明治",
+        "achievement": "日本人女性として初めて西洋医学を学び産科医として活動した",
+        "connection": "出産・女性の健康を専門に扱った先駆者として助産師の仕事に直結する"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

@@ -1,0 +1,17 @@
+INSERT INTO users
+
+(id, org_id, email, display_name, role)
+
+VALUES (
+
+'9c3983ad-c283-4c51-ab7c-c6968f9ad6a1',
+
+'00000000-0000-0000-0000-000000000001',
+
+'k022c0001@gmail.com',
+
+'Admin',
+
+'owner'
+
+);

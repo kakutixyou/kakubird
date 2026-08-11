@@ -1,0 +1,38 @@
+{
+  "id": "shipbuilding-engineer",
+  "title": "造船技術者",
+  "category": "建設・工学",
+  "summary": "船舶の設計・建造に携わる技術者。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学III 積分",
+        "connection": "船体の体積や浮力を計算するのに積分を使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 浮力",
+        "connection": "アルキメデスの原理が船が浮く仕組みそのものになる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "造船",
+      "船",
+      "エンジニア",
+      "海洋"
+    ],
+    "tags": [
+      "建設・工学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

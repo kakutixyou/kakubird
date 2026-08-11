@@ -1,0 +1,43 @@
+{
+  "id": "sake-brewer",
+  "title": "杜氏(酒蔵の醸造責任者)",
+  "category": "食",
+  "summary": "日本酒の醸造工程全体を管理し味を決める職人。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "米・麹・水の配合比率を調整し味を設計する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "微生物のはたらき",
+        "connection": "麹菌や酵母による発酵の仕組みを理解し温度・時間を管理する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "化学基礎 物質の変化",
+        "connection": "発酵過程での化学反応(糖化・アルコール発酵)を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "杜氏",
+      "日本酒",
+      "酒蔵",
+      "発酵"
+    ],
+    "tags": [
+      "食"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

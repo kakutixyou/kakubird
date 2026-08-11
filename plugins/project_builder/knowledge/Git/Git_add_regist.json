@@ -1,0 +1,41 @@
+{
+    "name": "Git_add_regist",
+    "description": "Git add .からの扱い方",
+    "topic": "Git",
+    "keywords": [
+        "Git add .",
+        "warning",
+        "ローカルリポジトリ",
+        "初期化"
+    ],
+    "problem": {
+        "title": "Git add . によるファイル追加の警告",
+        "description": "Git add . を実行した際に表示される警告メッセージの意味と対処法が知りたい。"
+    },
+    "solutions": {
+        "step1": {
+            "title": "git resetの使用",
+            "description": "ファイル名が日本語の場合、文字化けが発生することがあります。警告を解消するために、まずgit resetを使用してステージングエリアをリセットします。",
+            "commands": [
+                "cd git add .",
+                "git reset"
+                
+            ]
+        },
+        "step2": {
+            "title": " git config --global core.autocrlf trueの設定",
+            "description": "2.Gitの改行コード設定を修正する:お使いのOSに合わせてコマンドを実行します。OS間の改行コードの違いをGitが自動で吸収してくれるように設定します。Windowsをお使いの場合:Bashgit config --global core.autocrlf true　2.Gitの改行コード設定を修正する:お使いのOSに合わせてコマンドを実行します。OS間の改行コードの違いをGitが自動で吸収してくれるように設定します。Windowsをお使いの場合:Bashgit config --global core.autocrlf true  Mac / Linux をお使いの場合:Bashgit config --global core.autocrlf input",
+            "commands": [
+                "Bashgit config --global core.autocrlf true",
+                "Bashgit config --global core.autocrlf input"
+            ]
+        },
+        "step3": {
+            "title": "再度git add .を実行",
+            "description": "ステップ1とステップ2を実行した後、再度git add .を実行して、警告が解消されているか確認します。",
+            "commands": [
+                "git add ."
+            ]
+        }
+    }
+}

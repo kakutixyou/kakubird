@@ -1,0 +1,21 @@
+{
+  "occupation_id": "scuba-instructor",
+  "occupation_title": "スキューバダイビングインストラクター",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ジャック=イヴ・クストー",
+        "era": "20世紀フランス",
+        "achievement": "水中で呼吸できる潜水器具(アクアラング)を開発し、ダイビングを普及させた",
+        "connection": "安全に水中活動を行う技術そのものを切り開いた"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "occupation_id": "electrician",
+  "occupation_title": "電気工事士",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "トーマス・エジソン",
+        "era": "19〜20世紀アメリカ",
+        "achievement": "電球や発電・送電の仕組みを実用化し、電力の普及に貢献した",
+        "connection": "電気を安全に届ける仕組みを作った、電気工事の土台となる業績"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

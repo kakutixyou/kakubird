@@ -1,0 +1,443 @@
+/*
+ * components.css
+ *
+ * Reusable component classes built with @apply from Tailwind utilities,
+ * complemented by CSS-variable-driven theme properties.
+ *
+ * Categories:
+ *   - Buttons
+ *   - Cards
+ *   - Badges / pills
+ *   - Form elements
+ *   - Typography helpers
+ *   - Layout helpers
+ *   - Block-level wrappers
+ */
+
+@tailwind components;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.btn-base {
+  @apply inline-flex items-center justify-center gap-2
+         rounded-lg font-semibold text-sm
+         px-5 py-2.5
+         transition-all duration-200
+         focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+         disabled:opacity-50 disabled:pointer-events-none
+         select-none cursor-pointer;
+}
+
+.btn-primary {
+  @apply btn-base;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse, #fff);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-hover, 0 4px 16px rgba(0,0,0,0.2));
+  transform: translateY(-1px);
+}
+.btn-primary:focus-visible {
+  ring-color: var(--color-primary);
+}
+
+.btn-secondary {
+  @apply btn-base;
+  background-color: var(--color-secondary);
+  color: #fff;
+}
+.btn-secondary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  @apply btn-base;
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse, #fff);
+}
+
+.btn-ghost {
+  @apply btn-base;
+  background-color: transparent;
+  color: var(--color-primary);
+}
+.btn-ghost:hover {
+  background-color: rgba(var(--color-primary-rgb, 37,99,235), 0.1);
+}
+
+.btn-sm {
+  @apply text-xs px-3 py-1.5 rounded-md;
+}
+
+.btn-lg {
+  @apply text-base px-7 py-3.5 rounded-xl;
+}
+
+.btn-icon {
+  @apply btn-base p-2.5 rounded-lg;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARDS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.card {
+  @apply rounded-xl overflow-hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card, 0 4px 24px -4px rgba(0,0,0,0.12));
+  padding: var(--space-card-p, 1.5rem);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover, 0 8px 32px -4px rgba(0,0,0,0.18));
+}
+
+.card-interactive {
+  @apply card cursor-pointer;
+}
+.card-interactive:hover {
+  transform: translateY(-4px);
+}
+
+.glass-card {
+  @apply rounded-xl overflow-hidden;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: var(--space-card-p, 1.5rem);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-glow, 0 0 16px 4px var(--color-glow));
+}
+
+.glass-card-dark {
+  @apply rounded-xl overflow-hidden;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: var(--space-card-p, 1.5rem);
+}
+
+.bordered-card {
+  @apply rounded-xl overflow-hidden;
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-primary);
+  padding: var(--space-card-p, 1.5rem);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.bordered-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+.feature-card {
+  @apply card flex flex-col gap-4;
+}
+.feature-card .card-icon {
+  @apply flex items-center justify-center w-12 h-12 rounded-xl;
+  background-color: rgba(var(--color-primary-rgb, 37,99,235), 0.1);
+  color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BADGES / PILLS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.badge {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5
+         text-xs font-medium rounded-full;
+}
+
+.badge-primary {
+  @apply badge;
+  background-color: rgba(var(--color-primary-rgb, 37,99,235), 0.15);
+  color: var(--color-primary);
+}
+
+.badge-secondary {
+  @apply badge;
+  background-color: rgba(var(--color-secondary-rgb, 124,58,237), 0.15);
+  color: var(--color-secondary);
+}
+
+.badge-success {
+  @apply badge bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400;
+}
+
+.badge-warning {
+  @apply badge bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400;
+}
+
+.badge-error {
+  @apply badge bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FORM ELEMENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.input-base {
+  @apply w-full rounded-lg px-4 py-2.5 text-sm
+         transition-all duration-150
+         focus:outline-none focus-visible:ring-2;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.input-base::placeholder {
+  color: var(--color-text-muted);
+}
+.input-base:focus-visible {
+  border-color: var(--color-primary);
+  ring-color: var(--color-focus-ring);
+}
+
+.label-base {
+  @apply block text-sm font-medium mb-1.5;
+  color: var(--color-text);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TYPOGRAPHY HELPERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.heading-xl {
+  @apply text-4xl font-bold leading-tight tracking-tight;
+  color: var(--color-text);
+}
+
+.heading-lg {
+  @apply text-3xl font-bold leading-snug;
+  color: var(--color-text);
+}
+
+.heading-md {
+  @apply text-2xl font-semibold leading-snug;
+  color: var(--color-text);
+}
+
+.heading-sm {
+  @apply text-xl font-semibold;
+  color: var(--color-text);
+}
+
+.body-lg {
+  @apply text-lg leading-relaxed;
+  color: var(--color-text-muted);
+}
+
+.body-base {
+  @apply text-base leading-relaxed;
+  color: var(--color-text-muted);
+}
+
+.body-sm {
+  @apply text-sm leading-relaxed;
+  color: var(--color-text-muted);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-highlight {
+  @apply relative inline-block;
+  color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DIVIDERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.divider {
+  @apply w-full my-6;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.divider-gradient {
+  @apply w-full my-6;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-primary) 30%,
+    var(--color-accent) 70%,
+    transparent
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYOUT HELPERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page-container {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+  max-width: var(--max-width-page, 1440px);
+}
+
+.content-container {
+  @apply mx-auto;
+  max-width: 800px;
+}
+
+.section-padding {
+  padding-top:    var(--space-block-y, 4rem);
+  padding-bottom: var(--space-block-y, 4rem);
+  padding-left:   var(--space-block-x, 1.5rem);
+  padding-right:  var(--space-block-x, 1.5rem);
+}
+
+.grid-cards {
+  @apply grid gap-6;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.grid-cards-sm {
+  @apply grid gap-4;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BLOCK-LEVEL WRAPPERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.block-wrapper {
+  @apply w-full section-padding;
+  background-color: var(--color-bg);
+}
+
+.block-wrapper-surface {
+  @apply w-full section-padding;
+  background-color: var(--color-surface);
+}
+
+.block-wrapper-alt {
+  @apply w-full section-padding;
+  background-color: var(--color-surface-alt, var(--color-surface));
+}
+
+/* ─── Section header ─────────────────────────────────────────────────────── */
+
+.section-header {
+  @apply mb-12;
+}
+
+.section-header-centered {
+  @apply section-header text-center;
+}
+
+.section-label {
+  @apply inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest mb-3;
+  color: var(--color-primary);
+}
+
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 1.5rem;
+  height: 2px;
+  background-color: var(--color-primary);
+}
+
+/* ─── Timeline connector ──────────────────────────────────────────────────── */
+
+.timeline-connector {
+  @apply absolute left-0 top-0 bottom-0 w-0.5;
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary),
+    var(--color-accent)
+  );
+}
+
+.timeline-dot {
+  @apply absolute -left-2 w-4 h-4 rounded-full border-2;
+  background-color: var(--color-primary);
+  border-color: var(--color-bg);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb, 37,99,235), 0.2);
+}
+
+/* ─── Quiz components ─────────────────────────────────────────────────────── */
+
+.quiz-option {
+  @apply card cursor-pointer select-none transition-all duration-150;
+}
+.quiz-option:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(var(--color-primary-rgb, 37,99,235), 0.05);
+}
+.quiz-option.selected {
+  border-color: var(--color-primary);
+  background-color: rgba(var(--color-primary-rgb, 37,99,235), 0.1);
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+.quiz-option.correct {
+  border-color: var(--color-success, #16a34a);
+  background-color: rgba(22, 163, 74, 0.1);
+}
+.quiz-option.incorrect {
+  border-color: var(--color-error, #dc2626);
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+/* ─── Code blocks ─────────────────────────────────────────────────────────── */
+
+.code-block {
+  @apply rounded-xl overflow-hidden;
+  background-color: #1e293b;
+  color: #e2e8f0;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.code-block-terminal {
+  @apply rounded-xl overflow-hidden;
+  background-color: #0d1117;
+  color: #7ee787;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.code-block-header {
+  @apply flex items-center gap-2 px-4 py-3;
+  background-color: rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.code-dot {
+  @apply w-3 h-3 rounded-full;
+}
+
+/* ─── Progress indicators ─────────────────────────────────────────────────── */
+
+.progress-bar-track {
+  @apply w-full h-2 rounded-full overflow-hidden;
+  background-color: var(--color-border);
+}
+
+.progress-bar-fill {
+  @apply h-full rounded-full transition-all duration-500;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+}

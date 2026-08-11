@@ -1,0 +1,21 @@
+{
+  "occupation_id": "dietitian",
+  "occupation_title": "栄養士",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "高木兼寛",
+        "era": "明治時代",
+        "achievement": "海軍軍医として、食事内容の改善で脚気(かっけ)を予防できることを示した",
+        "connection": "栄養バランスと病気予防を結びつけた、日本の栄養学の先駆的な業績"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

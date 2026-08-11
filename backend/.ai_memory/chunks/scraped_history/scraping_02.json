@@ -1,0 +1,630 @@
+[
+  {
+    "chunk_id": 0,
+    "content": "info\nMore than 5 years have passed since last update.\n@\nyoship1639\n(\nYoshihiro Ito\n)\nin\nUnityゲーム開発者ギルド\nオブジェクト指向をより理解するために実際に書いて解説する"
+  },
+  {
+    "chunk_id": 1,
+    "content": "C#\nオブジェクト指向\n基礎\nプログラミング教育\n609\nPosted at\n2018-10-22\nはじめに\nこんにちは、\nyoship1639"
+  },
+  {
+    "chunk_id": 2,
+    "content": "です。\n普段はゲームエンジンを用いない個人ゲーム開発を行っております。\n本記事は、\nオブジェクト指向がいまいち理解できない人\n、\nなんとなく理解はしたけどプログラムに落とし込めない人\nを対象に、\n簡単なプログラムをオブジェクト指向満載で実際に書いて、理解を深めてもらおうと思い記述しています。\nプログラミング言語は普段私がよく使う**C#**で記述しますが、オブジェクト指向は言語の壁を越えて利用できる概念ですので、\n言語の記述ではなく、その記述の持つ意味を昇華させ俯瞰的に見ていただけると、より理解が進むのではないかと思います。"
+  },
+  {
+    "chunk_id": 3,
+    "content": "本記事の背景・目的\nオブジェクト指向に関する記述はとても増えてきました。しかし、一部を除いては理解を妨げる解説をしている記事が多数見受けられます。\n具体的な用語の説明をならべても、抽象化し過ぎた解説しても、プログラミングに落とし込むことはできません。\n「継承」「カプセル化」「ポリモーフィズム」。オブジェクト指向の３大要素と言われていますが、そんなことより大事な事がオブジェクト指向にはあります。\n「現実世界を正しく捉える」のがオブジェクト指向を言われていますが、抽象化し過ぎているし現実世界を正しく捉えなければオブジェクト指向を使う意味がないかと言われるとそんなこと全くありません、ですが現実正解を正しく捉える考え方をするとオブジェクト指向プログラミングが容易になるのは正しいと思います。なので7割不正解です。\n大事なのは、オブジェクト指向のそもそもの\n利点をどれだけ理解したうえで、どれだけその利点を具体的にプログラミングに正しく落とし込めるか\nです。\nオブジェクト指向の利点。いくつ具体的に挙げられた上でそれを落とし込めるか。それが出来なければハリボテと変わりません。\nその利点に気が付くため、そして理解を深めるために、実際に書きながら解説しオブジェクト指向の素晴らしさに気が付いてもらいたいと思います。"
+  },
+  {
+    "chunk_id": 4,
+    "content": "オブジェクト指向のメリット\n解説する前に、\n何のためにオブジェクト指向を用いるのか\nを簡単に説明します。\n私は、オブジェクト指向を使うメリットは大きく4つに大別できると考えています。\nそれは、\n保守性、汎用性、拡張性、独立性\nの維持・確立です。\nもっと簡潔に言うと、\n人が理解しやすく、あらゆる変更や追加に対して柔軟に対応できる様にするため"
+  },
+  {
+    "chunk_id": 5,
+    "content": "です。\n1つずつ簡単にメリットを説明します。\n保守性\n既に記述されたコードのリファクタリングが容易になる\n必要なデータ・振る舞いのみを提供出来る\n汎用性\n既に記述されたコードを修正することなく再利用が容易になる\n拡張性\n既に記述されたコードを修正することなく上書き,書き足すことが容易になる\n独立性"
+  },
+  {
+    "chunk_id": 6,
+    "content": "オブジェクト同士が互いに疎遠な関係となることで、保守、汎用化が容易になる\n修正や追加を加えた際に他オブジェクトへの影響を最小限に抑えることができる\nこれらのメリットを享受し、柔軟性を最大限高めることがオブジェクト指向を用いる決定的な理由です。\nデザインパターンも、上記のメリットをより享受するためのシステムデザインを詳細に区分けしたものとなっています。\nこれはとても大事な概念ですので、しっかりと胸に刻み込んでください。\nもう一度言います、オブジェクト指向を使うメリット、目的を間違えないでください。\nカプセル化、継承、ポリモーフィズムは\n手段\nです。目的じゃありません。\n保守性、汎用性、拡張性、独立性を確立させることが目的"
+  },
+  {
+    "chunk_id": 7,
+    "content": "です。\nメリットや機能についてはもっと詳細に解説するべきですが、既にとても良い解説をされている記事がありますので、詳細はそれを参考にしてください。\nオブジェクト指向と10年戦ってわかったこと\n：素晴らしい記事です。読むことをお勧めします。\nオブジェクト指向で書く\nそれでは、実際にオブジェクト指向プログラミングをしながら解説していきたいと思います。\n書く前に絶対気を付けること\nまず、一番初めに気を付けなければならない事があります。\nそれは、\n何を作るのか予めハッキリさせる"
+  },
+  {
+    "chunk_id": 8,
+    "content": "事です。\nなぜかというと、\n作るものを決めなければオブジェクト指向プログラミングが破綻する\n(柔軟性が喪失される)からです。\nオブジェクト指向の基本は、オブジェクト同士がメッセージを送り合うことです。\n何を作るのか不明であるという事は、\nオブジェクトがメッセージを送れない\n、もしくは\nオブジェクトが意味不明のメッセージを送る\n事と同じです。"
+  },
+  {
+    "chunk_id": 9,
+    "content": "もの凄くダメな例を紹介します。\n考えなしに後から継ぎ足していく・変更を加えていくパターン\nです。\n例えば、何も考えずAさんとBさんの二人のクラスを作成したとします。\nclass\nA\n{\n}\nclass\nB"
+  },
+  {
+    "chunk_id": 10,
+    "content": "{\n}\n何を作るのかわからないけど、AさんとBさんは\n人間だから\n身長と体重を実装しておきます。\nclass\nA\n{\npublic\nfloat"
+  },
+  {
+    "chunk_id": 11,
+    "content": "Height\n{\nget\n;\nset\n;\n}\npublic\nfloat\nWeight"
+  },
+  {
+    "chunk_id": 12,
+    "content": "{\nget\n;\nset\n;\n}\n}\nclass\nB\n{"
+  },
+  {
+    "chunk_id": 13,
+    "content": "public\nfloat\nHeight\n{\nget\n;\nset\n;\n}\npublic"
+  },
+  {
+    "chunk_id": 14,
+    "content": "float\nWeight\n{\nget\n;\nset\n;\n}\n}\n後で、AさんがBさんに挨拶しなければならない事が判明しました。すると、AさんはBさんに「挨拶する」というメッセージを送らなければならないので、次のように実装しました。"
+  },
+  {
+    "chunk_id": 15,
+    "content": "class\nA\n{\npublic\nfloat\nHeight\n{\nget\n;\nset"
+  },
+  {
+    "chunk_id": 16,
+    "content": ";\n}\npublic\nfloat\nWeight\n{\nget\n;\nset\n;"
+  },
+  {
+    "chunk_id": 17,
+    "content": "}\n}\nclass\nB\n{\npublic\nfloat\nHeight\n{\nget"
+  },
+  {
+    "chunk_id": 18,
+    "content": ";\nset\n;\n}\npublic\nfloat\nWeight\n{\nget\n;"
+  },
+  {
+    "chunk_id": 19,
+    "content": "set\n;\n}\npublic\nvoid\nGreeting\n(\nA\nperson\n,"
+  },
+  {
+    "chunk_id": 20,
+    "content": "string\nmessage\n)\n{\n// TODO: 挨拶の処理\n}\n}\nさらに、Bさんは挨拶をし返さないといけない事が判明。すると、\nclass\nA"
+  },
+  {
+    "chunk_id": 21,
+    "content": "{\npublic\nfloat\nHeight\n{\nget\n;\nset\n;\n}"
+  },
+  {
+    "chunk_id": 22,
+    "content": "public\nfloat\nWeight\n{\nget\n;\nset\n;\n}\npublic"
+  },
+  {
+    "chunk_id": 23,
+    "content": "void\nReceiveGreeting\n(\nB\nperson\n,\nstring\nmes\n)\n{"
+  },
+  {
+    "chunk_id": 24,
+    "content": "// TODO: 挨拶返し処理\n}\n}\nclass\nB\n{\npublic\nfloat\nHeight\n{"
+  },
+  {
+    "chunk_id": 25,
+    "content": "get\n;\nset\n;\n}\npublic\nfloat\nWeight\n{\nget"
+  },
+  {
+    "chunk_id": 26,
+    "content": ";\nset\n;\n}\npublic\nfloat\nMessage\n{\nget\n;"
+  },
+  {
+    "chunk_id": 27,
+    "content": "set\n;\n}\npublic\nvoid\nGreeting\n(\nA\nperson\n,"
+  },
+  {
+    "chunk_id": 28,
+    "content": "string\nmes\n)\n{\n// TODO: 挨拶処理\nperson\n.\nReceiveGreeting\n(\nthis"
+  },
+  {
+    "chunk_id": 29,
+    "content": ",\nMessage\n);\n}\n}\nBさんはAさんの挨拶に対して返す言葉を実装しなければならなくなり、新しくMessageを実装しました。\n見た感じ、身長と体重がかぶっているので、それを抽出し抽象クラスにしようと思います。\nabstract\nclass\nHuman"
+  },
+  {
+    "chunk_id": 30,
+    "content": "{\npublic\nfloat\nHeight\n{\nget\n;\nset\n;\n}"
+  },
+  {
+    "chunk_id": 31,
+    "content": "public\nfloat\nWeight\n{\nget\n;\nset\n;\n}\n}"
+  },
+  {
+    "chunk_id": 32,
+    "content": "class\nA\n:\nHuman\n{\npublic\nvoid\nReceiveGreeting\n(\nB"
+  },
+  {
+    "chunk_id": 33,
+    "content": "person\n,\nstring\nmes\n)\n{\n// TODO: 挨拶返し処理\n}\n}\nclass"
+  },
+  {
+    "chunk_id": 34,
+    "content": "B\n:\nHuman\n{\npublic\nfloat\nMessage\n{\nget\n;"
+  },
+  {
+    "chunk_id": 35,
+    "content": "set\n;\n}\npublic\nvoid\nGreeting\n(\nA\nperson\n,"
+  },
+  {
+    "chunk_id": 36,
+    "content": "string\nmes\n)\n{\n// TODO: 挨拶処理\nperson\n.\nReceiveGreeting\n(\nthis"
+  },
+  {
+    "chunk_id": 37,
+    "content": ",\nMessage\n);\n}\n}\nカオスになってきましたね。\nもし、次に新たな新鋭Cさんが登場し挨拶しなければならなくなったらどうしますか？\nもし、Aさんが実は軟体浮動生物で身長の概念が無かったらどうしますか？\nもし、Bさんはのっぺら棒でしゃべれなかったとしたらどうしますか？\nこの作り方を続けると、見た目はオブジェクト指向っぽいですが、その恩恵はゼロであるといっても過言ではありません。"
+  },
+  {
+    "chunk_id": 38,
+    "content": "恩恵がない具体的な理由は以下です。\n使いもしない身長や体重を持つという保守性の欠如\nAがBを知らないと挨拶ができないという汎用性・独立性の欠如\nBがAを知らないと挨拶返しができないという汎用性・独立性の欠如\n新しい概念の導入に対する汎用性・拡張性の欠如\n何を作るのかハッキリさせないで後から継ぎ足すというのは、上記を見てわかる通り、破滅をもたらすだけで、オブジェクト指向の恩恵どころか、ただの難解なプログラムに化けるだけとなってしまいます。\n何度も言います、\n何を作るのかハッキリさせてからプログラミングしなければ、オブジェクト指向の恩恵を得られません\n。\n言い換えると、"
+  },
+  {
+    "chunk_id": 39,
+    "content": "設計がとても重要である\nと言えます。\n何を作るか決める\n何を作るのかが大事である事を理解した所で、さっそく何を作るかを決めます。\n簡単な例で解説しますので、今回は「\nタケシが持っている冷凍ギョウザを電子レンジに入れたら食べられるギョウザとなって出てくる\n」という例で解説したいと思います。\nさて、何をしたいのかをはっきりさせると、どうすればいいのかが見えてきます。\nタケシは冷凍餃子を持っていますね。\nタケシは電子レンジを操作しますね。"
+  },
+  {
+    "chunk_id": 40,
+    "content": "電子レンジは冷凍ギョウザを受け取り、ギョウザにして返しますね。\nギョウザは冷凍されているかという状態を持ちますね。\n上記のように、何を作るのか決めて初めて、オブジェクトがどんなデータを持ちどんな振る舞いをするのかが見えてきます。\nそれでは、コードに落とし込んでいきます。\nこれからコーディングするのは、オブジェクト指向の恩恵がほとんど得られないバージョンです。\nこれは、順に恩恵が得られるバージョンに変化させるために敢えてこの状態からスタートします。\nくれぐれも、恩恵がほとんどないバージョンを正しいコーディングだと思わないでください。\n恩恵がほとんどないバージョン\nまず、登場人物を確認します。「タケシ」「電子レンジ」「冷凍ギョウザ」「ギョウザ」ですね。\nまずは、純粋に登場人物をクラス化してみましょう。"
+  },
+  {
+    "chunk_id": 41,
+    "content": "class\nTakeshi\n{\n}\nclass\nMicrowave\n{\n}\nclass\nGyoza"
+  },
+  {
+    "chunk_id": 42,
+    "content": "{\n}\nclass\nFrozenGyoza\n{\n}\nしかし、冷凍ギョウザとギョウザの違いは、温められているかどうかだけです。なので\nclass\nTakeshi\n{"
+  },
+  {
+    "chunk_id": 43,
+    "content": "}\nclass\nMicrowave\n{\n}\nclass\nGyoza\n{\npublic\nbool"
+  },
+  {
+    "chunk_id": 44,
+    "content": "Frozen\n{\nget\n;\nset\n;\n}\n}\nこの様にFrozenプロパティを実装し、冷凍されているかどうかを定義します。\n次に、電子レンジは温める機能を持っているので、Heatメソッドを定義します。"
+  },
+  {
+    "chunk_id": 45,
+    "content": "Heatメソッドは、冷凍ギョウザをギョウザに変化させるので、\nclass\nTakeshi\n{\n}\nclass\nMicrowave\n{\npublic\nGyoza"
+  },
+  {
+    "chunk_id": 46,
+    "content": "Heat\n(\nGyoza\ngyoza\n)\n{\ngyoza\n.\nFrozen\n="
+  },
+  {
+    "chunk_id": 47,
+    "content": "false\n;\nreturn\ngyoza\n;\n}\n}\nclass\nGyoza\n{"
+  },
+  {
+    "chunk_id": 48,
+    "content": "public\nbool\nFrozen\n{\nget\n;\nset\n;\n}\n}"
+  },
+  {
+    "chunk_id": 49,
+    "content": "Frozenをfalseにし、温められた状態にして返します。\nタケシは冷凍ギョウザを持っているので、プロパティに追加します。\nタケシは電子レンジを\n操作\nするので、メソッドとして実装します。\nclass\nTakeshi\n{\npublic\nGyoza"
+  },
+  {
+    "chunk_id": 50,
+    "content": "Gyoza\n{\nget\n;\nset\n;\n}\npublic\nvoid\nUseMicrowave"
+  },
+  {
+    "chunk_id": 51,
+    "content": "(\nMicrowave\nmicrowave\n)\n{\nmicrowave\n.\nHeat\n(\nGyoza"
+  },
+  {
+    "chunk_id": 52,
+    "content": ");\n}\n}\nclass\nMicrowave\n{\npublic\nGyoza\nHeat\n("
+  },
+  {
+    "chunk_id": 53,
+    "content": "Gyoza\ngyoza\n)\n{\ngyoza\n.\nFrozen\n=\nfalse\n;"
+  },
+  {
+    "chunk_id": 54,
+    "content": "return\ngyoza\n;\n}\n}\nclass\nGyoza\n{\npublic\nbool"
+  },
+  {
+    "chunk_id": 55,
+    "content": "Frozen\n{\nget\n;\nset\n;\n}\n}\nそして、これらを操作するメインプログラムを書きます。\nclass"
+  },
+  {
+    "chunk_id": 56,
+    "content": "TakeshiAndGyoza\n{\nstatic\nvoid\nMain\n(\nstring\n[]\nargs\n)"
+  },
+  {
+    "chunk_id": 57,
+    "content": "{\nvar\ntakeshi\n=\nnew\nTakeshi\n();\n// タケシ\nvar\ngyoza"
+  },
+  {
+    "chunk_id": 58,
+    "content": "=\nnew\nGyoza\n()\n{\nFrozen\n=\ntrue\n};\n// 冷凍餃子"
+  },
+  {
+    "chunk_id": 59,
+    "content": "var\nmicrowave\n=\nnew\nMicrowave\n();\n// 電子レンジ\ntakeshi\n.\nGyoza"
+  },
+  {
+    "chunk_id": 60,
+    "content": "=\ngyoza\n;\n// ギョウザを持っている\ntakeshi\n.\nUseMicrowave\n(\nmicrowave\n);"
+  },
+  {
+    "chunk_id": 61,
+    "content": "// タケシが電子レンジを使う\n}\n}\n出来ました。「タケシが持っている冷凍ギョウザを電子レンジに入れたら食べられるギョウザとなって出てくる」プログラムです。\n見た感じオブジェクト指向になっているので、問題なさそうに見えます。\nさて、あなたは、このプログラムに100点満点で何点つけますか？\n恩恵がほとんどないバージョンの採点\n私は5点をつけます。このプログラムで5点は良い方です。\n言われた通りの機能を実装するという意味では100点です。ちゃんと実装されています。しかし、今後の展開を加味すると全くダメです。\nオブジェクト指向のメリットを思い出してください。"
+  },
+  {
+    "chunk_id": 62,
+    "content": "保守性、汎用性、拡張性、独立性をこのプログラムが持っているのか、見ていきます。\nまず、保守性です。\nオブジェクト毎に分けられていて、リファクタリングする際にはそこまで問題なさそうです。ギョウザに温められた温度を付け加える場合でも、電子レンジに新機能を追加する場合でも、対応はできそうです。しかし、タケシのギョウザの状態を電子レンジ以外でも自由に変更できてしまいますね。なので5点付けます。\n汎用性です。\n全くありません。タケシではなく、カスミが電子レンジを使う場合は新たにカスミをタケシと同じ様に定義しなければなりません。ギョウザではなく肉まんだった場合電子レンジとタケシの記述を変更しなければなりません。電子レンジで温められるのはギョウザだけというのは如何なものでしょうか。0点です。\n拡張性です。\n一見ありそうに見えますが、ありません。肉まんに対応する場合タケシに肉まんプロパティを追加すればいいだけですが、ピザまんを追加する場合もシュウマイを追加する場合も同じく記述する羽目になります。タケシの手が持ちません。0点です。\n独立性です。\n全くありません。タケシはギョウザと電子レンジの存在を知らないと確立できません。電子レンジはギョウザを知らないと存在できません。互いが互いを知らないといけない状態になっています。唯一まともなのはギョウザだけです。しかし0点です。\n柔軟性を持たないと更なる問題に直面します。"
+  },
+  {
+    "chunk_id": 63,
+    "content": "タケシでもカスミでもなくサトシだったら？オーキドだったら？\n電子レンジじゃなくオーブンレンジだったら？ガスコンロだったら？\n肉まん、ピザまん、シュウマイ、コロッケ、お魚、hogehoge、etc・・・?\n何を作るのか決めただけでは、対象が変更される可能性に対応できません。\n先ほどのプログラムは柔軟性がほとんどありません。なので、追加や修正に一苦労です。\nなので、先ほどのプログラムの柔軟性を上げ、対象が変更される場合でも修正に柔軟に耐えうる形に改良します。\n恩恵がそこそこあるバージョン\n改良と言いつつ、0から記述します。手を加えるのも億劫なので。。。\nまず、登場人物のおさらいです。「タケシ」「電子レンジ」「冷凍ギョウザ」「ギョウザ」です。\nお題はこれです。「タケシが持っている冷凍ギョウザを電子レンジに入れたら食べられるギョウザとなって出てくる」"
+  },
+  {
+    "chunk_id": 64,
+    "content": "さて、前回の採点を踏まえたら、以下の予想ができました。\nカスミだったら？サトシだったら？オーキドだったら？\nオーブンレンジだったら？ガスコンロだったら？\n肉まん、ピザまん、シュウマイ、コロッケ、お魚、hogehoge、etc・・・?\nまず、タケシじゃなかった場合を考えます。カスミ、サトシが電子レンジを使う場合、タケシ、カスミ、サトシが共通して行うのは「電子レンジを使う」です。なので、「\n電子レンジを使う人\n」として抽象化させ、HumanUsingMicrowaveという抽象クラスを作成します。\n名前付け\nはしっかりして下さい。抽象クラスの名前はHumanでいいでしょと思った人は要注意です。\n// 電子レンジを使う人"
+  },
+  {
+    "chunk_id": 65,
+    "content": "abstract\nclass\nHumanUsingMicrowave\n{\npublic\nGyoza\nGyoza\n{\nget\n;"
+  },
+  {
+    "chunk_id": 66,
+    "content": "set\n;\n}\npublic\nGyoza\nUseMicrowave\n(\nMicrowave\nmicrowave\n)"
+  },
+  {
+    "chunk_id": 67,
+    "content": "{\nreturn\nmicrowave\n.\nHeat\n(\nGyoza\n);\n}\n}"
+  },
+  {
+    "chunk_id": 68,
+    "content": "しかし、これではオーブンレンジだったら？肉まんだったら？という問題に対応できていません。\nなので、タケシの場合と同じ様に「電子レンジ」を「\n食べ物を温めるもの\n」に昇華させます。\nギョウザも同様に「ギョウザ」ではなく「\n食べ物\n」に昇華させます。\n// 食べ物\nabstract\nclass"
+  },
+  {
+    "chunk_id": 69,
+    "content": "Food\n{\npublic\nbool\nFrozen\n{\nget\n;\nset\n;"
+  },
+  {
+    "chunk_id": 70,
+    "content": "}\n}\n// 食べ物を温めるもの\nabstract\nclass\nFoodHeater\n{\npublic\nFood\nHeat"
+  },
+  {
+    "chunk_id": 71,
+    "content": "(\nFood\nfood\n)\n{\nfood\n.\nFrozen\n=\nfalse"
+  },
+  {
+    "chunk_id": 72,
+    "content": ";\nreturn\nfood\n;\n}\n}\nこれらを加味すると、「電子レンジを使う人」は「\n食べ物を温めるものを使う人\n」となります。\n// 食べ物を温めるものを使う人"
+  },
+  {
+    "chunk_id": 73,
+    "content": "abstract\nclass\nHumanUsingFoodHeater\n{\npublic\nFood\nFood\n{\nget\n;"
+  },
+  {
+    "chunk_id": 74,
+    "content": "set\n;\n}\npublic\nFood\nUseFoodHeater\n(\nFoodHeater\nfoodHeater\n)"
+  },
+  {
+    "chunk_id": 75,
+    "content": "{\nreturn\nfoodHeater\n.\nHeat\n(\nFood\n);\n}\n}"
+  },
+  {
+    "chunk_id": 76,
+    "content": "これで、「タケシが持っている冷凍ギョウザを電子レンジに入れたら食べられるギョウザとなって出てくる」は\n「\n食べ物を温めるものを使う人が持っている食べ物を食べ物を温めるものに入れたら食べられる食べ物となって出てくる\n」に昇華しました。言っていることは無茶苦茶ですが、オブジェクト指向的にはウェルカムなお題です。\n抽象クラスを定義したところで、実際にタケシ、電子レンジ、ギョウザを定義します。\nclass\nTakeshi\n:\nHumanUsingFoodHeater\n{"
+  },
+  {
+    "chunk_id": 77,
+    "content": "}\nclass\nMicrowave\n:\nFoodHeater\n{\n}\nclass\nGyoza\n:"
+  },
+  {
+    "chunk_id": 78,
+    "content": "FreezableFood\n{\n}\nこれで、タケシがカスミになっても、ギョウザが肉まんになっても、サブクラスで定義すれば良いだけになりました。\nメインプログラムを記述します。\nclass\nTakeshiAndGyoza\n{\nstatic\nvoid"
+  },
+  {
+    "chunk_id": 79,
+    "content": "Main\n(\nstring\n[]\nargs\n)\n{\nvar\ntakeshi\n="
+  },
+  {
+    "chunk_id": 80,
+    "content": "new\nTakeshi\n();\n// タケシ\nvar\ngyoza\n=\nnew\nGyoza\n()"
+  },
+  {
+    "chunk_id": 81,
+    "content": "{\nFrozen\n=\ntrue\n};\n// 冷凍餃子\nvar\nmicrowave\n=\nnew"
+  },
+  {
+    "chunk_id": 82,
+    "content": "Microwave\n();\n// 電子レンジ\ntakeshi\n.\nFood\n=\ngyoza\n;\n// ギョウザを持っている"
+  },
+  {
+    "chunk_id": 83,
+    "content": "takeshi\n.\nUseFoodHeater\n(\nmicrowave\n);\n// タケシが電子レンジを使う\n}\n}\nメインプログラムは前回のプログラムとほとんど変わっていないように見えますが、抽象クラスをばっちり定義し人や食べ物の変化に柔軟に対応できる様になったので大丈夫でしょう。"
+  },
+  {
+    "chunk_id": 84,
+    "content": "さて、あなたは、このプログラムに100点満点で何点つけますか？\n恩恵がそこそこあるバージョンの採点\n私は30点をつけます。\n例によって、オブジェクト指向のメリットである保守性、汎用性、拡張性、独立性をこのプログラムが持っているのか、見ていきます。\nまず、保守性です。\n前回同様、オブジェクト毎に分けられていて、リファクタリングする際にはそこまで問題なさそうです。食べ物に温められた温度を付け加える場合でも、電子レンジに新機能を追加する場合でも、対応はできそうです。しかし、食べ物の状態を電子レンジ以外でも自由に変更できる点は今だ改善されていません。更に「食べ物」という抽象クラスの名前も微妙です。ここは本来名は体を表すように「冷凍可能な食べ物」となっていなくては意味が通じません。なので5点付けます。\n汎用性です。\n実はあまりありません。カスミになっても肉まんになっても対応できそうなのに？と思うかもしれませんが、それはこのプログラム上だけの話。人や食べ物の変化に対応できることだけが汎用化ではありません。食べ物の数が変わったらどうするのか、「食べ物を温めるものを使う人」であるタケシを他のプログラムで一体どう扱えばいいのか、、、5点です。\n拡張性です。\n拡張する場合は容易そうです。既に抽象クラスを定義しているので、タケシだけに筋トレという機能を付けても他のオブジェクトへの影響はあまりなさそうです。15点です。"
+  },
+  {
+    "chunk_id": 85,
+    "content": "独立性です。\nこちらも実はほとんどありません。抽象クラスというのは思った以上に独立性を確立するものであるとは言えません。「食べ物を温めるものを使う人」「食べ物を温めるもの」を知らないと扱えないのですから。さらにメインプログラムを見てみると「タケシ」「電子レンジ」「ギョウザ」という具体的に具象化されたオブジェクトが散見されています。しかし最初のプログラムよりかはましになってはいます。5点です。\nこの30点を低いと思う方もいれば高いと思う方もいると思います。自分の置かれている境遇や知識量によって評価は変わってくるので。\n私は、まだ改良の余地があると知っているのでこの位の点数になっています。\n今回のプログラムは柔軟であるとはまだ言えません。例えば次の追加項目があったらどうしますか？\nタケシとサトシは筋トレができ、カスミは電子レンジを使えて、サトシは電子レンジを使えない\nここで、「食べ物を温めるものを使う人」である抽象クラスをスーパークラスにしたことを後悔します。\nHumanUsingFoodHeaterをベースにサブクラスとしてサトシを定義したいところなのに、それが絶対にできないというジレンマを抱えなければならないのですから。\nしょうがないからHumanUsingFoodHeaterのスーパークラスとしてHumanを定義し、サトシはそっちのサブクラスにする事で解決しよう。もしさらに追加されることがあったら、更に分岐させて解決しよう。。。そして、これを繰り返すうちに何がベースなのか、正しい機能分けが出来ているのか、分からなくなっていきます。そしていずれ現れるひし形継承、多重継承。これが抽象クラスしか扱えない場合の泣きの終着点です。\nでは、いったいどうすればいいのか。"
+  },
+  {
+    "chunk_id": 86,
+    "content": "先ほどのプログラムを更にオブジェクト指向の恩恵が受けられる様に改良していきます。\n恩恵がけっこうあるバージョン？\n0から書き直します。さて、抽象クラスでは改良、機能追加に限界があることがわかってきました。\n度重なる変更や予想もできない変更点が現れた時に、苦肉の対応しかできないのです。\nそこで登場するのが「インターフェース」です。オブジェクト指向の終着点と言っても過言ではないと思います。\nインターフェースはオブジェクトが持つ\n機能\nを表します。\nこれが正しく扱えて、ようやくオブジェクト指向ユーザの仲間入りです。\n登場人物のおさらいです。「タケシ」「電子レンジ」「冷凍ギョウザ」「ギョウザ」です。"
+  },
+  {
+    "chunk_id": 87,
+    "content": "お題はこれです。「タケシが持っている冷凍ギョウザを電子レンジに入れたら食べられるギョウザとなって出てくる」\n先ほどのプログラムで、「タケシ」を「食べ物を温めるものを使う人」。「電子レンジ」を「食べ物を温めるもの」。「ギョウザ」を「食べ物」と抽象化させ抽象クラスとして考えました。\nしかし、度重なる機能追加、修正に耐えられません。\nここで、抽象化された「食べ物を温めるものを使う人」から機能のみを抽出することにしました。\nつまり「人間」と「食べ物を温めるものを使う」という機能に分けるという事です。\nこの「食べ物を温めるものを使う」がインターフェースです。コードにすると\ninterface\nIFoodHeaterUser\n{\nFood"
+  },
+  {
+    "chunk_id": 88,
+    "content": "UseFoodHeater\n(\nFoodHeater\nfoodHeater\n);\n}\nabstract\nclass\nHuman\n{"
+  },
+  {
+    "chunk_id": 89,
+    "content": "public\nFood\nFood\n{\nget\n;\nset\n;\n}\n}"
+  },
+  {
+    "chunk_id": 90,
+    "content": "ここで大事なこと、\nHumanにIFoodHeaterUserを実装させません\n。実装させるとHumanUsingFoodHeaterと同値となってしまいます。\nではどこで実装するのか。タケシです。タケシは「人間」であり「食べ物を温めるものを使う」機能を有します。\nclass\nTakeshi\n:\nHuman\n,\nIFoodHeaterUser"
+  },
+  {
+    "chunk_id": 91,
+    "content": "{\npublic\nFood\nUseFoodHeater\n(\nFoodHeater\nfoodHeater\n)\n=>\nfoodHeater"
+  },
+  {
+    "chunk_id": 92,
+    "content": ".\nHeat\n(\nFood\n);\n}\nここで先ほどの追加項目「タケシとサトシは筋トレができ、カスミは電子レンジを使えて、サトシは電子レンジを使えない」を実装してみます。\n筋トレができるというのは「筋トレする」という機能になりますね。これはIMuscleTrainerというインターフェースになります。\nそれぞれの特徴を並べるとこうなります。\nHuman"
+  },
+  {
+    "chunk_id": 93,
+    "content": "IFoodHeaterUser\nIMuscleTrainer\nTakeshi\n〇\n〇\n〇\nKasumi\n〇\n〇\n×"
+  },
+  {
+    "chunk_id": 94,
+    "content": "Satoshi\n〇\n×\n〇\nこの様な場合でもインタフェースを使えば即座に対応可能です。\ninterface\nIMuscleTrainer\n{\nvoid\nMuscleTraining"
+  },
+  {
+    "chunk_id": 95,
+    "content": "();\n}\n// 温め、筋トレ可能のタケシ\nclass\nTakeshi\n:\nHuman\n,\nIFoodHeaterUser\n,"
+  },
+  {
+    "chunk_id": 96,
+    "content": "IMuscleTrainer\n{\npublic\nFood\nUseFoodHeater\n(\nFoodHeater\nfoodHeater\n)\n=>"
+  },
+  {
+    "chunk_id": 97,
+    "content": "foodHeater\n.\nHeat\n(\nFood\n);\npublic\nvoid\nMuscleTraining\n()"
+  },
+  {
+    "chunk_id": 98,
+    "content": "{\n// TODO: 筋トレ }\n}\n// 温め可能のカスミ\nclass\nKasumi\n:\nHuman\n,\nIFoodHeaterUser"
+  },
+  {
+    "chunk_id": 99,
+    "content": "{\npublic\nFood\nUseFoodHeater\n(\nFoodHeater\nfoodHeater\n)\n=>\nfoodHeater"
+  },
+  {
+    "chunk_id": 100,
+    "content": ".\nHeat\n(\nFood\n);\n}\n// 筋トレ可能のサトシ\nclass\nSatoshi\n:"
+  },
+  {
+    "chunk_id": 101,
+    "content": "Human\n,\nIMuscleTrainer\n{\npublic\nvoid\nMuscleTraining\n()\n{\n// TODO: 筋トレ }"
+  },
+  {
+    "chunk_id": 102,
+    "content": "}\nもし抽象クラスで解決しようと考えた場合、継承だらけでカオスなことになるのは目に見えています。\nインターフェースは柔軟性に非常に優れているのです。\nもし、別の機能追加が来ても、インターフェースを実装すればいいだけなのですから。\nもしタケシが筋トレ不可能になったら、IMuscleTrainerを除けばいいだけなのですから。\n次に「電子レンジ」を考えます。「食べ物を温めるもの」として先ほどは捉えました。\nこれは「もの」と「食べ物を温める」機能に分けられます。しかし、「もの」はあまりにも漠然としていますしオブジェクトそのものを指します。なので、「もの」という抽象クラスは当然作らず、「食べ物を温める」というインターフェースのみを定義します。\ninterface\nIFoodHeater\n{"
+  },
+  {
+    "chunk_id": 103,
+    "content": "Food\nHeat\n(\nFood\nfood\n);\n}\nclass\nMicrowave\n:"
+  },
+  {
+    "chunk_id": 104,
+    "content": "IFoodHeater\n{\npublic\nFood\nHeat\n(\nFood\nfood\n)\n{"
+  },
+  {
+    "chunk_id": 105,
+    "content": "food\n.\nFrozen\n=\nfalse\n;\nreturn\nfood\n;\n}"
+  },
+  {
+    "chunk_id": 106,
+    "content": "}\nこれで、不慮の追加修正が来ても即座に対応できそうです。\n「ギョウザ」です。「食べ物」と定義しましたが「冷凍可能な食べ物」が意味的に正しいと先ほど指摘しました。\nこの「冷凍可能な食べ物」は「食べ物」と「冷凍可能」という機能に分けられます。\ninterface\nIFreezable\n{\nbool\nFrozen\n{"
+  },
+  {
+    "chunk_id": 107,
+    "content": "get\n;\n}\n}\nabstract\nclass\nFood\n{\n}\nclass"
+  },
+  {
+    "chunk_id": 108,
+    "content": "Gyoza\n:\nFood\n,\nIFreezable\n{\npublic\nbool\nFrozen\n{"
+  },
+  {
+    "chunk_id": 109,
+    "content": "get\n;\nset\n;\n}\n}\nよくある間違いが、「冷凍可能な食べ物」もしくは「食べ物」をインターフェースで定義することです。このような間違いは次のように見るとどっちが正しいのかわかります。\n「冷凍可能な食べ物」は「もの」なのか「機能」なのかです。「機能」だったらインターフェースです。\n言うまでもなく、「もの」ですのでこれはインターフェースではありません。\n「冷凍可能」は「機能」なのでインターフェースです。"
+  },
+  {
+    "chunk_id": 110,
+    "content": "ここがよく言われる「Is-a」「Has-a」の部分ですね。\nここで間違えるとどうなるかというと、オブジェクト1つは2つのオブジェクトであるという状態になります。説明するまでもなく理解不能ですね。\n「ギョウザ」を修正したので、「食べ物を温める」も「冷凍可能を解凍」に修正します。\n// 冷凍可能なものを解凍する機能\ninterface\nIThawFrozen\n{\nIFreezable\nHeat\n("
+  },
+  {
+    "chunk_id": 111,
+    "content": "IFreezable\nfreezable\n);\n}\n// 冷凍可能なものを解凍する機能をもつ電子レンジ\nclass\nMicrowave\n:\nIThawFrozen\n{"
+  },
+  {
+    "chunk_id": 112,
+    "content": "public\nIFreezable\nHeat\n(\nIFreezable\nfreezable\n)\n{\nfreezable\n."
+  },
+  {
+    "chunk_id": 113,
+    "content": "Frozen\n=\nfalse\n;\nreturn\nfreezable\n;\n}\n}\nまだ問題があります。冷凍可能なものの状態を電子レンジ以外で自由に変更可能である点です。これは、IFreezableはIThawFrozenでないと修正できない様にすれば良いような気がします。修正すると"
+  },
+  {
+    "chunk_id": 114,
+    "content": "interface\nIFreezable\n{\nbool\nFrozen\n{\nget\n;\n}\nvoid"
+  },
+  {
+    "chunk_id": 115,
+    "content": "Thaw\n(\nIThawFrozen\nthawFrozen\n);\n}\nabstract\nclass\nFood\n{"
+  },
+  {
+    "chunk_id": 116,
+    "content": "}\nclass\nGyoza\n:\nFood\n,\nIFreezable\n{\npublic\nbool"
+  },
+  {
+    "chunk_id": 117,
+    "content": "Frozen\n{\nget\n;\ninternal\nset\n;\n}\npublic\nvoid"
+  },
+  {
+    "chunk_id": 118,
+    "content": "Thaw\n(\nIThawFrozen\nthawFrozen\n)\n{\nthawFrozen\n.\nHeat\n("
+  },
+  {
+    "chunk_id": 119,
+    "content": "this\n);\n}\n}\nFrozenのセッターをprivateにしてしまうとMicrowaveのHeatで変更不可になってしまうので同一アセンブリ内を修正可能にするためにinternalとして定義します。\nこれでOKと思いきや、MicrowaveのHeatでFrozenの状態を変更できません。それもそのはず、IFreezableにセッターは存在しないのです。だけど冷凍可能なものの状態を電子レンジ以外で自由に変更可能なのはどうすれば。。。\n必殺技を使います。protected internal interfaceです。Microwaveの中でIFreezableを定義することでそれを実装するGyozaは自身のFrozenプロパティの値を自身とMicrowave以外のオブジェクトからアクセス不可となり明確なアクセス権をMicrowaveだけが持てる様になります。IFreezableがThawを持つ必要もなくなりすっきりしました。保守性も確保できています。\n// 冷凍可能なものを解凍する機能\ninterface\nIThawFrozen"
+  },
+  {
+    "chunk_id": 120,
+    "content": "{\nIFreezable\nHeat\n(\nIFreezable\nfreezable\n);\n}\n// 冷凍可能なものを解凍する機能をもつ電子レンジ\nclass"
+  },
+  {
+    "chunk_id": 121,
+    "content": "Microwave\n:\nIThawFrozen\n{\npublic\nIFreezable\nHeat\n(\nIFreezable\nfreezable"
+  },
+  {
+    "chunk_id": 122,
+    "content": ")\n{\nfreezable\n.\nFrozen\n=\nfalse\n;\nreturn\nfreezable"
+  },
+  {
+    "chunk_id": 123,
+    "content": ";\n}\n// 冷凍可能である機能\nprotected\ninternal\ninterface\nIFreezable\n{\nbool\nFrozen"
+  },
+  {
+    "chunk_id": 124,
+    "content": "{\nget\n;\nset\n;\n}\n}\n}\nabstract\nclass"
+  },
+  {
+    "chunk_id": 125,
+    "content": "Food\n{\n}\nclass\nGyoza\n:\nFood\n,\nMicrowave\n."
+  },
+  {
+    "chunk_id": 126,
+    "content": "IFreezable\n{\npublic\nbool\nFrozen\n{\nget\n;\nset\n;"
+  },
+  {
+    "chunk_id": 127,
+    "content": "}\n}\nIFreezableに対してHeatするようになったのでタケシの実装も変わります。例外処理は割愛します。\nclass\nTakeshi\n:\nHuman\n,\nIFoodHeaterUser\n{"
+  },
+  {
+    "chunk_id": 128,
+    "content": "public\nFood\nUseFoodHeater\n(\nFoodHeater\nfoodHeater\n)\n=>\nfoodHeater\n."
+  },
+  {
+    "chunk_id": 129,
+    "content": "Heat\n((\nIFreezable\n)\nFood\n);\n}\n最後にメインプログラムですが、メインプログラムが「タケシ」「電子レンジ」「ギョウザ」の実態を知らなくてはならないのは如何なものかと思い立ち、Factoryパターンにて生成するという手法を取ることにしました。\nabstract\nclass"
+  },
+  {
+    "chunk_id": 130,
+    "content": "AHumanFactory\n{\npublic\nabstract\nHuman\nCreate\n(\nstring\nname\n);"
+  },
+  {
+    "chunk_id": 131,
+    "content": "}\nclass\nHumanFactory\n:\nAHumanFactory\n{\nprivate\nDictionary\n<\nstring"
+  },
+  {
+    "chunk_id": 132,
+    "content": ",\nType\n>\nhumans\n=\nnew\nDictionary\n<\nstring\n,"
+  },
+  {
+    "chunk_id": 133,
+    "content": "Type\n>()\n{\n{\n\"Takeshi\"\n,\ntypeof\n(\nTakeshi\n)},"
+  },
+  {
+    "chunk_id": 134,
+    "content": "{\n\"Kasumi\"\n,\ntypeof\n(\nKasumi\n)},\n{\n\"Satoshi\"\n,"
+  },
+  {
+    "chunk_id": 135,
+    "content": "typeof\n(\nSatoshi\n)},\n};\npublic\noverride\nHuman\nCreate\n("
+  },
+  {
+    "chunk_id": 136,
+    "content": "string\nname\n)\n{\nType\ntype\n=\nnull\n;\nif"
+  },
+  {
+    "chunk_id": 137,
+    "content": "(\nhumans\n.\nTryGetValue\n(\nname\n,\nout\ntype\n))"
+  },
+  {
+    "chunk_id": 138,
+    "content": "return\n(\nHuman\n)\nActivator\n.\nCreateInstance\n(\ntype\n);"
+  },
+  {
+    "chunk_id": 139,
+    "content": "return\nnull\n;\n}\n}\nabstract\nclass\nAFoodHeaterFactory\n{\n}"
+  },
+  {
+    "chunk_id": 140,
+    "content": "// 割愛\nabstract\nclass\nAFoodFactory\n{\n}\n// 割愛\nFactoryを作ったので、メインプログラムを書きます。ファクトリからオブジェクトを生成することでポリモーフィズムを実現しよりカプセル化がなされました。実態が隠されまくっているので一安心です。\nclass\nTakeshiAndGyoza"
+  },
+  {
+    "chunk_id": 141,
+    "content": "{\nstatic\nvoid\nMain\n(\nstring\n[]\nargs\n)\n{"
+  },
+  {
+    "chunk_id": 142,
+    "content": "AHumanFactory\nhumanFactory\n=\nnew\nHumanFactory\n();\nAFoodHeaterFactory\nfoodHeaterFactory\n=\nnew"
+  },
+  {
+    "chunk_id": 143,
+    "content": "FoodHeaterFactory\n();\nAFoodFactory\nfoodFactory\n=\nnew\nFoodFactory\n();\nvar\nhuman"
+  },
+  {
+    "chunk_id": 144,
+    "content": "=\nhumanFactory\n.\nCreate\n(\n\"Takeshi\"\n);\nvar\nfood\n="
+  },
+  {
+    "chunk_id": 145,
+    "content": "foodFactory\n.\nCreate\n(\n\"Gyoza\"\n);\nvar\nfoodHeater\n=\nfoodHeaterFactory"
+  },
+  {
+    "chunk_id": 146,
+    "content": ".\nCreate\n(\n\"Microwave\"\n);\nhuman\n.\nFood\n=\nfood"
+  },
+  {
+    "chunk_id": 147,
+    "content": ";\nif\n(\nhuman\nis\nIFoodHeaterUser\n)\n{\n(\nIFoodHeaterUser"
+  },
+  {
+    "chunk_id": 148,
+    "content": ")\nhuman\n.\nUseFoodHeater\n(\nfoodHeater\n);\n}\n}\n}"
+  },
+  {
+    "chunk_id": 149,
+    "content": "さあ、オブジェクト指向満載で書き上げました。あらゆるパターンにも対応させるために色んな技を駆使したプログラムです。\nさて、あなたは、このプログラムに100点満点で何点つけますか？\n恩恵がけっこうあるバージョン？の採点\n採点はしません。\nどこから理解するのをやめましたか？\n何かがおかしいと思いませんか？\nオブジェクト指向のメリットは柔軟性を最大限持たせられる事です。それに則したプログラムになっているはずです。\nなんでこんなに面倒くさいのかと思いませんでしたか？\n高々「タケシが持っている冷凍ギョウザを電子レンジに入れたら食べられるギョウザとなって出てくる」プログラムを書きたかっただけなのに。こんな労力を使わないといけないのかと思いませんでしたか？\nこれがオブジェクト指向の"
+  },
+  {
+    "chunk_id": 150,
+    "content": "デメリット\nです。\nありとあらゆる方面から変更に耐えうる予測を立て考え、試行錯誤し導いた結果の対価に釣り合わないものが出来上がっているのです。\n小規模プログラムにおいて柔軟性の最大化を求めると、その労力に見合わない対価しか得られません。\nこのプログラムは、その規模に対しオブジェクト指向が行き過ぎてしまったようです。\nちなみに、敢えて途中から理解しにくい説明にしました。\n後、プログラム色々間違えている箇所がありますが気にしないでください。\n結局オブジェクト指向にメリットはあるのか\nあります。ただし、\n幾度となく修正や変更が重なる事が予め予想される中～大規模プログラムを書く時に最も享受できます。"
+  },
+  {
+    "chunk_id": 151,
+    "content": "それらは一晩で出来上がるような代物ではないため、地道に基盤を築いていくためにもオブジェクト指向プログラミングは大変有効です。\n比較的小規模である。追加や変更の予定がない。使い捨ての予定である。この場合はメリットはあまりありません。\n勉強にはなりますが、労力に見合った成果物は得られません。\nそして、行き過ぎたオブジェクト指向プログラミングは禁物です。時間がかかるだけで逆にリファクタリングし辛く柔軟性を失う可能性もあります。\n常に注意しなくてはいけないのは、\n柔軟性に富んでかつ無駄に時間が奪われないプログラミングをするためにどこまでオブジェクト指向を突き詰めるかを意識し続ける\nことです。\n今回の例の場合は、私だったらタケシが筋トレ機能を～あたりを実装できたところで突き詰めるのをやめると思います。それ以上は労力に見合った対価を得られるとは思わなかったので。\n慣れてくると、どういうインターフェースを予め定義すれば良いのか直ぐにわかるようになり、そのインターフェースを定義しコーディングしていくと面倒な場面に出くわすのかどうかも直感でわかるようになります。抽象クラスについてもデザインパターンについても同様です。\nこれが出来て初めて、オブジェクト指向の恩恵がより得られる様になるのではないかと思います。"
+  },
+  {
+    "chunk_id": 152,
+    "content": "オブジェクト指向のメリットを享受できるアプローチ\nじゃあ結局どうすればいいのかという話になります。\nこれは環境によって変わりますが、個人開発がメインで設計書を具体的に作成しない私の場合はこうします。\n何を作成したいのか決める\n作成するものから明確にオブジェクト分けする\nオブジェクトを抽象化してみる\n抽象化したものから機能を抽出する\n機能をインターフェースにする\n変更が多い個所と分かっている場合はインターフェースのままにする\n変更されない、極端に少ないと分かっている場合は抽象クラス、クラスにする"
+  },
+  {
+    "chunk_id": 153,
+    "content": "オブジェクトの依存度(独立性)を考える\n依存度が多そうな場合はデザインパターンから回避法を適用する\n上記は一例ですが、普遍的なので私はよくこのやり方をコーディング前にしています。\n頭の中で考えるのがとても難しい場合は書きながら修正を加えていきます。\nこのアプローチを適当にお題を決めて具体的に見てみます。\nタケシがトースターで焼くパンをサトシに与える\nタケシ、トースター、パン、サトシに分ける\nタケシとサトシは人間、トースターは食べ物を焼くもの、パンは食べ物に抽象化\nトースターは食べ物を焼くという機能がある\n食べ物を焼く→IFoodBakerにインターフェース化"
+  },
+  {
+    "chunk_id": 154,
+    "content": "トースターに機能を付け加えると判明している場合はIFoodBakerのまま\n機能を付け加えないと分かっている場合はFoodBakerという抽象クラス、もしくはToasterというクラスのまま\nタケシはパンとトースターに依存、トースターはパンに依存、サトシはパンに依存、パンは依存なし\nタケシの依存が多いため、人間が食べ物を焼くものを使うという振る舞いをVisiterパターンに任せる\nみたいな感じです。結構使えるのではないかと思います。\nちなみにこのアプローチが絶対に正しいとは言い切れません。刻々と状況は変わるので。\nまとめ\nデメリットもいろいろ述べましたが、それでもメリットの方が大きいのは確かです。\nなので、ぜひともオブジェクト指向にチャレンジして欲しいです。\n後、これだけは言えると思います。"
+  },
+  {
+    "chunk_id": 155,
+    "content": "オブジェクト指向プログラミングに正解はありません。\n長年オブジェクト指向プログラミングをしていますが、こうするのが一番の正解というのはないです。\nなぜなら、どこまで修正や追加がされるのかは予め明確に知ることができないからです。明確にわからないから、どこまで突き詰めればいいのかも明確にはわかりません。\n時と場合にもよりますし、環境にもよります。\nですので、最後に書いたプログラムも、分からないという人もいれば、分かりやすいという人もいれば、まだ足りないという人もれば、全然だめという人もいるはずです。正解は明確にはわからないので。\nしかし、先ほど述べたようにアプローチ、近道はあると思います。どれだけ知識を持っていて予測がどこまでできるかが勝負です。これは長年の経験でようやく得られます。練習するしかないと思います。\n長文にお付き合いいただきありがとうございました。\n609\nGo to list of users who liked\n677"
+  },
+  {
+    "chunk_id": 156,
+    "content": "comment\n19\nGo to list of comments\nRegister as a new user and use Qiita more conveniently\nYou get articles that match your needs\nYou can efficiently read back useful information\nYou can use dark theme\nWhat you can do with signing up\nSign up\nLogin"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "occupation_id": "geologist",
+  "occupation_title": "地質学者",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "チャールズ・ライエル",
+        "era": "19世紀イギリス",
+        "achievement": "地層が長い時間をかけて少しずつ形成されるという考えを体系化した",
+        "connection": "地層や岩石から地球の歴史を読み解く、地質学の基本的な考え方を確立した"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

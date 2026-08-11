@@ -1,0 +1,37 @@
+{
+  "id": "piano-tuner",
+  "title": "調律師",
+  "category": "音楽・技術",
+  "summary": "ピアノの音程やタッチを調整し最適な状態に整える。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数・対数",
+        "connection": "音の周波数比を対数(セント)で捉え正確な音程に調律する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "音の性質",
+        "connection": "弦の張力や長さと音の高さの関係(振動数)を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "調律師",
+      "ピアノ",
+      "楽器"
+    ],
+    "tags": [
+      "音楽・技術"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

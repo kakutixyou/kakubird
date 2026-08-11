@@ -1,0 +1,37 @@
+{
+  "id": "stuntman",
+  "title": "スタントマン",
+  "category": "エンタメ",
+  "summary": "映画やドラマで危険なアクションシーンを演じる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "落下距離と速度の関係を計算し安全なエアマットの位置を決める。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力学的エネルギー",
+        "connection": "位置エネルギーと運動エネルギーの変換を理解し安全なアクションを設計する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "スタントマン",
+      "アクション",
+      "映画"
+    ],
+    "tags": [
+      "エンタメ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

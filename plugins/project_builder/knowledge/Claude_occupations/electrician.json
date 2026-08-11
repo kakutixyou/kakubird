@@ -1,0 +1,38 @@
+{
+  "id": "electrician",
+  "title": "電気工事士",
+  "category": "建設",
+  "summary": "建物の配線・電気設備の設置や保守を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "オームの法則(電圧・電流・抵抗)の計算に比例の考え方を使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "電流とその利用",
+        "connection": "電流・電圧・抵抗の関係の理解がそのまま配線設計に直結する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "電気工事士",
+      "電気",
+      "配線",
+      "工事"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

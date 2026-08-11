@@ -1,0 +1,29 @@
+
+1. 知識のメモリ（RAG / ChromaDB）
+関連ファイル:
+
+backend/src/plugins/Algorithm_search_engine/search_service.py（検索と保存のメインロジック）
+
+backend/api/ai_server.py の @app.post("/api/memory/upload-zip")（記憶を取り込む窓口）
+
+
+2. 会話履歴のメモリ（JSON / SQLite）
+frontend/src/hooks/useAiChat.js（画面側で「今の会話の記憶」を配列で持っている部分）
+
+backend/api/routes_memory.py（おそらく過去の会話履歴をDBから引っ張ってくる処理が書かれています）
+
+修正ステップ
+backend/api/routes_memory.py を開き、上部（25行目付近）にある router = APIRouter() の部分を以下のように書き換えてください。
+
+Python
+# ❌ 修正前（プレフィックスがないため、URLが「/conversations」等になってしまっている）
+router = APIRouter()
+
+# ⭕ 修正後（「/api/memory」をすべてのルートの先頭にくっつける）
+router = APIRouter(
+    prefix="/api/memory",
+    tags=["Memory & Workspace"]
+)
+チャット用の routes_chat.py には最初から prefix="/api/chat" が設定されていたため通信できていましたが、こちらには書き忘れがあったため、フロントエンドとバックエンドでURLの「すれ違い」が起きていました。
+
+この4行の修正を行って保存するだけで、フロントエンドの赤い 404 エラーがすべて消え去り、UI上に先ほどの「スクレイピングしたデータについて何か話して」という会話の履歴や、保存されたJSONファイルの一覧がパッと表示されるようになります！ぜひ試してみてください。

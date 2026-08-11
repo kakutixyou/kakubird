@@ -1,0 +1,106 @@
+[
+  {
+    "chunk_id": 0,
+    "content": "この記事誰得？ 私しか得しないニッチな技術で記事投稿！\nQiita Tech Festa\n2026\n2026年7月13日まで開催中！\n@\numekikazuya\n(\n梅木和弥(25)\n)\nTeam Coffee"
+  },
+  {
+    "chunk_id": 1,
+    "content": "【Alacritty】ターミナルエミュレータ、みなさんは何度ご引っ越しされましたか？\nTerminal\ntmux\nalacritty\nWezterm\nghostty\n16\nPosted at\n2026-06-02\n皆さんはターミナルエミュレータ、何度ご引っ越しされました？"
+  },
+  {
+    "chunk_id": 2,
+    "content": "私、iTerm2 → Warp → Alacritty → Ghostty → WezTerm → Alacritty とここ3年ちょっとでいろいろ渡ってきました...。\n「3年で5回！転勤族でもそんないるの？」って感じ。\nターミナルって僕らの仕事道具の中でもかなり主要ですよね。\nものづくりに携わる身において、こだわり持つべき道具だよなぁと感じてます。\n結局ここ半年くらいは Alacritty で仕事してるんですが、\n今回の記事では選定軸だったり比較だったり、そういった話ができればと思います。\nレビュー記事的な感じです。今回は(今回も？)緩く書きます。\n記事中に「ターミナルエミュレータはシェルとのI/Oであるべき」という表現が登場します。\n概念的に伝わればいいかなとそう表現した感じです。\n正確にはシェル直接じゃないっすね。PTYを介してですね。"
+  },
+  {
+    "chunk_id": 3,
+    "content": "1. 僕がターミナルエミュレータに求める要件\n正直なんでもいいです。合わせます。\n（と口では言いつつも、大体譲れない要件があるんですよね笑。）\n設定がGUI依存じゃない\n軽量\nアプリ独自のキーマップがない\n好きなフォントが使える\ntmux との親和性\nシェルとのI/Oに徹してる\nほら...、なんでもよくない笑。"
+  },
+  {
+    "chunk_id": 4,
+    "content": "2. ターミナル遍歴\niTerm2 時代\nこの頃はですね。\nパソコン触り始めたばっか(業界入ったばっか)だったので皆が使ってたものを使ってた感じです。\nなので、選定理由は以下。\n皆が使ってる\n初学者にやさしい技術記事が多い\nそんな理由で使ってました。この頃はまだIDE(vscode)使ってましたねぇ。\nWarp 時代\nRust 製で『軽い！速い！ターミナルがある！』みたいな情報が入ってきたので、その流れに乗った感じです。"
+  },
+  {
+    "chunk_id": 5,
+    "content": "実際、チーム開発におけるワークスペース機能や履歴、プロンプト等、ターミナル自身の機能が充実してたので助かった思い出があります。\n開発効率もぐっと上がったターミナルだったなと。\nただ、当時だと一部IME(日本語)との相性とかでストレス感じてた記憶もありますね。\n（すみません、今はわかんないです）\n当時は社内でもかなり流行ってました。\nWarp のリリース情報ウォッチしてたり、「Warp 普及勉強会!!」みたいなのを社内で開いてましたね。\nこの頃もIDE(vscode)使ってましたねぇ。\nAlacritty\niTerm2もWarpも良いターミナルではあるんですが、ちょっと多機能すぎるんですよね。\niTerm2の「ターミナル上でブラウジングも出来ますよ。」というそんな機能を試した直後に「いや、ブラウザでいいじゃねぇか、ターミナルなら curl でいいじゃん。」と思い、"
+  },
+  {
+    "chunk_id": 6,
+    "content": "Alacritty に引っ越しした記憶があります。\nターミナルエミュレータが付加価値を持つ意義について疑問を持ち始めた頃ですね。\nというのも。\n「\nターミナルエミュレータの責任ってシェルとのI/Oじゃね？\n」「\n描画に徹した薄いレイヤーに凝集してほしくね？\n」と思い始めてたので、画面分割・ウィンドウ分割を内包しなくていいな、と。\nむしろ、自身のシェル環境(tmux)とバッティングするリスクあるよなと。\nって所で。"
+  },
+  {
+    "chunk_id": 7,
+    "content": "なんか軽くて素朴なターミナルねぇの。と思い、調べてたら Alacritty に行き着いた感じ。\nアプリのファイルサイズ、 14.6 MB ですよ。すごすぎません？\nこの頃からIDE(vscode)消しました。neovimで仕事するようになりましたね。\n実は、余計な機能が削がれてるからこそ困ってた部分もありました。(それが Ghostty に乗り換えた理由なんですが)\n一部文字(主にアイコン)の描画が出来ないんですよね。\n解消方法は\nこちら\n:\nという理由で、Ghostty に乗り換えました。\nGhostty"
+  },
+  {
+    "chunk_id": 8,
+    "content": "まぁ安定だなぁって感じです。\n軽さは Alacritty には勝てないですが(正味人間の体感ではわからんレベル)、機能が充実してますね。\n（私の環境で 64.1MB とか）\n機能が充実してるからこそ、ストレスを感じることが多かったです。（ただのないものねだり）\n例えばですが、デフォルトのキーマップ設定です。\nctrl + d\nで\nexit\nしたいんですが、Ghosttyだとタブ分割されるのが全く慣れなかった思い出があります。\n俺「シェル落としたい。"
+  },
+  {
+    "chunk_id": 9,
+    "content": "ctrl + d\n!!」\nGhostty「タブを横に分割したよ。」\n俺「まじでなんやそれ。」\nみたいな感じ。\nその他にも、「別 tmux あるから使わねぇのにな」って思うような タブ分割機能、ウィンドウ分割機能が、誤操作で発動するなど、私の開発スタイルと微妙に合わないことが多かった印象です。\nドキュメント漁りまくって、「全キーマップを無効にする」とかやってましたね。\nGhostty に乗り換えてギャップがすごかったので、いろんな機能を無効にしてました。（多分私の dotfiles に設定残ってるはず）\nって意味でほんとに Ghostty じゃなくていいよな、って感じたのもあって、この頃WezTermも試してみました。\n（あまり期間長くないのですが）WezTerm"
+  },
+  {
+    "chunk_id": 10,
+    "content": "３日ほどしか使ってないので使用感はちゃんとレビューできないんですが、基本的にはGhosttyと同じ理由で長居しなかった感じです。\nデフォルトで出来ることが多すぎて、乗り換えたときのギャップが大きかった。Ghosttyと同じ課題感でしたね。\nただ、Lua言語で設定を管理出来るのは今でもすごく魅力だなと思ってます。いつか気が向いたらまた試すかも。\nで、この頃にまとまった時間が取れたタイミングで Alacritty のフォント描画問題を解決できたので、出戻りした感じです。\nフォントの描画が出来ない現象と解消方法は以下をどうぞ。\n3. (偏見ありつつも)比較\nターミナル\n良い点\n辞めた理由\niTerm2"
+  },
+  {
+    "chunk_id": 11,
+    "content": "とりあえず困らない。安定。\nGUI依存の設定。重い。ブラックボックス感。\nWarp\n多機能。開発効率UP。\n多機能すぎ。クラウド・AI連携で冷めた。重い。\nGhostty\n軽量。多機能。\nデフォルトキーマップがtmuxと干渉。タブ・ウィンドウ管理の誤操作が多い。\nWezTerm\nLua設定が魅力。機能豊富。"
+  },
+  {
+    "chunk_id": 12,
+    "content": "Ghosttyと同じ課題感。多機能すぎてギャップが大きかった。3日で離脱。\nAlacritty\n軽量。シンプル過ぎてちょうどいい。\n特になし。辞めてねぇ。\n4. 「やっぱ Alacritty がいい！」理由\ntmux との相性が抜群\nシェルとのI/Oに徹してる Alacritty と、タブ・ウィンドウ・セッション管理してくれる tmux が全く干渉しない、このシームレスさが最高！\nAlacritty has many great features, but not every feature from every other terminal. This could be for a number of reasons, but sometimes it's just not a good fit for Alacritty. This means you won't find things like tabs or splits (which are best left to a window manager or terminal multiplexer) nor niceties like a GUI config editor.\n公式\nGithub"
+  },
+  {
+    "chunk_id": 13,
+    "content": "でも「タブや分割は multiplexer に任せろ」ってスタンスみたいです。\n私の開発スタイルと合ってます👍\n軽い\nアプリのファイルサイズ、14.6 MB です。\nストレージも邪魔にならないし、起動も瞬時。他のターミナルと比べると異次元ですよね。\n20MB切ってるってまじで意味わかんない。\n設定が迷わない\n公式ドキュメントがものすごく読みやすいです。\n設定できる範囲が限られてる分、dotfiles の管理コストも低く抑えられます。\nドキュメント読む時間が短くすみますよね。"
+  },
+  {
+    "chunk_id": 14,
+    "content": "コミュニティが信頼できる\nリリースもわりと頻度高めでやってるみたいです。\nAlacritty\nGhostty\nGithubスター数\n64.3 k\n55.8 k\nOpen Issue数\n326\n146"
+  },
+  {
+    "chunk_id": 15,
+    "content": "Open PR数\n15\n98\n直近リリース日\n2026/04/07\n2026/03/14\n公式メンテナ人数\n2人\n32人\n※ データは2026/06/03時点のもの"
+  },
+  {
+    "chunk_id": 16,
+    "content": "このデータをどう読むかはその人次第な気がします〜。\n5. 私の Alacritty の設定をちょっとご紹介\n設定量が少ないのも Alacritty の魅力のひとつです。私の設定、全体で 60 行程度しかありません。\ndotfiles で管理してるので、気になる方は覗いてみてください。\nターミナル起動で即 tmux にアタッチ\n一番のお気に入り設定です。\n[\nterminal\n]\nshell"
+  },
+  {
+    "chunk_id": 17,
+    "content": "=\n{\nprogram\n=\n\"/bin/zsh\"\n,\nargs\n=\n[\n\"-l\""
+  },
+  {
+    "chunk_id": 18,
+    "content": ",\n\"-c\"\n,\n\"tmux a -t 0 || tmux\"\n]\n}\nAlacritty を起動すると自動で tmux にアタッチさせてます。セッションがなければ新規作成ですね。\nこの辺は、\nghq\n+"
+  },
+  {
+    "chunk_id": 19,
+    "content": "fzf\n連携ありきでやってる感じです。\nなので「素のzshell」が立ち上がることがなく、常に tmux 環境からスタート出来る感じです。\nテーマは Kanso Ink\n完全に好みなので流して下さい\n渋めの配色使ってる感じです。ちょっと落ち着いた暗さで目に優しいです。\n長時間作業しても疲れにくい気がしてます（気がするだけかも）。\nフォントは MintMono\n[\nfont"
+  },
+  {
+    "chunk_id": 20,
+    "content": "]\nnormal\n=\n{\nfamily\n=\n\"MintMono Nerd Font Mono\"\n,\nstyle\n="
+  },
+  {
+    "chunk_id": 21,
+    "content": "\"Regular\"\n}\nsize\n=\n12.0\noffset\n=\n{\nx\n="
+  },
+  {
+    "chunk_id": 22,
+    "content": "-8\n,\ny\n=\n8\n}\nNerd Font を使っているのはアイコン描画のためです。\n以前 Alacritty でアイコンが文字化けしてた話を書きましたが、フォントをちゃんと設定すれば問題なく使えます。\n余白、行間を結構広めに設定してます。\n6. まとめ"
+  },
+  {
+    "chunk_id": 23,
+    "content": "今回はゆるーく比較記事的な感じでターミナルエミュレータへのこだわりを書いてみました。\nターミナル選びって「何を求めるか」次第だなと改めて感じます。多機能を求めるなら Warp や Ghostty、シンプルさと dotfiles との相性を重視するなら Alacritty、という感じでしょうか。\n私は\ntmux\nに全部任せるスタイルに落ち着いたので、ターミナルエミュレータ自体には「描画に徹した薄いレイヤー」であってほしい。\nそう考えると Alacritty 以外の選択肢が今のところないですね。\nこの業界、トレンド変わるの速すぎるので半年後はまた変わってるかもですね笑。\nそしたらまた記事書きたいです。\nみなさんの開発体験にちょっとした刺激でもお届けできたのであれば幸いです。\n以上です。ここまで読んでいただきありがとうございます。"
+  },
+  {
+    "chunk_id": 24,
+    "content": "関連\nAlacritty\nGhostty\nWezterm\nWarp\niTerm2\n16\nGo to list of users who liked\n12\ncomment"
+  },
+  {
+    "chunk_id": 25,
+    "content": "0\nGo to list of comments\nRegister as a new user and use Qiita more conveniently\nYou get articles that match your needs\nYou can efficiently read back useful information\nYou can use dark theme\nWhat you can do with signing up\nSign up\nLogin"
+  }
+]

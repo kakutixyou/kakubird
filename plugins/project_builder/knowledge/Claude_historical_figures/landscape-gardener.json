@@ -1,0 +1,21 @@
+{
+  "occupation_id": "landscape-gardener",
+  "occupation_title": "造園家",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "小堀遠州",
+        "era": "江戸時代",
+        "achievement": "茶人・建築家として多くの名園を手掛けた作庭の名手",
+        "connection": "庭の設計思想そのものを確立した、造園家の代表的存在"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

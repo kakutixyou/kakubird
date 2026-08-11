@@ -1,0 +1,42 @@
+[
+  {
+    "chunk_id": 0,
+    "content": "Branches\nTags\nOpen more actions menu\nFolders and files\nName\nName\nLast commit message\nLast commit date\nLatest commit\nHistory"
+  },
+  {
+    "chunk_id": 1,
+    "content": "112 Commits\n112 Commits\ndesign-to-code-studio\ndesign-to-code-studio\nwebforge-ai-desktop\nwebforge-ai-desktop\n.gitignore\n.gitignore\nREADME.md\nREADME.md"
+  },
+  {
+    "chunk_id": 2,
+    "content": "create.bat\ncreate.bat\ncreate.py\ncreate.py\ncreate.sh\ncreate.sh\nfont_assembler.py\nfont_assembler.py\ntest_parametric_foundation.py\ntest_parametric_foundation.py"
+  },
+  {
+    "chunk_id": 3,
+    "content": "フォルダー構成\nフォルダー構成\nメモ1\nメモ1\nRepository files navigation\npwd\n/usr/bin/python3 /workspaces/font_create_studio/create.pyでフォルダー構成の通りに展開させる\ncd /path/to/webforge-ai-desktop\ngit init\ngit add ."
+  },
+  {
+    "chunk_id": 4,
+    "content": "git commit -m \"Initial: Step 1-2 complete (generator + pipeline Python layers)\"\ngit remote add origin\nhttps://github.com/{your-username}/webforge-ai-desktop.git\ngit push -u origin main\nAbout\nNo description, website, or topics provided.\nResources\nReadme\nUh oh!\nThere was an error while loading."
+  },
+  {
+    "chunk_id": 5,
+    "content": "Please reload this page\n.\nActivity\nStars\n0\nstars\nWatchers\n0\nwatching\nForks"
+  },
+  {
+    "chunk_id": 6,
+    "content": "0\nforks\nReport repository\nReleases\nNo releases published\nPackages\n0\nUh oh!\nThere was an error while loading.\nPlease reload this page"
+  },
+  {
+    "chunk_id": 7,
+    "content": ".\nContributors\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nLanguages\nPython\n69.5%\nTypeScript"
+  },
+  {
+    "chunk_id": 8,
+    "content": "21.1%\nJavaScript\n4.8%\nCSS\n4.0%\nBatchfile\n0.2%\nShell\n0.2%\nHTML"
+  },
+  {
+    "chunk_id": 9,
+    "content": "0.2%"
+  }
+]

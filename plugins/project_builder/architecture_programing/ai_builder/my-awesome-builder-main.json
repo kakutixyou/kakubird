@@ -1,0 +1,57 @@
+{
+  "name": "AI UIビルダー アーキテクチャガイド",
+  "description": "AIチャット駆動型のUI生成システムにおける、モノレポ構成と各パッケージの役割・特徴",
+  "keywords": [
+    "pnpm workspace",
+    "モノレポ",
+    "React",
+    "Python",
+    "Tailwind CSS",
+    "AI UI生成",
+    "デザインシステム"
+  ],
+  "weight": 2,
+
+  "sections": [
+    {
+      "title": "🏗️ プロジェクトの全体方針と特徴",
+      "style": "list",
+      "items": [
+        "pnpm-workspaceを活用したモノレポ構成を採用し、フロントエンド（React等）とバックエンド（Python）を同一リポジトリ内で効率的に管理している。",
+        "AIのプロンプトや出力ルール（GENERATION_RULES.mdなど）を docs ディレクトリに集約し、AIと開発者の両方が設計意図を理解しやすい状態を作っている。",
+        "UIの見た目（style-system）、描画ロジック（render-engine）、対話UI（ai-chat-component）を細かくパッケージ分割し、関心の分離と保守性の向上を徹底している。"
+      ]
+    },
+    {
+      "title": "🧠 AIとレンダリングの役割分担",
+      "style": "list",
+      "items": [
+        "【ai-engine】Pythonで構築され、ユーザーの意図解析（intent_parser.py）とスキーマベースのUI設計（design_engine.py）を担当する中核モジュール。",
+        "【render-engine】AIが生成したデータを受け取り、Tailwind CSSをベースにした各種ブロック（HeroBlock, QuizBlock等）として画面に描画する。",
+        "【style-system】Glass（ガラス）やNeumorphism（ニューモーフィズム）などの高度なCSS表現を定義し、AIが適用しやすいデザインルールとして提供する。"
+      ]
+    },
+    {
+      "title": "💻 実装イメージ：AIエンジンの連携ロジック",
+      "style": "code",
+      "language": "python",
+      "code": "# ai-engine/design_engine.py の処理概念\nfrom intent_parser import parse_intent\nfrom schema_rules import validate_schema\n\ndef generate_ui_block(user_text):\n    intent = parse_intent(user_text)\n    # 意図に基づいてUIブロックの構成を生成\n    design_data = build_layout(intent)\n    # AIの出力が定義済みルールに沿っているか検証\n    return validate_schema(design_data)"
+    },
+    {
+      "title": "💻 実装イメージ：スタイルバリアントの定義",
+      "style": "code",
+      "language": "json",
+      "code": "// block-library/variants.json の構成概念\n{\n  \"hero_block\": {\n    \"allowed_surfaces\": [\"glass\", \"frosted-dark\", \"glow\"],\n    \"default_animation\": \"fade-in\",\n    \"required_components\": [\"title\", \"subtitle\", \"call_to_action\"]\n  }\n}"
+    }
+  ],
+
+  "core_technologies": [
+    "React (JSX/TSX)",
+    "Python 3.10+",
+    "Tailwind CSS"
+  ],
+  "package_management": {
+    "Workspace": "pnpm (pnpm-workspace.yaml)",
+    "Dependencies": "各パッケージ内の package.json にて個別管理"
+  }
+}

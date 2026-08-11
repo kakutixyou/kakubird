@@ -1,0 +1,43 @@
+{
+  "id": "fireworks-artisan",
+  "title": "花火師",
+  "category": "職人",
+  "summary": "花火を設計・製造し、打ち上げの演出を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数",
+        "connection": "打ち上げ角度や開花位置の計算に三角関数を使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "化学変化",
+        "connection": "火薬の燃焼反応と発色のしくみ(金属の炎色反応)を理解する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 運動",
+        "connection": "打ち上げ花火の放物運動の軌道計算に使われる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "花火師",
+      "花火",
+      "打ち上げ",
+      "職人"
+    ],
+    "tags": [
+      "職人"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

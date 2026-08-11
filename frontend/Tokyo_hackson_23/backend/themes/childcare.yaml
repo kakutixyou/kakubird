@@ -1,0 +1,23 @@
+name: "childcare"
+label: "子育て・保育園"
+emoji: "👶"
+group: "base"           # 基礎インフラ
+chip: true             # ファーストビューのチップに表示
+denominator: "children_0_5" # 0〜5歳人口あたりで標準化
+weight: 1.0
+
+queries:
+  - "保育園"
+  - "認可保育所"
+  - "子育て支援施設"
+
+formats:
+  - "CSV"
+  - "JSON"
+
+maps_query_template: "{city} 保育園"
+
+enable_snapshot: true
+snapshot_targets:
+  - "metadata"
+  - "web_page"

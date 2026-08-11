@@ -1,0 +1,43 @@
+{
+  "id": "firefighter",
+  "title": "消防士",
+  "category": "公務",
+  "summary": "火災の消火や救助活動、防災啓発を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "放水量やホースの長さから水圧・到達距離を計算する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "化学変化と熱",
+        "connection": "燃焼の仕組みを理解し効果的な消火方法を判断する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力と圧力",
+        "connection": "消火用ポンプの水圧や高所での力のかかり方を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "消防士",
+      "消防",
+      "救助",
+      "防災"
+    ],
+    "tags": [
+      "公務"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

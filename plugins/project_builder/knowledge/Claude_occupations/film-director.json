@@ -1,0 +1,37 @@
+{
+  "id": "film-director",
+  "title": "映画監督",
+  "category": "エンタメ",
+  "summary": "映画作品全体の演出・指揮をとる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "興行収入や視聴データを分析し企画に活かす場合がある。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "光の性質",
+        "connection": "カメラのレンズや照明の光の反射・屈折の理解が映像表現に役立つ。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "映画監督",
+      "映画",
+      "映像"
+    ],
+    "tags": [
+      "エンタメ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

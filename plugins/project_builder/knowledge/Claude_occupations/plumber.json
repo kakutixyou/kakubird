@@ -1,0 +1,43 @@
+{
+  "id": "plumber",
+  "title": "配管工",
+  "category": "建設",
+  "summary": "水道・ガスなどの配管の設置・修理を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "配管の太さと流量の関係を比例的に考える。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "水溶液の性質",
+        "connection": "水質や腐食の化学反応を理解し適切な配管材を選ぶ。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 圧力と浮力",
+        "connection": "水圧の計算が配管設計に必要。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "配管工",
+      "水道",
+      "ガス",
+      "工事"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

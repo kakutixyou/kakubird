@@ -1,0 +1,16 @@
+/* Bordered Surface */
+.bordered {
+  background: transparent;
+  border: 2px solid currentColor;
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 1rem;
+}
+
+.bordered.bordered-thick {
+  border-width: 3px;
+}
+
+.bordered.bordered-dashed {
+  border-style: dashed;
+}

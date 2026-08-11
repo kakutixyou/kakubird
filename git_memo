@@ -1,0 +1,16 @@
+# 1. Gitの管理を初期化する
+git init
+
+# 2. .gitignoreのルールに従って、すべてのファイルを追加対象にする
+git add .
+
+# 3. 追加したファイルを「最初のコミット」として確定する
+git commit -m "Initial commit"
+
+# 4. GitHub上で作成した空のリポジトリと紐づける
+# （URLはご自身のGitHubリポジトリのものに書き換えてください）
+git remote add origin https://github.com/kakutixyou/kakubird
+
+# 5. ブランチ名をmainに変更し、GitHubへ送信する
+git branch -M main
+git push -u origin main

@@ -1,0 +1,43 @@
+{
+  "id": "volcanologist",
+  "title": "火山研究者",
+  "category": "科学",
+  "summary": "火山の活動を観測し、噴火の予測や防災に役立てる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "地殻変動の観測データの変化を時間ごとにグラフ化し傾向を読む。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "火山と地震",
+        "connection": "マグマの性質や噴火の仕組みがそのまま研究対象になる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "地学基礎 地球の内部構造",
+        "connection": "マントル対流と火山活動の関係を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "火山研究者",
+      "火山",
+      "噴火",
+      "防災"
+    ],
+    "tags": [
+      "科学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

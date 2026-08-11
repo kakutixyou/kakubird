@@ -1,0 +1,28 @@
+name: medical
+
+description: "医療機関・福祉施設"
+
+metric_key: medical
+
+label: "医療・福祉"
+
+emoji: "🏥"
+
+queries:
+  - 病院
+  - 医療機関
+  - 診療所
+
+formats:
+  - CSV
+  - JSON
+
+group: all
+
+rows: 200
+
+max_packages: 2000
+
+batch_size: 100
+
+output_dir: output/opendata_jsons/medical

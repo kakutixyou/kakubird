@@ -1,0 +1,37 @@
+{
+  "id": "data-scientist",
+  "title": "データサイエンティスト",
+  "category": "IT",
+  "summary": "大量のデータを分析し、ビジネスや研究の意思決定を支援する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学B 統計的な推測",
+        "connection": "仮説検定や回帰分析の基礎がデータ分析そのものになる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学I データの分析",
+        "connection": "分散・相関係数などでデータの特徴を読み解く。"
+      }
+    ],
+    "science": []
+  },
+  "retrieval": {
+    "keywords": [
+      "データサイエンティスト",
+      "統計",
+      "AI",
+      "分析"
+    ],
+    "tags": [
+      "IT"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

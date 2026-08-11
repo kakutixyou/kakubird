@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カフェ出店ポスターテンプレート</title>
+<style>
+    /* 画面全体の基本設定 */
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f4f5;
+        margin: 0;
+        font-family: 'Hiragino Maru Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    }
+
+    /* ポスター本体（A4比率：420px × 594px） */
+    .poster-container {
+        width: 420px;
+        height: 594px;
+        background-color: #ffffff;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    /* -----------------------------------------
+       上部 7割 セクション（デザイン・写真）
+    ----------------------------------------- */
+    .poster-top {
+        height: 70%;
+        position: relative;
+        /* ラムネ色（#bfeff2）と薄い黄色（#fffbe6）の斜めストライプ */
+        background: repeating-linear-gradient(
+            -45deg,
+            #bfeff2,
+            #bfeff2 25px,
+            #fffbe6 25px,
+            #fffbe6 50px
+        );
+        padding: 30px 25px 15px 25px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* ヘッダー・タイトル部分 */
+    .cafe-header {
+        text-align: center;
+        z-index: 2;
+        width: 100%;
+    }
+    
+    /* 編集可能な目印としてホバー時にわかりやすくする設定 */
+    [contenteditable="true"]:hover {
+        background: rgba(255, 255, 255, 0.5);
+        outline: 2px dashed #4da8b0;
+        border-radius: 4px;
+    }
+    [contenteditable="true"]:focus {
+        outline: 2px solid #2c5d63;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 4px;
+    }
+
+    .cafe-tag {
+        background-color: #ffd369; /* アクセントの鮮やかな黄色 */
+        color: #4a3f1d;
+        padding: 5px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 8px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    }
+    .cafe-title {
+        font-size: 30px;
+        color: #2c5d63; /* 濃いめのラムネ・アースカラー */
+        margin: 0;
+        font-weight: bold;
+        letter-spacing: 1px;
+        line-height: 1.2;
+        text-shadow: 2px 2px 0px #ffffff;
+    }
+
+    /* 写真・イメージ挿入エリア（ポラロイド風） */
+    .image-wrapper {
+        width: 85%;
+        height: 190px;
+        background: #ffffff;
+        padding: 10px 10px 28px 10px; /* 下部を広くしてポラロイド風に */
+        box-sizing: border-box;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        border-radius: 4px;
+        transform: rotate(-2deg);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        z-index: 2;
+        position: relative;
+        animation: floatAnimation 4s infinite ease-in-out alternate;
+    }
+    .image-wrapper:hover {
+        transform: rotate(0deg) scale(1.03);
+    }
+
+    /* 画像表示用のエリア */
+    .image-container {
+        width: 100%;
+        height: 100%;
+        background-color: #f4f9f9;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .main-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none; /* 画像が選択されたらJSでblockにする */
+    }
+
+    /* 画像未設定時のプレースホルダー */
+    .image-placeholder {
+        position: absolute;
+        text-align: center;
+        color: #7fa9ae;
+        font-size: 12px;
+        padding: 10px;
+    }
+    .placeholder-icon {
+        font-size: 42px;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* 写真の下にちょこっと書ける手書き風文字 */
+    .photo-caption {
+        position: absolute;
+        bottom: 5px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        font-style: italic;
+    }
+
+    /* キャッチコピー */
+    .catchphrase {
+        font-size: 16px;
+        color: #2c5d63;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 6px 20px;
+        border-radius: 20px;
+        z-index: 2;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        text-align: center;
+        border: 1px solid rgba(191, 239, 242, 0.5);
+    }
+
+    /* -----------------------------------------
+       下部 3割 セクション（出店情報・地図）
+    ----------------------------------------- */
+    .poster-bottom {
+        height: 30%;
+        background-color: #ffffff;
+        border-top: 5px dashed #bfeff2; /* ラムネ色のミシン目ライン */
+        display: flex;
+        padding: 15px 20px;
+        box-sizing: border-box;
+        z-index: 2;
+    }
+
+    /* 出店情報（左側 55%） */
+    .info-side {
+        width: 55%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-right: 12px;
+        box-sizing: border-box;
+    }
+    .status-badge {
+        color: #ff6b6b;
+        font-weight: bold;
+        font-size: 13px;
+        margin-bottom: 4px;
+        display: inline-block;
+    }
+    .location-text {
+        font-size: 19px;
+        color: #333333;
+        font-weight: bold;
+        margin: 0 0 8px 0;
+        line-height: 1.3;
+    }
+    .datetime-text {
+        font-size: 12px;
+        color: #666666;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* 地図イメージエリア（右側 45%） */
+    .map-side {
+        width: 45%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .map-wrapper {
+        width: 100%;
+        height: 100%;
+        border: 2px dashed #cbeff2;
+        border-radius: 10px;
+        background-color: #fafdfd;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.2s;
+    }
+    .map-wrapper:hover {
+        background-color: #edf9fa;
+    }
+    .map-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+    }
+    .map-placeholder {
+        position: absolute;
+        text-align: center;
+        color: #99b5b8;
+        font-size: 11px;
+        padding: 5px;
+    }
+    .map-icon {
+        font-size: 26px;
+        margin-bottom: 2px;
+        display: block;
+        animation: bounceAnimation 2s infinite;
+    }
+
+    /* -----------------------------------------
+       アニメーション定義
+    ----------------------------------------- */
+    @keyframes floatAnimation {
+        0% { transform: rotate(-2deg) translateY(0); }
+        100% { transform: rotate(-1deg) translateY(-6px); }
+    }
+    @keyframes bounceAnimation {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+    }
+</style>
+</head>
+<body>
+
+<div class="poster-container">
+    
+    <!-- 上部 7割: デザイン＆メインビジュアル -->
+    <div class="poster-top">
+        <div class="cafe-header">
+            <span class="cafe-tag" contenteditable="true">期間限定SHOP</span>
+            <h1 class="cafe-title" contenteditable="true">青空ラムネカフェ</h1>
+        </div>
+
+        <!-- 写真挿入エリア（クリックで画像選択） -->
+        <div class="image-wrapper" onclick="triggerFileInput('cafe-photo-input')">
+            <div class="image-container">
+                <img id="photo-img" class="main-preview" src="" alt="カフェ写真">
+                <div id="photo-placeholder" class="image-placeholder">
+                    <span class="placeholder-icon">📸</span>
+                    <span>クリックして写真を変更<br>(メニューやスイーツなど)</span>
+                </div>
+            </div>
+            <div class="photo-caption" contenteditable="true">〜 本日のこだわりコーヒー 〜</div>
+            <input type="file" id="cafe-photo-input" accept="image/*" style="display: none;" onchange="previewImage(this, 'photo-img', 'photo-placeholder')">
+        </div>
+
+        <div class="catchphrase" contenteditable="true">しゅわっと爽やか、特別なひとときを。</div>
+    </div>
+
+    <!-- 下部 3割: 出店情報＆地図 -->
+    <div class="poster-bottom">
+        <!-- 左側：テキスト情報 -->
+        <div class="info-side">
+            <span class="status-badge" contenteditable="true">＼ 週末限定で出店決定！ ／</span>
+            <h2 class="location-text" contenteditable="true">ウミカゼマルシェ<br>特設スペースに出店</h2>
+            <p class="datetime-text" contenteditable="true">
+                📅 2026.07.18 (土) - 07.19 (日)<br>
+                🕒 11:00 〜 17:00<br>
+                📍 海岸通り中央広場
+            </p>
+        </div>
+
+        <!-- 右側：地図画像エリア（クリックで画像選択） -->
+        <div class="map-side">
+            <div class="map-wrapper" onclick="triggerFileInput('cafe-map-input')">
+                <img id="map-img" class="map-preview" src="" alt="地図イメージ">
+                <div id="map-placeholder" class="map-placeholder">
+                    <span class="map-icon">📍</span>
+                    <span>クリックして<br>地図画像を挿入</span>
+                </div>
+                <input type="file" id="cafe-map-input" accept="image/*" style="display: none;" onchange="previewImage(this, 'map-img', 'map-placeholder')">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 隠されたファイルインプットをクリックさせる関数
+    function triggerFileInput(inputId) {
+        document.getElementById(inputId).click();
+    }
+
+    // 選択された画像を読み込んでプレビュー表示する関数
+    function previewImage(input, imgId, placeholderId) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgElement = document.getElementById(imgId);
+                const placeholderElement = document.getElementById(placeholderId);
+                
+                imgElement.src = e.target.result;
+                imgElement.style.display = 'block';
+                if (placeholderElement) {
+                    placeholderElement.style.display = 'none';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+</body>
+</html>

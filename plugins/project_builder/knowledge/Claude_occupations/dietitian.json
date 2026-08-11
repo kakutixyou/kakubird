@@ -1,0 +1,48 @@
+{
+  "id": "dietitian",
+  "title": "栄養士",
+  "category": "医療・食",
+  "summary": "健康維持や治療のための食事・栄養計画を立てる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "食材のカロリーや栄養素量を分量に応じて比例計算する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学I データの分析",
+        "connection": "集団の食事摂取データを分析し栄養バランスを評価する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "消化と吸収",
+        "connection": "栄養素が体内でどう消化・吸収されるかを理解し献立に活かす。"
+      },
+      {
+        "stage": "高校",
+        "unit": "化学基礎 物質量",
+        "connection": "栄養成分の分量計算に化学的な物質量の考え方を使う。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "栄養士",
+      "栄養",
+      "食事",
+      "給食"
+    ],
+    "tags": [
+      "医療・食"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

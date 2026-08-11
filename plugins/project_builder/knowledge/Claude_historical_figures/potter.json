@@ -1,0 +1,21 @@
+{
+  "occupation_id": "potter",
+  "occupation_title": "陶芸家",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "本阿弥光悦",
+        "era": "江戸時代初期",
+        "achievement": "陶芸・書・漆芸など幅広い分野で独自の作品を生み出した",
+        "connection": "焼き物を芸術の域まで高めた、日本の陶芸家の代表格"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "sumo-wrestler",
+  "title": "力士",
+  "category": "スポーツ",
+  "summary": "大相撲の力士として稽古を積み、番付を上げることを目指す。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "勝敗の記録や対戦成績のデータを分析し稽古方針に活かす。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力学",
+        "connection": "重心の位置や体重移動を力学的に理解し、押し・投げの技に活かす。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "力士",
+      "相撲",
+      "大相撲"
+    ],
+    "tags": [
+      "スポーツ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

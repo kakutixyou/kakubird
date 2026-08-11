@@ -1,0 +1,21 @@
+{
+  "occupation_id": "tunnel-engineer",
+  "occupation_title": "トンネル技術者",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "禅海和尚",
+        "era": "江戸時代",
+        "achievement": "私財を投じ、約30年かけて「青の洞門」というトンネルをのみ一本で掘削した",
+        "connection": "一人の意志で困難な掘削を成し遂げた、日本のトンネル工事の代表的逸話"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

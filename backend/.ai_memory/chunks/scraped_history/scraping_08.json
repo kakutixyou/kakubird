@@ -1,0 +1,78 @@
+[
+  {
+    "chunk_id": 0,
+    "content": "Branches\nTags\nOpen more actions menu\nFolders and files\nName\nName\nLast commit message\nLast commit date\nLatest commit\nHistory"
+  },
+  {
+    "chunk_id": 1,
+    "content": "3 Commits\n3 Commits\nbackend\nbackend\nextension\nextension\nLICENSE\nLICENSE\nREADME.md\nREADME.md"
+  },
+  {
+    "chunk_id": 2,
+    "content": "jsonを入れてみたい人向け.txt\njsonを入れてみたい人向け.txt\nsample_mod.json\nsample_mod.json\nspotworks_mod.json\nspotworks_mod.json\nRepository files navigation\n# 🛡️ SecutI (セキューティ) v1.0\n**Browser Security Extension for Detection & Awareness**\n"
+  },
+  {
+    "chunk_id": 3,
+    "content": "---\n\n##\n⚠️\nLegal Notice（重要）\n\n**悪意をもって無関係な第三者サイトへ干渉・攻撃を行う行為は、法律（不正アクセス禁止法、電子計算機損壊等業務妨害罪など）により禁止されています。**\n\nSecutI は、ユーザー自身のブラウジング安全性を高めることを目的とした**「検知・警告・可視化」**のみに限定されたツールです。\nチャッフィング（偽情報の送信）やDDoS攻撃などの**攻撃的機能は一切実装されていません**。また、本ツールを使用して発生したいかなる損害についても、開発者は責任を負いません。"
+  },
+  {
+    "chunk_id": 4,
+    "content": "\n---\n\n## 🛡️ 概要（Overview）\n\n**「エンジニアの目」を、すべてのブラウザへ。**\n\nSecutI は、ブラウザのフロントエンドにおける不審な挙動を監視するセキュリティ拡張機能です。\n外部サーバーへデータを送信することなく、ブラウザ内で完結する**サーバーレス設計**を採用しています。\n"
+  },
+  {
+    "chunk_id": 5,
+    "content": "### 💡 開発の動機（Philosophy）\nインターネット上の詐欺・フィッシングサイトは年々巧妙化しています。見た目だけで本物と偽物を区別することは困難になりつつあります。\n\nしかし、どれほど巧妙に偽装しても、**裏側の挙動（JavaScriptや通信）には必ず痕跡が残ります。**\n通常、エンジニアは `F12` キー（開発者ツール）を開き、Network や Console を確認して危険を察知します。\n**SecutI は、この「エンジニアの視点」を自動化・補助するために設計されました。**\n\n---\n\n## 🚀 主な機能（Features）"
+  },
+  {
+    "chunk_id": 6,
+    "content": "\n### 1. 🕵️‍♂️ 挙動監視・警告 (Behavior Analysis)\nUIの見た目ではなく、JavaScriptの挙動と通信パターンを監視します。\n* **フォーム送信先監視:** 入力データが表示中のドメインとは異なる場所へ送信されるのを検知します。\n* **ダウンロード保護:** 不審なファイル形式や、Blob/Data URIを利用したドライブバイダウンロードをブロックします。\n\n### 2. 📦 Modシステム (Extension Rules)\n**あなたのセキュリティルールを、JSONで追加できます。**\nAviUtlのプラグインのように、設定ファイル（`.json`）を読み込むことで検知ルールを拡張可能です。\n* 特定の詐欺サイト用Mod"
+  },
+  {
+    "chunk_id": 7,
+    "content": "* 誤検知回避用Mod\nこれらをユーザー間で共有し、SecutIを自分好みに強化できます。\n\n### 3. ⚙️ プライバシーファースト\n* **完全ローカル動作:** 解析のためにURLや入力データを外部サーバーに送信することはありません。\n* **Manifest V3準拠:** Chromeの最新仕様に準拠した設計です。\n\n### 4. 📱 モバイル対応\nAndroid版 Kiwi Browser 等で使用可能です。PC版と同等の検知ロジックがスマホでも動作します。\n"
+  },
+  {
+    "chunk_id": 8,
+    "content": "---\n\n## 📖 使用方法\n\n\n1.  **インストール**\n    Chromeウェブストア、またはGitHubのリリースページから拡張機能をインストールします。\n2.  **ブラウジング**\n    通常通りWebサイトを閲覧してください。SecutIはバックグラウンドで監視を続けます。\n3.  **警告表示**"
+  },
+  {
+    "chunk_id": 9,
+    "content": "    不審な挙動、またはModルールに一致する挙動を検知すると、画面に警告が表示されます。\n4.  **Modの追加（オプション）**\n    拡張機能のアイコンをクリックし、「Settings」タブから `.json` ファイルをインポートしてください。\n\n---\n\n## 🧩 現在検知している挙動（v1.0）\n\n* フォーム送信先が表示中ドメインと異なる（Cross-Origin）\n* 不自然にランダム、または使い回される送信先URL"
+  },
+  {
+    "chunk_id": 10,
+    "content": "* ユーザー入力を含む通信の即時外部送信（Keylogger挙動）\n* 偽装された「私はロボットではありません」UI\n* Modルールに基づくカスタム検知\n\n---\n\n## 🚫 利用目的の制限\n\n本ソフトウェアの利用は、以下の目的に限定されます：\n* ✅ 自己防衛 (Self-Defense)"
+  },
+  {
+    "chunk_id": 11,
+    "content": "* ✅ セキュリティ教育 (Education)\n* ✅ Webの挙動理解・学習 (Research)\n\n以下のような利用は固く禁止されています：\n* ❌ 他者システムへの負荷行為・攻撃・妨害\n* ❌ 違法行為への利用\n\n---\n\n##"
+  },
+  {
+    "chunk_id": 12,
+    "content": "⚠️\n免責事項 (Disclaimer)\n\n本ソフトウェアは「現状のまま（AS IS）」提供されるフリーソフトウェアです。\n本ソフトウェアの使用、または使用不能によって生じたいかなる損害（データの消失、事業の中断、金銭的損失、セキュリティインシデントなどを含む）についても、開発者（作者）は一切の責任を負わないものとします。すべて利用者の自己責任において使用してください。This software is provided \"AS IS\", without warranty of any kind.\nThe author assumes no responsibility for any damage, data loss,\nor security incidents resulting from the use or misuse of this software.\n\nBy using this software, you agree that you are solely responsible\nfor its usage and consequences. "
+  },
+  {
+    "chunk_id": 13,
+    "content": "\n---\nMod（拡張ルール）に関する重要な注意\n\nSecutI は、ユーザーが独自の検知ルールを追加できる Mod（JSON設定）機能を提供しています。\n\n重要：\n\nModは 第三者または利用者自身が作成するデータ です\n"
+  },
+  {
+    "chunk_id": 14,
+    "content": "開発者は、Modの内容・正確性・安全性を 検証・保証しません\n\nModの使用によって生じたいかなる不具合・誤検知・データ損失・業務影響についても、開発者は一切の責任を負いません\n\nModの導入・共有・使用は、すべて利用者自身の判断と責任において行ってください。\n\nCopyright (c) 2025 SecutI Developer# SecutI\nAbout\nA serverless browser security extension for phishing detection and active defense.\nResources"
+  },
+  {
+    "chunk_id": 15,
+    "content": "Readme\nLicense\nMIT license\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nActivity\nStars\n0"
+  },
+  {
+    "chunk_id": 16,
+    "content": "stars\nWatchers\n0\nwatching\nForks\n0\nforks\nReport repository\nReleases\nNo releases published"
+  },
+  {
+    "chunk_id": 17,
+    "content": "Packages\n0\nUh oh!\nThere was an error while loading.\nPlease reload this page\n.\nContributors\nUh oh!\nThere was an error while loading.\nPlease reload this page"
+  },
+  {
+    "chunk_id": 18,
+    "content": ".\nLanguages\nJavaScript\n78.2%\nPython\n11.7%\nHTML\n9.3%\nCSS\n0.8%"
+  }
+]

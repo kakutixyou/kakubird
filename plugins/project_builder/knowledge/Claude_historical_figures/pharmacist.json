@@ -1,0 +1,28 @@
+{
+  "occupation_id": "pharmacist",
+  "occupation_title": "薬剤師",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "パラケルスス",
+        "era": "16世紀ヨーロッパ",
+        "achievement": "化学的な視点を医療に導入し、近代薬理学・毒性学の基礎を築いた",
+        "connection": "「量が毒を決める」という考え方は薬の用量管理の原点になった"
+      }
+    ],
+    "japan_history": [
+      {
+        "name": "貝原益軒",
+        "era": "江戸時代",
+        "achievement": "薬用植物などを研究した本草学の大家で『大和本草』を著した",
+        "connection": "薬になる植物の性質を体系的にまとめた点で薬剤師の仕事の源流にあたる"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

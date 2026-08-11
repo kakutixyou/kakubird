@@ -1,0 +1,21 @@
+{
+  "occupation_id": "judge",
+  "occupation_title": "裁判官",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "大岡忠相(大岡越前)",
+        "era": "江戸時代",
+        "achievement": "江戸町奉行として数々の裁定を行い、公正な裁きの逸話で知られる",
+        "connection": "争いごとの是非を筋道立てて判断する役割は裁判官の仕事そのものに近い"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

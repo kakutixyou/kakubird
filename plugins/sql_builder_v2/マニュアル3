@@ -1,0 +1,12 @@
+npm install @supabase/supabase-js @supabase/auth-ui-react @supabase/auth-ui-shared
+
+
+もし、「APIからSQLを実行させる機能」を作るなら、以下の順番でファイルを開いてコードを追記していくとスムーズです。
+
+schemas/execute_models.py (どんなデータを受け取るか決める)
+
+core/security.py (APIキーを守る門番を作る)
+
+services/sql_service.py (SQLを実行する処理を書く)
+
+api/routes_execute.py (最後にURLを作って、全部をガッチャンコする)

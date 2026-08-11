@@ -1,0 +1,47 @@
+{
+  "id": "physical-therapist",
+  "title": "理学療法士",
+  "category": "医療",
+  "summary": "けがや病気で低下した身体機能の回復を運動療法で支援する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "関数",
+        "connection": "関節可動域やリハビリの回復度合いをグラフ化し進捗を評価する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力学",
+        "connection": "てこの原理や重心の考え方を使って安全な介助方法を設計する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "動物の体のつくりと働き",
+        "connection": "骨格・筋肉・神経の仕組みがリハビリメニュー作成の土台になる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "生物基礎 恒常性",
+        "connection": "運動負荷と回復のバランスを体の調節機能から考える。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "理学療法士",
+      "リハビリ",
+      "運動療法"
+    ],
+    "tags": [
+      "医療"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

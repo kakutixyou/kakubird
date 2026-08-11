@@ -1,0 +1,26 @@
+{
+  "glass": {
+    "css": ":root {\n  --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #chbeff 100%);\n  --surface-bg: rgba(255, 255, 255, 0.45);\n  --surface-border: rgba(255, 255, 255, 0.4);\n  --text-primary: #1e293b;\n  --text-secondary: #475569;\n  --accent: #6366f1;\n  --radius: 16px;\n}\n.glass {\n  background: var(--surface-bg);\n  backdrop-filter: blur(12px);\n  -webkit-backdrop-filter: blur(12px);\n  border: 1px solid var(--surface-border);\n  border-radius: var(--radius);\n  padding: 24px;\n  color: var(--text-primary);\n  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);\n}\n.glass h1 { font-size: 24px; color: var(--accent); margin-bottom: 12px; font-weight: 700; }\n.glass p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }\n.glass .btn {\n  background: var(--accent); color: white; border: none; padding: 10px 20px;\n  border-radius: 8px; cursor: pointer; transition: opacity 0.2s;\n}\n.glass .btn:hover { opacity: 0.9; }"
+  },
+  "frosted-dark": {
+    "css": ":root {\n  --bg-dark: #0f172a;\n  --surface-bg: rgba(15, 23, 42, 0.6);\n  --surface-border: rgba(255, 255, 255, 0.1);\n  --text-primary: #f8fafc;\n  --text-secondary: #94a3b8;\n  --accent: #38bdf8;\n  --radius: 12px;\n}\n.frosted-dark {\n  background: var(--surface-bg);\n  backdrop-filter: blur(16px);\n  -webkit-backdrop-filter: blur(16px);\n  border: 1px solid var(--surface-border);\n  border-radius: var(--radius);\n  padding: 24px;\n  color: var(--text-primary);\n  box-shadow: 0 10px 30px rgba(0,0,0,0.5);\n}\n.frosted-dark h1 { font-size: 24px; color: var(--accent); margin-bottom: 12px; }\n.frosted-dark p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }"
+  },
+  "elevated": {
+    "css": ":root {\n  --surface-bg: #ffffff;\n  --text-primary: #18181b;\n  --text-secondary: #71717a;\n  --accent: #f43f5e;\n  --radius: 12px;\n  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);\n}\n.elevated {\n  background: var(--surface-bg);\n  border-radius: var(--radius);\n  padding: 28px;\n  color: var(--text-primary);\n  box-shadow: var(--shadow);\n}\n.elevated h1 { font-size: 26px; color: var(--accent); margin-bottom: 14px; font-weight: 800; }\n.elevated p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }"
+  },
+  "bordered": {
+    "css": ":root {\n  --surface-bg: #ffffff;\n  --text-primary: #000000;\n  --text-secondary: #333333;\n  --accent: #dc2626;\n  --border-color: #000000;\n}\n.bordered {\n  background: var(--surface-bg);\n  border: 3px solid var(--border-color);\n  border-radius: 4px;\n  padding: 20px;\n  color: var(--text-primary);\n}\n.bordered h1 { font-size: 22px; color: var(--accent); margin-bottom: 10px; font-weight: 900; text-transform: uppercase; }\n.bordered p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; font-weight: 700; }"
+  },
+  "flat": {
+    "css": ":root {\n  --surface-bg: #f4f4f5;\n  --text-primary: #27272a;\n  --text-secondary: #52525b;\n  --accent: #0f766e;\n}\n.flat {\n  background: var(--surface-bg);\n  border-radius: 0px;\n  padding: 24px;\n  color: var(--text-primary);\n}\n.flat h1 { font-size: 24px; color: var(--accent); margin-bottom: 12px; font-weight: 500; }\n.flat p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }"
+  },
+  "glow": {
+    "css": ":root {\n  --surface-bg: #05050a;\n  --text-primary: #ffffff;\n  --text-secondary: #a1a1aa;\n  --accent: #00ffff;\n  --glow-shadow: 0 0 15px rgba(0, 255, 255, 0.6);\n}\n.glow {\n  background: var(--surface-bg);\n  border: 1px solid var(--accent);\n  border-radius: 8px;\n  padding: 24px;\n  color: var(--text-primary);\n  box-shadow: var(--glow-shadow);\n}\n.glow h1 { font-size: 26px; color: var(--accent); text-shadow: var(--glow-shadow); margin-bottom: 12px; }\n.glow p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }"
+  },
+  "neumorphism": {
+    "css": ":root {\n  --surface-bg: #e0e8f0;\n  --text-primary: #4a5568;\n  --text-secondary: #718096;\n  --accent: #ed8936;\n  --outer-shadow: 9px 9px 16px #be99cc, -9px -9px 16px #ffffff;\n}\n.neumorphism {\n  background: var(--surface-bg);\n  border-radius: 20px;\n  padding: 30px;\n  color: var(--text-primary);\n  box-shadow: 9px 9px 16px #c8d0d9, -9px -9px 16px #f8ffff;\n}\n.neumorphism h1 { font-size: 24px; color: var(--accent); margin-bottom: 14px; }\n.neumorphism p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }"
+  },
+  "paper": {
+    "css": ":root {\n  --surface-bg: #fcfaf2;\n  --text-primary: #2c2520;\n  --text-secondary: #5c5246;\n  --accent: #8c2d19;\n  --border-sepia: #e6dfd3;\n}\n.paper {\n  background: var(--surface-bg);\n  border: 1px solid var(--border-sepia);\n  border-bottom: 2px solid #dcd5c5;\n  border-radius: 2px;\n  padding: 32px;\n  color: var(--text-primary);\n  font-family: 'Georgia', 'Times New Roman', 'Noto Serif JP', serif;\n  box-shadow: 0 4px 6px rgba(0,0,0,0.05);\n}\n.paper h1 { font-size: 24px; color: var(--accent); margin-bottom: 16px; border-bottom: 1px solid var(--accent); padding-bottom: 6px; }\n.paper p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; letter-spacing: 0.05em; }"
+  }
+}

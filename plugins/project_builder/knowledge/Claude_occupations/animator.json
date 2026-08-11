@@ -1,0 +1,37 @@
+{
+  "id": "animator",
+  "title": "アニメーター",
+  "category": "エンタメ",
+  "summary": "アニメーションの絵を描き、キャラクターに動きをつける。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例",
+        "connection": "動きの中割り(コマ数)を一定の割合で配分し滑らかな動きを作る。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "力と運動",
+        "connection": "物や人の動きに慣性や重力を反映させリアルな動作を描く。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "アニメーター",
+      "アニメ",
+      "作画"
+    ],
+    "tags": [
+      "エンタメ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

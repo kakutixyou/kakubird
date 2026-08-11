@@ -1,0 +1,36 @@
+{
+  "id": "chat_request_design_notes",
+  "title": "chat_request_design_notes.json",
+
+  "source_ai": "Claude",
+  "knowledge_type": "design_note",
+
+  "keywords": [
+    "ChatRequest",
+    "Pydantic",
+    "setattr",
+    "BaseModel"
+  ],
+
+  "intent": [
+    "architecture",
+    "system_inquiry",
+    "bug_fix"
+  ],
+
+  "related_files": [
+    "knowledge_architecture.json",
+    "ChatHandler.py",
+    "KnowledgeManager.py",
+    "Orchestrator.py"
+  ],
+
+  "importance": 5,
+  "score": 98,
+
+  "category": "architecture",
+
+  "file_path": "...",
+  "size_bytes": 0,
+  "mtime": 0
+}

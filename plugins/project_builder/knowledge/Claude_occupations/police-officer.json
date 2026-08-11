@@ -1,0 +1,38 @@
+{
+  "id": "police-officer",
+  "title": "警察官",
+  "category": "公務",
+  "summary": "犯罪の捜査・防止や地域の安全を守る。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "事故や事件のデータを分析しパトロール計画に活かす。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "科学的な思考",
+        "connection": "現場の証拠を客観的に分析する態度が捜査の基本になる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "警察官",
+      "警察",
+      "捜査",
+      "治安"
+    ],
+    "tags": [
+      "公務"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

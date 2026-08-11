@@ -1,0 +1,21 @@
+{
+  "occupation_id": "florist",
+  "occupation_title": "フラワーデザイナー",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "池坊専好",
+        "era": "室町〜江戸時代",
+        "achievement": "華道「池坊」の様式を大成し、花を生ける技法を確立した",
+        "connection": "花を美しく配置する技術という点でフラワーデザインの源流にあたる"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

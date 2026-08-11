@@ -1,0 +1,48 @@
+{
+  "id": "astronaut",
+  "title": "宇宙飛行士",
+  "category": "航空宇宙",
+  "summary": "宇宙船や宇宙ステーションで任務・実験を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学III 微分・積分",
+        "connection": "軌道計算や加速度の変化を扱う際に微分積分を使う。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理 万有引力",
+        "connection": "地球や天体からの重力を計算し軌道を設計する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理 運動の法則",
+        "connection": "無重力状態での運動や姿勢制御の原理を理解する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "地学基礎 宇宙の構成",
+        "connection": "太陽系や恒星の仕組みについての基礎知識が任務に活きる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "宇宙飛行士",
+      "宇宙",
+      "ロケット",
+      "JAXA"
+    ],
+    "tags": [
+      "航空宇宙"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

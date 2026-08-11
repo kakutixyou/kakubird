@@ -1,0 +1,46 @@
+{
+  "name": "sier-platform-backend",
+  "version": "1.0.0",
+  "description": "SIER Platform Backend API",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev:vite": "cd ../frontend && npm run dev",
+    "dev:node": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev:python": "cd ../backend/api && python -m uvicorn ai_server:app --port 8765 --reload",
+    "dev": "concurrently \"npm run dev:node\" \"npm run dev:python\" \"npm run dev:vite\"",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "migrate": "ts-node src/database/migrations.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^2.10.0",
+    "axios": "^1.16.0",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^12.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.1",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.19.41",
+    "@types/uuid": "^9.0.7",
+    "@types/ws": "^8.5.10",
+    "concurrently": "^9.2.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3",
+    "vite": "^8.0.13"
+  }
+}

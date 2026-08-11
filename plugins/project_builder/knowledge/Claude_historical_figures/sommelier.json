@@ -1,0 +1,21 @@
+{
+  "occupation_id": "sommelier",
+  "occupation_title": "ソムリエ",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ドン・ペリニヨン",
+        "era": "17〜18世紀フランス",
+        "achievement": "修道士としてワイン醸造に携わり、発泡ワインの品質向上に貢献したと伝えられる",
+        "connection": "ワインの品質を高める工夫が、ソムリエが扱う商品の価値に直結する"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

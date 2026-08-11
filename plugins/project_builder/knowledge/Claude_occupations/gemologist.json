@@ -1,0 +1,43 @@
+{
+  "id": "gemologist",
+  "title": "宝石鑑定士",
+  "category": "職人",
+  "summary": "宝石の真贋・品質を科学的に鑑定する専門家。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "立体の体積",
+        "connection": "カットされた宝石の体積からカラット数を推定する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "化学 物質の構造",
+        "connection": "結晶構造の違いが宝石の硬度や輝きの違いを生む。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理 光の性質",
+        "connection": "光の屈折・分散が宝石の輝き方を決める。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "宝石鑑定士",
+      "宝石",
+      "ジュエリー",
+      "鑑定"
+    ],
+    "tags": [
+      "職人"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

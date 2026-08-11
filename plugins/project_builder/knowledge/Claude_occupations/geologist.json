@@ -1,0 +1,43 @@
+{
+  "id": "geologist",
+  "title": "地質学者",
+  "category": "科学",
+  "summary": "地層や岩石を調べ、地球の成り立ちや資源を研究する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "相似な図形",
+        "connection": "地層の傾きや厚さを測量データから相似の考え方で推定する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "大地の変化",
+        "connection": "地層のでき方や岩石の種類がそのまま研究対象になる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "地学基礎 プレートテクトニクス",
+        "connection": "地震や造山運動の理解が地質構造の解明に直結する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "地質学者",
+      "地層",
+      "岩石",
+      "地球科学"
+    ],
+    "tags": [
+      "科学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

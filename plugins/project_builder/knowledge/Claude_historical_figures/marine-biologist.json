@@ -1,0 +1,21 @@
+{
+  "occupation_id": "marine-biologist",
+  "occupation_title": "海洋生物学者",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "チャールズ・ダーウィン",
+        "era": "19世紀イギリス",
+        "achievement": "ビーグル号での航海を通じ、生物の進化に関する考えをまとめた",
+        "connection": "生物を野外で観察し記録するという海洋生物学者の研究姿勢と重なる"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

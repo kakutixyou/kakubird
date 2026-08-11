@@ -1,0 +1,21 @@
+{
+  "occupation_id": "sumo-wrestler",
+  "occupation_title": "力士",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "雷電為右衛門",
+        "era": "江戸時代",
+        "achievement": "記録に残る最強クラスの力士とされ、生涯の勝率が非常に高かった",
+        "connection": "日本の伝統的なプロスポーツ選手のはしりと言える存在"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

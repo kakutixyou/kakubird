@@ -1,0 +1,195 @@
+{
+  "naming_rules": {
+    "handler": "○○Handler（必ずこのサフィックスで終わること）",
+    "handler_suffix": "Handler",
+    "handler_method_score": "calculate_score",
+    "handler_method_exec": "handle",
+    "handler_method_size": "estimate_size",
+    "memory_dir": "backend/.ai_memory",
+    "memory_feedback_file": "feedback_scores.json",
+    "memory_signals_file": "user_signals.json",
+    "return_type_text": "text",
+    "return_type_ui": "ui_code"
+  },
+  "dependency_graph": {
+    "orchestrator": "ChatOrchestrator",
+    "handler_order": [
+      "GithubHandler",
+      "RecruitHandler",
+      "WeatherHandler",
+      "DatabaseHandler",
+      "OllamaHandler",
+      "OfflineFallbackHandler",
+      "ScrapingHandler",
+      "DesignHandler",
+      "HTMLHandler"
+    ],
+    "handlers": [
+      {
+        "class_name": "DesignHandler",
+        "file_path": "backend/api/services/handlers/DesignHandler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": false,
+        "has_signals_param": false
+      },
+      {
+        "class_name": "HTMLHandler",
+        "file_path": "backend/api/services/handlers/HtmlHandler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": false,
+        "has_signals_param": false
+      },
+      {
+        "class_name": "DatabaseHandler",
+        "file_path": "backend/api/services/handlers/database_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      },
+      {
+        "class_name": "GithubHandler",
+        "file_path": "backend/api/services/handlers/github_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      },
+      {
+        "class_name": "OcrRecruitHandler",
+        "file_path": "backend/api/services/handlers/ocr_recruit_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      },
+      {
+        "class_name": "OfflineFallbackHandler",
+        "file_path": "backend/api/services/handlers/offline_fallback_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      },
+      {
+        "class_name": "OllamaHandler",
+        "file_path": "backend/api/services/handlers/ollama_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      },
+      {
+        "class_name": "RecruitHandler",
+        "file_path": "backend/api/services/handlers/recruit_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      },
+      {
+        "class_name": "ScrapingHandler",
+        "file_path": "backend/api/services/handlers/scraping_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      },
+      {
+        "class_name": "WeatherHandler",
+        "file_path": "backend/api/services/handlers/weather_handler.py",
+        "has_calculate_score": true,
+        "has_handle": true,
+        "has_estimate_size": true,
+        "has_signals_param": true
+      }
+    ],
+    "fastpath": {
+      "trigger": "image_base64",
+      "handler": "OcrRecruitHandler"
+    }
+  },
+  "constants": {
+    "score_min_threshold": {
+      "value": 40,
+      "description": "最低スコア。これを下回ると「どれも対応不可」として即リターン",
+      "source_file": "backend/api/services/chat_orchestrator.py"
+    },
+    "score_conflict_range": {
+      "value": 10,
+      "description": "1位と2位のスコア差がこれ以内なら「競合」と判定",
+      "source_file": "backend/api/services/chat_orchestrator.py"
+    },
+    "merge_size_limit": {
+      "value": 20000,
+      "description": "競合時、合計文字数がこれ以上なら聞き返す",
+      "source_file": "backend/api/services/chat_orchestrator.py"
+    }
+  },
+  "design_rules": {
+    "routing_flow": [
+      "① fastpath check: request に image_base64 があれば OcrRecruitHandler へ即バイパス",
+      "② user_signals.json から現在の文脈（last_used_handler, active_context）を読み込む",
+      "③ 全ハンドラーに対して calculate_score(msg, signals?) を非同期で呼び出し",
+      "④ feedback_scores.json から過去の👍/👎補正を取得して final_score に加算",
+      "⑤ 全ハンドラーの final_score < 40 → 「どれも対応不可」テキストを返す",
+      "⑥ 1位と2位の score 差 ≤ 10 → 「競合」と判定",
+      "⑦ 競合かつ合計 estimate_size ≥ 20000 → ユーザーに優先度を聞き返す",
+      "⑧ 競合かつ合計 estimate_size < 20000 → 両ハンドラーを実行して _merge_responses でマージ",
+      "⑨ 非競合 → 1位ハンドラーのみ実行",
+      "⑩ 実行完了後に user_signals.json を更新（last_used_handler を記録）"
+    ],
+    "handler_interface": {
+      "calculate_score": {
+        "signature": "async (self, msg: str, signals: dict = {}) -> int",
+        "note": "signals 非対応の古いハンドラーは inspect で引数数を確認してから呼ぶ（後方互換）"
+      },
+      "handle": {
+        "signature": "async (self, msg: str) -> Tuple[str, Any] | None",
+        "note": "戻り値は ('text' | 'ui_code', content) の2値タプル。None を返すとエラー扱い"
+      },
+      "estimate_size": {
+        "signature": "(self, msg: str) -> int",
+        "note": "省略可。デフォルト 1000 文字として扱われる"
+      }
+    },
+    "merge_strategy": {
+      "message": "c1['message'] + '\\n\\n---\\n\\n' + c2['message'] で結合。str の場合は str() で変換",
+      "blocks": "c1['blocks'] + c2['blocks'] でリスト結合",
+      "return_type": "ui_code 固定",
+      "null_safety": "どちらかが None の場合は非 None 側だけを返す"
+    },
+    "backward_compat": "calculate_score の引数数を inspect.signature で確認し、パラメータが2つ（self+msg）なら signals を渡さず呼び出す",
+    "non_signals_handlers": [
+      "DesignHandler",
+      "HTMLHandler"
+    ],
+    "return_types": [
+      "text",
+      "ui_code"
+    ]
+  },
+  "memory_system": {
+    "feedback_scores": {
+      "path": "backend/.ai_memory/feedback_scores.json",
+      "key_format": "normalized_message（lowercase + スペース除去）",
+      "value_format": "{ handler_name: score_delta }",
+      "effect": "base_score に加算される補正値。👍 で +N、👎 で -N"
+    },
+    "user_signals": {
+      "path": "backend/.ai_memory/user_signals.json",
+      "fields": {
+        "last_used_handler": "直前に実行されたハンドラークラス名",
+        "active_context": "例: 'recruitment'（OcrRecruitHandler 実行後に付与）"
+      },
+      "effect": "calculate_score の第2引数 signals として渡され、文脈継続スコアに使える",
+      "update_timing": "route_and_execute 完了後に必ず _update_signals を呼ぶ"
+    }
+  },
+  "meta": {
+    "generated_from": "/home/claude/test_project",
+    "engine_version": "1.0.0"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "crane-operator",
+  "title": "クレーンオペレーター",
+  "category": "建設",
+  "summary": "建設現場や港湾でクレーンを操作し重量物を運ぶ。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "つり上げる荷重とアームの長さ・角度の関係を計算する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力のモーメント",
+        "connection": "てこの原理(モーメント)がクレームの転倒防止設計の基本になる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "クレーン",
+      "建設機械",
+      "重機"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

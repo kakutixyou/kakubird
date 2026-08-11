@@ -1,0 +1,42 @@
+{
+  "id": "esports-player",
+  "title": "eスポーツ選手",
+  "category": "スポーツ・IT",
+  "summary": "対戦型ゲームの大会に出場し、賞金やスポンサーで生計を立てる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "確率",
+        "connection": "相手の行動パターンや勝率を確率的に読んで戦略を立てる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学A 場合の数と確率",
+        "connection": "戦術の選択肢の組み合わせを数え上げて最適戦略を検討する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "光と音",
+        "connection": "反応速度やモニターのリフレッシュレートなど光・情報伝達の理解が役立つ。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "eスポーツ",
+      "ゲーム",
+      "プロゲーマー"
+    ],
+    "tags": [
+      "スポーツ・IT"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

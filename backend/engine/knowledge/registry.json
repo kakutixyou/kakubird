@@ -1,0 +1,24 @@
+{
+ "domains": [
+    {
+      "name": "python_google_generativeai",
+      "description": "google.generativeaiのインポートエラー、pip、VS CodeのPython環境に関する知識",
+      "json_paths": [
+        "python/google_generativeai_import_error.json"
+      ],
+      "keywords": [
+        "google.generativeai",
+        "google-generativeai",
+        "インポートエラー",
+        "import error",
+        "赤線",
+        "VS Code",
+        "pip install",
+        "Pythonインタープリター",
+        "venv",
+        "conda"
+      ],
+      "weight": 1
+    }
+  ]
+}

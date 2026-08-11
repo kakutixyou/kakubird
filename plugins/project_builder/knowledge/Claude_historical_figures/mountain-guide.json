@@ -1,0 +1,28 @@
+{
+  "occupation_id": "mountain-guide",
+  "occupation_title": "登山ガイド",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "エドモンド・ヒラリー",
+        "era": "20世紀ニュージーランド",
+        "achievement": "1953年、シェルパのテンジン・ノルゲイとともに世界初のエベレスト登頂に成功した",
+        "connection": "未踏のルートを安全に進む判断力は登山ガイドの仕事と重なる"
+      }
+    ],
+    "japan_history": [
+      {
+        "name": "播隆上人",
+        "era": "江戸時代",
+        "achievement": "北アルプスの槍ヶ岳に初めて登頂し、この山を開山した僧",
+        "connection": "前人未到の山への安全なルートを切り開いた点で登山ガイドの原点と言える"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

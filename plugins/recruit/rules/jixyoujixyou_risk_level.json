@@ -1,0 +1,28 @@
+{
+  "risk_levels": {
+    "white": {
+      "range": [0, 20],
+      "description": "比較的安定"
+    },
+
+    "light_gray": {
+      "range": [21, 40],
+      "description": "一般的SIer"
+    },
+
+    "gray": {
+      "range": [41, 60],
+      "description": "SES色あり"
+    },
+
+    "dark_gray": {
+      "range": [61, 80],
+      "description": "高圧文化・注意"
+    },
+
+    "black": {
+      "range": [81, 100],
+      "description": "高リスク"
+    }
+  }
+}

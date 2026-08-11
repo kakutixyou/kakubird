@@ -1,0 +1,142 @@
+{
+  "name": "cafe",
+  "label": "カフェ管理システム",
+  "description": "カフェの注文・顧客・商品・従業員管理",
+
+  "tables": [
+    {
+      "name": "customers",
+      "label": "顧客",
+      "columns": [
+        {
+          "name": "id",
+          "type": "SERIAL PRIMARY KEY",
+          "description": "顧客ID"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(100) NOT NULL",
+          "description": "顧客名"
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(255) UNIQUE",
+          "description": "メールアドレス"
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR(20)",
+          "description": "電話番号"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP DEFAULT NOW()",
+          "description": "登録日時"
+        }
+      ]
+    },
+
+    {
+      "name": "products",
+      "label": "商品",
+      "columns": [
+        {
+          "name": "id",
+          "type": "SERIAL PRIMARY KEY",
+          "description": "商品ID"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(100) NOT NULL",
+          "description": "商品名"
+        },
+        {
+          "name": "category",
+          "type": "VARCHAR(50)",
+          "description": "カテゴリ"
+        },
+        {
+          "name": "price",
+          "type": "INTEGER NOT NULL",
+          "description": "価格"
+        },
+        {
+          "name": "stock",
+          "type": "INTEGER DEFAULT 0",
+          "description": "在庫数"
+        }
+      ]
+    },
+
+    {
+      "name": "orders",
+      "label": "注文",
+      "columns": [
+        {
+          "name": "id",
+          "type": "SERIAL PRIMARY KEY",
+          "description": "注文ID"
+        },
+        {
+          "name": "customer_id",
+          "type": "INTEGER REFERENCES customers(id)",
+          "description": "顧客ID"
+        },
+        {
+          "name": "order_date",
+          "type": "TIMESTAMP DEFAULT NOW()",
+          "description": "注文日時"
+        },
+        {
+          "name": "total_amount",
+          "type": "INTEGER",
+          "description": "合計金額"
+        }
+      ]
+    },
+
+    {
+      "name": "order_items",
+      "label": "注文詳細",
+      "columns": [
+        {
+          "name": "id",
+          "type": "SERIAL PRIMARY KEY",
+          "description": "注文詳細ID"
+        },
+        {
+          "name": "order_id",
+          "type": "INTEGER REFERENCES orders(id)",
+          "description": "注文ID"
+        },
+        {
+          "name": "product_id",
+          "type": "INTEGER REFERENCES products(id)",
+          "description": "商品ID"
+        },
+        {
+          "name": "quantity",
+          "type": "INTEGER NOT NULL",
+          "description": "数量"
+        },
+        {
+          "name": "unit_price",
+          "type": "INTEGER NOT NULL",
+          "description": "単価"
+        }
+      ]
+    }
+  ],
+
+  "sampleQueries": [
+    {
+      "title": "売上上位5商品",
+      "sql": "SELECT p.name, SUM(oi.quantity) AS total_sold, SUM(oi.quantity * oi.unit_price) AS revenue FROM order_items oi JOIN products p ON oi.product_id = p.id GROUP BY p.name ORDER BY revenue DESC LIMIT 5;"
+    },
+
+    {
+      "title": "顧客ごとの累計購入額",
+      "sql": "SELECT c.name, SUM(o.total_amount) AS total_spent FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY total_spent DESC;"
+    }
+  ]
+}

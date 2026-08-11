@@ -1,0 +1,48 @@
+{
+  "id": "pharmacist",
+  "title": "薬剤師",
+  "category": "医療",
+  "summary": "医薬品の調剤・管理を行い、安全な薬物治療を支える。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "体重や年齢に応じた薬の用量計算に比例の考え方を使う。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学II 指数関数・対数関数",
+        "connection": "薬が体内で分解される速度(半減期)を指数関数で表す。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "化学基礎 物質の変化と化学反応式",
+        "connection": "薬の成分同士の相互作用や分解反応を理解する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "生物基礎 体内環境の維持",
+        "connection": "薬が体内でどう吸収・代謝されるかの理解に必要。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "薬剤師",
+      "調剤",
+      "薬局",
+      "医薬品"
+    ],
+    "tags": [
+      "医療"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

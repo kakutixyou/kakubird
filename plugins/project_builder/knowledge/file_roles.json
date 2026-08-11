@@ -1,0 +1,218 @@
+{
+  "handlers": [
+    {
+      "pattern": "handler.py",
+      "role": "リクエストを受け取り処理を振り分ける",
+      "responsibility": [
+        "入力解析",
+        "プラグイン呼び出し",
+        "レスポンス生成"
+      ],
+      "should_not": [
+        "DBアクセス",
+        "複雑なビジネスロジック"
+      ]
+    },
+    {
+      "pattern": "*Handler.py",
+      "role": "特定機能の実行クラス",
+      "responsibility": [
+        "1つの機能を担当",
+        "BuilderやAnalyzerを呼び出す"
+      ],
+      "should_not": [
+        "複数システムの管理"
+      ]
+    }
+  ],
+
+  "builders": [
+    {
+      "pattern": "*Builder.py",
+      "role": "データやオブジェクトを組み立てる",
+      "responsibility": [
+        "モデル生成",
+        "JSON生成",
+        "構造組み立て"
+      ],
+      "returns": [
+        "Model",
+        "Result",
+        "Plan"
+      ]
+    }
+  ],
+
+  "analyzers": [
+    {
+      "pattern": "*Analyzer.py",
+      "role": "情報を解析する",
+      "responsibility": [
+        "フォルダ解析",
+        "コード解析",
+        "依存解析",
+        "特徴抽出"
+      ],
+      "returns": [
+        "AnalysisResult"
+      ]
+    }
+  ],
+
+  "planners": [
+    {
+      "pattern": "*Planner.py",
+      "role": "実行計画を作成する",
+      "responsibility": [
+        "BuildPlan生成",
+        "手順決定",
+        "優先順位付け"
+      ]
+    }
+  ],
+
+  "resolvers": [
+    {
+      "pattern": "*Resolver.py",
+      "role": "依存関係や競合を解決する",
+      "responsibility": [
+        "ライブラリ依存",
+        "循環参照解消",
+        "競合解決"
+      ]
+    }
+  ],
+
+  "engines": [
+    {
+      "pattern": "*Engine.py",
+      "role": "アルゴリズムの中核",
+      "responsibility": [
+        "検索",
+        "推論",
+        "最適化"
+      ]
+    }
+  ],
+
+  "writers": [
+    {
+      "pattern": "*Writer.py",
+      "role": "ファイル出力",
+      "responsibility": [
+        "保存",
+        "上書き",
+        "エンコーディング管理"
+      ]
+    }
+  ],
+
+  "validators": [
+    {
+      "pattern": "*Validator.py",
+      "role": "検証",
+      "responsibility": [
+        "入力検証",
+        "Build検証",
+        "エラーチェック"
+      ]
+    }
+  ],
+
+  "registries": [
+    {
+      "pattern": "*Registry.py",
+      "role": "登録情報の管理",
+      "responsibility": [
+        "テンプレート登録",
+        "プラグイン登録",
+        "キャッシュ管理"
+      ]
+    }
+  ],
+
+  "models": [
+    {
+      "pattern": "*Model.py",
+      "role": "データモデル",
+      "responsibility": [
+        "データ保持",
+        "シリアライズ"
+      ]
+    },
+    {
+      "pattern": "*Result.py",
+      "role": "処理結果",
+      "responsibility": [
+        "成功可否",
+        "エラー",
+        "生成物"
+      ]
+    },
+    {
+      "pattern": "*Plan.py",
+      "role": "実行計画",
+      "responsibility": [
+        "実行順序",
+        "依存情報"
+      ]
+    }
+  ],
+
+  "stores": [
+    {
+      "pattern": "*Store.py",
+      "role": "状態管理",
+      "responsibility": [
+        "キャッシュ",
+        "メモリ保持",
+        "状態管理"
+      ]
+    }
+  ],
+
+  "services": [
+    {
+      "pattern": "*Service.py",
+      "role": "ビジネスロジック",
+      "responsibility": [
+        "複数コンポーネント連携",
+        "業務処理"
+      ]
+    }
+  ],
+
+  "repositories": [
+    {
+      "pattern": "*Repository.py",
+      "role": "データアクセス",
+      "responsibility": [
+        "DB操作",
+        "永続化"
+      ]
+    }
+  ],
+
+  "templates": [
+    {
+      "pattern": "*Template.py",
+      "role": "テンプレート定義",
+      "responsibility": [
+        "コード生成",
+        "雛形管理"
+      ]
+    }
+  ],
+
+  "utilities": [
+    {
+      "pattern": "*Util.py",
+      "role": "共通ユーティリティ",
+      "responsibility": [
+        "文字列処理",
+        "パス操作",
+        "日付処理"
+      ]
+    }
+  ]
+}

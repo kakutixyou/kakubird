@@ -1,0 +1,38 @@
+{
+  "id": "plasterer",
+  "title": "左官職人",
+  "category": "建設",
+  "summary": "壁や床にモルタル・漆喰などを塗り仕上げる職人。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "空間図形",
+        "connection": "壁面の面積を計算し必要な材料の量を見積もる。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "水溶液の性質",
+        "connection": "漆喰やモルタルが固まる化学反応(中和・乾燥)を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "左官",
+      "職人",
+      "建設",
+      "壁"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

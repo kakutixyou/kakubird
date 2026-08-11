@@ -1,0 +1,48 @@
+{
+  "id": "veterinarian",
+  "title": "獣医師",
+  "category": "医療",
+  "summary": "動物の診察・治療・健康管理を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "動物の体重に応じた薬用量を比例計算で求める。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学B 統計",
+        "connection": "品種ごとの成長データを統計的に分析し健康管理に活かす。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "動物の分類",
+        "connection": "動物の種類ごとの体の違いを理解し診療に活かす。"
+      },
+      {
+        "stage": "高校",
+        "unit": "生物基礎 恒常性と免疫",
+        "connection": "動物の免疫反応を理解しワクチン接種や治療に応用する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "獣医師",
+      "動物病院",
+      "ペット",
+      "家畜"
+    ],
+    "tags": [
+      "医療"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

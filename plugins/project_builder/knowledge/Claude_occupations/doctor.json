@@ -1,0 +1,49 @@
+{
+  "id": "doctor",
+  "title": "医師",
+  "category": "医療",
+  "summary": "病気やけがの診断・治療を行う。専門分野は内科・外科など多岐にわたる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学I 二次関数",
+        "connection": "薬の血中濃度の変化や検査値の基準範囲をグラフで捉え、投薬量の調整に使う。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学B 統計的推測",
+        "connection": "臨床試験のデータから治療効果に統計的な有意差があるかを判断する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "生物基礎 ヒトの体内環境",
+        "connection": "恒常性やホルモンの働きの理解が診断・治療方針の基礎になる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "化学基礎 物質の変化",
+        "connection": "薬物の代謝や化学反応の知識が処方判断に直結する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "医師",
+      "病院",
+      "診断",
+      "治療",
+      "医療"
+    ],
+    "tags": [
+      "医療"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

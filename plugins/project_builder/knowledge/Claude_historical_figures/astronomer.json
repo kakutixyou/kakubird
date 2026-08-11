@@ -1,0 +1,28 @@
+{
+  "occupation_id": "astronomer",
+  "occupation_title": "天文学者",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ガリレオ・ガリレイ",
+        "era": "16〜17世紀イタリア",
+        "achievement": "自作の望遠鏡で天体を観測し、地動説を支持する証拠を示した",
+        "connection": "観測に基づいて宇宙の姿を明らかにした、天文学者の代表的存在"
+      }
+    ],
+    "japan_history": [
+      {
+        "name": "渋川春海",
+        "era": "江戸時代",
+        "achievement": "日本独自の天体観測に基づき、暦「貞享暦」を作成した",
+        "connection": "天体の動きを観測し記録するという天文学者の仕事そのもの"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

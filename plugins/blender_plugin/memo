@@ -1,0 +1,7 @@
+blender_plugin/
+├── scene_scanner.py
+├── object_builder.py
+├── material_builder.py
+├── rig_builder.py
+├── animation_builder.py
+└── export_service.py

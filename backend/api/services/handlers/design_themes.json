@@ -1,0 +1,34 @@
+{
+  "glass": {
+    "title": "Glass Surface",
+    "css": ":root { --glass-bg: rgba(255,255,255,0.08); --glass-border: rgba(255,255,255,0.18); --glass-blur: 20px; --glass-shadow: 0 8px 32px rgba(0,0,0,0.37); --glass-text: rgba(255,255,255,0.92); --glass-text-muted: rgba(255,255,255,0.55); --glass-accent: rgba(180,220,255,0.7); } body { min-height: 100vh; background: radial-gradient(ellipse at 20% 50%, #0a0a2e 0%, #000010 100%); font-family: 'Cormorant Garamond','Hiragino Mincho ProN',serif; color: var(--glass-text); overflow-x: hidden; }"
+  },
+  "frosted-dark": {
+    "title": "Frosted Night",
+    "css": ":root { --frost-bg: rgba(10,10,30,0.75); --frost-border: rgba(120,140,200,0.2); --frost-blur: 30px; --frost-shadow: 0 12px 40px rgba(0,0,20,0.6); --frost-text: #e8ecf8; --frost-text-muted: rgba(200,210,240,.6); --frost-accent: #7eb8f7; } body { min-height: 100vh; background: radial-gradient(ellipse at 50% -10%,rgba(40,60,120,.5) 0%,transparent 60%), linear-gradient(180deg,#020210 0%,#04041a 50%,#010108 100%); font-family: 'Playfair Display', 'Noto Serif JP', serif; color: var(--frost-text); }"
+  },
+  "elevated": {
+    "title": "Elevated Clean",
+    "css": ":root { --elevated-bg: #ffffff; --elevated-shadow: 0 10px 25px rgba(0,0,0,0.05); --elevated-text: #333333; } body { background: #f8f9fa; color: var(--elevated-text); font-family: sans-serif; }"
+  },
+  "bordered": {
+    "title": "Sharp Bordered",
+    "css": ":root { --border-color: #000000; --border-width: 2px; --bg-color: #ffffff; } body { background: var(--bg-color); color: #000; font-family: monospace; }"
+  },
+  "flat": {
+    "title": "Flat Minimal",
+    "css": ":root { --flat-primary: #3498db; --flat-bg: #ecf0f1; --flat-text: #2c3e50; } body { background: var(--flat-bg); color: var(--flat-text); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }"
+  },
+  "glow": {
+    "title": "Cyber Glow",
+    "css": ":root { --glow-color: #00ffcc; --glow-bg: #090a0f; } body { background: var(--glow-bg); color: #ffffff; font-family: monospace; text-shadow: 0 0 10px var(--glow-color); }"
+  },
+  "neumorphism": {
+    "title": "Soft Neumorphism",
+    "css": ":root { --neu-bg: #e0e5ec; --neu-shadow-light: #ffffff; --neu-shadow-dark: #a3b1c6; } body { background: var(--neu-bg); color: #4a4a4a; font-family: sans-serif; }"
+  },
+  "paper": {
+    "title": "Classic Paper",
+    "css": ":root { --paper-bg: #fdf6e3; --paper-text: #657b83; } body { background: var(--paper-bg); color: var(--paper-text); font-family: 'Georgia', serif; line-height: 1.6; }"
+  }
+}

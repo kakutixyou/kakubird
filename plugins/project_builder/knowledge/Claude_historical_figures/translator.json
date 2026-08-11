@@ -1,0 +1,21 @@
+{
+  "occupation_id": "translator",
+  "occupation_title": "翻訳家",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "杉田玄白",
+        "era": "江戸時代",
+        "achievement": "オランダ語の解剖学書を翻訳し『解体新書』として出版した",
+        "connection": "外国語の専門書を正確に訳す仕事は翻訳家の営みそのもの"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

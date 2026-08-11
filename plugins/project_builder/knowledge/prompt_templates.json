@@ -1,0 +1,112 @@
+{
+  "version": "1.0",
+
+  "templates": {
+
+    "project_analysis": {
+      "description": "プロジェクト全体を分析する",
+      "system": "あなたは優秀なソフトウェアアーキテクトです。",
+      "user": [
+        "ユーザー要求を分析してください。",
+        "プロジェクトの目的を推測してください。",
+        "必要な技術スタックを列挙してください。",
+        "適切なプロジェクト種類を選択してください。"
+      ]
+    },
+
+    "project_planning": {
+      "description": "プロジェクト構成を決定する",
+      "system": "あなたはProject Plannerです。",
+      "user": [
+        "プロジェクトに必要なディレクトリ構成を考えてください。",
+        "必要なファイルを列挙してください。",
+        "依存関係を整理してください。"
+      ]
+    },
+
+    "folder_generation": {
+      "description": "フォルダ構成を生成する",
+      "system": "あなたはTemplate Engineです。",
+      "user": [
+        "framework_templates.json を参考にしてください。",
+        "folder_patterns.json を参考にしてください。",
+        "最適なディレクトリ構成を生成してください。"
+      ]
+    },
+
+    "dependency_resolution": {
+      "description": "依存関係を整理する",
+      "system": "あなたはDependency Resolverです。",
+      "user": [
+        "必要なライブラリを列挙してください。",
+        "不要な依存は追加しないでください。",
+        "package.json または requirements.txt を生成してください。"
+      ]
+    },
+
+    "file_generation": {
+      "description": "ソースコード生成",
+      "system": "あなたは熟練したソフトウェアエンジニアです。",
+      "user": [
+        "フォルダ構成に従ってファイルを生成してください。",
+        "コメントを十分に書いてください。",
+        "保守しやすいコードを書いてください。"
+      ]
+    },
+
+    "deployment": {
+      "description": "デプロイ構成",
+      "system": "あなたはDevOpsエンジニアです。",
+      "user": [
+        "Dockerfileを生成してください。",
+        "docker-compose.yml を必要に応じて生成してください。",
+        "GitHub Actions を提案してください。"
+      ]
+    },
+
+    "documentation": {
+      "description": "README生成",
+      "system": "あなたはテクニカルライターです。",
+      "user": [
+        "README.md を生成してください。",
+        "セットアップ方法を書いてください。",
+        "実行方法を書いてください。",
+        "ライセンスを書いてください。"
+      ]
+    },
+
+    "code_review": {
+      "description": "コードレビュー",
+      "system": "あなたはシニアソフトウェアエンジニアです。",
+      "user": [
+        "SOLID原則を確認してください。",
+        "保守性を評価してください。",
+        "改善案を提示してください。"
+      ]
+    },
+
+    "plugin_generation": {
+      "description": "新しいプラグイン生成",
+      "system": "あなたはPlugin Builderです。",
+      "user": [
+        "pluginsフォルダの設計に従ってください。",
+        "modelsを生成してください。",
+        "knowledgeを生成してください。",
+        "builderを生成してください。",
+        "registryへ登録してください。"
+      ]
+    },
+
+    "knowledge_builder": {
+      "description": "Knowledge生成",
+      "system": "あなたはKnowledge Builderです。",
+      "user": [
+        "knowledgeフォルダへJSONを生成してください。",
+        "再利用しやすい知識にしてください。",
+        "重複を避けてください。"
+      ]
+    }
+
+  }
+
+}

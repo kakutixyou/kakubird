@@ -1,0 +1,28 @@
+{
+  "occupation_id": "teacher",
+  "occupation_title": "教師",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "孔子",
+        "era": "古代中国",
+        "achievement": "弟子を集めて教育を行い、その言行は『論語』にまとめられた",
+        "connection": "「教える」という営みを体系化した、教育者の代表的存在"
+      }
+    ],
+    "japan_history": [
+      {
+        "name": "吉田松陰",
+        "era": "幕末",
+        "achievement": "私塾「松下村塾」で多くの若者を指導し、後の明治維新の人材を輩出した",
+        "connection": "少人数の対話を通じた教育で人を育てた点が教師の仕事と重なる"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

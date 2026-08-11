@@ -1,0 +1,21 @@
+{
+  "occupation_id": "astronaut",
+  "occupation_title": "宇宙飛行士",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ユーリイ・ガガーリン",
+        "era": "1961年 ソ連",
+        "achievement": "人類として初めて宇宙飛行を成し遂げた",
+        "connection": "宇宙飛行士という職業の出発点となった人物"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "teacher",
+  "title": "教師",
+  "category": "教育",
+  "summary": "学校で児童・生徒に教科を教え、成長を支援する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "テストの点数分布を分析し授業改善に活かす。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "科学的な探究の方法",
+        "connection": "実験・観察を計画し結果を考察する指導力の基礎になる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "教師",
+      "先生",
+      "学校",
+      "教育"
+    ],
+    "tags": [
+      "教育"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

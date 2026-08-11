@@ -1,0 +1,43 @@
+{
+  "id": "sound-engineer",
+  "title": "音響エンジニア",
+  "category": "音楽・技術",
+  "summary": "コンサートやレコーディングで音の収録・調整を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数",
+        "connection": "音波を波形(サインカーブ)として捉え周波数を調整する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "音の性質",
+        "connection": "音の高さ・大きさが振動数・振幅で決まる仕組みを理解する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理 波の性質",
+        "connection": "波の重ね合わせ(干渉)を利用して音響設計を行う。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "音響エンジニア",
+      "音楽",
+      "レコーディング",
+      "PA"
+    ],
+    "tags": [
+      "音楽・技術"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "occupation_id": "archaeologist",
+  "occupation_title": "考古学者",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ハインリッヒ・シュリーマン",
+        "era": "19世紀ドイツ",
+        "achievement": "伝説とされていたトロイア遺跡を発掘によって実在することを示した",
+        "connection": "遺跡の発掘から過去の歴史を明らかにする、考古学者の仕事そのもの"
+      }
+    ],
+    "japan_history": [
+      {
+        "name": "濱田耕作",
+        "era": "大正〜昭和",
+        "achievement": "日本に科学的な発掘調査の手法を導入し「日本考古学の父」と呼ばれる",
+        "connection": "遺物や遺跡を体系的に調査する方法を確立した"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

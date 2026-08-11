@@ -1,0 +1,43 @@
+{
+  "id": "welder",
+  "title": "溶接工",
+  "category": "建設",
+  "summary": "金属を熱で溶かして接合する技術者。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "角度と作図",
+        "connection": "接合する部材の角度を正確に測り施工する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "化学変化",
+        "connection": "金属が熱で溶融・凝固する化学変化の理解が仕上がりの品質を左右する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 熱",
+        "connection": "熱による金属の膨張・収縮を理解し歪みを防ぐ。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "溶接",
+      "職人",
+      "金属",
+      "工事"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

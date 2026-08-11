@@ -1,0 +1,104 @@
+{
+  "id": "git_index_lock_001",
+  "type": "technical_knowledge",
+  "category": "Git",
+  "title": "fatal: Unable to create '.git/index.lock': File exists",
+  "summary": "Git実行中に index.lock が残っている場合や、誤ったディレクトリでGitリポジトリを初期化している場合に発生するエラーへの対処方法。",
+  "topic": [
+    "Git",
+    "PowerShell",
+    "Repository"
+  ],
+  "keywords": [
+    "git",
+    "index.lock",
+    "Unable to create",
+    "fatal",
+    "git add",
+    "git checkout",
+    "git remote",
+    "git init",
+    "PowerShell"
+  ],
+  "problem": {
+    "title": "git add実行時に index.lock エラーが発生する",
+    "description": "git add output/opendata_jsons/ を実行した際に 'Unable to create .git/index.lock' というエラーが発生した。Gitは他のプロセスが動作中、または以前の異常終了によって index.lock ファイルが残っていると判断し、処理を停止する。"
+  },
+  "observed_log": {
+    "commands": [
+      "git checkout -b feature/data-setup",
+      "git add output/opendata_jsons/"
+    ],
+    "output": [
+      "Switched to a new branch 'feature/data-setup'",
+      "fatal: Unable to create 'C:/Users/shing/.git/index.lock': File exists."
+    ]
+  },
+  "diagnosis": [
+    {
+      "priority": 1,
+      "cause": "以前のGit処理が異常終了し、index.lock が残っている。"
+    },
+    {
+      "priority": 2,
+      "cause": "別のGitプロセス（git commit、VS Code、GitHub Desktopなど）が動作中。"
+    },
+    {
+      "priority": 3,
+      "cause": "Gitリポジトリが想定外の場所（C:/Users/shing）で初期化されている可能性。"
+    }
+  ],
+  "solutions": [
+    {
+      "step": 1,
+      "title": "Gitプロセスを終了する",
+      "description": "Gitを利用しているエディタやツールが動作していないか確認する。"
+    },
+    {
+      "step": 2,
+      "title": "index.lock を削除する",
+      "description": "Gitが停止していることを確認した上でロックファイルを削除する。",
+      "command": "Remove-Item C:\\Users\\shing\\.git\\index.lock -Force"
+    },
+    {
+      "step": 3,
+      "title": "リモートリポジトリを確認する",
+      "description": "現在どのGitHubリポジトリへPushする設定になっているか確認する。",
+      "command": "git remote -v"
+    }
+  ],
+  "important_observation": {
+    "title": "Git管理ディレクトリが想定外の場所にある可能性",
+    "description": "エラーメッセージに表示されたパスが 'C:/Users/shing/.git/index.lock' となっていたため、ユーザーフォルダ全体がGit管理下になっている可能性がある。",
+    "risk": [
+      "個人ファイルを誤ってGit管理してしまう可能性",
+      "GitHubへ不要なファイルをPushする危険性"
+    ]
+  },
+  "verification": [
+    {
+      "command": "git remote -v",
+      "purpose": "Push先のリポジトリを確認する"
+    },
+    {
+      "command": "git rev-parse --show-toplevel",
+      "purpose": "現在どのフォルダがGitリポジトリのルートになっているか確認する"
+    }
+  ],
+  "prevention": [
+    "git init を実行する場所を必ず確認する",
+    "ユーザーフォルダ直下では git init を実行しない",
+    "異常終了した場合は index.lock の有無を確認する"
+  ],
+  "code_examples": {
+    "remove_lock": "Remove-Item C:\\Users\\shing\\.git\\index.lock -Force",
+    "show_remote": "git remote -v",
+    "show_repository_root": "git rev-parse --show-toplevel"
+  },
+  "metadata": {
+    "knowledge_type": "error_resolution",
+    "difficulty": "beginner",
+    "confidence": "high",
+    "created_from": "ChatGPT conversation"
+  }
+}

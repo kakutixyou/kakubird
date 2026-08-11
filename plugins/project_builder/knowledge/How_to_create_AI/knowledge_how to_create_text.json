@@ -1,0 +1,51 @@
+{
+  "title": "knowledge_how to_create_text",
+  "category": "system_design",
+  "keywords": [
+    "knowledge",
+    "knowledgeフォルダ",
+    "ChatHandler",
+    "Orchestrator",
+    "JSON",
+    "雑談",
+    "仕組み"
+  ],
+  "summary": "このアプリはknowledgeフォルダ内のJSONをOrchestratorが起動時に読み込み、ChatHandlerへ渡すことで知識を利用している。ChatHandler自身はファイルを直接読まず、渡された知識だけを利用して応答を生成する。",
+  "details": {
+    "knowledge_flow": [
+      "knowledge/*.json",
+      "KnowledgeManager",
+      "Orchestrator",
+      "request.loaded_knowledge",
+      "ChatHandler",
+      "LLMまたはテンプレート応答"
+    ],
+    "why_chat_possible": [
+      "知識はJSONとして保持される",
+      "Orchestratorが必要なJSONだけ検索して読み込む",
+      "request.loaded_knowledgeへ格納する",
+      "ChatHandlerはその内容を見て回答を組み立てる",
+      "LLMへプロンプトとして渡すこともできる"
+    ],
+    "chat_handler_role": [
+      "知識を検索しない",
+      "知識を読み込まない",
+      "渡されたJSONだけを利用する",
+      "応答を組み立てる"
+    ]
+  },
+  "conversation_examples": [
+    {
+      "user": "なんでknowledgeフォルダを通して説明できるの？",
+      "assistant": "OrchestratorがknowledgeフォルダのJSONを読み込み、必要な内容だけをrequest.loaded_knowledgeへ渡します。ChatHandlerはそのJSONを利用して文章を生成するため、ファイルを直接読むことなく知識に基づいた雑談ができます。"
+    },
+    {
+      "user": "ChatHandlerはJSONを読むの？",
+      "assistant": "いいえ。ChatHandlerはJSONを直接読みません。KnowledgeManagerとOrchestratorが読み込んだデータだけを利用します。"
+    }
+  ],
+  "source": {
+    "generated_by": "ChatGPT",
+    "based_on": "Claudeとの設計議論"
+  }
+}

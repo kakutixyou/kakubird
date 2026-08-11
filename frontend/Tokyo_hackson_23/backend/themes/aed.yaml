@@ -1,0 +1,28 @@
+name: aed
+
+description: "AED（自動体外式除細動器）設置場所データ"
+
+metric_key: aed
+
+label: "AED設置情報"
+
+emoji: "🫀"
+
+queries:
+  - AED
+  - 自動体外式除細動器
+
+formats:
+  - CSV
+  - XLSX
+  - JSON
+
+group: all
+
+rows: 200
+
+max_packages: 2000
+
+batch_size: 100
+
+output_dir: output/opendata_jsons/aed

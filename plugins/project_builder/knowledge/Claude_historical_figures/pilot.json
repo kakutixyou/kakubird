@@ -1,0 +1,21 @@
+{
+  "occupation_id": "pilot",
+  "occupation_title": "パイロット",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ライト兄弟",
+        "era": "20世紀初頭アメリカ",
+        "achievement": "1903年、世界初の動力による有人飛行に成功した",
+        "connection": "「空を飛ぶ」という職業の土台そのものを切り開いた"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

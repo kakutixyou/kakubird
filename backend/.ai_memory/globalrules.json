@@ -1,0 +1,7 @@
+{
+  "rules": [
+    "常に日本語で回答する",
+    "既存のHandlerパターン（calculate_score / handle / estimate_size）に従う",
+    "コード提案時はエラーハンドリングを省略しない"
+  ]
+}

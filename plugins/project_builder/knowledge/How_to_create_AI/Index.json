@@ -1,0 +1,158 @@
+{
+  "plugins/project_builder/knowledge/system_design/knowledge_architecture.json": {
+    "id": "knowledge_architecture",
+    "title": "knowledge_architecture.json",
+    "keywords": [
+      "knowledge",
+      "knowledgeフォルダ",
+      "json",
+      "KnowledgeManager",
+      "ChatHandler",
+      "Orchestrator",
+      "loaded_knowledge",
+      "world_knowledge",
+      "雑談",
+      "仕組み",
+      "システム",
+      "RAG"
+    ],
+    "intent": [
+      "system_inquiry",
+      "architecture",
+      "knowledge"
+    ],
+    "tags": [
+      "knowledge",
+      "architecture",
+      "chat"
+    ],
+    "category": "system_design",
+    "language": "python",
+    "framework": "FastAPI",
+    "difficulty": "beginner",
+    "updated_at": "2026-08-05",
+    "score": 95,
+    "file_path": "plugins/project_builder/knowledge/system_design/knowledge_architecture.json",
+    "size_bytes": 0,
+    "mtime": 0
+  },
+
+  "plugins/project_builder/knowledge/system_design/chat_request_design_notes.json": {
+    "id": "chat_request_design_notes",
+    "title": "chat_request_design_notes.json",
+    "keywords": [
+      "ChatRequest",
+      "BaseModel",
+      "Pydantic",
+      "loaded_knowledge",
+      "world_knowledge",
+      "request",
+      "setattr",
+      "ConfigDict",
+      "extra",
+      "Field",
+      "Orchestrator",
+      "Handler"
+    ],
+    "intent": [
+      "architecture",
+      "bug_fix",
+      "system_inquiry"
+    ],
+    "tags": [
+      "pydantic",
+      "request",
+      "design"
+    ],
+    "category": "architecture",
+    "language": "python",
+    "framework": "FastAPI",
+    "difficulty": "intermediate",
+    "updated_at": "2026-08-05",
+    "score": 98,
+    "file_path": "plugins/project_builder/knowledge/system_design/chat_request_design_notes.json",
+    "size_bytes": 0,
+    "mtime": 0
+  },
+
+  "plugins/project_builder/knowledge/debug_history/chat_handler_debug_history.json": {
+    "id": "chat_handler_debug_history",
+    "title": "chat_handler_debug_history.json",
+    "keywords": [
+      "ChatHandler",
+      "loaded_knowledge",
+      "history_figures",
+      "KnowledgeManager",
+      "Orchestrator",
+      "ChatRequest",
+      "BaseModel",
+      "Pydantic",
+      "index.json",
+      "history",
+      "デバッグ",
+      "歴史人物",
+      "鳶職人"
+    ],
+    "intent": [
+      "bug_fix",
+      "history",
+      "system_inquiry"
+    ],
+    "tags": [
+      "debug",
+      "history",
+      "knowledge"
+    ],
+    "category": "debug_history",
+    "language": "python",
+    "framework": "FastAPI",
+    "difficulty": "intermediate",
+    "updated_at": "2026-08-05",
+    "score": 99,
+    "file_path": "plugins/project_builder/knowledge/debug_history/chat_handler_debug_history.json",
+    "size_bytes": 0,
+    "mtime": 0
+  },
+
+  "plugins/project_builder/knowledge/debug_history/pydantic_field_error_and_404.json": {
+    "id": "pydantic_field_error_and_404",
+    "title": "pydantic_field_error_and_404.json",
+    "keywords": [
+      "Pydantic",
+      "Field",
+      "ChatRequest",
+      "BaseModel",
+      "FastAPI",
+      "404",
+      "loaded_knowledge",
+      "world_knowledge",
+      "routes_chat",
+      "chat_models",
+      "import",
+      "Ellipsis",
+      "default_factory",
+      "Dict",
+      "Any"
+    ],
+    "intent": [
+      "bug_fix",
+      "system_inquiry",
+      "architecture"
+    ],
+    "tags": [
+      "pydantic",
+      "fastapi",
+      "404",
+      "debug"
+    ],
+    "category": "debug_history",
+    "language": "python",
+    "framework": "FastAPI",
+    "difficulty": "intermediate",
+    "updated_at": "2026-08-05",
+    "score": 100,
+    "file_path": "plugins/project_builder/knowledge/debug_history/pydantic_field_error_and_404.json",
+    "size_bytes": 0,
+    "mtime": 0
+  }
+}

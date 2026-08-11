@@ -1,0 +1,41 @@
+{
+  "github_search": {
+    "match": {
+      "actions": ["search"],
+      "targets": ["github", "リポジトリ", "repository", "git"],
+      "keywords": ["github", "git"]
+    },
+    "score": {
+      "base": 50,
+      "action_bonus": 20,
+      "target_bonus": 15,
+      "type_bonus": 0
+    }
+  },
+  "data_conversion": {
+    "match": {
+      "message_type": ["json"],
+      "actions": ["convert"],
+      "targets": ["json"],
+      "keywords": ["json化", "jsonに変換", "json形式"]
+    },
+    "score": {
+      "base": 40,
+      "action_bonus": 20,
+      "target_bonus": 15,
+      "type_bonus": 40
+    }
+  },
+  "system_inquiry": {
+    "match": {
+      "targets": ["仕組み", "システム", "ルール", "to"],
+      "keywords": ["何ができる", "どうやって", "作品"]
+    },
+    "score": {
+      "base": 80,
+      "action_bonus": 0,
+      "target_bonus": 0,
+      "type_bonus": 0
+    }
+  }
+}

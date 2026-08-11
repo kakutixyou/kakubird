@@ -1,0 +1,38 @@
+{
+  "id": "forestry-worker",
+  "title": "林業従事者",
+  "category": "一次産業",
+  "summary": "森林の伐採・植林・管理を行い木材資源を守り育てる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "相似な図形",
+        "connection": "立木の高さを相似や三角比を使って測定する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "植物の分類と生態系",
+        "connection": "森林の生態系のバランスを理解し伐採・植林計画を立てる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "林業",
+      "森林",
+      "木材",
+      "伐採"
+    ],
+    "tags": [
+      "一次産業"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

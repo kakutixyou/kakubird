@@ -1,0 +1,39 @@
+{
+  "project_status": "on_track",
+  "generated_at": "2026-07-08T02:00:00",
+  "presentation_mode": true,
+  "team_resources": [
+    {"id": "dev_1", "role": "Frontend (Dummy)", "workload_percent": 80},
+    {"id": "dev_2", "role": "Backend (Dummy)", "workload_percent": 75},
+    {"id": "dev_3", "role": "QA/Test (Dummy)", "workload_percent": 60}
+  ],
+  "tasks": [
+    {
+      "id": "t_001",
+      "name": "DBスキーマ設計とマイグレーション",
+      "assignee": "dev_2",
+      "start_date": "2026-07-01",
+      "end_date": "2026-07-05",
+      "progress": 100,
+      "status": "completed"
+    },
+    {
+      "id": "t_002",
+      "name": "TodoViewコンポーネントの実装",
+      "assignee": "dev_1",
+      "start_date": "2026-07-05",
+      "end_date": "2026-07-10",
+      "progress": 60,
+      "status": "in_progress"
+    },
+    {
+      "id": "t_003",
+      "name": "AIハンドラーとの結合テスト",
+      "assignee": "dev_3",
+      "start_date": "2026-07-10",
+      "end_date": "2026-07-15",
+      "progress": 0,
+      "status": "pending"
+    }
+  ]
+}

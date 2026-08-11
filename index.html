@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookCMS – ノーコード ページ CMS</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ================================================================
+       Top header
+  ================================================================ -->
+  <header class="app-header">
+    <span class="logo">📖 BookCMS</span>
+    <span class="tagline">ノーコード ページ・フリップ CMS</span>
+  </header>
+
+  <!-- ================================================================
+       Main layout: sidebar + preview
+  ================================================================ -->
+  <div class="app-body">
+
+    <!-- Sidebar: widget toolbar + page controls -->
+    <aside class="sidebar">
+      <span class="sidebar-title">ウィジェット</span>
+
+      <!-- Widget buttons are injected here by WidgetSystem.init() -->
+      <div id="widget-toolbar"></div>
+
+      <div class="sidebar-section">
+        <span class="sidebar-title">ページ管理</span>
+        <button class="page-control-btn" id="add-page-btn">
+          ＋ 新しいページを追加
+        </button>
+      </div>
+    </aside>
+
+    <!-- Preview: book + navigation -->
+    <main class="preview-area">
+
+      <!-- Book: left page (previous) + right page (current/active) -->
+      <div class="book-wrapper">
+        <!-- Left page is a static decorative "previous" page visual -->
+        <div class="book-page" id="left-page-decoration">
+          <div class="page-header">前のページ</div>
+          <div class="page-content" style="color:#ccc; font-size:0.85rem; padding-top:40px; text-align:center;">
+            ← 前のページ
+          </div>
+        </div>
+
+        <!-- Right page: active content managed by PageManager -->
+        <div id="page-preview"></div>
+      </div>
+
+      <!-- Page navigation -->
+      <nav class="page-nav" aria-label="ページナビゲーション">
+        <button id="prev-page-btn" title="前のページへ" aria-label="前のページへ">◀</button>
+        <span id="page-indicator">1 / 1</span>
+        <button id="next-page-btn" title="次のページへ" aria-label="次のページへ">▶</button>
+      </nav>
+
+    </main>
+  </div><!-- /.app-body -->
+
+
+  <!-- ================================================================
+       Scripts – load order matters:
+         1. widget-system.js   (BaseWidget, WidgetRegistry, WidgetSystem)
+         2. All widget files   (each calls WidgetRegistry.register())
+         3. page-manager.js    (PageManager)
+         4. Inline bootstrap   (wire everything together)
+  ================================================================ -->
+  <script src="js/widget-system.js"></script>
+
+  <!-- ---- Register additional widgets here ---- -->
+  <script src="js/widgets/dog-api-widget.js"></script>
+  <!-- <script src="js/widgets/rakuten-api-widget.js"></script> -->
+  <!-- <script src="js/widgets/weather-api-widget.js"></script>  -->
+
+  <script src="js/page-manager.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Initialise page manager with the right-side preview container
+      const previewEl = document.getElementById('page-preview');
+      PageManager.init(previewEl);
+
+      // 2. Build the widget toolbar and connect it to PageManager
+      const toolbarEl = document.getElementById('widget-toolbar');
+      WidgetSystem.init(toolbarEl, PageManager);
+
+      // 3. Wire up "Add page" button
+      document.getElementById('add-page-btn').addEventListener('click', () => {
+        PageManager.addPage();
+      });
+
+      // 4. Wire up prev / next navigation
+      document.getElementById('prev-page-btn').addEventListener('click', () => {
+        PageManager.prevPage();
+      });
+      document.getElementById('next-page-btn').addEventListener('click', () => {
+        PageManager.nextPage();
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+{
+  "title": "pydantic_field_error_and_404",
+  "category": "debug_history",
+  "keywords": [
+    "Pydantic",
+    "Field",
+    "ChatRequest",
+    "BaseModel",
+    "FastAPI",
+    "404",
+    "loaded_knowledge",
+    "world_knowledge",
+    "routes_chat",
+    "chat_models",
+    "import",
+    "Ellipsis"
+  ],
+  "summary": "ChatRequestへloaded_knowledgeを追加した際、Field()の記述ミスによってPydanticモデルの読み込みが失敗し、その影響でFastAPIのルート登録も失敗して404 Not Foundが発生した。",
+  "problem": {
+    "error": "指定された引数に一致する 'Field' のオーバーロードがありません",
+    "detail": "引数の型: (None, EllipsisType)"
+  },
+  "root_cause": [
+    {
+      "title": "Field()の誤った使い方",
+      "description": "Field(None, ...) のように Ellipsis(...) を第2引数へ渡してしまっていた。"
+    },
+    {
+      "title": "Pydanticモデルの読み込み失敗",
+      "description": "ChatRequest(BaseModel)の定義時に例外が発生し、chat_models.pyのimportが失敗した。"
+    },
+    {
+      "title": "FastAPIルート未登録",
+      "description": "routes_chat.pyも読み込めず、/api/chatが登録されないままサーバーが起動したため404 Not Foundとなった。"
+    }
+  ],
+  "correct_patterns": [
+    {
+      "title": "シンプルなOptional",
+      "example": "image_base64: Optional[str] = None"
+    },
+    {
+      "title": "description付き",
+      "example": "message: str = Field(..., description=\"ユーザー入力\")"
+    },
+    {
+      "title": "辞書",
+      "example": "world_knowledge: Dict[str, Any] = Field(default_factory=dict)"
+    },
+    {
+      "title": "リスト",
+      "example": "history: List[ChatMessage] = Field(default_factory=list)"
+    },
+    {
+      "title": "loaded_knowledge",
+      "example": "loaded_knowledge: Dict[str, Any] = Field(default_factory=dict)"
+    }
+  ],
+  "recommended_design": {
+    "loaded_knowledge": {
+      "type": "Dict[str, Any]",
+      "default": "default_factory=dict",
+      "reason": "Orchestrator側の getattr(request, \"loaded_knowledge\", {}) と相性が良く、None判定が不要になる。"
+    },
+    "world_knowledge": {
+      "type": "Dict[str, Any]",
+      "default": "default_factory=dict",
+      "reason": "KnowledgeServiceが辞書として組み立てる設計に一致する。"
+    }
+  },
+  "diagnosis_flow": [
+    "Field()エラーを確認する",
+    "chat_models.pyが正常にimportできるか確認する",
+    "routes_chat.pyが正常に読み込まれているか確認する",
+    "FastAPI起動時に/api/chatが登録されているか確認する",
+    "その後404が解消されるか確認する"
+  ],
+  "lessons_learned": [
+    "Field()はdescriptionなどを必ずキーワード引数で指定する。",
+    "Field(None, ...)のような書き方はしない。",
+    "BaseModelのimportエラーはFastAPIの404につながることがある。",
+    "404だからといってルーティングだけが原因とは限らない。",
+    "モデル定義の例外も必ず確認する。"
+  ],
+  "conversation_examples": [
+    {
+      "user": "なんで404になったの？",
+      "assistant": "FastAPIのルート自体が登録されていませんでした。その原因はChatRequest(BaseModel)のField()エラーによるimport失敗でした。"
+    },
+    {
+      "user": "Field(None, ...)って何が悪いの？",
+      "assistant": "Field()はdescriptionなどを位置引数では受け取れません。description=\"...\"のようにキーワード引数で指定する必要があります。"
+    },
+    {
+      "user": "loaded_knowledgeはどう定義するのがいい？",
+      "assistant": "現在の設計では Dict[str, Any] = Field(default_factory=dict) が最も自然です。Orchestratorとの相性も良く、Noneチェックを減らせます。"
+    }
+  ],
+  "source": {
+    "generated_by": "Claude",
+    "knowledge_type": "debug_history",
+    "verified": true
+  }
+}

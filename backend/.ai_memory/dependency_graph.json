@@ -1,0 +1,1846 @@
+{
+  "To(と)/backend_import_test.py": [
+    "traceback",
+    "os",
+    "datetime",
+    "sys"
+  ],
+  "To(と)/apps/desctop/main.js": [],
+  "To(と)/apps/desctop/preload.js": [],
+  "To(と)/apps/web/src/App.tsx": [],
+  "To(と)/apps/web/src/main.tsx": [],
+  "To(と)/apps/web/src/tailwind.config.js": [],
+  "To(と)/apps/web/src/vite.config.ts": [
+    "@vitejs/plugin-react",
+    "vite"
+  ],
+  "To(と)/backend/datasets.py": [],
+  "To(と)/backend/main.py": [
+    "fastapi.middleware.cors",
+    "api.routes_memory",
+    "FastAPI",
+    "CORSMiddleware",
+    "api.routes_chat",
+    "datetime",
+    "router",
+    "fastapi",
+    "uvicorn"
+  ],
+  "To(と)/backend/__init__.py": [],
+  "To(と)/backend/api/ai_server.py": [
+    "io",
+    "fastapi.middleware.cors",
+    "dotenv",
+    "FastAPI",
+    "sys",
+    "fastapi",
+    "api.routes_memory",
+    "load_json",
+    "CORSMiddleware",
+    "failure",
+    "memory_manager",
+    "load_dotenv",
+    "router",
+    "traceback",
+    "os",
+    "uvicorn"
+  ],
+  "To(と)/backend/api/ocr_service.py": [
+    "httpx",
+    "sqlite3",
+    "uuid4",
+    "__future__",
+    "Image",
+    "easyocr",
+    "annotations",
+    "uuid",
+    "pathlib",
+    "datetime",
+    "json",
+    "os",
+    "Path",
+    "PIL"
+  ],
+  "To(と)/backend/api/routes_chat.py": [
+    "ChatOrchestrator",
+    "routes_system",
+    "core.memory_manager",
+    "api.services.chat_orchestrator",
+    "api.routes_system",
+    "get_chat_history",
+    "fastapi",
+    "Optional",
+    "...",
+    "sql_builder_v2.backend_sql_v2.api_sql_v2.ai.judge",
+    "run_gemini_ai",
+    "save_chat_message",
+    "sql_builder_v2.backend_sql_v2.api_sql_v2.ai.claude_ai",
+    "evaluate_response",
+    "run_claude_ai",
+    "typing",
+    "run_custom_ai",
+    "APIRouter",
+    "error",
+    "pydantic",
+    "sql_builder_v2.backend_sql_v2.api_sql_v2.ai.gemini_ai",
+    "router",
+    "BaseModel",
+    "traceback",
+    "services.chat_orchestrator",
+    "sql_builder_v2.backend_sql_v2.api_sql_v2.ai.custom_ai"
+  ],
+  "To(と)/backend/api/routes_css.py": [
+    "BaseModel",
+    "fastapi",
+    "pydantic",
+    "APIRouter"
+  ],
+  "To(と)/backend/api/routes_memory.py": [
+    "zipfile",
+    "core.memory_manager",
+    "uuid",
+    "tempfile",
+    "EmbeddingService",
+    "plugins.ai_memory.code_chunker",
+    "plugins.ai_memory.embedding_service",
+    "WorkspaceScanner",
+    "datetime",
+    "json",
+    "fastapi",
+    "Path",
+    "plugins.ai_memory.vector_store",
+    "CodeChunker",
+    "InMemoryVectorStore",
+    "pathlib",
+    "plugins.ai_memory.workspace_scanner",
+    "shutil",
+    "APIRouter",
+    "os"
+  ],
+  "To(と)/backend/api/routes_note.py": [
+    "APIRouter",
+    "datetime",
+    "json",
+    "fastapi",
+    "os"
+  ],
+  "To(と)/backend/api/routes_project.py": [
+    "zipfile",
+    "core.ai_state_manager",
+    "add_recent_action",
+    "core.memory_manager",
+    "tempfile",
+    "load_current_state",
+    "datetime",
+    "fastapi",
+    "load_memory",
+    "get_active_session",
+    "core.session_manager",
+    "core.context_builder",
+    "core.project_scanner",
+    "save_memory",
+    "build_ai_context",
+    "shutil",
+    "APIRouter",
+    "scan_project",
+    "save_current_state",
+    "os"
+  ],
+  "To(と)/backend/api/routes_system.py": [
+    "core.ai_state_manager",
+    "sys",
+    "core.memory_manager",
+    "load_current_state",
+    "datetime",
+    "fastapi",
+    "load_memory",
+    "get_active_session",
+    "core.session_manager",
+    "recruit.evaluator",
+    "core.context_builder",
+    "evaluate",
+    "sqlite3",
+    "load_sqlite_schema",
+    "build_ai_context",
+    "plugins.sql_builder_v2.backend_sql_v2.api_sql_v2.ai.schema_loader",
+    "UploadFile",
+    "ai.schema_loader",
+    "plugins.recruit.evaluator",
+    "fastapi.responses",
+    "APIRouter",
+    "pydantic",
+    "FileResponse",
+    "backend.api.schema_loader",
+    "sympy",
+    "BaseModel",
+    "os"
+  ],
+  "To(と)/backend/api/__init__.py": [],
+  "To(と)/backend/api/ai/__init__.py": [],
+  "To(と)/backend/api/services/ChatActionBlock.jsx": [
+    "react"
+  ],
+  "To(と)/backend/api/services/chat_orchestrator.py": [
+    "ScrapingHandler",
+    "DesignHandler",
+    ".handlers.scraping_handler",
+    "json",
+    ".handlers.DesignHandler",
+    "GithubHandler",
+    "DatabaseHandler",
+    "RecruitHandler",
+    "OfflineFallbackHandler",
+    ".handlers.offline_handler",
+    "typing",
+    "Any",
+    "WeatherHandler",
+    "OllamaHandler",
+    ".handlers.weather_handler",
+    ".handlers.github_handler",
+    ".handlers.recruit_handler",
+    ".handlers.database_handler",
+    ".handlers.ollama_handler",
+    "traceback",
+    "os"
+  ],
+  "To(と)/backend/api/services/db_service.py": [
+    "Dict",
+    "json",
+    "traceback",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/api/services/fallback_service.py": [
+    "FastAPI",
+    "Dict",
+    "re",
+    "fastapi",
+    "typing"
+  ],
+  "To(と)/backend/api/services/FileDownloadBlock.jsx": [
+    "react"
+  ],
+  "To(と)/backend/api/services/github_service.py": [
+    "httpx",
+    "Dict",
+    "urllib.parse",
+    "traceback",
+    "typing"
+  ],
+  "To(と)/backend/api/services/ollama_service.py": [
+    "httpx",
+    "Dict",
+    "traceback",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/api/services/plugin_manager.py": [
+    "dataclass",
+    "typing",
+    "Dict",
+    "dataclasses",
+    "json",
+    "traceback",
+    "os",
+    "importlib"
+  ],
+  "To(と)/backend/api/services/rag_service.py": [],
+  "To(と)/backend/api/services/recruit_service.py": [
+    "httpx",
+    "core.memory_manager",
+    "Dict",
+    "re",
+    "save_chat_message",
+    "sympy",
+    "recruit.evaluator",
+    "traceback",
+    "os",
+    "typing",
+    "evaluate"
+  ],
+  "To(と)/backend/api/services/trigger_service.py": [],
+  "To(と)/backend/api/services/ui_block_service.py": [],
+  "To(と)/backend/api/services/ui_router_service.py": [],
+  "To(と)/backend/api/services/weather_service.py": [
+    "httpx",
+    "Dict",
+    "urllib.parse",
+    "traceback",
+    "typing"
+  ],
+  "To(と)/backend/api/services/handlers/base_handler.py": [
+    "Any",
+    "typing"
+  ],
+  "To(と)/backend/api/services/handlers/database_handler.py": [
+    "Any",
+    ".base_handler",
+    "BaseHandler",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/api/services/handlers/DesignHandler.py": [
+    "Any",
+    "typing",
+    "BaseHandler",
+    ".base_handler",
+    "re",
+    "enum",
+    "json",
+    "traceback",
+    "os",
+    "Enum"
+  ],
+  "To(と)/backend/api/services/handlers/github_handler.py": [
+    "Any",
+    "BaseHandler",
+    ".base_handler",
+    "traceback",
+    "typing",
+    "smart_github_search",
+    "api.services.github_service"
+  ],
+  "To(と)/backend/api/services/handlers/offline_handler.py": [
+    "Any",
+    ".base_handler",
+    "BaseHandler",
+    "core.memory_manager",
+    "save_chat_message",
+    "typing"
+  ],
+  "To(と)/backend/api/services/handlers/ollama_handler.py": [
+    "Any",
+    "BaseHandler",
+    "execute_github_search",
+    ".base_handler",
+    "core.memory_manager",
+    "api.services.weather_service",
+    "build_ai_context",
+    "api.routes_system",
+    "ask_ollama_with_tools",
+    "api.services.ollama_service",
+    "execute_weather_fetch",
+    "core.context_builder",
+    "discover_services",
+    "save_chat_message",
+    "os",
+    "typing",
+    "api.services.github_service"
+  ],
+  "To(と)/backend/api/services/handlers/recruit_handler.py": [
+    "httpx",
+    "Any",
+    "BaseHandler",
+    ".base_handler",
+    "re",
+    "typing",
+    "plugins.recruit.evaluator",
+    "evaluate"
+  ],
+  "To(と)/backend/api/services/handlers/scraping_handler.py": [
+    "plugins.ai_memory.vector_store",
+    "ChromaVectorStore",
+    "CodeChunker",
+    "re",
+    "BeautifulSoup",
+    "urlopen",
+    "EmbeddingService",
+    "plugins.ai_memory.code_chunker",
+    "plugins.ai_memory.embedding_service",
+    "json",
+    "traceback",
+    "os",
+    "urllib.request",
+    "bs4"
+  ],
+  "To(と)/backend/api/services/handlers/weather_handler.py": [
+    "Any",
+    ".base_handler",
+    "BaseHandler",
+    "execute_weather_fetch",
+    "api.services.weather_service",
+    "typing"
+  ],
+  "To(と)/backend/api/services/handlers/__init__.py": [],
+  "To(と)/backend/core/ai_state_manager.py": [
+    "Dict",
+    "datetime",
+    "json",
+    "os",
+    "typing",
+    "threading"
+  ],
+  "To(と)/backend/core/chunk_manager.py": [
+    "List",
+    "uuid",
+    "re",
+    "datetime",
+    "json",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/core/chunk_manager_chatgpt.py": [
+    "py_imports",
+    "js_imports",
+    "List",
+    "uuid",
+    "re",
+    "datetime",
+    "json",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/core/config.py": [
+    "ANTHROPIC_API_KEY",
+    "anthropic",
+    "load_dotenv",
+    "core.config",
+    "dotenv",
+    "os"
+  ],
+  "To(と)/backend/core/context_builder.py": [
+    "core.ai_state_manager",
+    "Dict",
+    "core.chunk_manager_chatgpt",
+    "json",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/core/dependency_graph.py": [
+    "Dict",
+    "re",
+    "json",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/core/memory_manager.py": [
+    "Dict",
+    "uuid",
+    "datetime",
+    "json",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/core/project_scanner.py": [
+    "save_project_analysis",
+    "core.memory_manager",
+    "Dict",
+    "re",
+    "core.dependency_graph",
+    "build_chunks_from_directory",
+    "analyze_project_dependencies",
+    "core.chunk_manager_chatgpt",
+    "datetime",
+    "json",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/core/session_manager.py": [
+    "Dict",
+    "uuid",
+    "datetime",
+    "json",
+    "os",
+    "typing"
+  ],
+  "To(と)/backend/engine/html_engine.py": [
+    "FastAPI",
+    "List",
+    "pydantic",
+    "json",
+    "BaseModel",
+    "fastapi",
+    "typing",
+    "uvicorn"
+  ],
+  "To(と)/backend/src/app.ts": [
+    "./routes/routes_memory",
+    "./routes/system",
+    "./database/migrations",
+    "./routes/modules/governance",
+    "./routes/modules/frontoffice",
+    "helmet",
+    "./routes/pages",
+    "express-rate-limit",
+    "morgan",
+    "cors",
+    "./routes/modules/backoffice",
+    "./routes/plugins",
+    "./routes/html",
+    "express",
+    "dotenv",
+    "./routes/modules/supplychain",
+    "./routes/modules/operations",
+    "./routes/auth"
+  ],
+  "To(と)/backend/src/server.ts": [
+    "ws",
+    "./app",
+    "http",
+    "./plugins/Algorithm_search_engine/ollama_router.js",
+    "./app.ts"
+  ],
+  "To(と)/backend/src/config/database.ts": [
+    "dotenv",
+    "better-sqlite3",
+    "path",
+    "fs"
+  ],
+  "To(と)/backend/src/database/migrations.ts": [
+    "../config/database"
+  ],
+  "To(と)/backend/src/middleware/auth.ts": [
+    "jsonwebtoken",
+    "express"
+  ],
+  "To(と)/backend/src/middleware/rbac.ts": [
+    "./auth",
+    "express"
+  ],
+  "To(と)/backend/src/middleware/tenant.ts": [
+    "./auth",
+    "../config/database",
+    "uuid",
+    "express"
+  ],
+  "To(と)/backend/src/plugins/PluginManager.ts": [
+    "path",
+    "fs"
+  ],
+  "To(と)/backend/src/routes/auth.ts": [
+    "../config/database",
+    "../middleware/auth",
+    "uuid",
+    "bcryptjs",
+    "express",
+    "jsonwebtoken",
+    "express-validator"
+  ],
+  "To(と)/backend/src/routes/html.ts": [
+    "../middleware/auth",
+    "../middleware/tenant",
+    "axios",
+    "express"
+  ],
+  "To(と)/backend/src/routes/pages.ts": [
+    "../config/database",
+    "../middleware/tenant",
+    "../middleware/auth",
+    "uuid",
+    "express",
+    "express-validator"
+  ],
+  "To(と)/backend/src/routes/plugins.ts": [
+    "../config/database",
+    "../middleware/tenant",
+    "../middleware/auth",
+    "uuid",
+    "express",
+    "../plugins/PluginManager",
+    "../middleware/rbac"
+  ],
+  "To(と)/backend/src/routes/system.ts": [
+    "../middleware/auth",
+    "../middleware/tenant",
+    "../config/database",
+    "express"
+  ],
+  "To(と)/backend/src/routes/modules/backoffice.ts": [
+    "../../middleware/tenant",
+    "uuid",
+    "../../middleware/auth",
+    "express",
+    "../../config/database",
+    "../../middleware/rbac"
+  ],
+  "To(と)/backend/src/routes/modules/frontoffice.ts": [
+    "../../middleware/tenant",
+    "uuid",
+    "../../middleware/auth",
+    "express",
+    "../../config/database",
+    "../../middleware/rbac"
+  ],
+  "To(と)/backend/src/routes/modules/governance.ts": [
+    "../../middleware/tenant",
+    "../../middleware/auth",
+    "express",
+    "../../config/database",
+    "../../middleware/rbac"
+  ],
+  "To(と)/backend/src/routes/modules/operations.ts": [
+    "../../middleware/tenant",
+    "uuid",
+    "../../middleware/auth",
+    "express",
+    "../../config/database",
+    "../../middleware/rbac"
+  ],
+  "To(と)/backend/src/routes/modules/supplychain.ts": [
+    "../../middleware/tenant",
+    "uuid",
+    "../../middleware/auth",
+    "express",
+    "../../config/database",
+    "../../middleware/rbac"
+  ],
+  "To(と)/backend/tools/base.py": [
+    "registry",
+    "Any",
+    "abc",
+    "tools.github_search",
+    "ChatRequest",
+    "routes_chat",
+    "GithubSearchTool",
+    "ABC",
+    "typing",
+    "tools.registry"
+  ],
+  "To(と)/backend/tools/github_search.py": [
+    "httpx",
+    "Any",
+    "typing",
+    "http",
+    "tools.base",
+    "client",
+    "BaseTool"
+  ],
+  "To(と)/backend/tools/registry.py": [
+    "tools.weather_fetch",
+    "tools.github_search",
+    "Dict",
+    "WeatherFetchTool",
+    "tools.base",
+    "GithubSearchTool",
+    "registry",
+    "typing",
+    "tools.registry",
+    "BaseTool"
+  ],
+  "To(と)/backend/tools/weather_fetch.py": [
+    "httpx",
+    "Any",
+    "tools.base",
+    "typing",
+    "BaseTool"
+  ],
+  "To(と)/backend/tools/__init__.py": [
+    "Any",
+    "ABC",
+    "typing",
+    "abc"
+  ],
+  "To(と)/engines/error_engine/analyzer/error_analyzer.py": [],
+  "To(と)/engines/error_engine/analyzer/root_cause_detector.py": [
+    "Dict",
+    "typing"
+  ],
+  "To(と)/engines/error_engine/embeddings/scene_embedding.py": [],
+  "To(と)/engines/error_engine/parser/error_parser.py": [],
+  "To(と)/engines/error_engine/parser/stacktrace_parser.py": [],
+  "To(と)/engines/error_engine/routes/routes_scene.py": [],
+  "To(と)/engines/scene_engine/embeddings/scene_embedding.py": [],
+  "To(と)/engines/scene_engine/parser/context_builder.py": [],
+  "To(と)/engines/scene_engine/parser/image_tagger.py": [],
+  "To(と)/engines/scene_engine/parser/scene_matcher.py": [],
+  "To(と)/engines/scene_engine/routes/routes_scene.py": [],
+  "To(と)/frontend/postcss.config.js": [],
+  "To(と)/frontend/tailwind.config.js": [],
+  "To(と)/frontend/vite.config.ts": [
+    "@vitejs/plugin-react",
+    "vite",
+    "path"
+  ],
+  "To(と)/frontend/src/App.tsx": [
+    "./pages/Login.jsx",
+    "./pages/modules/SupplyChainPage.jsx",
+    "./pages/modules/BackOfficePage.jsx",
+    "./pages/Dashboard.jsx",
+    "./pages/Builder.jsx",
+    "./components/DatabasePage",
+    "./pages/TemplatesPage.jsx",
+    "react",
+    "./pages/MemoryPage.jsx",
+    "./pages/modules/GovernancePage.jsx",
+    "./store/authStore",
+    "react-hot-toast",
+    "react-router-dom",
+    "./pages/modules/OperationsPage.jsx",
+    "./pages/modules/ApiSettingsPage.jsx",
+    "./components/DatabaseManager.jsx",
+    "./components/Layout/Layout.jsx",
+    "./pages/modules/FrontOfficePage.jsx"
+  ],
+  "To(と)/frontend/src/main.tsx": [
+    "react",
+    "./App",
+    "react-dom/client"
+  ],
+  "To(と)/frontend/src/api/client.ts": [
+    "../store/apiSettingsStore",
+    "react",
+    "axios",
+    "../store/authStore"
+  ],
+  "To(と)/frontend/src/components/AiChatHeader.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/AiChatInput.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/AiChatMessageList.jsx": [
+    "./MultiSelectMessage",
+    "./blocks/DiffBlock",
+    "./blocks/JsonViewerBlock",
+    "../utils/renderSmartContent",
+    "react",
+    "./blocks/FileDownloadBlock",
+    "./blocks/HeroBlock",
+    "./blocks/MemoryStatusBlock",
+    "./blocks/RecruitReportBlock",
+    "./blocks/SqlPreviewBlock",
+    "./blocks/DatabaseSchemaBlock",
+    "./blocks/ProjectTreeBlock",
+    "./blocks/HtmlCssPreviewBlock",
+    "./blocks/ChatActionBlock",
+    "./blocks/GithubRepoListBlock"
+  ],
+  "To(と)/frontend/src/components/AiChatPanel.jsx": [
+    "./AiChatInput",
+    "./MemoryDrawer",
+    "react",
+    "./AiChatMessageList",
+    "../hooks/useAiChat",
+    "./ZipUploadModal",
+    "./AiChatHeader"
+  ],
+  "To(と)/frontend/src/components/ApiSettingsPage.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/DatabaseManager.jsx": [
+    "react",
+    "../hooks/useDatabases"
+  ],
+  "To(と)/frontend/src/components/DatabasePage.tsx": [
+    "console",
+    "react",
+    "./DatabaseManager"
+  ],
+  "To(と)/frontend/src/components/FileDownloadBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/MemoryContent.tsx": [
+    "react",
+    "../hooks/useMemory"
+  ],
+  "To(と)/frontend/src/components/MemoryDrawer.tsx": [
+    "react",
+    "../hooks/useMemory",
+    "./MemoryManager",
+    "./MemoryContent"
+  ],
+  "To(と)/frontend/src/components/MemoryManager.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/MultiSelectMessage.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/ZipUploadModal.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/BlockRenderer.jsx": [
+    "./HeroBlock",
+    "./GithubRepoListBlock",
+    "./DatabaseSchemaBlock"
+  ],
+  "To(と)/frontend/src/components/blocks/ChatActionBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/DatabaseSchemaBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/DiffBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/FileDownloadBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/GithubRepoListBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/HeroBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/HtmlCssPreviewBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/JsonViewerBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/MemoryStatusBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/ProjectTreeBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/RecruitReportBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/SqlPreviewBlock.jsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/blocks/ThemeSelectorBlock.jsx": [],
+  "To(と)/frontend/src/components/Builder/BuilderToolbar.tsx": [
+    "../../store/builderStore",
+    "react",
+    "../../utils/exportHtml",
+    "../../types"
+  ],
+  "To(と)/frontend/src/components/Builder/Canvas.tsx": [
+    "clsx",
+    "../../types",
+    "@hello-pangea/dnd",
+    "react",
+    "recharts",
+    "../../store/builderStore"
+  ],
+  "To(と)/frontend/src/components/Builder/CanvasArea.tsx": [
+    "react",
+    "@hello-pangea/dnd",
+    "../../store/builderStore"
+  ],
+  "To(と)/frontend/src/components/Builder/ComponentPalette.tsx": [
+    "react",
+    "@hello-pangea/dnd",
+    "../../store/builderStore"
+  ],
+  "To(と)/frontend/src/components/Builder/DragDropBuilder.tsx": [
+    "./PropertyPanel",
+    "./Canvas",
+    "@hello-pangea/dnd",
+    "react",
+    "./ComponentPalette",
+    "../../store/builderStore"
+  ],
+  "To(と)/frontend/src/components/Builder/index.tsx": [
+    "../../hooks/useHtmlBuilder",
+    "./RuleEditorPanel",
+    "react",
+    "../AiChatPanel",
+    "../MemoryDrawer",
+    "react-router-dom",
+    "../../hooks/usePageManager",
+    "./BuilderToolbar",
+    "./CanvasArea",
+    "../../store/builderStore"
+  ],
+  "To(と)/frontend/src/components/Builder/PropertyPanel.tsx": [
+    "react",
+    "../../store/builderStore"
+  ],
+  "To(と)/frontend/src/components/Builder/RuleEditorPanel.tsx": [
+    "../../data/htmlRules",
+    "react",
+    "../../hooks/useHtmlBuilder"
+  ],
+  "To(と)/frontend/src/components/Dashboard/Dashboard.tsx": [],
+  "To(と)/frontend/src/components/Dashboard/index.tsx": [
+    "../DatabaseManager",
+    "./PageListItem",
+    "../../types",
+    "react",
+    "./PageCreateForm",
+    "../AiChatPanel"
+  ],
+  "To(と)/frontend/src/components/Dashboard/PageCreateForm.tsx": [
+    "react"
+  ],
+  "To(と)/frontend/src/components/Dashboard/PageListItem.tsx": [
+    "react",
+    "../../types",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/components/Layout/Layout.tsx": [
+    "react",
+    "./sidebar_themes",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/components/Layout/Navbar.tsx": [
+    "react",
+    "../../store/authStore",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/components/Layout/Sidebar_chat.tsx": [
+    "clsx",
+    "react",
+    "react-router-dom",
+    "../../store/themeStore",
+    "console"
+  ],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/chat.ts": [],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/comic.ts": [],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/index.tsx": [
+    "./Sidebar_alexandros",
+    "react",
+    "../../../store/themeStore",
+    "./Sidebar_default",
+    "./Sidebar_futurePurple"
+  ],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/Sidebar_alexandros.tsx": [
+    "clsx",
+    "react",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/Sidebar_default.tsx": [
+    "clsx",
+    "react",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/Sidebar_futurePurple.tsx": [
+    "clsx",
+    "react",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/Sidebar_kinnmirai.tsx": [],
+  "To(と)/frontend/src/components/Layout/sidebar_themes/themeConfig.ts": [
+    "./kinnmirai",
+    "./comic",
+    "./chat"
+  ],
+  "To(と)/frontend/src/data/htmlRules.ts": [],
+  "To(と)/frontend/src/hooks/blockRegistry.js": [
+    "../components/blocks/FileDownloadBlock",
+    "../components/blocks/DatabaseSchemaBlock"
+  ],
+  "To(と)/frontend/src/hooks/useAiChat.js": [
+    "../data/typoDictionary.json",
+    "react",
+    "../hooks/useCommandRouter"
+  ],
+  "To(と)/frontend/src/hooks/useCommandRouter.js": [
+    "../services/pluginLoader"
+  ],
+  "To(と)/frontend/src/hooks/useDatabases.ts": [
+    "react"
+  ],
+  "To(と)/frontend/src/hooks/useHtmlBuilder.ts": [
+    "react",
+    "../data/htmlRules",
+    "react-hot-toast"
+  ],
+  "To(と)/frontend/src/hooks/useMemory.ts": [
+    "console",
+    "react"
+  ],
+  "To(と)/frontend/src/hooks/usePageManager.ts": [
+    "../store/builderStore",
+    "react",
+    "../types",
+    "../api/client",
+    "react-hot-toast",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/pages/Builder.tsx": [
+    "../store/builderStore",
+    "../components/Builder/BuilderToolbar",
+    "../components/Dashboard/index",
+    "../components/Builder/ComponentPalette",
+    "react",
+    "../hooks/useHtmlBuilder",
+    "@hello-pangea/dnd",
+    "../hooks/usePageManager",
+    "../components/Builder/RuleEditorPanel",
+    "react-router-dom",
+    "../components/Builder/CanvasArea",
+    "../components/AiChatPanel",
+    "../components/MemoryDrawer"
+  ],
+  "To(と)/frontend/src/pages/Dashboard.tsx": [
+    "react",
+    "../api/client",
+    "react-router-dom",
+    "../components/AiChatPanel",
+    "recharts",
+    "../store/authStore"
+  ],
+  "To(と)/frontend/src/pages/Login.tsx": [
+    "react-hook-form",
+    "react",
+    "../api/client",
+    "react-hot-toast",
+    "react-router-dom",
+    "../store/authStore"
+  ],
+  "To(と)/frontend/src/pages/MemoryPage.tsx": [
+    "../components/MemoryContent",
+    "react",
+    "../hooks/useMemory"
+  ],
+  "To(と)/frontend/src/pages/TemplatesPage.tsx": [
+    "../utils/exportHtml",
+    "react",
+    "../store/builderStore",
+    "react-router-dom"
+  ],
+  "To(と)/frontend/src/pages/modules/ApiSettingsPage.tsx": [
+    "../../components/AiChatPanel.jsx",
+    "../../store/themeStore",
+    "react",
+    "react-hot-toast"
+  ],
+  "To(と)/frontend/src/pages/modules/BackOfficePage.tsx": [
+    "../../types",
+    "react",
+    "react-hot-toast",
+    "recharts",
+    "../../api/client"
+  ],
+  "To(と)/frontend/src/pages/modules/FrontOfficePage.tsx": [
+    "../../types",
+    "react",
+    "react-hot-toast",
+    "recharts",
+    "../../api/client"
+  ],
+  "To(と)/frontend/src/pages/modules/GovernancePage.tsx": [
+    "recharts",
+    "../../api/client",
+    "react",
+    "react-hot-toast"
+  ],
+  "To(と)/frontend/src/pages/modules/OperationsPage.tsx": [
+    "../../api/client",
+    "react",
+    "../../types",
+    "react-hot-toast"
+  ],
+  "To(と)/frontend/src/pages/modules/SupplyChainPage.tsx": [
+    "../../types",
+    "react",
+    "react-hot-toast",
+    "recharts",
+    "../../api/client"
+  ],
+  "To(と)/frontend/src/services/pluginLoader.js": [
+    "../../../plugins/my-awesome-builder-main/packages/style-system/plugins/css-command-plugin.json"
+  ],
+  "To(と)/frontend/src/store/apiSettingsStore.ts": [
+    "zustand/middleware",
+    "zustand"
+  ],
+  "To(と)/frontend/src/store/authStore.ts": [
+    "zustand/middleware",
+    "../types",
+    "zustand"
+  ],
+  "To(と)/frontend/src/store/builderStore.ts": [
+    "../types",
+    "zustand"
+  ],
+  "To(と)/frontend/src/store/themeStore.ts": [
+    "zustand/middleware",
+    "zustand"
+  ],
+  "To(と)/frontend/src/types/index.ts": [],
+  "To(と)/frontend/src/utils/exportHtml.ts": [
+    "../types"
+  ],
+  "To(と)/frontend/src/utils/renderSmartContent.jsx": [
+    "react"
+  ],
+  "To(と)/js/page-manager.js": [],
+  "To(と)/js/widget-system.js": [],
+  "To(と)/js/widgets/dog-api-widget.js": [],
+  "To(と)/plugins/__init__.py": [],
+  "To(と)/plugins/ai_editor/approval_service.py": [
+    "Any",
+    "uuid4",
+    "__future__",
+    "uuid",
+    "asdict",
+    "annotations",
+    "pathlib",
+    "datetime",
+    "dataclasses",
+    "json",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/ai_editor/diff_generator.py": [
+    "dataclass",
+    "__future__",
+    "annotations",
+    "pathlib",
+    "dataclasses",
+    "difflib",
+    "Path"
+  ],
+  "To(と)/plugins/ai_editor/patch_applier.py": [
+    "dataclass",
+    "Any",
+    "RollbackManager",
+    "__future__",
+    "annotations",
+    "pathlib",
+    "dataclasses",
+    ".rollback_manager",
+    "ApprovalService",
+    "typing",
+    "Path",
+    ".approval_service"
+  ],
+  "To(と)/plugins/ai_editor/patch_preview.py": [
+    "Any",
+    ".diff_generator",
+    "__future__",
+    "asdict",
+    "annotations",
+    "pathlib",
+    "dataclasses",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/ai_editor/patch_validator.py": [
+    "Any",
+    ".diff_generator",
+    "__future__",
+    "asdict",
+    "annotations",
+    "pathlib",
+    "ast",
+    "dataclasses",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/ai_editor/rollback_manager.py": [
+    "Any",
+    "uuid4",
+    "__future__",
+    "uuid",
+    "asdict",
+    "annotations",
+    "pathlib",
+    "datetime",
+    "dataclasses",
+    "json",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/code_chunker.py": [
+    "__future__",
+    "re",
+    "annotations",
+    "CodeChunk",
+    "hashlib",
+    ".models",
+    "pathlib",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/context_retriever.py": [
+    "ContextPackage",
+    ".embedding_service",
+    "__future__",
+    ".vector_store",
+    "EmbeddingService",
+    "annotations",
+    ".models",
+    "pathlib",
+    "InMemoryVectorStore",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/conversation_memory.py": [
+    "dataclass",
+    "__future__",
+    "annotations",
+    "pathlib",
+    "datetime",
+    "dataclasses",
+    "json",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/embedding_service.py": [
+    "httpx",
+    "__future__",
+    "annotations",
+    "hashlib",
+    "os",
+    "Protocol",
+    "typing"
+  ],
+  "To(と)/plugins/ai_memory/focus_guard.py": [
+    "__future__",
+    "annotations",
+    ".models",
+    "current_time",
+    "anyio",
+    "Task"
+  ],
+  "To(と)/plugins/ai_memory/memory_manager.py": [
+    "Any",
+    "ConversationMemory",
+    "__future__",
+    "annotations",
+    ".conversation_memory",
+    "pathlib",
+    "datetime",
+    "json",
+    "date",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/models.py": [
+    "dataclass",
+    "Any",
+    "__future__",
+    "annotations",
+    "pathlib",
+    "datetime",
+    "dataclasses",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/priority_engine.py": [
+    "dataclass",
+    "__future__",
+    "annotations",
+    "dataclasses"
+  ],
+  "To(と)/plugins/ai_memory/requirements_planner.py": [
+    "dataclass",
+    "Any",
+    "__future__",
+    "annotations",
+    "pathlib",
+    "dataclasses",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/retrieval_optimizer.py": [],
+  "To(と)/plugins/ai_memory/roadmap_planner.py": [
+    "dataclass",
+    "typing",
+    ".priority_engine",
+    "__future__",
+    "PriorityEngine",
+    "annotations",
+    ".models",
+    "dataclasses",
+    "Iterable",
+    "Task"
+  ],
+  "To(と)/plugins/ai_memory/task_memory.py": [
+    "Any",
+    "typing",
+    "__future__",
+    "annotations",
+    ".models",
+    "pathlib",
+    "json",
+    "Task",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/vector_store.py": [
+    "dataclass",
+    "math",
+    "uuid",
+    "__future__",
+    "annotations",
+    "chromadb",
+    "CodeChunk",
+    ".models",
+    "dataclasses"
+  ],
+  "To(と)/plugins/ai_memory/workspace_scanner.py": [
+    "dataclass",
+    "__future__",
+    "annotations",
+    "hashlib",
+    "pathlib",
+    "datetime",
+    "dataclasses",
+    "fnmatch",
+    "Path"
+  ],
+  "To(と)/plugins/ai_memory/__init__.py": [
+    "MemoryManager",
+    ".memory_manager"
+  ],
+  "To(と)/plugins/ai_memory/DB/sqlite_manager.py": [],
+  "To(と)/plugins/ai_quality_control/context_optimizer.py": [],
+  "To(と)/plugins/ai_quality_control/intent_matcher.py": [],
+  "To(と)/plugins/ai_quality_control/response_scorer.py": [],
+  "To(と)/plugins/Algorithm_search_engine/ollama_router.js": [],
+  "To(と)/plugins/Algorithm_search_engine/search_service.py": [
+    "sys",
+    "CodeChunker",
+    "EmbeddingService",
+    "chromadb",
+    "plugin.ai_memory.embedding_service",
+    "plugin.ai_memory.code_chunker",
+    "os"
+  ],
+  "To(と)/plugins/github_search/index.ts": [
+    "../../backend/src/plugins/PluginManager",
+    "./routes",
+    "./meta_data/plugin.json"
+  ],
+  "To(と)/plugins/github_search/query_builder.py": [],
+  "To(と)/plugins/github_search/routes.ts": [
+    "child_process",
+    "path",
+    "express"
+  ],
+  "To(と)/plugins/github_search/searcher.py": [
+    "sys",
+    "re",
+    "urllib.parse",
+    "Optional",
+    "json",
+    "urllib.request",
+    "typing"
+  ],
+  "To(と)/plugins/github_search/searcher_stream.py": [
+    "json",
+    "time",
+    "sys"
+  ],
+  "To(と)/plugins/github_search/__init__.py": [],
+  "To(と)/plugins/my-awesome-builder-main/config/tailwind.config.ts": [
+    "tailwindcss/plugin",
+    "tailwindcss"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/index.js": [
+    "@my-awesome-builder/ai-chat-component"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/components/AIChatPanel.jsx": [
+    "../hooks/useAPIRouter.js",
+    "react",
+    "@my-awesome-builder/ai-chat-component",
+    "../hooks/useLanguageDetection.js",
+    "./ChatMessage.jsx",
+    "../hooks/useChatHistory.js"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/components/ChatMessage.jsx": [
+    "react"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/components/index.js": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/config/apiEndpoints.js": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/hooks/useAPIRouter.js": [
+    "../utils/apiRouter.js",
+    "react"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/hooks/useChatHistory.js": [
+    "react"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/hooks/useLanguageDetection.js": [
+    "react",
+    "../utils/languageDetector.js"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/utils/apiKeyManager.js": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/utils/apiRouter.js": [
+    "../config/apiEndpoints.js",
+    "./apiKeyManager.js",
+    "./languageDetector.js"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-chat-component/src/utils/languageDetector.js": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-engine/design_api.py": [
+    "Path",
+    "sys",
+    "schema_rules",
+    "uuid",
+    "re",
+    "CORS",
+    "flask_cors",
+    "Flask",
+    "pathlib",
+    "datetime",
+    "json",
+    "os",
+    "time",
+    "flask"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-engine/design_engine.py": [
+    "sys",
+    "schema_rules",
+    "Flask",
+    "pathlib",
+    "json",
+    "Path",
+    "flask"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-engine/intent_parser.py": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/ai-engine/schema_rules.py": [
+    "typing",
+    "__future__",
+    "Literal",
+    "annotations"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/config/tailwind.config.js": [
+    "tailwindcss/plugin"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/config/tailwind.config.ts": [
+    "tailwindcss/plugin",
+    "tailwindcss"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/config/theme-definitions.js": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/config/theme-definitions.ts": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/HeroBlock.js": [
+    "react/jsx-runtime"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/HeroBlock.tsx": [
+    "react"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/InfoCardsBlock.js": [
+    "react/jsx-runtime"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/InfoCardsBlock.tsx": [
+    "react",
+    "../../config/theme-definitions"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/QuizBlock.js": [
+    "react/jsx-runtime",
+    "react"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/QuizBlock.tsx": [
+    "react",
+    "../../config/theme-definitions"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/TimelineBlock.js": [
+    "react/jsx-runtime"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/render-engine/src/components/blocks/TimelineBlock.tsx": [
+    "react",
+    "../../config/theme-definitions"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/style-system/rules/design_rules.py": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/style-system/rules/generate_design_rule.py": [
+    ".design_rules"
+  ],
+  "To(と)/plugins/my-awesome-builder-main/packages/style-system/rules/layout_rules.py": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/style-system/rules/theme_surface_affinity.py": [],
+  "To(と)/plugins/my-awesome-builder-main/packages/style-system/rules/__init__.py": [],
+  "To(と)/plugins/php_engine/parser/php_embedding.py": [
+    "Any",
+    "Path",
+    "pprint",
+    "logging",
+    "SentenceTransformer",
+    "__future__",
+    "annotations",
+    "hashlib",
+    "pathlib",
+    "numpy",
+    "sentence_transformers",
+    "json",
+    "argparse",
+    "typing",
+    "time"
+  ],
+  "To(と)/plugins/php_engine/parser/php_loader.py": [
+    "Any",
+    "Path",
+    "httpx",
+    "execute",
+    "parser.php_embedding",
+    "plugins.php_engine.parser.php_loader",
+    "logging",
+    "__future__",
+    "re",
+    "annotations",
+    "pathlib",
+    "datetime",
+    "json",
+    "argparse",
+    "asyncio",
+    "typing",
+    "time",
+    "get_engine"
+  ],
+  "To(と)/plugins/recruit/evaluator.py": [
+    "httpx",
+    "re",
+    "search_company",
+    "copy",
+    "plugins.recruit.web_search",
+    "pathlib",
+    ".web_search",
+    "json",
+    "os",
+    "Path"
+  ],
+  "To(と)/plugins/recruit/web_search.py": [
+    "httpx",
+    "os",
+    "__future__",
+    "annotations"
+  ],
+  "To(と)/plugins/recruit/__init__.py": [],
+  "To(と)/plugins/sql_builder_v2/vite.config.js": [
+    "@vitejs/plugin-react",
+    "vite"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/database.py": [
+    "contextlib",
+    "sqlite3",
+    "Dict",
+    "contextmanager",
+    "pathlib",
+    "urllib.parse",
+    "typing",
+    "Path"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/main.py": [
+    "sqlite3",
+    "routes_system",
+    "routes_auth",
+    "FastAPI",
+    "routes_execute",
+    "api.routes_memory",
+    "fastapi.middleware.cors",
+    "pydantic",
+    "CORSMiddleware",
+    "api.routes_sql",
+    "pathlib",
+    "api",
+    "routes_nlp",
+    "router",
+    "BaseModel",
+    "fastapi",
+    "Path"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/migrate_add_columns.py": [
+    "db.history_db",
+    "get_db_connection"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/server.py": [
+    "routes_history",
+    "init_history_db",
+    "contextlib",
+    "routes_system",
+    "routes_auth",
+    "FastAPI",
+    "routes_execute",
+    "fastapi.middleware.cors",
+    "db.history_db",
+    "CORSMiddleware",
+    "asynccontextmanager",
+    "routes_chat",
+    "api",
+    "routes_nlp",
+    "fastapi",
+    "os",
+    "uvicorn"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/server_Before.py": [
+    "contextlib",
+    "uuid",
+    "contextmanager",
+    "CORSMiddleware",
+    "urllib.parse",
+    "fastapi",
+    "Path",
+    "time",
+    "re",
+    "pathlib",
+    "uvicorn",
+    "sqlite3",
+    "typing",
+    "Any",
+    "fastapi.middleware.cors",
+    "FastAPI",
+    "pydantic",
+    "BaseModel",
+    "traceback"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/routes_auth.py": [
+    "contextlib",
+    "sqlite3",
+    "db.history_db",
+    "secrets",
+    "APIRouter",
+    "pydantic",
+    "fastapi.security",
+    "get_db_connection",
+    "datetime",
+    "BaseModel",
+    "fastapi",
+    "HTTPBearer"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/routes_chat.py": [
+    "sys",
+    "core.memory_manager",
+    "fastapi",
+    "ai.judge",
+    "ai.claude_ai",
+    "run_gemini_ai",
+    "ai.custom_ai",
+    "List",
+    "evaluate_response",
+    "run_claude_ai",
+    "typing",
+    "run_custom_ai",
+    "ai.gemini_ai",
+    "core.security",
+    "APIRouter",
+    "pydantic",
+    "verify_api_key",
+    "BaseModel",
+    "traceback",
+    "os"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/routes_execute.py": [
+    "services.sql_service",
+    "repositories.sql_repository",
+    "List",
+    "APIRouter",
+    "pydantic",
+    "re",
+    "SQLRepository",
+    "verify_api_key",
+    "BaseModel",
+    "fastapi",
+    "typing",
+    "SQLService",
+    "api.routes_auth"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/routes_history.py": [
+    "sqlite3",
+    "db.history_db",
+    "List",
+    "APIRouter",
+    "pydantic",
+    "get_db_connection",
+    "BaseModel",
+    "fastapi",
+    "typing"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/routes_nlp.py": [
+    "AIOrchestrator",
+    "APIRouter",
+    "services.ai_orchestrator",
+    "services",
+    "nlp_service",
+    "fastapi",
+    "schemas.nlp_models"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/routes_sql.py": [],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/routes_system.py": [
+    "sqlite3",
+    "fastapi.responses",
+    "APIRouter",
+    "pydantic",
+    "load_sqlite_schema",
+    "FileResponse",
+    "ai.schema_loader",
+    "datetime",
+    "BaseModel",
+    "fastapi",
+    "os"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/ai/claude_ai.py": [
+    "ANTHROPIC_API_KEY",
+    "anthropic",
+    "evaluate_response",
+    "load_dotenv",
+    "core.config",
+    "dotenv",
+    "os",
+    ".judge"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/ai/custom_ai.py": [
+    "run_gemini_ai_raw",
+    "plugins.ai_memory.embedding_service",
+    "EmbeddingService",
+    "ai.judge",
+    "SYSTEM_PROMPT",
+    ".prompt",
+    "plugins.ai_memory.vector_store",
+    "claude_ai",
+    "re",
+    "get_schema_text",
+    ".schema_loader",
+    "ANTHROPIC_API_KEY",
+    "List",
+    "evaluate_response",
+    "core.config",
+    "ai.schema_loader",
+    "typing",
+    "gemini_ai",
+    "anthropic",
+    "run_claude_ai_raw",
+    ".judge",
+    "ai.prompt"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/ai/gemini_ai.py": [
+    "GEMINI_API_KEY",
+    "google.generativeai",
+    "evaluate_response",
+    "core.config",
+    ".judge"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/ai/judge.py": [
+    "re"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/ai/prompt.py": [],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/api_sql_v2/ai/schema_loader.py": [
+    "Dict",
+    "psycopg2",
+    "sqlite3",
+    "typing"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/core/config.py": [
+    "dotenv",
+    "os",
+    "load_dotenv"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/core/security.py": [
+    "fastapi",
+    "fastapi.security.api_key",
+    "os",
+    "load_dotenv",
+    "Security",
+    "dotenv",
+    "APIKeyHeader"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/db/connection.py": [
+    "contextlib",
+    "sqlite3",
+    "Path",
+    "contextmanager",
+    "urllib.parse",
+    "pathlib"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/db/history_db.py": [
+    "sqlite3",
+    "os"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/query_builders/select_builder.py": [],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/query_builders/template_builder.py": [],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/repositories/sql_repository.py": [
+    "typing",
+    "List"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/schemas/execute_models.py": [
+    "BaseModel",
+    "Any",
+    "typing",
+    "pydantic"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/schemas/nlp_models.py": [
+    "BaseModel",
+    "pydantic"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/schemas/sql_schema.py": [
+    "BaseModel",
+    "Any",
+    "typing",
+    "pydantic"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/services/ai_orchestrator.py": [
+    "memory_service",
+    "get_schema_text",
+    "generate_sql",
+    "services",
+    "api.ai.schema_loader",
+    "nlp_service",
+    "api.ai.claude_ai"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/services/history_service.py": [],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/services/memory_service.py": [
+    "pathlib",
+    "aiosqlite",
+    "Path"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/services/nlp_service.py": [
+    "BaseModel",
+    "pydantic",
+    "re"
+  ],
+  "To(と)/plugins/sql_builder_v2/backend_sql_v2/services/sql_service.py": [
+    "SQLRepository",
+    "typing",
+    "repositories.sql_repository",
+    "List"
+  ],
+  "To(と)/plugins/sql_builder_v2/electron/main.js": [
+    "crypto",
+    "path",
+    "http",
+    "electron",
+    "child_process"
+  ],
+  "To(と)/plugins/sql_builder_v2/electron/preload.js": [
+    "electron"
+  ],
+  "To(と)/plugins/sql_builder_v2/services/intent_bridge.py": [],
+  "To(と)/plugins/sql_builder_v2/services/response_quality_manager.py": [],
+  "To(と)/plugins/sql_builder_v2/src/App.jsx": [
+    "./utils/sqlCheck",
+    "react",
+    "./hooks/useSQL",
+    "./utils/supabaseClient",
+    "./components/SchemaPanel",
+    "./components/SqlExampleModal",
+    "./components/ApiKeyManager",
+    "./components/ConfirmDialog",
+    "./components/SqlBuilderPanel",
+    "./components/AuthPanel"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/create_test_db.py": [
+    "sqlite3",
+    "os"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/main.jsx": [
+    "./App.jsx",
+    "react",
+    "react-dom/client"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/components/ApiKeyManager.jsx": [
+    "react",
+    "./AiChatPanel"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/components/AuthPanel.jsx": [
+    "../utils/supabaseClient",
+    "@supabase/auth-ui-react",
+    "@supabase/auth-ui-shared"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/components/ConfirmDialog.jsx": [
+    "react"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/components/SchemaPanel.jsx": [
+    "react"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/components/SqlBuilderPanel.jsx": [
+    "react"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/components/SqlExampleModal.jsx": [
+    "react",
+    "../data/sqlExamples"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/data/sqlExamples.js": [
+    "./db_sets"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/data/db_sets/corporate.js": [],
+  "To(と)/plugins/sql_builder_v2/src/data/db_sets/ecommerce.js": [],
+  "To(と)/plugins/sql_builder_v2/src/data/db_sets/example.js": [],
+  "To(と)/plugins/sql_builder_v2/src/data/db_sets/game_guild.js": [],
+  "To(と)/plugins/sql_builder_v2/src/data/db_sets/hospital.js": [],
+  "To(と)/plugins/sql_builder_v2/src/data/db_sets/index.js": [
+    "./corporate",
+    "./hospital",
+    "./example",
+    "./ecommerce",
+    "./cafe",
+    "./game_guild",
+    "./school"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/data/db_sets/school.js": [],
+  "To(と)/plugins/sql_builder_v2/src/hooks/useSQL.js": [
+    "react"
+  ],
+  "To(と)/plugins/sql_builder_v2/src/store/sqlStore.js": [],
+  "To(と)/plugins/sql_builder_v2/src/utils/sqlCheck.js": [],
+  "To(と)/plugins/sql_builder_v2/src/utils/supabaseClient.js": [
+    "@supabase/supabase-js"
+  ]
+}

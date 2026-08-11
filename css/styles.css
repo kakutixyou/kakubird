@@ -1,0 +1,325 @@
+/* =====================================================================
+   styles.css – Book-like CMS UI
+   ===================================================================== */
+
+/* ---- Reset / base -------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-bg:        #f0ece3;
+  --color-sidebar:   #2c2c2c;
+  --color-accent:    #d4a017;
+  --color-page:      #fffef8;
+  --color-shadow:    rgba(0,0,0,0.35);
+  --color-text:      #333;
+  --color-muted:     #888;
+  --color-danger:    #c0392b;
+  --radius:          6px;
+  --transition:      0.3s ease;
+}
+
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---- Top header bar ------------------------------------------------ */
+.app-header {
+  background: var(--color-sidebar);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  box-shadow: 0 2px 6px var(--color-shadow);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.app-header .logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+}
+
+.app-header .tagline {
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+/* ---- Main layout --------------------------------------------------- */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ---- Sidebar (widget panel) --------------------------------------- */
+.sidebar {
+  width: 220px;
+  background: var(--color-sidebar);
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  gap: 12px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+  padding-bottom: 6px;
+  border-bottom: 1px solid #444;
+}
+
+/* Widget buttons */
+.widget-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  background: #3a3a3a;
+  border: 1px solid #555;
+  border-radius: var(--radius);
+  color: #eee;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+  text-align: left;
+}
+
+.widget-btn:hover:not(:disabled) {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.widget-btn:disabled,
+.widget-btn.loading {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.widget-btn-icon { font-size: 1.2rem; }
+
+.sidebar-section { margin-top: 8px; }
+
+/* Page management buttons */
+.page-control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px;
+  background: #3a3a3a;
+  border: 1px solid #555;
+  border-radius: var(--radius);
+  color: #eee;
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.page-control-btn:hover { background: #555; }
+
+/* ---- Preview area ------------------------------------------------- */
+.preview-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px;
+  overflow-y: auto;
+  background: var(--color-bg);
+}
+
+/* Book wrapper: two pages side-by-side (left + right) */
+.book-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  perspective: 2000px;
+  filter: drop-shadow(4px 8px 24px var(--color-shadow));
+}
+
+/* A single book page */
+.book-page {
+  width: 420px;
+  min-height: 560px;
+  background: var(--color-page);
+  border: 1px solid #ddd;
+  padding: 32px 28px 28px;
+  position: relative;
+  transform-origin: left center;
+}
+
+/* Spine shadow between pages */
+.book-page:first-child {
+  border-right: 3px solid #ccc;
+  box-shadow: inset -8px 0 16px rgba(0,0,0,0.08);
+}
+
+.book-page:last-child {
+  box-shadow: inset 8px 0 16px rgba(0,0,0,0.05);
+}
+
+.page-header {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  text-align: right;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Page turn animation */
+.page-enter { opacity: 0; transform: rotateY(-8deg); }
+.page-enter-active {
+  opacity: 1;
+  transform: rotateY(0deg);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ---- Page navigation bar ------------------------------------------ */
+.page-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 10px 16px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.page-nav button {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-nav button:hover:not(:disabled) { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+.page-nav button:disabled { opacity: 0.35; cursor: default; }
+
+#page-indicator {
+  min-width: 56px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* ---- Widget blocks ------------------------------------------------- */
+.widget-block {
+  position: relative;
+  background: #fafafa;
+  border: 1px dashed #d0c9b8;
+  border-radius: var(--radius);
+  padding: 12px;
+  overflow: hidden;
+}
+
+.widget-block:hover { border-color: var(--color-accent); }
+
+.widget-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--color-danger);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition);
+  z-index: 2;
+}
+
+.widget-block:hover .widget-delete { opacity: 1; }
+
+.widget-loader {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  padding: 24px 0;
+}
+
+.widget-error {
+  color: var(--color-danger);
+  font-size: 0.82rem;
+  padding: 8px;
+}
+
+/* Block appear animation */
+.block-enter { opacity: 0; transform: translateY(10px); }
+.block-enter-active {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* ---- Dog API widget content --------------------------------------- */
+.dog-api-content { text-align: center; }
+
+.dog-api-image {
+  max-width: 100%;
+  max-height: 280px;
+  border-radius: var(--radius);
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.dog-api-caption {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ---- Responsive adjustments --------------------------------------- */
+@media (max-width: 900px) {
+  .book-page { width: calc(50vw - 32px); min-height: 460px; }
+}
+
+@media (max-width: 640px) {
+  .app-body { flex-direction: column; }
+  .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 8px; }
+  .sidebar-title, .sidebar-section { display: none; }
+  .book-wrapper { flex-direction: column; }
+  .book-page { width: calc(100vw - 48px); min-height: auto; }
+  .book-page:first-child { border-right: none; border-bottom: 3px solid #ccc; }
+}

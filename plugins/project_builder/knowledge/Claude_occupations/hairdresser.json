@@ -1,0 +1,37 @@
+{
+  "id": "hairdresser",
+  "title": "美容師",
+  "category": "サービス",
+  "summary": "髪のカット・カラー・スタイリングを通じてお客様の魅力を引き出す。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "相似な図形",
+        "connection": "顔の輪郭とのバランスを考えたカットの角度・比率を決める。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "水溶液の性質",
+        "connection": "カラー剤やパーマ液の化学反応(酸性・アルカリ性)を理解して施術する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "美容師",
+      "美容室",
+      "ヘアスタイル"
+    ],
+    "tags": [
+      "サービス"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

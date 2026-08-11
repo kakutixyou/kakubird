@@ -1,0 +1,43 @@
+{
+  "id": "farmer",
+  "title": "農家",
+  "category": "一次産業",
+  "summary": "米・野菜・果物などを栽培し出荷する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "肥料や種の量を面積に応じて比例計算する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "植物の体のつくりと働き",
+        "connection": "光合成や成長の仕組みを理解し栽培に活かす。"
+      },
+      {
+        "stage": "高校",
+        "unit": "生物基礎 遺伝",
+        "connection": "品種改良や種子選びの背景に遺伝の知識がある。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "農家",
+      "農業",
+      "栽培",
+      "米"
+    ],
+    "tags": [
+      "一次産業"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

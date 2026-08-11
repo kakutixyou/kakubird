@@ -1,0 +1,77 @@
+=================================================== 
+Backend Health Report 
+Generated: 2026/05/29 16:47:33.87 
+=================================================== 
+ 
+Python 3.10.11
+ 
+C:\Users\shing\AppData\Local\Microsoft\WindowsApps\python.exe
+ 
+=================================================
+🚀 AI Server Boot
+=================================================
+📂 ROOT_DIR   : C:\Users\shing\Documents\special\新たに作るもの\To(と)
+📂 BASE_DIR   : C:\Users\shing\Documents\special\新たに作るもの\To(と)\backend
+📂 SRC_DIR    : C:\Users\shing\Documents\special\新たに作るもの\To(と)\backend\src
+📂 PLUGIN_DIR : C:\Users\shing\Documents\special\新たに作るもの\To(と)\plugins
+-------------------------------------------------
+🤖 OLLAMA_MODEL : gemma3
+🌐 OLLAMA_URL   : http://100.85.26.46:11434
+=================================================
+[LOAD] api.routes_chat
+🧠 AI State Manager initialized.
+[OK] api.routes_chat
+[LOAD] api.routes_system
+[OK] api.routes_system
+[LOAD] api.routes_memory
+[OK] api.routes_memory
+[LOAD] api.routes_css
+[OK] api.routes_css
+[LOAD] api.routes_note
+[OK] api.routes_note
+[LOAD] api.routes_project
+[OK] api.routes_project
+🚀 Starting Uvicorn
+[OK  ] backend.api.ai_server
+
+[OK  ] backend.api.routes_chat
+
+[OK  ] backend.api.routes_memory
+
+[OK  ] backend.api.routes_system
+
+[OK  ] backend.api.routes_css
+
+[OK  ] backend.api.routes_note
+
+[OK  ] backend.api.routes_project
+
+[OK  ] backend.api.services.chat_orchestrator
+
+===================================================
+  SUMMARY
+---------------------------------------------------
+  Total   : 10
+  OK      : 10
+  FAILED  : 0
+---------------------------------------------------
+  STATUS : ALL IMPORTS OK
+===================================================
+===================================================
+  PYTHON IMPORT TEST
+  2026-05-29 16:47:34
+===================================================
+  ROOT : C:\Users\shing\Documents\special\新たに作るもの\To(と)
+  Python : 3.10.11
+---------------------------------------------------
+[OK  ] backend
+
+[OK  ] backend.api
+
+AI_SERVER_FILE_LOADED
+ 
+INFO:     Started server process [16900]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
+^C

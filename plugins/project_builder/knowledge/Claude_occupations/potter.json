@@ -1,0 +1,43 @@
+{
+  "id": "potter",
+  "title": "陶芸家",
+  "category": "職人",
+  "summary": "粘土を成形し、焼き上げて陶磁器を作る。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "空間図形",
+        "connection": "器の形を回転体として捉え、ろくろでの成形に活かす。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "化学変化",
+        "connection": "粘土が焼成によって硬化する化学変化(焼結)を理解する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 熱",
+        "connection": "窯の温度管理と釉薬の変化の関係を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "陶芸家",
+      "陶芸",
+      "焼き物",
+      "職人"
+    ],
+    "tags": [
+      "職人"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

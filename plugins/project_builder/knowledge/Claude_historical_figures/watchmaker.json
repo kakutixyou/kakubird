@@ -1,0 +1,28 @@
+{
+  "occupation_id": "watchmaker",
+  "occupation_title": "時計職人",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "クリスティアーン・ホイヘンス",
+        "era": "17世紀オランダ",
+        "achievement": "振り子時計の原理を発見し、時計の精度を大きく向上させた",
+        "connection": "時計の精度を高める仕組みを作った、時計技術の基礎"
+      }
+    ],
+    "japan_history": [
+      {
+        "name": "田中久重(からくり儀右衛門)",
+        "era": "江戸〜明治",
+        "achievement": "精密なからくり人形や万年時計などを製作した発明家",
+        "connection": "精密機械の技術力という点で時計職人の仕事と直結する"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

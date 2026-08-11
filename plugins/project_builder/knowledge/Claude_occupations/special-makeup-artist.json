@@ -1,0 +1,37 @@
+{
+  "id": "special-makeup-artist",
+  "title": "特殊メイクアーティスト",
+  "category": "エンタメ",
+  "summary": "映画やドラマで傷やモンスターなどの特殊メイクを作る。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "相似な図形",
+        "connection": "顔の型取りから素材を縮尺どおりに成形する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "化学変化",
+        "connection": "ラテックスやシリコンなど素材の化学的性質(硬化反応)を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "特殊メイク",
+      "メイクアップアーティスト",
+      "映像"
+    ],
+    "tags": [
+      "エンタメ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

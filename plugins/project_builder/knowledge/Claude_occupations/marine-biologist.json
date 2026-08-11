@@ -1,0 +1,43 @@
+{
+  "id": "marine-biologist",
+  "title": "海洋生物学者",
+  "category": "科学",
+  "summary": "海の生物の生態や進化を調査・研究する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学B 統計的な推測",
+        "connection": "生物の個体数調査のデータを統計的に分析する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "動物の分類",
+        "connection": "海洋生物の分類の基礎がそのまま研究の出発点になる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "生物 生態系",
+        "connection": "食物連鎖や生態系のバランスの理解が研究の中心になる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "海洋生物学者",
+      "海",
+      "生物",
+      "研究"
+    ],
+    "tags": [
+      "科学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

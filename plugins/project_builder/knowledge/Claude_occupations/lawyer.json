@@ -1,0 +1,43 @@
+{
+  "id": "lawyer",
+  "title": "弁護士",
+  "category": "法律",
+  "summary": "法律の専門家として依頼者の代理・相談・訴訟対応を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学A 論理と集合",
+        "connection": "条文の要件を論理的に整理し当てはまるかどうかを判断する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学B 統計的な推測",
+        "connection": "損害賠償額の算定などで統計データを根拠として使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "科学的な思考",
+        "connection": "証拠や事実関係を筋道立てて検証する思考法が土台になる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "弁護士",
+      "法律",
+      "裁判",
+      "訴訟"
+    ],
+    "tags": [
+      "法律"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "occupation_id": "police-officer",
+  "occupation_title": "警察官",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "近藤勇",
+        "era": "幕末",
+        "achievement": "新選組を率い、幕末の京都の治安維持にあたった",
+        "connection": "現代の警察とは異なる組織だが、治安を守るという役割の点で関連がある"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

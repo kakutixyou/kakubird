@@ -1,0 +1,42 @@
+{
+  "id": "mountain-guide",
+  "title": "登山ガイド",
+  "category": "アウトドア",
+  "summary": "登山者を安全に案内し、ルートや天候を判断する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "標高差と距離から歩行時間を計算し行程を計画する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "気象とその変化",
+        "connection": "山の天候の急変を読み、遭難を防ぐ判断に活かす。"
+      },
+      {
+        "stage": "高校",
+        "unit": "地学基礎 大気と気圧",
+        "connection": "標高による気圧・気温の変化を理解し高山病対策に活かす。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "登山ガイド",
+      "登山",
+      "山岳"
+    ],
+    "tags": [
+      "アウトドア"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

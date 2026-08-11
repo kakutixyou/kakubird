@@ -1,0 +1,26 @@
+{
+  "id": "translator",
+  "title": "翻訳家",
+  "category": "語学",
+  "summary": "文章を別の言語に訳し、意味やニュアンスを正確に伝える。",
+  "subjects": {
+    "math": [],
+    "science": []
+  },
+  "retrieval": {
+    "keywords": [
+      "翻訳家",
+      "翻訳",
+      "語学",
+      "出版"
+    ],
+    "tags": [
+      "語学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

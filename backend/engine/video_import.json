@@ -1,0 +1,17 @@
+{
+  "name": "動画インポート機能",
+  "description": "動画ファイルをアプリケーションに読み込む際の仕様と制約",
+  "keywords": ["動画を追加", "インポート", "動画読み込み", "mp4", "アップロード"],
+  "weight": 2,
+
+  "rules": [
+    "動画のインポート機能は src/features/video_import に実装すること。",
+    "対応フォーマットは .mp4, .webm のみとする。",
+    "ユーザーには必ずファイルサイズの上限(500MB)をアラートで通知すること。"
+  ],
+  "dependencies": {
+    "FFmpeg": "^6.0.0",
+    "react-dropzone": "^14.2.3"
+  },
+  "code_snippet_example": "function handleImport(file) { ... }"
+}

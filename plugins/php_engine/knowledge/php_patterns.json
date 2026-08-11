@@ -1,0 +1,58 @@
+[
+  {
+    "id": "pattern_001",
+    "title": "安全なPDO接続 (Database Connection)",
+    "description": "PDOを使用してデータベースに接続する標準パターン。エラーモードを例外（ERRMODE_EXCEPTION）にし、エミュレートされたプリペアドステートメントを無効化（EMULATE_PREPARES => false）することで安全性を高める。",
+    "example": "<?php\n$dsn = 'mysql:host=localhost;dbname=testdb;charset=utf8mb4';\n$options = [\n    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,\n    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,\n    PDO::ATTR_EMULATE_PREPARES   => false,\n];\ntry {\n    $pdo = new PDO($dsn, 'username', 'password', $options);\n} catch (PDOException $e) {\n    error_log($e->getMessage());\n    exit('データベース接続に失敗しました。');\n}",
+    "tags": ["db", "pdo", "connection", "security"]
+  },
+  {
+    "id": "pattern_002",
+    "title": "トランザクション処理 (Transaction)",
+    "description": "複数のテーブル更新（INSERT/UPDATE/DELETE）を伴う処理を安全に行うパターン。try-catchで囲み、途中でエラーが発生した場合はrollback()を呼び出してデータを元の状態に戻す。",
+    "example": "<?php\ntry {\n    $pdo->beginTransaction();\n    \n    $stmt1 = $pdo->prepare('UPDATE accounts SET balance = balance - 1000 WHERE id = ?');\n    $stmt1->execute([$fromId]);\n    \n    $stmt2 = $pdo->prepare('UPDATE accounts SET balance = balance + 1000 WHERE id = ?');\n    $stmt2->execute([$toId]);\n    \n    $pdo->commit();\n} catch (Exception $e) {\n    $pdo->rollBack();\n    error_log($e->getMessage());\n    throw new RuntimeException('送金処理に失敗しました。');\n}",
+    "tags": ["db", "transaction", "commit", "rollback", "crud"]
+  },
+  {
+    "id": "pattern_003",
+    "title": "依存性の注入 (Dependency Injection - DI)",
+    "description": "クラス内で外部依存クラスを直接newするのではなく、コンストラクタ経由で受け取る設計パターン。クラス間の結合度が下がり、モックを使った単体テストが容易になる。",
+    "example": "<?php\nclass UserRepository {\n    public function __construct(private PDO $pdo) {}\n    \n    public function findById(int $id): ?array {\n        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');\n        $stmt->execute([$id]);\n        return $stmt->fetch() ?: null;\n    }\n}\n\n// 呼び出し側で依存（PDO）を注入する\n$repo = new UserRepository($pdo);",
+    "tags": ["oop", "di", "testing", "architecture"]
+  },
+  {
+    "id": "pattern_004",
+    "title": "フロントコントローラとルーティング (Front Controller)",
+    "description": "全てのリクエストを単一のエントリーポイント（index.php）で受け取り、URL（URI）に応じて適切なコントローラ・処理へ振り分けるMVCの基本ルーティング。",
+    "example": "<?php\n$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);\n$method = $_SERVER['REQUEST_METHOD'];\n\nmatch (true) {\n    $uri === '/' => require 'controllers/home.php',\n    $uri === '/users' && $method === 'GET' => require 'controllers/user_list.php',\n    $uri === '/users' && $method === 'POST' => require 'controllers/user_create.php',\n    default => http_response_code(404) && require 'controllers/404.php',\n};",
+    "tags": ["routing", "mvc", "front_controller"]
+  },
+  {
+    "id": "pattern_005",
+    "title": "標準的なJSON APIレスポンス (JSON API Response)",
+    "description": "APIエンドポイントにおいて、適切なHTTPステータスコードとContent-Typeヘッダーを設定し、一貫したフォーマット（成功/エラー）でJSONを返すパターン。",
+    "example": "<?php\nfunction jsonResponse(array $data, int $statusCode = 200): never {\n    http_response_code($statusCode);\n    header('Content-Type: application/json; charset=UTF-8');\n    echo json_encode([\n        'status' => $statusCode >= 200 && $statusCode < 300 ? 'success' : 'error',\n        'data'   => $data\n    ], JSON_UNESCAPED_UNICODE);\n    exit;\n}\n\n// 成功時\njsonResponse(['user' => $user], 200);\n// エラー時\njsonResponse(['message' => 'User not found'], 404);",
+    "tags": ["api", "json", "response", "rest"]
+  },
+  {
+    "id": "pattern_006",
+    "title": "安全なファイルアップロード (Secure File Upload)",
+    "description": "アップロードされたファイルのエラーコード確認、finfoによる厳格なMIMEタイプ（拡張子）の検証、ディレクトリトラバーサルを防ぐ一意なファイル名生成を行うフロー。",
+    "example": "<?php\nif (!isset($_FILES['upfile']) || $_FILES['upfile']['error'] !== UPLOAD_ERR_OK) {\n    exit('アップロードエラー');\n}\n\n$finfo = new finfo(FILEINFO_MIME_TYPE);\n$ext = array_search(\n    $finfo->file($_FILES['upfile']['tmp_name']),\n    ['jpg' => 'image/jpeg', 'png' => 'image/png'],\n    true\n);\nif ($ext === false) {\n    exit('許可されていないファイル形式です');\n}\n\n$filename = sprintf('%s.%s', sha1_file($_FILES['upfile']['tmp_name']), $ext);\nif (!move_uploaded_file($_FILES['upfile']['tmp_name'], \"./uploads/{$filename}\")) {\n    exit('ファイル保存に失敗しました');\n}",
+    "tags": ["file", "upload", "security"]
+  },
+  {
+    "id": "pattern_007",
+    "title": "サービス層の分離 (Service Layer)",
+    "description": "コントローラから複雑なビジネスロジック（例：ユーザー登録＋メール送信＋ログ記録）を分離し、サービスクラスに集約する。ファットコントローラを防ぐ設計。",
+    "example": "<?php\nclass UserRegistrationService {\n    public function __construct(\n        private UserRepository $repo,\n        private Mailer $mailer\n    ) {}\n    \n    public function register(string $email, string $password): bool {\n        $user = $this->repo->create($email, password_hash($password, PASSWORD_BCRYPT));\n        if ($user) {\n            $this->mailer->sendWelcomeEmail($user->email);\n            return true;\n        }\n        return false;\n    }\n}",
+    "tags": ["mvc", "architecture", "service_layer"]
+  },
+  {
+    "id": "pattern_008",
+    "title": "ページネーションの取得 (Pagination)",
+    "description": "LIMITとOFFSETを使用したデータのページ分割処理。総件数取得（COUNT）とデータ取得の2つのクエリを発行し、総ページ数を計算する。",
+    "example": "<?php\n$page = max(1, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT) ?: 1);\n$limit = 20;\n$offset = ($page - 1) * $limit;\n\n// 総件数取得\n$total = $pdo->query('SELECT COUNT(*) FROM items')->fetchColumn();\n$totalPages = ceil($total / $limit);\n\n// データ取得\n$stmt = $pdo->prepare('SELECT * FROM items ORDER BY created_at DESC LIMIT :limit OFFSET :offset');\n$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);\n$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);\n$stmt->execute();\n$items = $stmt->fetchAll();",
+    "tags": ["db", "pagination", "sql", "crud"]
+  }
+]

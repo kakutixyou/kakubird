@@ -1,0 +1,75 @@
+node_modules/
+dist/
+.env
+*.db
+*.sqlite
+.DS_Store
+coverage/
+.vite/
+frontend/dist/
+backend/dist/
+build/
+# エディタや環境設定（アップロード不要なもの）
+.vscode/
+.micropico/
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# =========================
+# Node / Frontend
+# =========================
+node_modules/
+dist/
+build/
+.vite/
+
+# =========================
+# Temporary files
+# =========================
+*_tmp*
+*tmp*
+.tmp/
+temp/
+tmp/
+
+# =========================
+# Generated output
+# =========================
+
+# 自動生成されたオープンデータJSON
+frontend/Tokyo_hackson_23/backend/orchestrator/output/
+
+# 特に巨大・大量になりやすいデータ
+frontend/Tokyo_hackson_23/backend/orchestrator/output/opendata_jsons/
+
+# =========================
+# Database
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+!.env.example

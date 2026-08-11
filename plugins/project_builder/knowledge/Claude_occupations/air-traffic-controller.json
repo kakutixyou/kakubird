@@ -1,0 +1,42 @@
+{
+  "id": "air-traffic-controller",
+  "title": "航空管制官",
+  "category": "航空",
+  "summary": "空港や空域を飛ぶ航空機の安全な間隔を管理する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "複数機の速度と位置から衝突を避ける経路・時間を計算する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数",
+        "connection": "レーダー上の方位や距離を角度と距離で捉える。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "気象とその変化",
+        "connection": "風向や視程などの気象情報が離着陸の判断材料になる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "航空管制官",
+      "空港",
+      "管制塔"
+    ],
+    "tags": [
+      "航空"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

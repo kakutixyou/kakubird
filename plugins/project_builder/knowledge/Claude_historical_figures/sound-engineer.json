@@ -1,0 +1,21 @@
+{
+  "occupation_id": "sound-engineer",
+  "occupation_title": "音響エンジニア",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "トーマス・エジソン",
+        "era": "19世紀アメリカ",
+        "achievement": "音を記録・再生する蓄音機を発明した",
+        "connection": "音を機械で扱うという音響技術の原点にあたる"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

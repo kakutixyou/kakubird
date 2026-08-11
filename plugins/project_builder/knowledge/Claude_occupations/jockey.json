@@ -1,0 +1,37 @@
+{
+  "id": "jockey",
+  "title": "競馬騎手",
+  "category": "スポーツ",
+  "summary": "競走馬に騎乗しレースで結果を出すことを職業とする。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "馬のタイムやペース配分のデータを分析しレース戦略を立てる。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 運動の法則",
+        "connection": "馬と騎手の重心移動やバランスの物理を理解する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "騎手",
+      "競馬",
+      "レース"
+    ],
+    "tags": [
+      "スポーツ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

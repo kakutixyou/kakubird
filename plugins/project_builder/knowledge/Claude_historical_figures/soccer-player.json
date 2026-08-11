@@ -1,0 +1,14 @@
+{
+  "occupation_id": "soccer-player",
+  "occupation_title": "サッカー選手",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

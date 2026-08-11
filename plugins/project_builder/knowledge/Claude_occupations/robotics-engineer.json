@@ -1,0 +1,43 @@
+{
+  "id": "robotics-engineer",
+  "title": "ロボット技術者",
+  "category": "IT・工学",
+  "summary": "産業用・サービス用ロボットの設計・開発を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学III 微分・積分",
+        "connection": "ロボットアームの動きの制御に運動方程式や微分積分を使う。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数",
+        "connection": "関節の角度計算に三角関数を使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理 電気と磁気",
+        "connection": "モーターやセンサーの動作原理の理解に必要。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "ロボット",
+      "ロボティクス",
+      "エンジニア",
+      "自動化"
+    ],
+    "tags": [
+      "IT・工学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

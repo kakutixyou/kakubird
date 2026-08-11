@@ -1,0 +1,38 @@
+{
+  "id": "watchmaker",
+  "title": "時計職人",
+  "category": "職人",
+  "summary": "精密な機械式時計の組み立て・修理を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "円",
+        "connection": "歯車の歯数比から時計の針の動く速さの関係を計算する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 振動と波",
+        "connection": "ぜんまいと脱進機による一定周期の振動が時計の精度を支える。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "時計職人",
+      "時計",
+      "機械式",
+      "修理"
+    ],
+    "tags": [
+      "職人"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

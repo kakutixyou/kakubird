@@ -1,0 +1,42 @@
+{
+  "id": "soccer-player",
+  "title": "サッカー選手",
+  "category": "スポーツ",
+  "summary": "プロとしてサッカーの試合に出場し、技術と戦術で貢献する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "走行距離やパス成功率などのデータで自分のプレーを分析する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "力と運動",
+        "connection": "ボールに加わる力とカーブの原理を理解しキックの精度を上げる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 運動とエネルギー",
+        "connection": "スプリントやジャンプの運動エネルギーの考え方が体づくりに役立つ。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "サッカー選手",
+      "サッカー",
+      "スポーツ"
+    ],
+    "tags": [
+      "スポーツ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

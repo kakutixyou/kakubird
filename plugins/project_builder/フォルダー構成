@@ -1,0 +1,27 @@
+plugins/
+└── project_builder/
+    ├── DeploymentHandler.py
+    ├── ProjectPlanner.py
+    ├── FolderAnalyzer.py
+    ├── ProjectAnalyzer.py
+    ├── DependencyResolver.py
+    ├── TemplateEngine.py
+    ├── FileWriter.py
+    ├── BuildValidator.py
+    │
+    ├── models/
+    │   ├── ProjectModels.py      ⭐ 今のコード
+    │   ├── BuildPlan.py
+    │   ├── PluginResult.py
+    │   └── ProjectKnowledgeResult.py
+    │
+    ├── builders/
+    │   └── ProjectKnowledgeBuilder.py
+    │
+    ├── knowledge/
+    │   ├── deployment_keywords.json
+    │   ├── deployment_themes.json
+    │   └── framework_templates.json
+    │
+    └── registry/
+        └── TemplateRegistry.py

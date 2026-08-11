@@ -1,0 +1,43 @@
+{
+  "id": "auto-mechanic",
+  "title": "自動車整備士",
+  "category": "交通",
+  "summary": "自動車の点検・修理・メンテナンスを行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "燃費や部品の交換周期を走行距離に応じて計算する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "化学変化と電池",
+        "connection": "バッテリーの化学反応やエンジンの燃焼の仕組みを理解する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 エネルギー",
+        "connection": "燃料のエネルギー変換効率の考え方が整備の判断に役立つ。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "自動車整備士",
+      "車",
+      "メンテナンス",
+      "修理"
+    ],
+    "tags": [
+      "交通"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

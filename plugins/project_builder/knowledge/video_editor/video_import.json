@@ -1,0 +1,42 @@
+{
+    "id": "VIDEO-IMPORT-001",
+
+    "title": "動画追加ボタン",
+
+    "keywords": [
+        "動画",
+        "追加",
+        "ファイル",
+        "dialog",
+        "electron"
+    ],
+
+    "summary": "動画追加ボタンを押すとOSのファイル選択画面を開く",
+
+    "implementation": {
+        "ipc": "open-video-dialog",
+        "dialog": "showOpenDialog",
+        "properties": [
+            "openFile",
+            "multiSelections"
+        ],
+        "filters": [
+            "mp4",
+            "mov",
+            "avi",
+            "mkv"
+        ]
+    },
+
+    "steps": [
+        "ipcMain.handleを作成",
+        "preloadから公開",
+        "Reactでinvoke",
+        "選択したパスをstateへ保存"
+    ],
+
+    "source": {
+        "ai": "Gemini",
+        "date": "2026-07"
+    }
+}

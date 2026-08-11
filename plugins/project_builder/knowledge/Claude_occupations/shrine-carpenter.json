@@ -1,0 +1,48 @@
+{
+  "id": "shrine-carpenter",
+  "title": "宮大工",
+  "category": "建設",
+  "summary": "神社仏閣など伝統建築の建立・修復を専門に行う大工。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "空間図形",
+        "connection": "釘を使わない木組み(仕口・継手)の寸法を正確に設計・加工する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学I 三角比",
+        "connection": "反りのある屋根や曲線部材の角度計算に使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "力のつり合い",
+        "connection": "地震の揺れを木組みの遊びで吸収する伝統構造の力学を理解する。"
+      },
+      {
+        "stage": "中学",
+        "unit": "植物の体のつくり",
+        "connection": "木材の性質(年輪・木目の方向)を理解し適材適所に使い分ける。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "宮大工",
+      "寺社",
+      "伝統建築",
+      "木組み"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

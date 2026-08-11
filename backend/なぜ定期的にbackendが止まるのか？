@@ -1,0 +1,4 @@
+uvicorn main:app --reloadをcd backendを書いた後に試し、
+python -m pip install fastapi uvicorn httpxと打ったり、
+py -m pip install fastapi uvicorn httpxと打っても動かないと思ったそこのあなた！
+pluginフォルダーの位置は決めておきましょう(1敗)

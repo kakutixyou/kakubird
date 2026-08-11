@@ -1,0 +1,48 @@
+{
+  "id": "astronomer",
+  "title": "天文学者",
+  "category": "科学",
+  "summary": "星や銀河など宇宙の天体を観測・研究する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学III 微分・積分",
+        "connection": "天体の軌道運動を微分方程式的に扱う。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数",
+        "connection": "天体の位置を角度(赤経・赤緯)で表すのに使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "地学基礎 宇宙の構成",
+        "connection": "恒星の進化や銀河の構造についての基礎知識そのもの。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理 波(光)",
+        "connection": "スペクトル分析で天体の成分や動きを調べる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "天文学者",
+      "天文台",
+      "宇宙",
+      "星"
+    ],
+    "tags": [
+      "科学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

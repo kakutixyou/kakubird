@@ -1,0 +1,21 @@
+{
+  "occupation_id": "auto-mechanic",
+  "occupation_title": "自動車整備士",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "カール・ベンツ",
+        "era": "19世紀ドイツ",
+        "achievement": "世界初のガソリンエンジン自動車を開発した",
+        "connection": "自動車という機械そのものを生み出し、整備という仕事の前提を作った"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

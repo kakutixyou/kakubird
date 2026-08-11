@@ -1,0 +1,37 @@
+{
+  "id": "florist",
+  "title": "フラワーデザイナー",
+  "category": "職人",
+  "summary": "花を使ったアレンジメントやブーケを制作する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "平面図形",
+        "connection": "花の配置バランスを図形の対称性や比率で考える。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "植物の体のつくりと働き",
+        "connection": "花の水揚げ(蒸散・吸水)の仕組みを理解し長持ちさせる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "フラワーデザイナー",
+      "花屋",
+      "アレンジメント"
+    ],
+    "tags": [
+      "職人"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

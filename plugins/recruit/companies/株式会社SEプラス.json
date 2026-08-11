@@ -1,0 +1,49 @@
+設立年月:2001年11月01日
+実績が書かれたページがないので派遣
+
+{
+  "company": {
+    "name": "【実務未経験OK】医療業界の求人サイト開発/マーケティングに",
+    "industry": null,
+    "location": "東京都"
+  },
+  "offer_summary": {
+    "headline": "【オフライン解析】文章から自動抽出したデータです",
+    "salary_range": {
+      "min": 240000,
+      "max": 4030000
+    },
+    "work_style": {
+      "average_overtime_hours": null,
+      "remote_possible": true,
+      "project_selection": null
+    }
+  },
+  "recruitment_text_analysis": {
+    "work_life_balance_score": 50,
+    "technical_growth_score": 35,
+    "growth_pressure_score": 55,
+    "ses_risk_score": 75,
+    "abstract_expression_score": 60,
+    "detected_patterns": [
+      {
+        "word": "社員旅行",
+        "count": 1
+      },
+      {
+        "word": "未経験研修（SES示唆）",
+        "count": 1
+      }
+    ]
+  },
+  "ai_analysis": {
+    "overall_label": "black",
+    "analysis_comment": [
+      "⚠️ AI（Ollama）がオフラインのため、高度な文脈解析は行えませんでした。",
+      "💡 その代わり、正規表現エンジンとルール辞書を用いて文章を自動解析しました。"
+    ],
+    "recommendation": [
+      "Ollamaを起動して再度送信すると、より詳細なAI分析が行われます。"
+    ]
+  }
+}

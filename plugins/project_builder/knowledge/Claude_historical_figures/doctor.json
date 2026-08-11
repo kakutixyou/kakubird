@@ -1,0 +1,28 @@
+{
+  "occupation_id": "doctor",
+  "occupation_title": "医師",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ヒポクラテス",
+        "era": "古代ギリシャ",
+        "achievement": "経験的観察に基づく医学を体系化し「医学の父」と呼ばれる",
+        "connection": "病気を迷信でなく自然な原因で捉える姿勢は、現代の医師の診断の基本と重なる"
+      }
+    ],
+    "japan_history": [
+      {
+        "name": "華岡青洲",
+        "era": "江戸時代",
+        "achievement": "1804年、世界で初めて全身麻酔を用いた乳がん手術に成功した",
+        "connection": "麻酔薬の開発と外科手術という、医師の専門性を象徴する業績"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

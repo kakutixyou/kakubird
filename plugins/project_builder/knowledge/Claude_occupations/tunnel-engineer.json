@@ -1,0 +1,43 @@
+{
+  "id": "tunnel-engineer",
+  "title": "トンネル技術者",
+  "category": "建設",
+  "summary": "山岳や地下を掘削しトンネルを設計・施工する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数",
+        "connection": "掘削方向のずれを角度計算で補正し正確に貫通させる。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "大地の変化",
+        "connection": "地層や岩盤の性質を理解し崩落を防ぐ工法を選ぶ。"
+      },
+      {
+        "stage": "高校",
+        "unit": "地学基礎 地球の活動",
+        "connection": "地質構造の理解がトンネル計画の安全性を左右する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "トンネル",
+      "土木",
+      "地下",
+      "建設"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

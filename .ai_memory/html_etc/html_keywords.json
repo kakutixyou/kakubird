@@ -1,0 +1,283 @@
+{
+  "named_themes": {
+    "HP作成アプリ": {
+      "surface": "flat"
+    },
+    "ホームページ作成": {
+      "surface": "flat"
+    },
+    "ポスター生成": {
+      "surface": "glow"
+    },
+    "ポスターアプリ": {
+      "surface": "glow"
+    },
+    "イベントサイト": {
+      "surface": "elevated"
+    },
+    "イベント生成": {
+      "surface": "elevated"
+    },
+    "博物館案内": {
+      "surface": "paper"
+    },
+    "博物館ページ": {
+      "surface": "paper"
+    },
+    "猫カフェ紹介": {
+      "surface": "neumorphism"
+    },
+    "猫カフェページ": {
+      "surface": "neumorphism"
+    },
+    "防災啓発": {
+      "surface": "bordered"
+    },
+    "防災ページ": {
+      "surface": "bordered"
+    },
+    "クイズサイト": {
+      "surface": "glow"
+    },
+    "クイズゲーム": {
+      "surface": "glow"
+    },
+    "展示会ページ": {
+      "surface": "glass"
+    },
+    "展示会サイト": {
+      "surface": "glass"
+    }
+  },
+  "triggers": {
+    "ja": [
+      "ホームページ",
+      "HP",
+      "ポスター",
+      "イベント",
+      "サイト",
+      "博物館",
+      "ミュージアム",
+      "猫カフェ",
+      "ねこ",
+      "防災",
+      "避難",
+      "啓発",
+      "クイズ",
+      "問題",
+      "展示会",
+      "エキスポ",
+      "作成",
+      "生成",
+      "案内",
+      "紹介",
+      "デザイン",
+      "レイアウト"
+    ],
+    "en": [
+      "homepage",
+      "webpage",
+      "poster",
+      "event",
+      "museum",
+      "catcafe",
+      "disaster",
+      "quiz",
+      "exhibition",
+      "expo",
+      "create",
+      "generate",
+      "design"
+    ],
+    "commands": [
+      "/html",
+      "/css",
+      "/design"
+    ]
+  },
+  "surface_keywords": {
+    "glass": {
+      "ja": [
+        "ガラス",
+        "グラスモフィズム",
+        "透明感",
+        "透き通る",
+        "展示会"
+      ],
+      "en": [
+        "glass",
+        "glassmorphism",
+        "transparent",
+        "exhibition"
+      ]
+    },
+    "frosted-dark": {
+      "ja": [
+        "ダークモード",
+        "すりガラス黒",
+        "暗いガラス",
+        "シネマティック"
+      ],
+      "en": [
+        "dark",
+        "frosted-dark",
+        "night",
+        "cinematic"
+      ]
+    },
+    "elevated": {
+      "ja": [
+        "エレベート",
+        "立体感",
+        "影付き",
+        "モダン",
+        "イベントサイト"
+      ],
+      "en": [
+        "elevated",
+        "shadow",
+        "floating",
+        "modern",
+        "event"
+      ]
+    },
+    "bordered": {
+      "ja": [
+        "ボーダー",
+        "枠線",
+        "クッキリ",
+        "明確",
+        "防災",
+        "安全"
+      ],
+      "en": [
+        "bordered",
+        "outline",
+        "stroke",
+        "disaster",
+        "safety"
+      ]
+    },
+    "flat": {
+      "ja": [
+        "フラット",
+        "シンプル",
+        "平面",
+        "ミニマル",
+        "HP作成"
+      ],
+      "en": [
+        "flat",
+        "minimal",
+        "simple",
+        "homepage"
+      ]
+    },
+    "glow": {
+      "ja": [
+        "グロー",
+        "発光",
+        "ネオン",
+        "サイバー",
+        "ポスター",
+        "クイズ"
+      ],
+      "en": [
+        "glow",
+        "neon",
+        "cyber",
+        "poster",
+        "quiz"
+      ]
+    },
+    "neumorphism": {
+      "ja": [
+        "ニューモフィズム",
+        "柔らかい影",
+        "直感的",
+        "猫カフェ",
+        "かわいい"
+      ],
+      "en": [
+        "neumorphism",
+        "soft-shadow",
+        "catcafe",
+        "cute"
+      ]
+    },
+    "paper": {
+      "ja": [
+        "ペーパー",
+        "紙",
+        "レトロ",
+        "和風",
+        "博物館",
+        "歴史"
+      ],
+      "en": [
+        "paper",
+        "texture",
+        "vintage",
+        "museum",
+        "history"
+      ]
+    }
+  },
+  "mood_keywords": {
+    "creative": {
+      "ja": [
+        "クリエイティブ",
+        "おしゃれ",
+        "先進的",
+        "未来的"
+      ],
+      "en": [
+        "creative",
+        "stylish",
+        "futuristic"
+      ]
+    },
+    "cute": {
+      "ja": [
+        "かわいい",
+        "癒やし",
+        "ポップ",
+        "ファンシー"
+      ],
+      "en": [
+        "cute",
+        "pop",
+        "fancy"
+      ]
+    },
+    "serious": {
+      "ja": [
+        "真面目",
+        "緊急",
+        "信頼",
+        "重要",
+        "公的"
+      ],
+      "en": [
+        "serious",
+        "emergency",
+        "reliable",
+        "official"
+      ]
+    },
+    "academic": {
+      "ja": [
+        "知的",
+        "歴史",
+        "学び",
+        "伝統",
+        "カルチャー"
+      ],
+      "en": [
+        "academic",
+        "historical",
+        "culture"
+      ]
+    }
+  }
+}

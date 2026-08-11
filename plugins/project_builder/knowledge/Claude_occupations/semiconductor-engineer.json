@@ -1,0 +1,43 @@
+{
+  "id": "semiconductor-engineer",
+  "title": "半導体技術者",
+  "category": "工学",
+  "summary": "スマートフォンやPCに使われる半導体チップの設計・製造に携わる。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学III 微分・積分",
+        "connection": "回路の電流・電圧の変化を微分積分で解析する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "化学 物質の構造",
+        "connection": "シリコンなど半導体材料の性質の理解が製造工程の土台になる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理 電気と磁気",
+        "connection": "半導体の電気的性質を理解するのに必須。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "半導体",
+      "エンジニア",
+      "チップ",
+      "製造"
+    ],
+    "tags": [
+      "工学"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

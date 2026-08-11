@@ -1,0 +1,43 @@
+{
+  "id": "fisherman",
+  "title": "漁師",
+  "category": "一次産業",
+  "summary": "海や川で魚介類を漁獲し、水産物を届ける。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "漁獲量と燃料・時間の関係を計算し効率的な操業を計画する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "天気とその変化",
+        "connection": "天候や潮の満ち引きを読み、安全な出漁を判断する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "地学基礎 海洋と大気",
+        "connection": "海流や水温の変化が漁場選びに直結する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "漁師",
+      "漁業",
+      "水産",
+      "船"
+    ],
+    "tags": [
+      "一次産業"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

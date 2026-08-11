@@ -1,0 +1,217 @@
+{
+  "company_id": "cmp_natureinsight_2026_001",
+
+  "company": {
+    "name": "ネイチャーインサイト株式会社",
+    "industry": "データ分析・データエンジニアリング",
+    "employment_type": "正社員",
+    "location": "東京都",
+    "source_type": "スカウト",
+    "received_date": "2026-05-21",
+    "expiration_days_left": 5
+  },
+
+  "position": {
+    "title": "データエンジニア",
+    "salary_range": {
+      "min": 3500000,
+      "max": 4500000,
+      "currency": "JPY"
+    },
+
+    "experience_requirement": {
+      "unexperienced_welcome": true,
+      "training_period_months": 3,
+      "remote_work": true
+    }
+  },
+
+  "business_domain": {
+    "specialties": [
+      "Data Engineering",
+      "Analytics",
+      "Professional Services"
+    ],
+
+    "main_clients": [
+      "金融機関",
+      "製薬メーカー",
+      "通信キャリア",
+      "流通チェーン"
+    ],
+
+    "technologies": [
+      "SAS",
+      "AWS",
+      "Salesforce",
+      "Oracle NetSuite",
+      "BI",
+      "クラウド",
+      "データ分析"
+    ]
+  },
+
+  "training_program": {
+    "total_training_months": 3,
+
+    "steps": [
+      {
+        "phase": "basic_training",
+        "duration": "1-2週間",
+        "description": "IT基礎学習"
+      },
+
+      {
+        "phase": "advanced_training",
+        "duration": "1カ月",
+        "description": "課題演習・フィードバック"
+      },
+
+      {
+        "phase": "practical_training",
+        "duration": "3週間",
+        "description": "実務想定演習"
+      },
+
+      {
+        "phase": "certification",
+        "duration": "3週間",
+        "description": "SAS資格取得"
+      }
+    ]
+  },
+
+  "certifications": {
+    "sas_global_certification": true,
+    "rarity_in_japan": 800,
+
+    "certification_value": [
+      "統計分析",
+      "データ分析",
+      "SAS運用",
+      "BI活用"
+    ]
+  },
+
+  "company_culture": {
+    "keywords": [
+      "データエンジニア",
+      "AI時代",
+      "プロフェッショナル",
+      "分析",
+      "クラウド",
+      "資格取得",
+      "研修"
+    ],
+
+    "positive_points": [
+      "専門性が高い",
+      "研修内容が具体的",
+      "データ領域特化",
+      "大手クライアントあり",
+      "資格支援あり",
+      "未経験教育あり"
+    ],
+
+    "risk_points": [
+      "SAS特化キャリアになる可能性",
+      "技術スタック偏重リスク",
+      "客先常駐可能性",
+      "実案件難易度不明",
+      "データ領域以外への転用性要確認"
+    ]
+  },
+
+  "recruitment_text_analysis": {
+    "specialization_score": 92,
+    "training_quality_score": 88,
+    "career_stability_score": 74,
+    "growth_pressure_score": 58,
+    "data_engineering_focus_score": 97,
+    "ses_risk_score": 43,
+
+    "detected_patterns": [
+      {
+        "word": "プロフェッショナル",
+        "count": 3,
+        "risk_weight": 2
+      },
+
+      {
+        "word": "データ",
+        "count": 12,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "分析",
+        "count": 6,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "資格",
+        "count": 4,
+        "risk_weight": 1
+      },
+
+      {
+        "word": "成長",
+        "count": 2,
+        "risk_weight": 3
+      }
+    ]
+  },
+
+  "ai_analysis": {
+    "overall_label": "white_candidate",
+
+    "estimated_risk_level": 28,
+
+    "analysis_comment": [
+      "未経験育成内容がかなり具体的",
+      "データエンジニア特化で専門性高め",
+      "SAS領域の市場価値は一定ある",
+      "AI・分析基盤系キャリアには相性良い",
+      "一方でSAS依存キャリアには注意"
+    ],
+
+    "recommendation": [
+      "客先常駐割合確認",
+      "Python利用割合確認",
+      "AWS実務比率確認",
+      "SAS以外の分析基盤確認",
+      "研修後の配属実例確認"
+    ]
+  },
+
+  "message": {
+    "title": "【未経験歓迎／3カ月研修／リモート勤務有】AI時代の花形職種・データエンジニア",
+
+    "summary": [
+      "3カ月研修あり",
+      "未経験歓迎",
+      "データエンジニア職",
+      "AWS・SAS利用",
+      "リモート勤務有"
+    ],
+
+    "body": [
+      "現在当社では、データエンジニアとしてご活躍いただける方を募集しております。",
+      "1995年にSAS Institute Japanの第一期コンサルティングパートナーに認定されています。",
+      "SASやAWSを利用したデータ基盤整備、BIシステム開発を担当します。",
+      "金融・製薬・通信・流通など幅広い業界の案件があります。",
+      "SalesforceやOracle NetSuiteを用いた開発業務もあります。",
+      "3カ月の研修制度があります。",
+      "SAS資格取得支援があります。"
+    ]
+  },
+
+  "metadata": {
+    "created_at": "2026-05-30",
+    "updated_at": "2026-05-30",
+    "parser_version": "recruit_parser_v2",
+    "language": "ja",
+    "source_format": "scout_mail"
+  }
+}

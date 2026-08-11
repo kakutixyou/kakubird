@@ -1,0 +1,21 @@
+{
+  "last_used_handler": "DecompositionHandler",
+  "active_context": null,
+  
+  "recent_files": [
+    "backend/api/services/handlers/ChatHandler.py",
+    "backend/engine/orchestrator/chat_orchestrator.py",
+    "plugins/project_builder/knowledge/How_to_create_AI/chat_handler_debug_history.json"
+  ],
+  
+  "game_search_state": {
+    "intent": "strong_character_search",
+    "genre": "action",
+    "solo": true,
+    "pvp": null,
+    "strength_source": null,
+    "equipment_dependency": null,
+    "loop_structure": null
+  }
+
+}

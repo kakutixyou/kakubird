@@ -1,0 +1,37 @@
+{
+  "id": "sommelier",
+  "title": "ソムリエ",
+  "category": "食",
+  "summary": "ワインの選定・提供・提案を行う専門家。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "ワインの評価データや傾向を整理し提案に活かす。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "化学基礎 物質の変化",
+        "connection": "発酵や酸化の化学反応がワインの味の変化に直結する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "ソムリエ",
+      "ワイン",
+      "レストラン"
+    ],
+    "tags": [
+      "食"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

@@ -1,0 +1,40 @@
+{
+    "name": "Git Knowledge Entry 01",
+    "description": "Gitの基本概念と初回セットアップ手順の学習メモ",
+    "topic": "Git",
+    "keywords": [
+        "Git",
+        "バージョン管理",
+        "ローカルリポジトリ",
+        "初期化"
+    ],
+    "problem": {
+        "title": "Gitリポジトリの作成と最初のコミット",
+        "description": "新しく作成したgit_knowledgeフォルダーをGitで管理し、最初のメモを記録（コミット）する方法が知りたい。"
+    },
+    "solutions": {
+        "step1": {
+            "title": "フォルダの初期化",
+            "description": "対象のフォルダ（git_knowledge）をGitリポジトリとして初期化し、履歴管理を始めます。",
+            "commands": [
+                "cd git_knowledge",
+                "git init"
+            ]
+        },
+        "step2": {
+            "title": "ファイルの追加（ステージング）",
+            "description": "作成したメモファイル（例: 01_git_basic.md）を、コミットの対象としてステージングエリアに追加します。",
+            "commands": [
+                "git add .",
+                "git status"
+            ]
+        },
+        "step3": {
+            "title": "変更の記録（コミット）",
+            "description": "ステージングエリアに追加したファイルをリポジトリに記録し、メッセージを残します。",
+            "commands": [
+                "git commit -m '最初のGitナレッジを追加'"
+            ]
+        }
+    }
+}

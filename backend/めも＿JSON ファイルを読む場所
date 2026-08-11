@@ -1,0 +1,23 @@
+JSON ファイルを読む場所
+
+JSON ファイルを実際に読み書きしているのはバックエンドです。
+
+あなたの構成では主に次のファイルです。
+
+plugins/ai_memory/memory_manager.py
+backend/api/routes_memory.py
+plugins/ai_editor/approval_service.py
+
+Orchestrator
+      │
+KnowledgeRouter
+      │
+KnowledgeLoader
+      │
+Handler
+      │
+blocks(JSON)
+      │
+RenderBlocks.jsx
+      │
+各種Reactコンポーネント

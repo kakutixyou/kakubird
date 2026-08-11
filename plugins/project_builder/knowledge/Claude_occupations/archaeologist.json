@@ -1,0 +1,43 @@
+{
+  "id": "archaeologist",
+  "title": "考古学者",
+  "category": "科学・文化",
+  "summary": "遺跡や遺物を発掘・分析し、過去の人類の暮らしを研究する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "出土品の年代データを統計的に整理し年代を推定する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "化学 放射性同位体",
+        "connection": "放射性炭素年代測定(半減期)の原理が年代特定に使われる。"
+      },
+      {
+        "stage": "中学",
+        "unit": "大地の変化",
+        "connection": "地層の重なりから遺物の年代の前後関係を読み取る。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "考古学者",
+      "遺跡",
+      "発掘",
+      "歴史"
+    ],
+    "tags": [
+      "科学・文化"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

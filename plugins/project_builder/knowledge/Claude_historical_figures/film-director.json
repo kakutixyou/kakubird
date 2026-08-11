@@ -1,0 +1,21 @@
+{
+  "occupation_id": "film-director",
+  "occupation_title": "映画監督",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "リュミエール兄弟",
+        "era": "19世紀末フランス",
+        "achievement": "動く映像を映写する技術を実用化し、最初期の映画を制作・上映した",
+        "connection": "映像作品を作るという映画監督の仕事の出発点にあたる"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "judge",
+  "title": "裁判官",
+  "category": "法律",
+  "summary": "法廷で証拠や主張を審理し、判決を下す。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学A 論理と集合",
+        "connection": "法律の要件と事実を論理的に照合し結論を導く。"
+      },
+      {
+        "stage": "中学",
+        "unit": "証明",
+        "connection": "筋道立てて根拠から結論を導く「証明」の考え方が判決文の構成に近い。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "科学的な思考",
+        "connection": "客観的な証拠に基づいて判断する態度が審理の基本になる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "裁判官",
+      "裁判所",
+      "判決"
+    ],
+    "tags": [
+      "法律"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

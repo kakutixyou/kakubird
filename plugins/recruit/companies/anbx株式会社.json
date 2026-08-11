@@ -1,0 +1,37 @@
+{
+  "company": {
+    "name": "anbx株式会社",
+    "industry": "IT・Web",
+    "location": "東京都"
+  },
+  "offer_summary": {
+    "headline": "【オフライン解析】文章から自動抽出したデータです",
+    "salary_range": {
+      "min": 3000000,
+      "max": 3800000
+    },
+    "work_style": {
+      "average_overtime_hours": 10,
+      "remote_possible": false,
+      "project_selection": false
+    }
+  },
+  "recruitment_text_analysis": {
+    "work_life_balance_score": 50,
+    "technical_growth_score": 50,
+    "growth_pressure_score": 50,
+    "ses_risk_score": 50,
+    "abstract_expression_score": 50,
+    "detected_patterns": []
+  },
+  "ai_analysis": {
+    "overall_label": "gray",
+    "analysis_comment": [
+      "⚠️ AI（Ollama）がオフラインのため、高度な文脈解析は行えませんでした。",
+      "💡 その代わり、正規表現エンジンとルール辞書を用いて文章を自動解析しました。"
+    ],
+    "recommendation": [
+      "Ollamaを起動して再度送信すると、より詳細なAI分析が行われます。"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "id": "carpenter",
+  "title": "大工",
+  "category": "建設",
+  "summary": "木材を加工し、住宅や建物の骨組み・仕上げを行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "空間図形",
+        "connection": "柱や梁の長さ・角度を正確に測り、木材を無駄なく加工する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学I 三角比",
+        "connection": "屋根の勾配や部材の接合角度の計算に三角比を使う。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "力のつり合い",
+        "connection": "建物にかかる荷重や力の分散を理解し、頑丈な骨組みを組む。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "大工",
+      "建築",
+      "木工",
+      "建設"
+    ],
+    "tags": [
+      "建設"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

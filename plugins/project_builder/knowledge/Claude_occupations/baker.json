@@ -1,0 +1,38 @@
+{
+  "id": "baker",
+  "title": "パン職人",
+  "category": "食",
+  "summary": "パンの生地作りから焼成までを担うプロフェッショナル。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "材料の分量をレシピの倍率に応じて比例計算する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "生物の育ち方と発酵",
+        "connection": "イーストの発酵という生物・化学反応を理解し生地作りに活かす。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "パン職人",
+      "パン屋",
+      "製パン",
+      "発酵"
+    ],
+    "tags": [
+      "食"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

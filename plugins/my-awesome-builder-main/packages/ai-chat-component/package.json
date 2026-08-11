@@ -1,0 +1,29 @@
+{
+  "name": "@my-awesome-builder/ai-chat-component",
+  "version": "1.0.0",
+  "description": "Reusable AI Chat Component with automatic SQL/CSS API routing and language detection",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./styles": "./src/styles/chat-panel.css"
+  },
+  "scripts": {
+    "lint": "echo \"No lint configured\"",
+    "test": "echo \"No tests configured\""
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "keywords": [
+    "react",
+    "ai",
+    "chat",
+    "component",
+    "sql",
+    "css",
+    "api-routing"
+  ],
+  "license": "MIT"
+}

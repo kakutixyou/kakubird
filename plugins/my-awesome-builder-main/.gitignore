@@ -1,0 +1,4 @@
+packages/ai-engine/__pycache__/
+packages/style-system/rules/__pycache__/
+**/__pycache__/
+*.pyc

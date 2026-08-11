@@ -1,0 +1,48 @@
+{
+  "id": "prosthetist",
+  "title": "義肢装具士",
+  "category": "医療",
+  "summary": "義手・義足や装具を利用者の体に合わせて設計・製作する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "相似な図形",
+        "connection": "身体の型取りデータを基に縮尺や比率を調整して部品を作る。"
+      },
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力学",
+        "connection": "歩行時にかかる荷重や重心の移動を計算し強度を設計する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "力のつり合いと合成・分解",
+        "connection": "義足にかかる力の分解が安全な設計に必要。"
+      },
+      {
+        "stage": "高校",
+        "unit": "生物基礎 運動器官",
+        "connection": "骨格や筋肉の動きを理解し可動域に合った装具を作る。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "義肢装具士",
+      "義足",
+      "義手",
+      "リハビリ"
+    ],
+    "tags": [
+      "医療"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

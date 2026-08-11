@@ -1,0 +1,48 @@
+{
+  "id": "pilot",
+  "title": "パイロット",
+  "category": "航空",
+  "summary": "旅客機や貨物機を操縦し、安全な運航を担う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "高校",
+        "unit": "数学II 三角関数",
+        "connection": "方角・高度・距離の計算に三角関数を使う。"
+      },
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "速度・時間・距離の関係から到着時刻を計算する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力学",
+        "connection": "揚力・重力・推力のつり合いが飛行の原理そのもの。"
+      },
+      {
+        "stage": "中学",
+        "unit": "気象とその変化",
+        "connection": "乱気流や気圧配置を理解し安全な航路を判断する。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "パイロット",
+      "飛行機",
+      "操縦士",
+      "航空"
+    ],
+    "tags": [
+      "航空"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

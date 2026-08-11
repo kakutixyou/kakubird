@@ -1,0 +1,37 @@
+{
+  "id": "accountant",
+  "title": "公認会計士",
+  "category": "ビジネス",
+  "summary": "企業の会計監査や財務諸表のチェックを行う専門家。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "文字式",
+        "connection": "決算書の数値を式で整理し正確性を検証する。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学B 統計的な推測",
+        "connection": "財務データの異常値をサンプリングや統計的手法で見つける。"
+      }
+    ],
+    "science": []
+  },
+  "retrieval": {
+    "keywords": [
+      "公認会計士",
+      "会計",
+      "監査",
+      "財務"
+    ],
+    "tags": [
+      "ビジネス"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

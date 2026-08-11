@@ -1,0 +1,23 @@
+/* Elevated Surface */
+.elevated {
+  background: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.07),
+    0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.elevated:hover {
+  box-shadow: 
+    0 8px 12px rgba(0, 0, 0, 0.1),
+    0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.dark .elevated {
+  background: #1a1a1a;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.4);
+}

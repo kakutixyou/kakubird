@@ -1,0 +1,2812 @@
+{
+  "plugins/project_builder/knowledge/file_roles.json": {
+    "id": "file_roles",
+    "title": "file_roles.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/file_roles.json",
+    "size_bytes": 4333,
+    "mtime": 1782918382.311373
+  },
+  "plugins/project_builder/knowledge/folder_patterns.json": {
+    "id": "folder_patterns",
+    "title": "folder_patterns.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/folder_patterns.json",
+    "size_bytes": 10864,
+    "mtime": 1782919356.9271786
+  },
+  "plugins/project_builder/knowledge/frameworks.json": {
+    "id": "frameworks",
+    "title": "frameworks.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/frameworks.json",
+    "size_bytes": 4511,
+    "mtime": 1782918273.9453444
+  },
+  "plugins/project_builder/knowledge/framework_templates.json": {
+    "id": "framework_templates",
+    "title": "framework_templates.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/framework_templates.json",
+    "size_bytes": 2407,
+    "mtime": 1782945729.1358733
+  },
+  "plugins/project_builder/knowledge/prompt_templates.json": {
+    "id": "prompt_templates",
+    "title": "prompt_templates.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/prompt_templates.json",
+    "size_bytes": 4019,
+    "mtime": 1782919446.6613982
+  },
+  "plugins/project_builder/knowledge/repair_templates.json": {
+    "id": "repair_templates",
+    "title": "repair_templates.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/repair_templates.json",
+    "size_bytes": 17184,
+    "mtime": 1782947122.0733502
+  },
+  "plugins/project_builder/knowledge/validation_rules.json": {
+    "id": "validation_rules",
+    "title": "validation_rules.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/validation_rules.json",
+    "size_bytes": 603,
+    "mtime": 1782920762.5874088
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/accountant.json": {
+    "id": "accountant",
+    "title": "accountant.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/accountant.json",
+    "size_bytes": 428,
+    "mtime": 1785902079.5993612
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/air-traffic-controller.json": {
+    "id": "air-traffic-controller",
+    "title": "air-traffic-controller.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/air-traffic-controller.json",
+    "size_bytes": 440,
+    "mtime": 1785902079.5311174
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/animator.json": {
+    "id": "animator",
+    "title": "animator.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/animator.json",
+    "size_bytes": 429,
+    "mtime": 1785902079.5391119
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/archaeologist.json": {
+    "id": "archaeologist",
+    "title": "archaeologist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/archaeologist.json",
+    "size_bytes": 1056,
+    "mtime": 1785902079.5733566
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/astronaut.json": {
+    "id": "astronaut",
+    "title": "astronaut.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/astronaut.json",
+    "size_bytes": 685,
+    "mtime": 1785902079.8410392
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/astronomer.json": {
+    "id": "astronomer",
+    "title": "astronomer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/astronomer.json",
+    "size_bytes": 1028,
+    "mtime": 1785902079.5481143
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/auto-mechanic.json": {
+    "id": "auto-mechanic",
+    "title": "auto-mechanic.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/auto-mechanic.json",
+    "size_bytes": 728,
+    "mtime": 1785902079.891039
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/baker.json": {
+    "id": "baker",
+    "title": "baker.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/baker.json",
+    "size_bytes": 420,
+    "mtime": 1785902079.6283565
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/baseball-player.json": {
+    "id": "baseball-player",
+    "title": "baseball-player.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/baseball-player.json",
+    "size_bytes": 436,
+    "mtime": 1785902079.6193748
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/carpenter.json": {
+    "id": "carpenter",
+    "title": "carpenter.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/carpenter.json",
+    "size_bytes": 745,
+    "mtime": 1785902079.874039
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/crane-operator.json": {
+    "id": "crane-operator",
+    "title": "crane-operator.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/crane-operator.json",
+    "size_bytes": 447,
+    "mtime": 1785902079.9220417
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/data-scientist.json": {
+    "id": "data-scientist",
+    "title": "data-scientist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/data-scientist.json",
+    "size_bytes": 450,
+    "mtime": 1785902079.5573554
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/dietitian.json": {
+    "id": "dietitian",
+    "title": "dietitian.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/dietitian.json",
+    "size_bytes": 739,
+    "mtime": 1785902079.9729118
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/doctor.json": {
+    "id": "doctor",
+    "title": "doctor.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/doctor.json",
+    "size_bytes": 1030,
+    "mtime": 1785902079.4536278
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/electrician.json": {
+    "id": "electrician",
+    "title": "electrician.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/electrician.json",
+    "size_bytes": 752,
+    "mtime": 1785902079.673218
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/esports-player.json": {
+    "id": "esports-player",
+    "title": "esports-player.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/esports-player.json",
+    "size_bytes": 436,
+    "mtime": 1785902079.410435
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/farmer.json": {
+    "id": "farmer",
+    "title": "farmer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/farmer.json",
+    "size_bytes": 742,
+    "mtime": 1785902079.420139
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/film-director.json": {
+    "id": "film-director",
+    "title": "film-director.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/film-director.json",
+    "size_bytes": 743,
+    "mtime": 1785902079.3306258
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/firefighter.json": {
+    "id": "firefighter",
+    "title": "firefighter.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/firefighter.json",
+    "size_bytes": 737,
+    "mtime": 1785902079.952558
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/fireworks-artisan.json": {
+    "id": "fireworks-artisan",
+    "title": "fireworks-artisan.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/fireworks-artisan.json",
+    "size_bytes": 750,
+    "mtime": 1785902079.6990285
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/fisherman.json": {
+    "id": "fisherman",
+    "title": "fisherman.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/fisherman.json",
+    "size_bytes": 418,
+    "mtime": 1785902079.443571
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/florist.json": {
+    "id": "florist",
+    "title": "florist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/florist.json",
+    "size_bytes": 741,
+    "mtime": 1785902079.7984924
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/forestry-worker.json": {
+    "id": "forestry-worker",
+    "title": "forestry-worker.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/forestry-worker.json",
+    "size_bytes": 433,
+    "mtime": 1785902079.909041
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/gemologist.json": {
+    "id": "gemologist",
+    "title": "gemologist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/gemologist.json",
+    "size_bytes": 428,
+    "mtime": 1785902079.682036
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/geologist.json": {
+    "id": "geologist",
+    "title": "geologist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/geologist.json",
+    "size_bytes": 769,
+    "mtime": 1785902079.432412
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/hairdresser.json": {
+    "id": "hairdresser",
+    "title": "hairdresser.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/hairdresser.json",
+    "size_bytes": 423,
+    "mtime": 1785902079.3697715
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/jockey.json": {
+    "id": "jockey",
+    "title": "jockey.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/jockey.json",
+    "size_bytes": 421,
+    "mtime": 1785902079.7604904
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/judge.json": {
+    "id": "judge",
+    "title": "judge.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/judge.json",
+    "size_bytes": 744,
+    "mtime": 1785902079.484764
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/landscape-gardener.json": {
+    "id": "landscape-gardener",
+    "title": "landscape-gardener.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/landscape-gardener.json",
+    "size_bytes": 701,
+    "mtime": 1785902079.5903852
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/lawyer.json": {
+    "id": "lawyer",
+    "title": "lawyer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/lawyer.json",
+    "size_bytes": 418,
+    "mtime": 1785902079.857041
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/marine-biologist.json": {
+    "id": "marine-biologist",
+    "title": "marine-biologist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/marine-biologist.json",
+    "size_bytes": 770,
+    "mtime": 1785902079.6468234
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/midwife.json": {
+    "id": "midwife",
+    "title": "midwife.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/midwife.json",
+    "size_bytes": 726,
+    "mtime": 1785902079.4947655
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/mountain-guide.json": {
+    "id": "mountain-guide",
+    "title": "mountain-guide.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/mountain-guide.json",
+    "size_bytes": 1094,
+    "mtime": 1785902079.7344909
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/pharmacist.json": {
+    "id": "pharmacist",
+    "title": "pharmacist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/pharmacist.json",
+    "size_bytes": 1047,
+    "mtime": 1785902079.8250554
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/physical-therapist.json": {
+    "id": "physical-therapist",
+    "title": "physical-therapist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/physical-therapist.json",
+    "size_bytes": 436,
+    "mtime": 1785902079.503764
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/piano-tuner.json": {
+    "id": "piano-tuner",
+    "title": "piano-tuner.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/piano-tuner.json",
+    "size_bytes": 423,
+    "mtime": 1785902079.6383564
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/pilot.json": {
+    "id": "pilot",
+    "title": "pilot.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/pilot.json",
+    "size_bytes": 700,
+    "mtime": 1785902079.583359
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/plasterer.json": {
+    "id": "plasterer",
+    "title": "plasterer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/plasterer.json",
+    "size_bytes": 424,
+    "mtime": 1785902079.7874987
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/plumber.json": {
+    "id": "plumber",
+    "title": "plumber.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/plumber.json",
+    "size_bytes": 419,
+    "mtime": 1785902079.7170289
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/police-officer.json": {
+    "id": "police-officer",
+    "title": "police-officer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/police-officer.json",
+    "size_bytes": 706,
+    "mtime": 1785902079.397975
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/potter.json": {
+    "id": "potter",
+    "title": "potter.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/potter.json",
+    "size_bytes": 701,
+    "mtime": 1785902079.9000535
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/programmer.json": {
+    "id": "programmer",
+    "title": "programmer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/programmer.json",
+    "size_bytes": 431,
+    "mtime": 1785902079.5221193
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/prosthetist.json": {
+    "id": "prosthetist",
+    "title": "prosthetist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/prosthetist.json",
+    "size_bytes": 429,
+    "mtime": 1785902079.7090316
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/robotics-engineer.json": {
+    "id": "robotics-engineer",
+    "title": "robotics-engineer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/robotics-engineer.json",
+    "size_bytes": 441,
+    "mtime": 1785902079.4640424
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/sake-brewer.json": {
+    "id": "sake-brewer",
+    "title": "sake-brewer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/sake-brewer.json",
+    "size_bytes": 446,
+    "mtime": 1785902079.6103578
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/scuba-instructor.json": {
+    "id": "scuba-instructor",
+    "title": "scuba-instructor.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/scuba-instructor.json",
+    "size_bytes": 797,
+    "mtime": 1785902079.4737563
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/semiconductor-engineer.json": {
+    "id": "semiconductor-engineer",
+    "title": "semiconductor-engineer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/semiconductor-engineer.json",
+    "size_bytes": 443,
+    "mtime": 1785902079.725492
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/shipbuilding-engineer.json": {
+    "id": "shipbuilding-engineer",
+    "title": "shipbuilding-engineer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/shipbuilding-engineer.json",
+    "size_bytes": 439,
+    "mtime": 1785902079.5653577
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/shrine-carpenter.json": {
+    "id": "shrine-carpenter",
+    "title": "shrine-carpenter.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/shrine-carpenter.json",
+    "size_bytes": 723,
+    "mtime": 1785902079.7694921
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/soccer-player.json": {
+    "id": "soccer-player",
+    "title": "soccer-player.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/soccer-player.json",
+    "size_bytes": 434,
+    "mtime": 1785902079.3845532
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/sommelier.json": {
+    "id": "sommelier",
+    "title": "sommelier.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/sommelier.json",
+    "size_bytes": 777,
+    "mtime": 1785902079.7434914
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/sound-engineer.json": {
+    "id": "sound-engineer",
+    "title": "sound-engineer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/sound-engineer.json",
+    "size_bytes": 699,
+    "mtime": 1785902079.9629102
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/special-makeup-artist.json": {
+    "id": "special-makeup-artist",
+    "title": "special-makeup-artist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/special-makeup-artist.json",
+    "size_bytes": 457,
+    "mtime": 1785902079.6632218
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/stuntman.json": {
+    "id": "stuntman",
+    "title": "stuntman.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/stuntman.json",
+    "size_bytes": 429,
+    "mtime": 1785902079.7794914
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/sumo-wrestler.json": {
+    "id": "sumo-wrestler",
+    "title": "sumo-wrestler.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/sumo-wrestler.json",
+    "size_bytes": 717,
+    "mtime": 1785902079.8660462
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/tatami-maker.json": {
+    "id": "tatami-maker",
+    "title": "tatami-maker.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/tatami-maker.json",
+    "size_bytes": 424,
+    "mtime": 1785902079.808039
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/teacher.json": {
+    "id": "teacher",
+    "title": "teacher.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/teacher.json",
+    "size_bytes": 1000,
+    "mtime": 1785902079.9421139
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/tobi-shokunin.json": {
+    "id": "tobi-shokunin",
+    "title": "tobi-shokunin.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/tobi-shokunin.json",
+    "size_bytes": 425,
+    "mtime": 1785902079.83304
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/train-driver.json": {
+    "id": "train-driver",
+    "title": "train-driver.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/train-driver.json",
+    "size_bytes": 727,
+    "mtime": 1785902079.8820393
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/translator.json": {
+    "id": "translator",
+    "title": "translator.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/translator.json",
+    "size_bytes": 705,
+    "mtime": 1785902079.690046
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/tunnel-engineer.json": {
+    "id": "tunnel-engineer",
+    "title": "tunnel-engineer.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/tunnel-engineer.json",
+    "size_bytes": 766,
+    "mtime": 1785902079.6538246
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/veterinarian.json": {
+    "id": "veterinarian",
+    "title": "veterinarian.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/veterinarian.json",
+    "size_bytes": 424,
+    "mtime": 1785902079.511765
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/volcanologist.json": {
+    "id": "volcanologist",
+    "title": "volcanologist.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/volcanologist.json",
+    "size_bytes": 431,
+    "mtime": 1785902079.9321835
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/watchmaker.json": {
+    "id": "watchmaker",
+    "title": "watchmaker.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/watchmaker.json",
+    "size_bytes": 1040,
+    "mtime": 1785902079.7524922
+  },
+  "plugins/project_builder/knowledge/Claude_historical_figures/welder.json": {
+    "id": "welder",
+    "title": "welder.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_historical_figures/welder.json",
+    "size_bytes": 418,
+    "mtime": 1785902079.8170397
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/accountant.json": {
+    "id": "accountant",
+    "title": "公認会計士",
+    "keywords": [
+      "公認会計士",
+      "会計",
+      "監査",
+      "財務"
+    ],
+    "intent": [],
+    "tags": [
+      "ビジネス"
+    ],
+    "category": "ビジネス",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/accountant.json",
+    "size_bytes": 867,
+    "mtime": 1785902163.1722927
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/air-traffic-controller.json": {
+    "id": "air-traffic-controller",
+    "title": "航空管制官",
+    "keywords": [
+      "航空管制官",
+      "空港",
+      "管制塔"
+    ],
+    "intent": [],
+    "tags": [
+      "航空"
+    ],
+    "category": "航空",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/air-traffic-controller.json",
+    "size_bytes": 1041,
+    "mtime": 1785902163.04282
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/animator.json": {
+    "id": "animator",
+    "title": "アニメーター",
+    "keywords": [
+      "アニメーター",
+      "アニメ",
+      "作画"
+    ],
+    "intent": [],
+    "tags": [
+      "エンタメ"
+    ],
+    "category": "エンタメ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/animator.json",
+    "size_bytes": 877,
+    "mtime": 1785902163.0588455
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/archaeologist.json": {
+    "id": "archaeologist",
+    "title": "考古学者",
+    "keywords": [
+      "考古学者",
+      "遺跡",
+      "発掘",
+      "歴史"
+    ],
+    "intent": [],
+    "tags": [
+      "科学・文化"
+    ],
+    "category": "科学・文化",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/archaeologist.json",
+    "size_bytes": 1075,
+    "mtime": 1785902163.1248367
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/astronaut.json": {
+    "id": "astronaut",
+    "title": "宇宙飛行士",
+    "keywords": [
+      "宇宙飛行士",
+      "宇宙",
+      "ロケット",
+      "JAXA"
+    ],
+    "intent": [],
+    "tags": [
+      "航空宇宙"
+    ],
+    "category": "航空宇宙",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/astronaut.json",
+    "size_bytes": 1246,
+    "mtime": 1785902163.561042
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/astronomer.json": {
+    "id": "astronomer",
+    "title": "天文学者",
+    "keywords": [
+      "天文学者",
+      "天文台",
+      "宇宙",
+      "星"
+    ],
+    "intent": [],
+    "tags": [
+      "科学"
+    ],
+    "category": "科学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/astronomer.json",
+    "size_bytes": 1183,
+    "mtime": 1785902163.0738196
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/auto-mechanic.json": {
+    "id": "auto-mechanic",
+    "title": "自動車整備士",
+    "keywords": [
+      "自動車整備士",
+      "車",
+      "メンテナンス",
+      "修理"
+    ],
+    "intent": [],
+    "tags": [
+      "交通"
+    ],
+    "category": "交通",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/auto-mechanic.json",
+    "size_bytes": 1076,
+    "mtime": 1785902163.6534965
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/baker.json": {
+    "id": "baker",
+    "title": "パン職人",
+    "keywords": [
+      "パン職人",
+      "パン屋",
+      "製パン",
+      "発酵"
+    ],
+    "intent": [],
+    "tags": [
+      "食"
+    ],
+    "category": "食",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/baker.json",
+    "size_bytes": 876,
+    "mtime": 1785902163.2226148
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/baseball-player.json": {
+    "id": "baseball-player",
+    "title": "プロ野球選手",
+    "keywords": [
+      "プロ野球",
+      "野球選手",
+      "スポーツ"
+    ],
+    "intent": [],
+    "tags": [
+      "スポーツ"
+    ],
+    "category": "スポーツ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/baseball-player.json",
+    "size_bytes": 1057,
+    "mtime": 1785902163.2056675
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/carpenter.json": {
+    "id": "carpenter",
+    "title": "大工",
+    "keywords": [
+      "大工",
+      "建築",
+      "木工",
+      "建設"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/carpenter.json",
+    "size_bytes": 1034,
+    "mtime": 1785902163.6155305
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/crane-operator.json": {
+    "id": "crane-operator",
+    "title": "クレーンオペレーター",
+    "keywords": [
+      "クレーン",
+      "建設機械",
+      "重機"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/crane-operator.json",
+    "size_bytes": 893,
+    "mtime": 1785902163.7031813
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/data-scientist.json": {
+    "id": "data-scientist",
+    "title": "データサイエンティスト",
+    "keywords": [
+      "データサイエンティスト",
+      "統計",
+      "AI",
+      "分析"
+    ],
+    "intent": [],
+    "tags": [
+      "IT"
+    ],
+    "category": "IT",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/data-scientist.json",
+    "size_bytes": 912,
+    "mtime": 1785902163.0898507
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/dietitian.json": {
+    "id": "dietitian",
+    "title": "栄養士",
+    "keywords": [
+      "栄養士",
+      "栄養",
+      "食事",
+      "給食"
+    ],
+    "intent": [],
+    "tags": [
+      "医療・食"
+    ],
+    "category": "医療・食",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/dietitian.json",
+    "size_bytes": 1250,
+    "mtime": 1785902163.784401
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/doctor.json": {
+    "id": "doctor",
+    "title": "医師",
+    "keywords": [
+      "医師",
+      "病院",
+      "診断",
+      "治療",
+      "医療"
+    ],
+    "intent": [],
+    "tags": [
+      "医療"
+    ],
+    "category": "医療",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/doctor.json",
+    "size_bytes": 1347,
+    "mtime": 1785902162.9138465
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/electrician.json": {
+    "id": "electrician",
+    "title": "電気工事士",
+    "keywords": [
+      "電気工事士",
+      "電気",
+      "配線",
+      "工事"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/electrician.json",
+    "size_bytes": 878,
+    "mtime": 1785902163.3039565
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/esports-player.json": {
+    "id": "esports-player",
+    "title": "eスポーツ選手",
+    "keywords": [
+      "eスポーツ",
+      "ゲーム",
+      "プロゲーマー"
+    ],
+    "intent": [],
+    "tags": [
+      "スポーツ・IT"
+    ],
+    "category": "スポーツ・IT",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/esports-player.json",
+    "size_bytes": 1125,
+    "mtime": 1785902162.8709993
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/farmer.json": {
+    "id": "farmer",
+    "title": "農家",
+    "keywords": [
+      "農家",
+      "農業",
+      "栽培",
+      "米"
+    ],
+    "intent": [],
+    "tags": [
+      "一次産業"
+    ],
+    "category": "一次産業",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/farmer.json",
+    "size_bytes": 994,
+    "mtime": 1785902162.8813076
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/film-director.json": {
+    "id": "film-director",
+    "title": "映画監督",
+    "keywords": [
+      "映画監督",
+      "映画",
+      "映像"
+    ],
+    "intent": [],
+    "tags": [
+      "エンタメ"
+    ],
+    "category": "エンタメ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/film-director.json",
+    "size_bytes": 844,
+    "mtime": 1785902162.8211136
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/firefighter.json": {
+    "id": "firefighter",
+    "title": "消防士",
+    "keywords": [
+      "消防士",
+      "消防",
+      "救助",
+      "防災"
+    ],
+    "intent": [],
+    "tags": [
+      "公務"
+    ],
+    "category": "公務",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/firefighter.json",
+    "size_bytes": 1020,
+    "mtime": 1785902163.747925
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/fireworks-artisan.json": {
+    "id": "fireworks-artisan",
+    "title": "花火師",
+    "keywords": [
+      "花火師",
+      "花火",
+      "打ち上げ",
+      "職人"
+    ],
+    "intent": [],
+    "tags": [
+      "職人"
+    ],
+    "category": "職人",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/fireworks-artisan.json",
+    "size_bytes": 1028,
+    "mtime": 1785902163.3521037
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/fisherman.json": {
+    "id": "fisherman",
+    "title": "漁師",
+    "keywords": [
+      "漁師",
+      "漁業",
+      "水産",
+      "船"
+    ],
+    "intent": [],
+    "tags": [
+      "一次産業"
+    ],
+    "category": "一次産業",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/fisherman.json",
+    "size_bytes": 1024,
+    "mtime": 1785902162.9028256
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/florist.json": {
+    "id": "florist",
+    "title": "フラワーデザイナー",
+    "keywords": [
+      "フラワーデザイナー",
+      "花屋",
+      "アレンジメント"
+    ],
+    "intent": [],
+    "tags": [
+      "職人"
+    ],
+    "category": "職人",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/florist.json",
+    "size_bytes": 882,
+    "mtime": 1785902163.5138347
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/forestry-worker.json": {
+    "id": "forestry-worker",
+    "title": "林業従事者",
+    "keywords": [
+      "林業",
+      "森林",
+      "木材",
+      "伐採"
+    ],
+    "intent": [],
+    "tags": [
+      "一次産業"
+    ],
+    "category": "一次産業",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/forestry-worker.json",
+    "size_bytes": 874,
+    "mtime": 1785902163.683527
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/gemologist.json": {
+    "id": "gemologist",
+    "title": "宝石鑑定士",
+    "keywords": [
+      "宝石鑑定士",
+      "宝石",
+      "ジュエリー",
+      "鑑定"
+    ],
+    "intent": [],
+    "tags": [
+      "職人"
+    ],
+    "category": "職人",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/gemologist.json",
+    "size_bytes": 1020,
+    "mtime": 1785902163.3204825
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/geologist.json": {
+    "id": "geologist",
+    "title": "地質学者",
+    "keywords": [
+      "地質学者",
+      "地層",
+      "岩石",
+      "地球科学"
+    ],
+    "intent": [],
+    "tags": [
+      "科学"
+    ],
+    "category": "科学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/geologist.json",
+    "size_bytes": 1072,
+    "mtime": 1785902162.8935778
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/hairdresser.json": {
+    "id": "hairdresser",
+    "title": "美容師",
+    "keywords": [
+      "美容師",
+      "美容室",
+      "ヘアスタイル"
+    ],
+    "intent": [],
+    "tags": [
+      "サービス"
+    ],
+    "category": "サービス",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/hairdresser.json",
+    "size_bytes": 916,
+    "mtime": 1785902162.8331263
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/jockey.json": {
+    "id": "jockey",
+    "title": "競馬騎手",
+    "keywords": [
+      "騎手",
+      "競馬",
+      "レース"
+    ],
+    "intent": [],
+    "tags": [
+      "スポーツ"
+    ],
+    "category": "スポーツ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/jockey.json",
+    "size_bytes": 862,
+    "mtime": 1785902163.4590342
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/judge.json": {
+    "id": "judge",
+    "title": "裁判官",
+    "keywords": [
+      "裁判官",
+      "裁判所",
+      "判決"
+    ],
+    "intent": [],
+    "tags": [
+      "法律"
+    ],
+    "category": "法律",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/judge.json",
+    "size_bytes": 1014,
+    "mtime": 1785902162.9568293
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/landscape-gardener.json": {
+    "id": "landscape-gardener",
+    "title": "造園家",
+    "keywords": [
+      "造園家",
+      "庭園",
+      "ガーデニング",
+      "職人"
+    ],
+    "intent": [],
+    "tags": [
+      "職人"
+    ],
+    "category": "職人",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/landscape-gardener.json",
+    "size_bytes": 861,
+    "mtime": 1785902163.1562936
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/lawyer.json": {
+    "id": "lawyer",
+    "title": "弁護士",
+    "keywords": [
+      "弁護士",
+      "法律",
+      "裁判",
+      "訴訟"
+    ],
+    "intent": [],
+    "tags": [
+      "法律"
+    ],
+    "category": "法律",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/lawyer.json",
+    "size_bytes": 1066,
+    "mtime": 1785902163.5885158
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/marine-biologist.json": {
+    "id": "marine-biologist",
+    "title": "海洋生物学者",
+    "keywords": [
+      "海洋生物学者",
+      "海",
+      "生物",
+      "研究"
+    ],
+    "intent": [],
+    "tags": [
+      "科学"
+    ],
+    "category": "科学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/marine-biologist.json",
+    "size_bytes": 1036,
+    "mtime": 1785902163.254619
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/midwife.json": {
+    "id": "midwife",
+    "title": "助産師",
+    "keywords": [
+      "助産師",
+      "出産",
+      "妊娠",
+      "母子"
+    ],
+    "intent": [],
+    "tags": [
+      "医療"
+    ],
+    "category": "医療",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/midwife.json",
+    "size_bytes": 1269,
+    "mtime": 1785902162.9793632
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/mountain-guide.json": {
+    "id": "mountain-guide",
+    "title": "登山ガイド",
+    "keywords": [
+      "登山ガイド",
+      "登山",
+      "山岳"
+    ],
+    "intent": [],
+    "tags": [
+      "アウトドア"
+    ],
+    "category": "アウトドア",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/mountain-guide.json",
+    "size_bytes": 1052,
+    "mtime": 1785902163.4203
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/pharmacist.json": {
+    "id": "pharmacist",
+    "title": "薬剤師",
+    "keywords": [
+      "薬剤師",
+      "調剤",
+      "薬局",
+      "医薬品"
+    ],
+    "intent": [],
+    "tags": [
+      "医療"
+    ],
+    "category": "医療",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/pharmacist.json",
+    "size_bytes": 1270,
+    "mtime": 1785902163.5502872
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/physical-therapist.json": {
+    "id": "physical-therapist",
+    "title": "理学療法士",
+    "keywords": [
+      "理学療法士",
+      "リハビリ",
+      "運動療法"
+    ],
+    "intent": [],
+    "tags": [
+      "医療"
+    ],
+    "category": "医療",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/physical-therapist.json",
+    "size_bytes": 1293,
+    "mtime": 1785902162.9963684
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/piano-tuner.json": {
+    "id": "piano-tuner",
+    "title": "調律師",
+    "keywords": [
+      "調律師",
+      "ピアノ",
+      "楽器"
+    ],
+    "intent": [],
+    "tags": [
+      "音楽・技術"
+    ],
+    "category": "音楽・技術",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/piano-tuner.json",
+    "size_bytes": 867,
+    "mtime": 1785902163.2386262
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/pilot.json": {
+    "id": "pilot",
+    "title": "パイロット",
+    "keywords": [
+      "パイロット",
+      "飛行機",
+      "操縦士",
+      "航空"
+    ],
+    "intent": [],
+    "tags": [
+      "航空"
+    ],
+    "category": "航空",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/pilot.json",
+    "size_bytes": 1190,
+    "mtime": 1785902163.1399796
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/plasterer.json": {
+    "id": "plasterer",
+    "title": "左官職人",
+    "keywords": [
+      "左官",
+      "職人",
+      "建設",
+      "壁"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/plasterer.json",
+    "size_bytes": 834,
+    "mtime": 1785902163.5028334
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/plumber.json": {
+    "id": "plumber",
+    "title": "配管工",
+    "keywords": [
+      "配管工",
+      "水道",
+      "ガス",
+      "工事"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/plumber.json",
+    "size_bytes": 977,
+    "mtime": 1785902163.383613
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/police-officer.json": {
+    "id": "police-officer",
+    "title": "警察官",
+    "keywords": [
+      "警察官",
+      "警察",
+      "捜査",
+      "治安"
+    ],
+    "intent": [],
+    "tags": [
+      "公務"
+    ],
+    "category": "公務",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/police-officer.json",
+    "size_bytes": 837,
+    "mtime": 1785902162.8599718
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/potter.json": {
+    "id": "potter",
+    "title": "陶芸家",
+    "keywords": [
+      "陶芸家",
+      "陶芸",
+      "焼き物",
+      "職人"
+    ],
+    "intent": [],
+    "tags": [
+      "職人"
+    ],
+    "category": "職人",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/potter.json",
+    "size_bytes": 993,
+    "mtime": 1785902163.669492
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/programmer.json": {
+    "id": "programmer",
+    "title": "プログラマー",
+    "keywords": [
+      "プログラマー",
+      "エンジニア",
+      "ソフトウェア",
+      "IT"
+    ],
+    "intent": [],
+    "tags": [
+      "IT"
+    ],
+    "category": "IT",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/programmer.json",
+    "size_bytes": 864,
+    "mtime": 1785902163.028857
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/prosthetist.json": {
+    "id": "prosthetist",
+    "title": "義肢装具士",
+    "keywords": [
+      "義肢装具士",
+      "義足",
+      "義手",
+      "リハビリ"
+    ],
+    "intent": [],
+    "tags": [
+      "医療"
+    ],
+    "category": "医療",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/prosthetist.json",
+    "size_bytes": 1266,
+    "mtime": 1785902163.369611
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/robotics-engineer.json": {
+    "id": "robotics-engineer",
+    "title": "ロボット技術者",
+    "keywords": [
+      "ロボット",
+      "ロボティクス",
+      "エンジニア",
+      "自動化"
+    ],
+    "intent": [],
+    "tags": [
+      "IT・工学"
+    ],
+    "category": "IT・工学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/robotics-engineer.json",
+    "size_bytes": 1070,
+    "mtime": 1785902162.925822
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/sake-brewer.json": {
+    "id": "sake-brewer",
+    "title": "杜氏(酒蔵の醸造責任者)",
+    "keywords": [
+      "杜氏",
+      "日本酒",
+      "酒蔵",
+      "発酵"
+    ],
+    "intent": [],
+    "tags": [
+      "食"
+    ],
+    "category": "食",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/sake-brewer.json",
+    "size_bytes": 1066,
+    "mtime": 1785902163.1874497
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/scuba-instructor.json": {
+    "id": "scuba-instructor",
+    "title": "スキューバダイビングインストラクター",
+    "keywords": [
+      "ダイビング",
+      "インストラクター",
+      "海"
+    ],
+    "intent": [],
+    "tags": [
+      "アウトドア"
+    ],
+    "category": "アウトドア",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/scuba-instructor.json",
+    "size_bytes": 920,
+    "mtime": 1785902162.9398272
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/semiconductor-engineer.json": {
+    "id": "semiconductor-engineer",
+    "title": "半導体技術者",
+    "keywords": [
+      "半導体",
+      "エンジニア",
+      "チップ",
+      "製造"
+    ],
+    "intent": [],
+    "tags": [
+      "工学"
+    ],
+    "category": "工学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/semiconductor-engineer.json",
+    "size_bytes": 1086,
+    "mtime": 1785902163.4017444
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/shipbuilding-engineer.json": {
+    "id": "shipbuilding-engineer",
+    "title": "造船技術者",
+    "keywords": [
+      "造船",
+      "船",
+      "エンジニア",
+      "海洋"
+    ],
+    "intent": [],
+    "tags": [
+      "建設・工学"
+    ],
+    "category": "建設・工学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/shipbuilding-engineer.json",
+    "size_bytes": 852,
+    "mtime": 1785902163.1068275
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/shrine-carpenter.json": {
+    "id": "shrine-carpenter",
+    "title": "宮大工",
+    "keywords": [
+      "宮大工",
+      "寺社",
+      "伝統建築",
+      "木組み"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/shrine-carpenter.json",
+    "size_bytes": 1260,
+    "mtime": 1785902163.4774978
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/soccer-player.json": {
+    "id": "soccer-player",
+    "title": "サッカー選手",
+    "keywords": [
+      "サッカー選手",
+      "サッカー",
+      "スポーツ"
+    ],
+    "intent": [],
+    "tags": [
+      "スポーツ"
+    ],
+    "category": "スポーツ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/soccer-player.json",
+    "size_bytes": 1132,
+    "mtime": 1785902162.8482137
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/sommelier.json": {
+    "id": "sommelier",
+    "title": "ソムリエ",
+    "keywords": [
+      "ソムリエ",
+      "ワイン",
+      "レストラン"
+    ],
+    "intent": [],
+    "tags": [
+      "食"
+    ],
+    "category": "食",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/sommelier.json",
+    "size_bytes": 832,
+    "mtime": 1785902163.4333375
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/sound-engineer.json": {
+    "id": "sound-engineer",
+    "title": "音響エンジニア",
+    "keywords": [
+      "音響エンジニア",
+      "音楽",
+      "レコーディング",
+      "PA"
+    ],
+    "intent": [],
+    "tags": [
+      "音楽・技術"
+    ],
+    "category": "音楽・技術",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/sound-engineer.json",
+    "size_bytes": 1095,
+    "mtime": 1785902163.7677438
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/special-makeup-artist.json": {
+    "id": "special-makeup-artist",
+    "title": "特殊メイクアーティスト",
+    "keywords": [
+      "特殊メイク",
+      "メイクアップアーティスト",
+      "映像"
+    ],
+    "intent": [],
+    "tags": [
+      "エンタメ"
+    ],
+    "category": "エンタメ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/special-makeup-artist.json",
+    "size_bytes": 920,
+    "mtime": 1785902163.2886062
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/stuntman.json": {
+    "id": "stuntman",
+    "title": "スタントマン",
+    "keywords": [
+      "スタントマン",
+      "アクション",
+      "映画"
+    ],
+    "intent": [],
+    "tags": [
+      "エンタメ"
+    ],
+    "category": "エンタメ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/stuntman.json",
+    "size_bytes": 930,
+    "mtime": 1785902163.4918406
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/sumo-wrestler.json": {
+    "id": "sumo-wrestler",
+    "title": "力士",
+    "keywords": [
+      "力士",
+      "相撲",
+      "大相撲"
+    ],
+    "intent": [],
+    "tags": [
+      "スポーツ"
+    ],
+    "category": "スポーツ",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/sumo-wrestler.json",
+    "size_bytes": 881,
+    "mtime": 1785902163.601516
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/tatami-maker.json": {
+    "id": "tatami-maker",
+    "title": "畳職人",
+    "keywords": [
+      "畳職人",
+      "畳",
+      "和室",
+      "職人"
+    ],
+    "intent": [],
+    "tags": [
+      "職人"
+    ],
+    "category": "職人",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/tatami-maker.json",
+    "size_bytes": 849,
+    "mtime": 1785902163.526839
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/teacher.json": {
+    "id": "teacher",
+    "title": "教師",
+    "keywords": [
+      "教師",
+      "先生",
+      "学校",
+      "教育"
+    ],
+    "intent": [],
+    "tags": [
+      "教育"
+    ],
+    "category": "教育",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/teacher.json",
+    "size_bytes": 836,
+    "mtime": 1785902163.7331767
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/tobi.json": {
+    "id": "tobi-shokunin",
+    "title": "鳶職人",
+    "keywords": [
+      "鳶職人",
+      "足場",
+      "高所作業",
+      "建設",
+      "偉人"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/tobi.json",
+    "size_bytes": 1152,
+    "mtime": 1785908471.9113047
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/train-driver.json": {
+    "id": "train-driver",
+    "title": "鉄道運転士",
+    "keywords": [
+      "鉄道",
+      "運転士",
+      "電車",
+      "列車"
+    ],
+    "intent": [],
+    "tags": [
+      "交通"
+    ],
+    "category": "交通",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/train-driver.json",
+    "size_bytes": 832,
+    "mtime": 1785902163.633023
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/translator.json": {
+    "id": "translator",
+    "title": "翻訳家",
+    "keywords": [
+      "翻訳家",
+      "翻訳",
+      "語学",
+      "出版"
+    ],
+    "intent": [],
+    "tags": [
+      "語学"
+    ],
+    "category": "語学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/translator.json",
+    "size_bytes": 488,
+    "mtime": 1785902163.33657
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/tunnel-engineer.json": {
+    "id": "tunnel-engineer",
+    "title": "トンネル技術者",
+    "keywords": [
+      "トンネル",
+      "土木",
+      "地下",
+      "建設"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/tunnel-engineer.json",
+    "size_bytes": 1048,
+    "mtime": 1785902163.2696352
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/veterinarian.json": {
+    "id": "veterinarian",
+    "title": "獣医師",
+    "keywords": [
+      "獣医師",
+      "動物病院",
+      "ペット",
+      "家畜"
+    ],
+    "intent": [],
+    "tags": [
+      "医療"
+    ],
+    "category": "医療",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/veterinarian.json",
+    "size_bytes": 1205,
+    "mtime": 1785902163.0118382
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/volcanologist.json": {
+    "id": "volcanologist",
+    "title": "火山研究者",
+    "keywords": [
+      "火山研究者",
+      "火山",
+      "噴火",
+      "防災"
+    ],
+    "intent": [],
+    "tags": [
+      "科学"
+    ],
+    "category": "科学",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/volcanologist.json",
+    "size_bytes": 1058,
+    "mtime": 1785902163.7191753
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/watchmaker.json": {
+    "id": "watchmaker",
+    "title": "時計職人",
+    "keywords": [
+      "時計職人",
+      "時計",
+      "機械式",
+      "修理"
+    ],
+    "intent": [],
+    "tags": [
+      "職人"
+    ],
+    "category": "職人",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/watchmaker.json",
+    "size_bytes": 855,
+    "mtime": 1785902163.4459333
+  },
+  "plugins/project_builder/knowledge/Claude_occupations/welder.json": {
+    "id": "welder",
+    "title": "溶接工",
+    "keywords": [
+      "溶接",
+      "職人",
+      "金属",
+      "工事"
+    ],
+    "intent": [],
+    "tags": [
+      "建設"
+    ],
+    "category": "建設",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Claude_occupations/welder.json",
+    "size_bytes": 994,
+    "mtime": 1785902163.539286
+  },
+  "plugins/project_builder/knowledge/examples/AI_that_operates_like_AI.json": {
+    "id": "AI_that_operates_like_AI",
+    "title": "AI_that_operates_like_AI.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/examples/AI_that_operates_like_AI.json",
+    "size_bytes": 4661,
+    "mtime": 1783258010.228076
+  },
+  "plugins/project_builder/knowledge/Git/Git_Knowledge_data01.json": {
+    "id": "Git_Knowledge_data01",
+    "title": "Git Knowledge Entry 01",
+    "keywords": [
+      "Git",
+      "バージョン管理",
+      "ローカルリポジトリ",
+      "初期化"
+    ],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Git/Git_Knowledge_data01.json",
+    "size_bytes": 1653,
+    "mtime": 1784896592.3267024
+  },
+  "plugins/project_builder/knowledge/Github_/Collaborators_and_teams.json": {
+    "id": "Collaborators_and_teams",
+    "title": "GitHubリポジトリへの書き込み権限・フォーク許可方法_001",
+    "keywords": [
+      "GitHub",
+      "Write権限",
+      "Collaborator",
+      "Fork",
+      "Pull Request",
+      "Repository",
+      "GitHub CLI",
+      "gh"
+    ],
+    "intent": [],
+    "tags": [
+      "manual",
+      "github",
+      "repository",
+      "collaborator",
+      "write",
+      "fork",
+      "private-repository",
+      "public-repository",
+      "pull-request",
+      "gh-cli"
+    ],
+    "category": "github",
+    "language": "ja",
+    "framework": "",
+    "difficulty": "beginner",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Github_/Collaborators_and_teams.json",
+    "size_bytes": 3922,
+    "mtime": 1784705380.6050003
+  },
+  "plugins/project_builder/knowledge/law/legal.json": {
+    "id": "legal",
+    "title": "legal.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/law/legal.json",
+    "size_bytes": 3796,
+    "mtime": 1783446049.1826108
+  },
+  "plugins/project_builder/knowledge/mistakes/electron/duplicate_require.json": {
+    "id": "ELEC-ERROR-001",
+    "title": "requireを重複して書かない",
+    "keywords": [
+      "electron",
+      "ipcMain",
+      "dialog",
+      "require"
+    ],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/mistakes/electron/duplicate_require.json",
+    "size_bytes": 878,
+    "mtime": 1783036692.406677
+  },
+  "plugins/project_builder/knowledge/rules/project_rules.json": {
+    "id": "project_rules",
+    "title": "project_rules.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "rules",
+    "language": "python",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/rules/project_rules.json",
+    "size_bytes": 1574,
+    "mtime": 1783012295.7312424
+  },
+  "plugins/project_builder/knowledge/rules/react_rules.json": {
+    "id": "react_rules",
+    "title": "react_rules.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/rules/react_rules.json",
+    "size_bytes": 555,
+    "mtime": 1783010313.5860214
+  },
+  "plugins/project_builder/knowledge/Unity_walk/unity_walk.json": {
+    "id": "unity_walk",
+    "title": "unity_walk.json",
+    "keywords": [],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/Unity_walk/unity_walk.json",
+    "size_bytes": 6298,
+    "mtime": 1783942521.307141
+  },
+  "plugins/project_builder/knowledge/video_editor/video_import.json": {
+    "id": "VIDEO-IMPORT-001",
+    "title": "動画追加ボタン",
+    "keywords": [
+      "動画",
+      "追加",
+      "ファイル",
+      "dialog",
+      "electron"
+    ],
+    "intent": [],
+    "tags": [],
+    "category": "",
+    "language": "",
+    "framework": "",
+    "difficulty": "",
+    "updated_at": "",
+    "score": 0,
+    "file_path": "plugins/project_builder/knowledge/video_editor/video_import.json",
+    "size_bytes": 860,
+    "mtime": 1783010011.6552358
+  }
+}

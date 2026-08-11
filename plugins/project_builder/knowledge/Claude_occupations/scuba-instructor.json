@@ -1,0 +1,37 @@
+{
+  "id": "scuba-instructor",
+  "title": "スキューバダイビングインストラクター",
+  "category": "アウトドア",
+  "summary": "ダイビングの技術指導と安全管理を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "比例と反比例",
+        "connection": "水深と圧力の関係を計算しタンクの空気消費を管理する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 圧力と浮力",
+        "connection": "水圧と浮力の理解が潜水の安全管理そのものになる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "ダイビング",
+      "インストラクター",
+      "海"
+    ],
+    "tags": [
+      "アウトドア"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

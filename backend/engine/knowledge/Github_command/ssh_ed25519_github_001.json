@@ -1,0 +1,72 @@
+{
+  "id": "ssh_ed25519_github_001",
+  "type": "technical_knowledge",
+  "category": "GitHub",
+  "title": "GitHub用Ed25519 SSHキーの生成方法",
+  "summary": "PowerShellまたはWindows TerminalでEd25519鍵を生成し、公開鍵をGitHubへ登録する手順。",
+  "topics": [
+    "GitHub",
+    "SSH",
+    "Ed25519",
+    "PowerShell"
+  ],
+  "keywords": [
+    "ssh-keygen",
+    "ed25519",
+    "GitHub",
+    "SSH Key",
+    "PowerShell",
+    "公開鍵"
+  ],
+  "problem": {
+    "title": "GitHubへSSH接続するための鍵を作成したい",
+    "description": "GitHubが推奨するEd25519アルゴリズムでSSH鍵を生成し、公開鍵を登録したい。"
+  },
+  "discussion": [
+    {
+      "role": "user",
+      "message": "Ed25519でSSHキーを生成する手順を確認した。"
+    },
+    {
+      "role": "assistant",
+      "message": "PowerShellでssh-keygenを実行し、公開鍵をGitHubへ登録する手順を説明した。"
+    }
+  ],
+  "commands": [
+    {
+      "command": "ssh-keygen -t ed25519 -C \"your_email@example.com\"",
+      "purpose": "Ed25519 SSH鍵を生成する"
+    },
+    {
+      "command": "Get-Content $HOME\\.ssh\\id_ed25519.pub",
+      "purpose": "公開鍵を表示する"
+    },
+    {
+      "command": "notepad $HOME\\.ssh\\id_ed25519.pub",
+      "purpose": "公開鍵をメモ帳で開く"
+    }
+  ],
+  "important_points": [
+    "GitHubではEd25519が推奨されている。",
+    "鍵の保存先は通常 ~/.ssh/id_ed25519。",
+    "公開鍵(.pub)のみGitHubへ登録する。",
+    "秘密鍵(id_ed25519)は他人に渡さない。"
+  ],
+  "overwrite_behavior": {
+    "prompt": "Overwrite (y/n)?",
+    "yes": "既存のSSH鍵を上書きする。",
+    "no": "既存の鍵を保持して処理を中止する。"
+  },
+  "verification": [
+    {
+      "command": "Get-ChildItem $HOME\\.ssh",
+      "purpose": "SSH鍵が存在するか確認する"
+    }
+  ],
+  "metadata": {
+    "knowledge_type": "tutorial",
+    "difficulty": "beginner",
+    "confidence": "high",
+    "created_from": "ChatGPT conversation"
+  }
+}

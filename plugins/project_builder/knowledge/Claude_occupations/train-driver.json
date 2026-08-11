@@ -1,0 +1,38 @@
+{
+  "id": "train-driver",
+  "title": "鉄道運転士",
+  "category": "交通",
+  "summary": "電車や列車を安全に運転する。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "一次関数",
+        "connection": "速度・距離・時間の関係からダイヤ通りの運行を管理する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "力と運動",
+        "connection": "加速・減速時の慣性やブレーキ距離の計算に力学が使われる。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "鉄道",
+      "運転士",
+      "電車",
+      "列車"
+    ],
+    "tags": [
+      "交通"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

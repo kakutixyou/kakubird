@@ -1,0 +1,21 @@
+{
+  "occupation_id": "carpenter",
+  "occupation_title": "大工",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": [
+      {
+        "name": "左甚五郎",
+        "era": "江戸時代(伝承を含む)",
+        "achievement": "日光東照宮の「眠り猫」など数々の名彫刻を手掛けたとされる名工",
+        "connection": "一部は伝承的な逸話も含むが、木工技術の名手として語り継がれている"
+      }
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

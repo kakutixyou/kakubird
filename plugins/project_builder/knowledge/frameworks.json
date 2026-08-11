@@ -1,0 +1,198 @@
+{
+  "frameworks": [
+    {
+      "id": "fastapi",
+      "name": "FastAPI",
+      "language": "Python",
+      "category": "backend",
+      "description": "高速なPython製Web APIフレームワーク",
+      "keywords": [
+        "fastapi",
+        "api",
+        "rest",
+        "backend",
+        "python"
+      ],
+      "dependencies": [
+        "fastapi",
+        "uvicorn",
+        "pydantic"
+      ],
+      "entry_file": "main.py",
+      "package_file": "requirements.txt",
+      "folder_template": "python_api",
+      "supports": [
+        "REST API",
+        "OpenAPI",
+        "Swagger",
+        "WebSocket"
+      ]
+    },
+    {
+      "id": "flask",
+      "name": "Flask",
+      "language": "Python",
+      "category": "backend",
+      "description": "軽量なPython Webフレームワーク",
+      "keywords": [
+        "flask",
+        "python",
+        "web",
+        "server"
+      ],
+      "dependencies": [
+        "flask"
+      ],
+      "entry_file": "app.py",
+      "package_file": "requirements.txt",
+      "folder_template": "python_web",
+      "supports": [
+        "REST API",
+        "HTML",
+        "Jinja2"
+      ]
+    },
+    {
+      "id": "django",
+      "name": "Django",
+      "language": "Python",
+      "category": "backend",
+      "description": "フルスタックPythonフレームワーク",
+      "keywords": [
+        "django",
+        "python",
+        "orm",
+        "admin"
+      ],
+      "dependencies": [
+        "django"
+      ],
+      "entry_file": "manage.py",
+      "package_file": "requirements.txt",
+      "folder_template": "django_project",
+      "supports": [
+        "ORM",
+        "Admin",
+        "Authentication"
+      ]
+    },
+    {
+      "id": "react",
+      "name": "React",
+      "language": "JavaScript",
+      "category": "frontend",
+      "description": "UI構築ライブラリ",
+      "keywords": [
+        "react",
+        "frontend",
+        "jsx",
+        "spa"
+      ],
+      "dependencies": [
+        "react",
+        "react-dom"
+      ],
+      "entry_file": "src/main.jsx",
+      "package_file": "package.json",
+      "folder_template": "react_app",
+      "supports": [
+        "SPA",
+        "Component",
+        "Hooks"
+      ]
+    },
+    {
+      "id": "vue",
+      "name": "Vue",
+      "language": "JavaScript",
+      "category": "frontend",
+      "description": "シンプルなUIフレームワーク",
+      "keywords": [
+        "vue",
+        "frontend"
+      ],
+      "dependencies": [
+        "vue"
+      ],
+      "entry_file": "src/main.js",
+      "package_file": "package.json",
+      "folder_template": "vue_app",
+      "supports": [
+        "SPA",
+        "Composition API"
+      ]
+    },
+    {
+      "id": "nextjs",
+      "name": "Next.js",
+      "language": "TypeScript",
+      "category": "fullstack",
+      "description": "Reactベースのフルスタックフレームワーク",
+      "keywords": [
+        "next",
+        "nextjs",
+        "ssr",
+        "react"
+      ],
+      "dependencies": [
+        "next",
+        "react",
+        "react-dom"
+      ],
+      "entry_file": "app/page.tsx",
+      "package_file": "package.json",
+      "folder_template": "next_app",
+      "supports": [
+        "SSR",
+        "SSG",
+        "API Routes"
+      ]
+    },
+    {
+      "id": "electron",
+      "name": "Electron",
+      "language": "TypeScript",
+      "category": "desktop",
+      "description": "クロスプラットフォームデスクトップアプリ",
+      "keywords": [
+        "electron",
+        "desktop",
+        "windows",
+        "mac"
+      ],
+      "dependencies": [
+        "electron"
+      ],
+      "entry_file": "main.ts",
+      "package_file": "package.json",
+      "folder_template": "electron_app",
+      "supports": [
+        "Desktop",
+        "IPC",
+        "Native Window"
+      ]
+    },
+    {
+      "id": "tauri",
+      "name": "Tauri",
+      "language": "Rust",
+      "category": "desktop",
+      "description": "軽量デスクトップアプリフレームワーク",
+      "keywords": [
+        "tauri",
+        "desktop",
+        "rust"
+      ],
+      "dependencies": [
+        "tauri"
+      ],
+      "entry_file": "src-tauri/main.rs",
+      "package_file": "Cargo.toml",
+      "folder_template": "tauri_app",
+      "supports": [
+        "Desktop",
+        "Rust Backend"
+      ]
+    }
+  ]
+}

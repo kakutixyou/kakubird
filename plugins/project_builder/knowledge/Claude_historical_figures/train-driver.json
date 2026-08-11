@@ -1,0 +1,21 @@
+{
+  "occupation_id": "train-driver",
+  "occupation_title": "鉄道運転士",
+  "history_figures": {
+    "world_history": [
+      {
+        "name": "ジョージ・スティーブンソン",
+        "era": "19世紀イギリス",
+        "achievement": "実用的な蒸気機関車を開発し、鉄道の実用化に貢献した",
+        "connection": "鉄道という交通手段そのものを切り開いた人物"
+      }
+    ],
+    "japan_history": "該当なし"
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed",
+    "note": "史実として確認できる人物のみ採用。確証のない組み合わせは「該当なし」としている。"
+  }
+}

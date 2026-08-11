@@ -1,0 +1,44 @@
+{
+  "id": "tobi-shokunin",
+
+  "title": "鳶職人",
+
+  "occupation_id": "tobi-shokunin",
+  "occupation_title": "鳶職人",
+  "history_figures": {
+    "world_history": "該当なし",
+    "japan_history": "該当なし"
+  },
+ 
+
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "空間図形",
+        "connection": "足場のパイプの長さや角度を正確に計算し安全に組み立てる。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学I 三角比",
+        "connection": "斜面や高所の距離・角度を三角比で計算し安全な作業範囲を判断する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "高校",
+        "unit": "物理基礎 力学",
+        "connection": "高所での重心バランスや落下時の力を理解し安全対策に活かす。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": ["鳶職人", "足場", "高所作業", "建設","偉人"],
+    "tags": ["建設"]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

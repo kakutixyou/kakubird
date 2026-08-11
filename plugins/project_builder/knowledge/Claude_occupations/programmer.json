@@ -1,0 +1,37 @@
+{
+  "id": "programmer",
+  "title": "プログラマー",
+  "category": "IT",
+  "summary": "ソフトウェアやアプリの設計・実装を行う。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "文字式・方程式",
+        "connection": "変数やアルゴリズムの考え方は文字式の延長線上にある。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学A 場合の数",
+        "connection": "処理の分岐や組み合わせの数を見積もる際に使う。"
+      }
+    ],
+    "science": []
+  },
+  "retrieval": {
+    "keywords": [
+      "プログラマー",
+      "エンジニア",
+      "ソフトウェア",
+      "IT"
+    ],
+    "tags": [
+      "IT"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}

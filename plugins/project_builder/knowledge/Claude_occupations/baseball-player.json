@@ -1,0 +1,42 @@
+{
+  "id": "baseball-player",
+  "title": "プロ野球選手",
+  "category": "スポーツ",
+  "summary": "プロとして野球の試合に出場し、技術と戦略で結果を出す。",
+  "subjects": {
+    "math": [
+      {
+        "stage": "中学",
+        "unit": "資料の活用",
+        "connection": "打率・防御率などの成績データを分析し戦術に活かす。"
+      },
+      {
+        "stage": "高校",
+        "unit": "数学I データの分析",
+        "connection": "相手投手や打者の傾向を統計的に分析する。"
+      }
+    ],
+    "science": [
+      {
+        "stage": "中学",
+        "unit": "力と運動",
+        "connection": "ボールの回転や軌道を力学的に理解し投球・打撃に活かす。"
+      }
+    ]
+  },
+  "retrieval": {
+    "keywords": [
+      "プロ野球",
+      "野球選手",
+      "スポーツ"
+    ],
+    "tags": [
+      "スポーツ"
+    ]
+  },
+  "meta": {
+    "generated_by": "claude",
+    "generated_at": "2026-08-05",
+    "review_status": "unreviewed"
+  }
+}
