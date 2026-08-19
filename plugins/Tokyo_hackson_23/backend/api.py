@@ -5,58 +5,19 @@ backend/api.py
 ──────
 フロントエンド（Web画面）からの非同期リクエストに応じ、
 23区のスコア一覧や、区をクリックした際の「詳細内訳」データを配信する FastAPI サーバー。
-
-主な機能:
-- GET /api/scores               : 指定テーマにおける23区のスコアランキング一覧
-- GET /api/wards/{ward_name}    : クリック時の「詳細内訳」（デモグラフィック、スコア根拠、収集データセット、施設一覧、証跡）
-- GET /api/facilities           : 地図表示等で使える正規化済み施設検索 API
-
---- パッチ履歴 ---
-- WardDetailResponse に `evidence` を追加。engines/evidence_engine.py を使って
-  「このスコアはどのデータセットの、どの行の、どの列由来か」まで
-  内訳画面から辿れるようにした（scoreの根拠追跡）。
-  evidence の計算に失敗しても（normalize_schema/metrics未実行など）、
-  ward detail 自体は今まで通り返す（evidence だけ null になる）。
-  
-  
-  1. APIの条件緩和（一番手軽な改善）
-現在、api.py の内部には以下のコードがあります。
-
-Python
-if ev.facility_count == 0:
-    return None
-施設が0件だとエビデンス情報全体を「無かったこと（None）」にしてしまうため、フロントエンドで参照元データすら表示できなくなっています。
-これを削除し、「施設数は0件だけど、このオープンデータ（CSVなど）を元に点数をつけているよ」とフロントエンドへしっかり返すように改善します。
-
-2. データ正規化（normalize_schema.py）の強化
-ここが根本的な解決策になります。カタログからダウンロードしたCSVファイルには、「緯度」「経度」「lat」「lon」「X座標」「Y座標」など、自治体によって列名に激しいバラつきがあります。
-Python側でこの「列名の揺れ」を吸収する辞書（マッピングルール）を強化することで、弾かれていたデータが normalized_facilities テーブル（SQLiteデータベース）に正しく書き込まれるようになり、0件だった表示が実際の件数へと変わっていきます。
-
-3. 全スコアの計算基準を「実際の施設数」へ移行
-現在は「オープンデータのファイルが存在するかどうか」で基礎点数がついてしまっています。
-今回「娯楽施設」で実装したような、「normalized_facilities に登録された実際の施設数と区の面積を使って計算するロジック」を、公園や防災など他のすべてのテーマにも適用します。これにより、データの中身を伴った真のスコアが算出されるようになります。
-
-4. フロントエンドでの「状態」の可視化
-UX（ユーザー体験）の観点からの改善です。単に「0件」と表示するのではなく、バックエンドから送られてくるステータスを活用して表示を切り替えます。
-
-データはあるが座標がない場合 👉 「データ形式変換中」 または 「マップ表示非対応データ」
-
-本当にデータがない場合 👉 「自治体からのデータ公開なし」
-
-このように表示を分けることで、ユーザーに「バグかな？」と思わせず、行政のデータ公開度のリアルな現状として伝えることができます。
-
-SQLiteデータベースの構造やPythonでのデータ処理の仕組みを活かして、さらに精度の高いシステムへと進化させていけそうですね。まずはこの中で、どの改善から手をつけてみたいですか？
 """
 
 from __future__ import annotations
 
 import json
 import logging
-import sqlite3
+import os
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -68,11 +29,6 @@ BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "data" / "opendata_queue.db"
 
 # orchestrator/opendata_workflow.py と共通の23区公式統計データ（一次情報）
-#
-# [population_10k_5y_ago について]
-# orchestrator/opendata_workflow.py の WARD_DEMOGRAPHICS と同様、人口推移
-# （増加率）スコア用の「5年前の人口（万人単位）」列。⚠️ 現状は仮置きで
-# population_10k と同値（増加率0%扱い）。実データに手動で置き換えること。
 WARD_DEMOGRAPHICS = {
     "千代田区": {"population_10k": 6.80,  "area_sqkm": 11.66, "children_0_5": 3500,  "population_10k_5y_ago": 6.80},
     "中央区":   {"population_10k": 17.50, "area_sqkm": 10.21, "children_0_5": 11000, "population_10k_5y_ago": 17.50},
@@ -105,10 +61,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# CORS対応（フロントエンドWeb画面からの非同期fetchを許可）
-# ⚠️ allow_origins="*" と allow_credentials=True は仕様上併用不可（ブラウザに拒否される）。
-#    認証(Cookie等)を使わない前提なので allow_credentials=False に修正。
-#    将来Cookie認証等を導入する場合は allow_origins を実ドメインに限定すること。
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -118,17 +70,17 @@ app.add_middleware(
 )
 
 
-def get_db_connection() -> sqlite3.Connection:
-    if not DB_PATH.exists():
+def get_db_connection():
+    # Render等の環境変数からURLを取得
+    db_url = os.getenv("DATABASE_URL")
+    if not db_url:
         raise HTTPException(
             status_code=500,
-            detail=f"データベースが存在しません ({DB_PATH})。先に "
-                   f"`python orchestrator/opendata_workflow.py collect --theme <theme名>` を実行してください。",
+            detail="DATABASE_URL が設定されていません。環境変数を確認してください。"
         )
-    conn = sqlite3.connect(str(DB_PATH))
-    conn.row_factory = sqlite3.Row
+    # PostgreSQL (Supabase/Render) に接続
+    conn = psycopg2.connect(db_url, cursor_factory=RealDictCursor)
     return conn
-
 
 # ──────────────────────────────────────────────
 # Pydantic レスポンススキーマ定義
@@ -142,7 +94,7 @@ class WardScoreSummary(BaseModel):
 
 
 class FacilityDetail(BaseModel):
-    id: str          # ← int から str に変更（CKANのresource_idはUUID/MD5文字列のため）
+    id: str
     name: str
     address: Optional[str] = None
     latitude: Optional[float] = None
@@ -160,20 +112,16 @@ class DatasetResourceDetail(BaseModel):
 
 
 class DatasetEvidenceItem(BaseModel):
-    """engines/evidence_engine.py の DatasetEvidence に対応"""
     dataset_id: str
     title: str
     url: str
     format: str
     status: str
     license_status: str
-    facility_count: int  # このデータセット由来の施設が何件正規化されているか
+    facility_count: int
 
 
 class FacilityEvidenceItem(BaseModel):
-    """engines/evidence_engine.py の FacilityEvidence に対応。
-    matched_field/matched_raw_value が「このスコアはどのCSVのどの列由来か」を示す。
-    """
     facility_id: str
     facility_name: str
     address: Optional[str] = None
@@ -186,13 +134,9 @@ class FacilityEvidenceItem(BaseModel):
 
 
 class WardEvidenceSummary(BaseModel):
-    """区の合計スコアの「根拠」。sample_facilities は代表数件のみ（全件は重いため）。"""
     metric_label: str
     facility_count: int
     metric_sum: float
-    # このスコアがどれだけ信頼できそうかを表す0〜100の数値
-    # (座標カバー率・データの鮮度・件数の十分さ・データセットの多様性から算出)。
-    # metrics アクション未実行のテーマでは null。
     confidence_score: Optional[float] = None
     datasets: List[DatasetEvidenceItem]
     sample_facilities: List[FacilityEvidenceItem]
@@ -205,8 +149,6 @@ class WardDetailResponse(BaseModel):
     score_breakdown: Dict[str, Any]
     datasets: List[DatasetResourceDetail]
     facilities: List[FacilityDetail]
-    # [パッチ] スコアの根拠追跡。normalize_schema/metricsが未実行のテーマでは
-    # None になる（内訳画面側は null を「詳細未計算」として扱う想定）。
     evidence: Optional[WardEvidenceSummary] = None
 
 
@@ -224,34 +166,33 @@ def get_ward_scores(theme: str = Query(..., description="テーマ識別子 (例
     """一覧画面やグラフ描画で使う全23区のスコアランキングを返します。"""
     conn = get_db_connection()
     try:
-        cur = conn.execute(
-            """
-            SELECT city_name, total_score, quality_score, richness_score, raw_count
-            FROM ward_scores
-            WHERE theme = ?
-            ORDER BY total_score DESC
-            """,
-            (theme,),
-        )
-        rows = cur.fetchall()
-        return [
-            WardScoreSummary(
-                city_name=r["city_name"],
-                total_score=r["total_score"],
-                quality_score=r["quality_score"],
-                richness_score=r["richness_score"],
-                raw_count=r["raw_count"],
+        # psycopg2の場合は cursor を取得してから execute を実行する
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT city_name, total_score, quality_score, richness_score, raw_count
+                FROM ward_scores
+                WHERE theme = %s
+                ORDER BY total_score DESC
+                """,
+                (theme,)  # psycopg2ではプレースホルダーが ? ではなく %s になります
             )
-            for r in rows
-        ]
+            rows = cur.fetchall()
+            return [
+                WardScoreSummary(
+                    city_name=r["city_name"],
+                    total_score=r["total_score"],
+                    quality_score=r["quality_score"],
+                    richness_score=r["richness_score"],
+                    raw_count=r["raw_count"],
+                )
+                for r in rows
+            ]
     finally:
         conn.close()
 
 
 def _build_ward_evidence(theme: str, ward_name: str) -> Optional[WardEvidenceSummary]:
-    """
-    engines/evidence_engine.py を呼んで根拠情報を組み立てる。
-    """
     try:
         from Tokyo_hackson_23.backend.engines.evidence_engine import get_ward_evidence
     except ImportError:
@@ -264,7 +205,7 @@ def _build_ward_evidence(theme: str, ward_name: str) -> Optional[WardEvidenceSum
         logger.warning(f"[{theme}/{ward_name}] evidence 計算に失敗しました: {e}")
         return None
 
-    # 🎯【修正】施設数が0でもエビデンスは返す。ただし、サンプルの施設リストは空配列にする
+    # 施設数が0でもエビデンス（オープンデータ情報など）はフロントエンドに返す
     sample_facs = []
     if ev.facility_count > 0:
         sample_facs = [FacilityEvidenceItem(**asdict(f)) for f in ev.sample_facilities]
@@ -275,7 +216,7 @@ def _build_ward_evidence(theme: str, ward_name: str) -> Optional[WardEvidenceSum
         metric_sum=ev.metric_sum,
         confidence_score=ev.confidence_score,
         datasets=[DatasetEvidenceItem(**asdict(d)) for d in ev.datasets],
-        sample_facilities=sample_facs, # 👈 ここを安全に処理した変数に置き換え
+        sample_facilities=sample_facs,
     )
 
 @app.get("/api/wards/{ward_name}", response_model=WardDetailResponse, summary="クリック時の「詳細内訳」取得")
@@ -283,15 +224,6 @@ def get_ward_detail(
     ward_name: str,
     theme: str = Query(..., description="テーマ識別子 (例: childcare, park)"),
 ):
-    """
-    💡 メイン機能: 画面で区をクリックしたときに呼ばれる内訳APIです。
-    以下をすべてまとめて返却します。
-      1. 一次公的統計（人口、面積、0-5歳児数など）
-      2. スコア内訳（データ品質、地域充実度、データ件数）
-      3. 収集元オープンデータリソース（CKANのURLや形式）
-      4. normalize_schema.py で構造化された施設一覧（normalized_facilities）
-      5. スコアの根拠（evidence_engine）：どのデータセットの、どの列由来かの追跡
-    """
     conn = get_db_connection()
     try:
         # 1. 人口・統計データの取得
@@ -299,66 +231,76 @@ def get_ward_detail(
         if not demo:
             raise HTTPException(status_code=404, detail=f"指定された区が存在しません: {ward_name}")
 
-        # 2. スコア内訳の取得
-        cur = conn.execute(
-            """
-            SELECT raw_count, quality_score, richness_score, total_score, calculated_at
-            FROM ward_scores
-            WHERE theme = ? AND city_name = ?
-            """,
-            (theme, ward_name),
-        )
-        score_row = cur.fetchone()
-        score_breakdown = dict(score_row) if score_row else {
-            "raw_count": 0, "quality_score": 0.0, "richness_score": 0.0, "total_score": 0.0
-        }
-
-        # 3. 収集済みオープンデータセット（CKANリンク集）
-        #    ※ 件数上限を追加（LIMIT無しだと大量データセット時にレスポンスが肥大化するため）
-        cur = conn.execute(
-            """
-            SELECT id, title, format, url, status, has_coordinates
-            FROM opendata_queue
-            WHERE theme = ? AND municipality = ?
-            ORDER BY created_at DESC
-            LIMIT 100
-            """,
-            (theme, ward_name),
-        )
-        datasets = [
-            DatasetResourceDetail(
-                id=r["id"],
-                title=r["title"] or "名称未設定",
-                format=r["format"] or "UNKNOWN",
-                url=r["url"] or "",
-                status=r["status"] or "UNASSESSED",
-                has_coordinates=bool(r["has_coordinates"]),
+        with conn.cursor() as cur:
+            # 2. スコア内訳の取得
+            cur.execute(
+                """
+                SELECT raw_count, quality_score, richness_score, total_score, calculated_at
+                FROM ward_scores
+                WHERE theme = %s AND city_name = %s
+                """,
+                (theme, ward_name),
             )
-            for r in cur.fetchall()
-        ]
+            score_row = cur.fetchone()
+            score_breakdown = dict(score_row) if score_row else {
+                "raw_count": 0, "quality_score": 0.0, "richness_score": 0.0, "total_score": 0.0
+            }
 
-        # 4. 正規化済み施設リスト (normalize_schema.py の normalize_and_persist_facilities で格納)
-        cur = conn.execute(
-            """
-            SELECT id, name, address, latitude, longitude, raw_json
-            FROM normalized_facilities
-            WHERE theme = ? AND municipality = ?
-            ORDER BY name ASC
-            LIMIT 500
-            """,
-            (theme, ward_name),
-        )
-        facilities = [
-            FacilityDetail(
-                id=str(r["id"]),
-                name=r["name"],
-                address=r["address"],
-                latitude=r["latitude"],
-                longitude=r["longitude"],
-                raw_json=json.loads(r["raw_json"]) if r["raw_json"] else None,
+            # 3. 収集済みオープンデータセット（CKANリンク集）
+            cur.execute(
+                """
+                SELECT id, title, format, url, status, has_coordinates
+                FROM opendata_queue
+                WHERE theme = %s AND municipality = %s
+                ORDER BY created_at DESC
+                LIMIT 100
+                """,
+                (theme, ward_name),
             )
-            for r in cur.fetchall()
-        ]
+            datasets = [
+                DatasetResourceDetail(
+                    id=r["id"],
+                    title=r["title"] or "名称未設定",
+                    format=r["format"] or "UNKNOWN",
+                    url=r["url"] or "",
+                    status=r["status"] or "UNASSESSED",
+                    has_coordinates=bool(r["has_coordinates"]),
+                )
+                for r in cur.fetchall()
+            ]
+
+            # 4. 正規化済み施設リスト
+            cur.execute(
+                """
+                SELECT id, name, address, latitude, longitude, raw_json
+                FROM normalized_facilities
+                WHERE theme = %s AND municipality = %s
+                ORDER BY name ASC
+                LIMIT 500
+                """,
+                (theme, ward_name),
+            )
+            
+            facilities = []
+            for r in cur.fetchall():
+                # psycopg2のJSONB型は自動でdictになりますが、テキスト型で入っている場合に備えて安全に変換します
+                raw_json = r["raw_json"]
+                if isinstance(raw_json, str):
+                    try:
+                        raw_json = json.loads(raw_json)
+                    except json.JSONDecodeError:
+                        raw_json = None
+                
+                facilities.append(
+                    FacilityDetail(
+                        id=str(r["id"]),
+                        name=r["name"],
+                        address=r["address"],
+                        latitude=r["latitude"],
+                        longitude=r["longitude"],
+                        raw_json=raw_json,
+                    )
+                )
 
         # 5. スコアの根拠（evidence_engine）
         evidence = _build_ward_evidence(theme, ward_name)
@@ -386,26 +328,39 @@ def search_facilities(
     """地図上に施設ピンをまとめて表示する用途向けのエンドポイント。"""
     conn = get_db_connection()
     try:
-        query = "SELECT id, name, address, latitude, longitude, raw_json FROM normalized_facilities WHERE theme = ?"
-        params: list = [theme]
-        if municipality:
-            query += " AND municipality = ?"
-            params.append(municipality)
-        query += " LIMIT ?"
-        params.append(limit)
+        with conn.cursor() as cur:
+            query = "SELECT id, name, address, latitude, longitude, raw_json FROM normalized_facilities WHERE theme = %s"
+            params: list = [theme]
+            
+            if municipality:
+                query += " AND municipality = %s"
+                params.append(municipality)
+                
+            query += " LIMIT %s"
+            params.append(limit)
 
-        cur = conn.execute(query, params)
-        return [
-            FacilityDetail(
-                id=str(r["id"]),
-                name=r["name"],
-                address=r["address"],
-                latitude=r["latitude"],
-                longitude=r["longitude"],
-                raw_json=json.loads(r["raw_json"]) if r["raw_json"] else None,
-            )
-            for r in cur.fetchall()
-        ]
+            cur.execute(query, tuple(params))
+            
+            facilities = []
+            for r in cur.fetchall():
+                raw_json = r["raw_json"]
+                if isinstance(raw_json, str):
+                    try:
+                        raw_json = json.loads(raw_json)
+                    except json.JSONDecodeError:
+                        raw_json = None
+
+                facilities.append(
+                    FacilityDetail(
+                        id=str(r["id"]),
+                        name=r["name"],
+                        address=r["address"],
+                        latitude=r["latitude"],
+                        longitude=r["longitude"],
+                        raw_json=raw_json,
+                    )
+                )
+            return facilities
     finally:
         conn.close()
 

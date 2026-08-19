@@ -12,14 +12,6 @@ workflow.py
 - CSVファイルをダウンロード時にオンメモリでDict形式のJSONへ自動変換
 - CKAN等の収集途中で失敗した場合でも取得済みデータを破棄せずにDBへ反映
 - theme_schema.py および 23区一次統計データ(WARD_DEMOGRAPHICS)との完全連動
-
---- パッチ履歴 ---
-- OpenDataQueueDB.__init__ 内で未定義の `cols` を参照していたバグを修正
-  （license_status/license_id 追加マイグレーションを _init_db() 内に移動）
-- normalized_facilities テーブルの CREATE TABLE が欠落していたバグを修正
-  （api.py / normalize_schema.py はこのテーブルへの読み書きに依存している）
-- run_collect が cfg（テーマYAML）の queries[1:] / formats / group / rows /
-  max_packages を無視していたバグを修正（cfg駆動に変更し、複数queryをマージ）
 """
 
 from __future__ import annotations
@@ -37,6 +29,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
+import psycopg2
+from psycopg2.extras import RealDictCursor, Json
 import requests
 import yaml
 
@@ -88,16 +82,31 @@ WARD_DEMOGRAPHICS = {
 # ──────────────────────────────────────────────
 class OpenDataQueueDB:
     def __init__(self, db_path: str = "data/opendata_queue.db"):
-        self.db_path = Path(db_path)
-        if not self.db_path.is_absolute():
-            self.db_path = BASE_DIR / self.db_path
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        # 環境変数を見てモードを自動判定（RENDER環境か、DATABASE_URLがあればPostgreSQLモード）
+        self.is_postgres = (os.getenv("RENDER") == "true") or bool(os.getenv("DATABASE_URL"))
+        self.db_url = os.getenv("DATABASE_URL")
 
-        self.conn = sqlite3.connect(str(self.db_path))
-        self.conn.row_factory = sqlite3.Row
-        self._init_db()
+        if self.is_postgres:
+            if not self.db_url:
+                raise ValueError("イベントモード(PostgreSQL)ですが DATABASE_URL が設定されていません。")
+            self.conn = None # PostgreSQLはメソッド呼び出しのたびに接続を開閉する
+        else:
+            # 従来通りの SQLite 初期化処理
+            self.db_path = Path(db_path)
+            if not self.db_path.is_absolute():
+                self.db_path = BASE_DIR / self.db_path
+            self.db_path.parent.mkdir(parents=True, exist_ok=True)
+
+            self.conn = sqlite3.connect(str(self.db_path))
+            self.conn.row_factory = sqlite3.Row
+            self._init_sqlite_db()
+
+    def _get_pg_connection(self):
+        """PostgreSQL用の接続を返すヘルパー"""
+        return psycopg2.connect(self.db_url, cursor_factory=RealDictCursor)
 
     def _table_exists(self, name: str) -> bool:
+        assert self.conn is not None
         cur = self.conn.execute(
             "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
             (name,),
@@ -105,11 +114,13 @@ class OpenDataQueueDB:
         return cur.fetchone() is not None
 
     def _get_columns(self, table_name: str) -> set[str]:
+        assert self.conn is not None
         cur = self.conn.execute(f"PRAGMA table_info({table_name})")
         return {row["name"] for row in cur.fetchall()}
 
-    def _init_db(self):
-        """テーブル作成および既存DBの自動マイグレーション"""
+    def _init_sqlite_db(self):
+        """SQLite専用: テーブル作成および既存DBの自動マイグレーション"""
+        assert self.conn is not None
         # 1. opendata_queue テーブル
         if not self._table_exists("opendata_queue"):
             self.conn.execute(
@@ -152,16 +163,10 @@ class OpenDataQueueDB:
                 self.conn.execute("ALTER TABLE opendata_queue ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
             if "updated_at" not in cols:
                 self.conn.execute("ALTER TABLE opendata_queue ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-            # [パッチ] 以前は __init__ 直下にあって `cols` が未定義のため NameError になっていた箇所。
-            # ここ（_init_db内・cols定義後）に移動して修正。
             if "license_status" not in cols:
-                self.conn.execute(
-                    "ALTER TABLE opendata_queue ADD COLUMN license_status TEXT DEFAULT 'unknown'"
-                )
+                self.conn.execute("ALTER TABLE opendata_queue ADD COLUMN license_status TEXT DEFAULT 'unknown'")
             if "license_id" not in cols:
-                self.conn.execute(
-                    "ALTER TABLE opendata_queue ADD COLUMN license_id TEXT"
-                )
+                self.conn.execute("ALTER TABLE opendata_queue ADD COLUMN license_id TEXT")
 
             self.conn.execute(
                 "CREATE UNIQUE INDEX IF NOT EXISTS uq_opendata_queue_theme_id ON opendata_queue(theme, id)"
@@ -185,10 +190,6 @@ class OpenDataQueueDB:
             )
 
         # 3. normalized_facilities (正規化済み施設一覧テーブル)
-        # [パッチ] api.py の /api/wards/{ward_name} と /api/facilities、
-        # normalize_schema.py の normalize_and_persist_facilities() が
-        # このテーブルに依存しているが、CREATE TABLE がどこにも無く
-        # 「no such table: normalized_facilities」で落ちていたため追加。
         if not self._table_exists("normalized_facilities"):
             self.conn.execute(
                 """
@@ -215,81 +216,182 @@ class OpenDataQueueDB:
 
     def insert_unassessed_items(self, theme: str, items: list[dict]) -> int:
         inserted_count = 0
-        with self.conn:
-            for item in items:
-                raw_data = json.dumps(item.get("raw_metadata", {}), ensure_ascii=False)
-                item_id = (item.get("id") or "").strip()
-                url = (item.get("url") or "").strip()
-                if not item_id or not url:
-                    continue
-                try:
-                    self.conn.execute(
-                        """
-                        INSERT INTO opendata_queue
-                        (theme, id, url, title, municipality, format, raw_metadata, has_coordinates, status)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UNASSESSED')
-                        """,
-                        (
-                            theme,
-                            item_id,
-                            url,
-                            item.get("title", ""),
-                            item.get("municipality", ""),
-                            item.get("format", ""),
-                            raw_data,
-                            1 if item.get("has_coordinates") else 0,
-                        ),
-                    )
-                    inserted_count += 1
-                except sqlite3.IntegrityError:
-                    pass  # 重複登録はスキップ
+        if self.is_postgres:
+            with self._get_pg_connection() as conn:
+                with conn.cursor() as cur:
+                    for item in items:
+                        raw_data = item.get("raw_metadata", {})
+                        item_id = (item.get("id") or "").strip()
+                        url = (item.get("url") or "").strip()
+                        if not item_id or not url:
+                            continue
+                        try:
+                            # PostgreSQL特有の ON CONFLICT DO NOTHING を使用
+                            cur.execute(
+                                """
+                                INSERT INTO opendata_queue
+                                (theme, id, url, title, municipality, format, raw_metadata, has_coordinates, status)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'UNASSESSED')
+                                ON CONFLICT (theme, id) DO NOTHING
+                                """,
+                                (
+                                    theme,
+                                    item_id,
+                                    url,
+                                    item.get("title", ""),
+                                    item.get("municipality", ""),
+                                    item.get("format", ""),
+                                    Json(raw_data), # JSONB型として挿入
+                                    1 if item.get("has_coordinates") else 0,
+                                ),
+                            )
+                            inserted_count += cur.rowcount
+                        except Exception:
+                            conn.rollback() # エラー時はトランザクションをリセット
+                conn.commit()
+        else:
+            assert self.conn is not None # エディタのNone警告を消す
+            with self.conn:
+                for item in items:
+                    raw_data = json.dumps(item.get("raw_metadata", {}), ensure_ascii=False)
+                    item_id = (item.get("id") or "").strip()
+                    url = (item.get("url") or "").strip()
+                    if not item_id or not url:
+                        continue
+                    try:
+                        self.conn.execute(
+                            """
+                            INSERT INTO opendata_queue
+                            (theme, id, url, title, municipality, format, raw_metadata, has_coordinates, status)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UNASSESSED')
+                            """,
+                            (
+                                theme,
+                                item_id,
+                                url,
+                                item.get("title", ""),
+                                item.get("municipality", ""),
+                                item.get("format", ""),
+                                raw_data,
+                                1 if item.get("has_coordinates") else 0,
+                            ),
+                        )
+                        inserted_count += 1
+                    except sqlite3.IntegrityError:
+                        pass  # 重複登録はスキップ
         return inserted_count
 
     def get_unassessed_items(self, theme: str, limit: int = 100) -> list[dict]:
-        cur = self.conn.execute(
-            """
-            SELECT * FROM opendata_queue
-            WHERE theme = ? AND status = 'UNASSESSED'
-            ORDER BY created_at ASC
-            LIMIT ?
-            """,
-            (theme, limit),
-        )
-        return [dict(r) for r in cur.fetchall()]
+        if self.is_postgres:
+            with self._get_pg_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT * FROM opendata_queue
+                        WHERE theme = %s AND status = 'UNASSESSED'
+                        ORDER BY created_at ASC
+                        LIMIT %s
+                        """,
+                        (theme, limit),
+                    )
+                    return [dict(r) for r in cur.fetchall()]
+        else:
+            assert self.conn is not None
+            cur = self.conn.execute(
+                """
+                SELECT * FROM opendata_queue
+                WHERE theme = ? AND status = 'UNASSESSED'
+                ORDER BY created_at ASC
+                LIMIT ?
+                """,
+                (theme, limit),
+            )
+            return [dict(r) for r in cur.fetchall()]
 
     def update_status(self, theme: str, item_id: str, status: str, error_msg: str = ""):
-        with self.conn:
-            self.conn.execute(
-                """
-                UPDATE opendata_queue
-                SET status = ?, error_msg = ?, updated_at = CURRENT_TIMESTAMP
-                WHERE theme = ? AND id = ?
-                """,
-                (status, error_msg, theme, item_id),
-            )
+        if self.is_postgres:
+            with self._get_pg_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        UPDATE opendata_queue
+                        SET status = %s, error_msg = %s, updated_at = CURRENT_TIMESTAMP
+                        WHERE theme = %s AND id = %s
+                        """,
+                        (status, error_msg, theme, item_id),
+                    )
+                conn.commit()
+        else:
+            assert self.conn is not None # エディタのNone警告を消す
+            with self.conn:
+                self.conn.execute(
+                    """
+                    UPDATE opendata_queue
+                    SET status = ?, error_msg = ?, updated_at = CURRENT_TIMESTAMP
+                    WHERE theme = ? AND id = ?
+                    """,
+                    (status, error_msg, theme, item_id),
+                )
 
     def save_ward_score(self, theme: str, city_name: str, raw_count: int, quality_score: float, richness_score: float, total_score: float):
-        with self.conn:
-            self.conn.execute(
-                """
-                INSERT OR REPLACE INTO ward_scores
-                (theme, city_name, raw_count, quality_score, richness_score, total_score, calculated_at)
-                VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-                """,
-                (theme, city_name, raw_count, quality_score, richness_score, total_score),
-            )
+        if self.is_postgres:
+            with self._get_pg_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        INSERT INTO ward_scores
+                        (theme, city_name, raw_count, quality_score, richness_score, total_score, calculated_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                        ON CONFLICT (theme, city_name) DO UPDATE 
+                        SET raw_count = EXCLUDED.raw_count,
+                            quality_score = EXCLUDED.quality_score,
+                            richness_score = EXCLUDED.richness_score,
+                            total_score = EXCLUDED.total_score,
+                            calculated_at = CURRENT_TIMESTAMP
+                        """,
+                        (theme, city_name, raw_count, quality_score, richness_score, total_score),
+                    )
+                conn.commit()
+        else:
+            assert self.conn is not None # エディタのNone警告を消す
+            with self.conn:
+                self.conn.execute(
+                    """
+                    INSERT OR REPLACE INTO ward_scores
+                    (theme, city_name, raw_count, quality_score, richness_score, total_score, calculated_at)
+                    VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                    """,
+                    (theme, city_name, raw_count, quality_score, richness_score, total_score),
+                )
 
     def get_stats(self, theme: str) -> dict:
-        cur = self.conn.execute(
-            """
-            SELECT status, COUNT(*) as count
-            FROM opendata_queue
-            WHERE theme = ?
-            GROUP BY status
-            """,
-            (theme,),
-        )
-        return {row["status"]: row["count"] for row in cur.fetchall()}
+        if self.is_postgres:
+            with self._get_pg_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(
+                        """
+                        SELECT status, COUNT(*) as count
+                        FROM opendata_queue
+                        WHERE theme = %s
+                        GROUP BY status
+                        """,
+                        (theme,),
+                    )
+                    # dict() で明示的にキャストする
+                    return {dict(row)["status"]: dict(row)["count"] for row in cur.fetchall()}
+        else:
+            assert self.conn is not None # エディタのNone警告を消す
+            cur = self.conn.execute(
+                """
+                SELECT status, COUNT(*) as count
+                FROM opendata_queue
+                WHERE theme = ?
+                GROUP BY status
+                """,
+                (theme,),
+            )
+            # dict() で明示的にキャストする
+            return {dict(row)["status"]: dict(row)["count"] for row in cur.fetchall()}
 
 
 # ──────────────────────────────────────────────
@@ -301,6 +403,13 @@ class OpenDataWorkflowConfig:
     themes_dir: str = "themes"
     request_timeout: int = 20
     sleep_sec: float = 1.0
+    
+    # Render環境、または DATABASE_URL が設定されていれば本番(イベント用)とみなす
+    is_event_mode: bool = (os.getenv("RENDER") == "true") or bool(os.getenv("DATABASE_URL"))
+    db_url: Optional[str] = os.getenv("DATABASE_URL")
+    
+    # イベント用の時はJSONファイルを物理保存しないなどの制御用
+    output_dir: str = "output/opendata_jsons" if not ((os.getenv("RENDER") == "true") or bool(os.getenv("DATABASE_URL"))) else "/tmp/opendata_jsons"
 
 
 class OpenDataWorkflow:
