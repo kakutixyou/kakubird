@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
   "last_used_handler": "DecompositionHandler",
   "active_context": null,
   
@@ -19,6 +20,10 @@
     "loop_structure": null
   }
 
+=======
+  "last_used_handler": "OllamaHandler",
+  "active_context": null
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 =======
   "last_used_handler": "OllamaHandler",
   "active_context": null

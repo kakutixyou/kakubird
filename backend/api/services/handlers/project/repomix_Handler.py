@@ -49,7 +49,7 @@ class RepomixHandler(BaseHandler):
         print(f"🔍 [Plugin] {analyzers_dir} からアナライザーを探索します...")
 
         if not os.path.exists(analyzers_dir):
-            print(f"⚠️ [Plugin] アナライザーフォルダが見つかりません: {analyzers_dir}")
+            print(f" [Plugin] アナライザーフォルダが見つかりません: {analyzers_dir}")
             return []
 
         for filename in os.listdir(analyzers_dir):
@@ -75,9 +75,9 @@ class RepomixHandler(BaseHandler):
         print(f"✅ [Plugin] 合計 {len(analyzers_list)} 個のアナライザーを起動しました。")
         return analyzers_list
 
-    # =========================================================
+    # ===
     # 1. 意図の検知（スコア計算）
-    # =========================================================
+    # ===
     async def calculate_score(self, message: str, current_signals: dict = None) -> int:
         msg_lower = message.lower()
         target_keywords = ["repomix", "xml", "全体コード", "プロジェクト解析", "知識更新", "構造を読み込んで"]
@@ -85,9 +85,9 @@ class RepomixHandler(BaseHandler):
             return 100
         return 0
 
-    # =========================================================
+    # ===
     # 2. メイン処理（解析とJSON保存）
-    # =========================================================
+    # ===
     async def handle(self, request) -> Tuple[str, Dict[str, Any]]:
         message = request.message
         print("\n🚀 [RepomixHandler] XMLの解析と知識の再構築を開始します...")

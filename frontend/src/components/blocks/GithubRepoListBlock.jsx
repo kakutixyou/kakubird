@@ -47,9 +47,9 @@ export default function GithubRepoListBlock({ block }) {
               group
             "
           >
-            {/* =========================================
+            {/* =====
                 タイトル
-            ========================================= */}
+            ===== */}
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
                 <h3
@@ -93,9 +93,9 @@ export default function GithubRepoListBlock({ block }) {
               </div>
             </div>
 
-            {/* =========================================
+            {/* =====
                 説明文
-            ========================================= */}
+            ===== */}
             <div className="mt-3">
               <p
                 className="
@@ -110,9 +110,9 @@ export default function GithubRepoListBlock({ block }) {
               </p>
             </div>
 
-            {/* =========================================
+            {/* =====
                 下部情報
-            ========================================= */}
+            ===== */}
             <div className="mt-4 flex flex-wrap items-center gap-2">
               {/* language */}
               {repo.language && (

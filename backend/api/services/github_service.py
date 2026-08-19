@@ -8,9 +8,9 @@ from typing import Dict, Any, List
 import httpx
 
 
-# =========================================================
+# ===
 # Constants
-# =========================================================
+# ===
 
 GITHUB_SEARCH_API = (
     "https://api.github.com/search/repositories"
@@ -23,9 +23,9 @@ DEFAULT_HEADERS = {
 }
 
 
-# =========================================================
+# ===
 # Helper Functions
-# =========================================================
+# ===
 
 def build_search_url(query: str) -> str:
     """
@@ -107,9 +107,9 @@ def normalize_repository(repo: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-# =========================================================
+# ===
 # GitHub Search
-# =========================================================
+# ===
 
 async def execute_github_search(
     query: str,
@@ -221,9 +221,9 @@ async def execute_github_search(
         }
 
 
-# =========================================================
+# ===
 # Trending Helper Queries
-# =========================================================
+# ===
 
 async def search_ai_projects() -> Dict[str, Any]:
     """
@@ -274,9 +274,9 @@ async def search_react_projects() -> Dict[str, Any]:
     )
 
 
-# =========================================================
+# ===
 # Repository Detail
-# =========================================================
+# ===
 
 async def fetch_repository_detail(
     owner: str,
@@ -336,9 +336,9 @@ async def fetch_repository_detail(
         }
 
 
-# =========================================================
+# ===
 # Language Detection Helper
-# =========================================================
+# ===
 
 def detect_search_category(
     message: str
@@ -383,9 +383,9 @@ def detect_search_category(
     return "general"
 
 
-# =========================================================
+# ===
 # Smart Search
-# =========================================================
+# ===
 
 async def smart_github_search(
     user_message: str
@@ -417,9 +417,9 @@ async def smart_github_search(
     )
 
 
-# =========================================================
+# ===
 # Future Expansion Notes
-# =========================================================
+# ===
 
 """
 将来的な拡張ポイント

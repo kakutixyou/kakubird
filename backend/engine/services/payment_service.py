@@ -30,10 +30,10 @@ class PaymentService:
             # 外部APIとの通信遅延をシミュレート
             time.sleep(1.0) 
 
-            # ========================================================
+            # ==
             # 実際はここで外部APIを叩きます
             # charge = stripe.Charge.create(amount=amount, currency=currency, source=user_id)
-            # ========================================================
+            # ==
 
             # 疑似的なトランザクションIDを生成
             transaction_id = f"txn_{uuid.uuid4().hex[:16]}"

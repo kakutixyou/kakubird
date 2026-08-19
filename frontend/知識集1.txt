@@ -1,4 +1,4 @@
- cd C:\Users\shing\Documents\special\新たに作るもの\To\frontend  
+ cd C:\Users\shing\Documents\special\New_Create\To\frontend  
  →npm run dev
 
 セットアップ(CSS)cd my-awesome-builder-main  cd packages/ai-engine  python design_api.py

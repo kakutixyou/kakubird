@@ -1,7 +1,7 @@
-# =========================================================
+# ===
 # chunk_manager.py
 # ソースコード・テキストをAI向けChunkへ分割する管理システム
-# =========================================================
+# ===
 
 import os
 import re
@@ -10,9 +10,9 @@ import uuid
 from datetime import datetime
 from typing import List, Dict, Any
 
-# =========================================================
+# ===
 # 保存先設定
-# =========================================================
+# ===
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,14 +21,14 @@ CHUNK_OUTPUT_DIR = os.path.join(AI_MEMORY_DIR, "chunks")
 
 os.makedirs(CHUNK_OUTPUT_DIR, exist_ok=True)
 
-# =========================================================
+# ===
 # オンメモリキャッシュ（検索爆速化用）
-# =========================================================
+# ===
 _chunk_cache: Dict[str, List[Dict[str, Any]]] = {}
 
-# =========================================================
+# ===
 # 対応拡張子
-# =========================================================
+# ===
 
 SUPPORTED_EXTENSIONS = (
     ".py", ".js", ".jsx", ".ts", ".tsx",
@@ -38,9 +38,9 @@ SUPPORTED_EXTENSIONS = (
 DEFAULT_CHUNK_SIZE = 1200
 DEFAULT_CHUNK_OVERLAP = 150
 
-# =========================================================
+# ===
 # ユーティリティ・メタデータ抽出
-# =========================================================
+# ===
 
 def is_supported_file(filename: str) -> bool:
     return filename.lower().endswith(SUPPORTED_EXTENSIONS)
@@ -80,9 +80,9 @@ def detect_language(file_path: str) -> str:
     }
     return mapping.get(ext, "unknown")
 
-# =========================================================
+# ===
 # Chunk分割ロジック
-# =========================================================
+# ===
 
 def split_text_into_chunks(text: str, chunk_size: int = DEFAULT_CHUNK_SIZE, overlap: int = DEFAULT_CHUNK_OVERLAP) -> List[str]:
     text = normalize_text(text)
@@ -115,9 +115,9 @@ def split_code_into_chunks(code: str, chunk_size: int = DEFAULT_CHUNK_SIZE) -> L
 
     return chunks
 
-# =========================================================
+# ===
 # Chunk生成・保存
-# =========================================================
+# ===
 
 def build_chunks_from_file(file_path: str) -> List[Dict[str, Any]]:
     if not is_supported_file(file_path): return []
@@ -175,9 +175,9 @@ def build_chunks_from_directory(target_dir: str, project_name: str = "default_pr
     print(f"🧠 Chunk生成完了: {len(all_chunks)} chunks")
     return all_chunks
 
-# =========================================================
+# ===
 # 爆速Chunk検索（キャッシュ対応）
-# =========================================================
+# ===
 
 def search_chunks_by_keyword(keyword: str, project_name: str = "default_project") -> List[Dict[str, Any]]:
     project_dir = os.path.join(CHUNK_OUTPUT_DIR, project_name)
@@ -206,9 +206,9 @@ def search_chunks_by_keyword(keyword: str, project_name: str = "default_project"
 
     return results
 
-# =========================================================
+# ===
 # ChunkManager Class Wrapper
-# =========================================================
+# ===
 
 class ChunkManager:
 

@@ -45,9 +45,9 @@ export default function ApiSettingsPage() {
     <div className="h-full p-6">
       <div className="flex gap-6 h-full">
 
-        {/* =======================================
+        {/* ===
             左側
-        ======================================= */}
+        === */}
 
         <div className="w-[420px] flex-shrink-0 space-y-6">
 
@@ -127,9 +127,9 @@ export default function ApiSettingsPage() {
 
         </div>
 
-        {/* =======================================
+        {/* ===
             右側 AIチャット
-        ======================================= */}
+        === */}
 
         <div className="flex-1 min-w-0">
 

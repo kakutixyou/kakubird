@@ -27,7 +27,7 @@ export function ConfirmDialog({ isOpen, title = "確認", message, onConfirm, on
       {/* e.stopPropagation() で、モーダル本体のクリックが背景(キャンセル)に伝播するのを防ぐ */}
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div style={styles.header}>
-          <span style={styles.icon}>⚠️</span>
+          <span style={styles.icon}></span>
           <h3 style={styles.title}>{title}</h3>
         </div>
         

@@ -123,7 +123,7 @@ class AnalysisOrchestrator:
     def _extract_qr_from_image(self, image_input: Any) -> Optional[str]:
         """Base64文字列またはバイナリ画像から pyzbar を使用して QR コードを解読する"""
         if not HAS_PYZBAR:
-            print("⚠️ pyzbar が利用できないため、QRコードのスキャンをスキップします。")
+            print(" pyzbar が利用できないため、QRコードのスキャンをスキップします。")
             return None
 
         try:
@@ -148,7 +148,7 @@ class AnalysisOrchestrator:
                 return decoded_objects[0].data.decode("utf-8")
 
         except Exception as e:
-            print(f"⚠️ [AnalysisOrchestrator] QR画像解析に失敗しました: {e}")
+            print(f" [AnalysisOrchestrator] QR画像解析に失敗しました: {e}")
 
         return None
 
@@ -208,7 +208,7 @@ class AnalysisOrchestrator:
             return self.paper_handler.analyze_papers(parsed_data)
 
         # C. どちらのデータも検出できなかった場合のエラーレスポンス構築
-        error_msg = "⚠️ **解析対象のデータが検出できませんでした**\n\nJSON形式のテキスト（論文・在庫データ等）の入力、または画像データ/QRコードの送信を行ってください。"
+        error_msg = " **解析対象のデータが検出できませんでした**\n\nJSON形式のテキスト（論文・在庫データ等）の入力、または画像データ/QRコードの送信を行ってください。"
         return {
             "response_type": "ui_code",
             "content": {
@@ -243,7 +243,7 @@ class AnalysisOrchestrator:
 
             print(f"💾 [AnalysisOrchestrator] 解析データを保存しました: {latest_json_path}")
         except Exception as e:
-            print(f"⚠️ [AnalysisOrchestrator] 結果の保存処理に失敗しました: {e}")
+            print(f" [AnalysisOrchestrator] 結果の保存処理に失敗しました: {e}")
 
 
 # スタンドアロンテスト用実行処理

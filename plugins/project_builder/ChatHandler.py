@@ -74,7 +74,7 @@ class ChatHandler(BaseHandler):
                         with open(file_path, "r", encoding="utf-8") as f:
                             relevant_data[os.path.basename(file_path)] = json.load(f)
                     except Exception as e:
-                        print(f"⚠️ JSON読み込みエラー ({file_path}): {e}")
+                        print(f" JSON読み込みエラー ({file_path}): {e}")
                     break 
 
         return json.dumps(relevant_data, ensure_ascii=False, indent=2) if relevant_data else ""

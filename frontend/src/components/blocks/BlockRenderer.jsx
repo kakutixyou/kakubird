@@ -1,3 +1,4 @@
+// BlockRenderer.jsx
 import GithubRepoListBlock from './GithubRepoListBlock';
 import HeroBlock from './HeroBlock';
 import DatabaseSchemaBlock from './DatabaseSchemaBlock';

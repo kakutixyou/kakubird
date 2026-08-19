@@ -24,7 +24,7 @@ from core.memory_manager import (
     save_json as mm_save_json,
 )
 
-# ⚠️ OcrRecruitHandlerの実際の場所に合わせてインポートしてください
+#  OcrRecruitHandlerの実際の場所に合わせてインポートしてください
 # from plugins.ocr_handler import OcrRecruitHandler
 
 router = APIRouter(
@@ -32,16 +32,16 @@ router = APIRouter(
     tags=["Memory & Workspace"]
 )
 
-# =========================================================
+# ===
 # リクエストモデル定義
-# =========================================================
+# ===
 
 class OCRRequest(BaseModel):
     image: str
 
-# =========================================================
+# ===
 # パス定数（1か所だけで定義）
-# =========================================================
+# ===
 
 _BACKEND_DIR = Path(__file__).parent.parent
 MEMORY_DIR   = _BACKEND_DIR / ".ai_memory"
@@ -56,18 +56,18 @@ DB_SETS_DIR = (
     _BACKEND_DIR / "plugins" / "sql_builder_v2" / "src" / "data" / "db_sets"
 )
 
-# =========================================================
+# ===
 # グローバルインスタンス（サーバー起動中に記憶を保持）
-# =========================================================
+# ===
 
 global_vector_store = InMemoryVectorStore()
 embedder = EmbeddingService()
 chunker  = CodeChunker()
 
 
-# =========================================================
+# ===
 # ローカルJSON helpers（Pathオブジェクト対応）
-# =========================================================
+# ===
 
 def _load(path: Path, default):
     if not path.exists():
@@ -88,9 +88,9 @@ def _save(path: Path, data):
         print(f"JSON保存エラー: {e}")
 
 
-# =========================================================
+# ===
 # 🖼️ OCR スクリーンショット解析 (FastAPI対応版)
-# =========================================================
+# ===
 
 @router.post("/ocr-screenshot")
 async def ocr_screenshot(data: OCRRequest):
@@ -110,9 +110,9 @@ async def ocr_screenshot(data: OCRRequest):
         raise HTTPException(status_code=500, detail=f"OCR処理中にエラーが発生しました: {e}")
 
 
-# =========================================================
+# ===
 # 📋 Jobs & Folders (MemoryManager.jsx 対応)
-# =========================================================
+# ===
 
 @router.get("/jobs")
 async def get_jobs():
@@ -125,9 +125,9 @@ async def get_folders():
     return {"folders": []}
 
 
-# =========================================================
+# ===
 # 📦 ZIPアップロード → RAGパイプライン
-# =========================================================
+# ===
 
 @router.post("/upload-workspace")
 async def upload_workspace(file: UploadFile = File(...)):
@@ -202,9 +202,9 @@ def _record_zip_history(filename: str, scanned_files: int, total_chunks: int):
     _save(ZIP_HISTORY_FILE, histories)
 
 
-# =========================================================
+# ===
 # 📊 統計
-# =========================================================
+# ===
 
 @router.get("/stats")
 async def get_memory_stats():
@@ -214,9 +214,9 @@ async def get_memory_stats():
     }
 
 
-# =========================================================
+# ===
 # 💬 会話履歴  →  /api/memory/conversations
-# =========================================================
+# ===
 
 @router.get("/conversations")
 async def get_conversations():
@@ -232,9 +232,9 @@ async def get_conversations():
         ]
     }
 
-# =========================================================
+# ===
 # 💬 会話履歴をすべて削除  →  DELETE /api/memory/conversations
-# =========================================================
+# ===
 @router.delete("/conversations")
 async def clear_conversations():
     try:
@@ -245,7 +245,7 @@ async def clear_conversations():
                     file_path.unlink()
                     deleted_count += 1
                 except Exception as e:
-                    print(f"⚠️ ファイル削除スキップ ({file_path}): {e}")
+                    print(f" ファイル削除スキップ ({file_path}): {e}")
 
         return {
             "status": "success", 
@@ -255,9 +255,9 @@ async def clear_conversations():
         raise HTTPException(status_code=500, detail=f"履歴の削除中にエラーが発生しました: {e}")
 
 
-# =========================================================
+# ===
 # 📝 メモ（長期記憶）  →  /api/memory/notes
-# =========================================================
+# ===
 
 @router.get("/notes")
 async def get_notes():
@@ -271,9 +271,9 @@ async def get_notes():
     return {"notes": notes}
 
 
-# =========================================================
+# ===
 # ✅ タスク  →  /api/memory/tasks
-# =========================================================
+# ===
 
 @router.get("/tasks")
 async def get_tasks():
@@ -290,9 +290,9 @@ async def get_tasks():
     }
 
 
-# =========================================================
+# ===
 # 📂 関連ファイル  →  /api/memory/files
-# =========================================================
+# ===
 
 @router.get("/files")
 async def get_files():
@@ -317,9 +317,9 @@ def _guess_language(path: str) -> str:
     }.get(os.path.splitext(path)[-1].lower(), "unknown")
 
 
-# =========================================================
+# ===
 # 📦 ZIP履歴  →  /api/memory/zip-history
-# =========================================================
+# ===
 
 @router.get("/zip-history")
 async def get_zip_history():
@@ -341,14 +341,14 @@ async def delete_zip_history(zip_id: str):
         store.collection.delete(where={"zip_id": zip_id})
         print(f"🗑️ ChromaDB: zip_id={zip_id} を削除しました")
     except Exception as e:
-        print(f"⚠️ ChromaDB削除失敗（無視）: {e}")
+        print(f" ChromaDB削除失敗（無視）: {e}")
 
     return {"ok": True, "deleted_id": zip_id}
 
 
-# =========================================================
+# ===
 # 🗃️ DBセット取得
-# =========================================================
+# ===
 
 @router.get("/db-set/{name}")
 async def get_db_set(name: str):
@@ -358,9 +358,9 @@ async def get_db_set(name: str):
     return {"name": name, "data": data}
 
 
-# =========================================================
+# ===
 # ⚙️ バックグラウンドタスク
-# =========================================================
+# ===
 
 @router.post("/run-task")
 async def run_ai_task(task_type: str, background_tasks: BackgroundTasks):

@@ -83,7 +83,7 @@ class ContextManager:
             with open(filepath, "w", encoding="utf-8") as f:
                 json.dump(state, f, ensure_ascii=False, indent=4)
         except Exception as e:
-            print(f"⚠️ 状態の保存に失敗しました: {e}")
+            print(f" 状態の保存に失敗しました: {e}")
 
     def get_prompt_signals(self) -> Dict[str, Any]:
         """AIプロンプト用の状態信号を辞書で返す"""

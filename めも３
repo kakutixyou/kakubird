@@ -1,1 +1,5 @@
-useaichat.jsを全文読んで、backendフォルダーの構成を読んだあと、orchestra.pyのコードを読んで、pluginのSQLがないことに気づいて、改修のついでにuseaichat.jsを少し短くしてほしい。(SQLはorchestra実装前に作っており、useaichat.jsが
+useaichat.jsを全文読んで、backendフォルダーの構成を読んだあと、orchestra.pyのコードを読んで、pluginのSQLがないことに気づいて、改修のついでにuseaichat.jsを少し短くしてほしい。(SQLはorchestra実装前に作っており、useaichat.jsがapiとして扱う仕様を目指している。
+
+Chatgpt、またはGeminiの会話のやり取りをjsonにして後から自作アプリで同じように会話できるようにしたい。
+まず仕組みなんだけど、chatorchestrator.py→IntentInspector.py→CloudFlareadvicehandler.pyという作り方になりそう。更にknowledgemanager.pyを裏で動かすことで情報源をしっかり押さえる手法
+

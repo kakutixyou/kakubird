@@ -15,9 +15,9 @@ from core.memory_manager import save_chat_message
 # from recruit.evaluator import evaluate
 
 
-# =========================================================
+# ===
 # Constants
-# =========================================================
+# ===
 
 JOB_KEYWORDS = [
     "募集要項",
@@ -34,9 +34,9 @@ DEFAULT_FETCH_TIMEOUT = 10.0
 MAX_HTML_LENGTH = 3000
 
 
-# =========================================================
+# ===
 # Detection Logic
-# =========================================================
+# ===
 
 def is_recruit_message(
     message: str
@@ -79,9 +79,9 @@ def is_recruit_message(
     )
 
 
-# =========================================================
+# ===
 # URL Extraction
-# =========================================================
+# ===
 
 def extract_url(
     message: str
@@ -101,9 +101,9 @@ def extract_url(
     return match.group(1)
 
 
-# =========================================================
+# ===
 # HTML Fetch
-# =========================================================
+# ===
 
 async def fetch_job_page_content(
     url: str
@@ -139,9 +139,9 @@ async def fetch_job_page_content(
         return ""
 
 
-# =========================================================
+# ===
 # Prompt Builder
-# =========================================================
+# ===
 
 def build_recruit_analysis_text(
     user_message: str,
@@ -163,9 +163,9 @@ def build_recruit_analysis_text(
     )
 
 
-# =========================================================
+# ===
 # Plugin Execution
-# =========================================================
+# ===
 
 async def execute_recruit_evaluation(
     target_text: str
@@ -203,9 +203,9 @@ async def execute_recruit_evaluation(
         }
 
 
-# =========================================================
+# ===
 # UI Response Builder
-# =========================================================
+# ===
 
 def build_recruit_ui_response(
     evaluation_result: Dict[str, Any]
@@ -284,9 +284,9 @@ def build_recruit_ui_response(
     }
 
 
-# =========================================================
+# ===
 # Main Public API
-# =========================================================
+# ===
 
 async def handle_recruit_message(
     user_message: str
@@ -378,9 +378,9 @@ async def handle_recruit_message(
         }
 
 
-# =========================================================
+# ===
 # Future Expansion Notes
-# =========================================================
+# ===
 
 """
 将来的な拡張ポイント

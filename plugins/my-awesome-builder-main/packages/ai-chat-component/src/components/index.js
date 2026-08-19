@@ -1,6 +1,6 @@
 /**
  * components/index.js
- * ====================
+ * ==
  * Re-exports all public components.
  */
 

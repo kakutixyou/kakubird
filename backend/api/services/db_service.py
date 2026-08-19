@@ -7,9 +7,9 @@ import traceback
 from typing import Dict, Any, List, Optional
 
 
-# =========================================================
+# ===
 # Constants
-# =========================================================
+# ===
 
 DB_SETS_DIR = os.path.join(
     "src",
@@ -23,9 +23,9 @@ IGNORE_FILES = [
 ]
 
 
-# =========================================================
+# ===
 # Utility Functions
-# =========================================================
+# ===
 
 def ensure_db_directory() -> None:
     """
@@ -65,9 +65,9 @@ def extract_topic_key(
     return filename.replace(".json", "")
 
 
-# =========================================================
+# ===
 # Database Knowledge Search
-# =========================================================
+# ===
 
 def search_matching_topics(
     user_message: str
@@ -104,9 +104,9 @@ def search_matching_topics(
     return matched_topics
 
 
-# =========================================================
+# ===
 # File Loading
-# =========================================================
+# ===
 
 def load_raw_json_text(
     topic_key: str
@@ -172,9 +172,9 @@ def load_json_data(
         return None
 
 
-# =========================================================
+# ===
 # UI Response Builder
-# =========================================================
+# ===
 
 def build_sql_example_modal_response(
     topic_key: str,
@@ -212,9 +212,9 @@ def build_database_creation_guide() -> str:
     )
 
 
-# =========================================================
+# ===
 # Main Routing Logic
-# =========================================================
+# ===
 
 async def handle_database_routing(
     user_message: str
@@ -311,9 +311,9 @@ async def handle_database_routing(
         }
 
 
-# =========================================================
+# ===
 # SQLite Discovery
-# =========================================================
+# ===
 
 def discover_sqlite_databases(
     db_dir: str = "./"
@@ -340,9 +340,9 @@ def discover_sqlite_databases(
         return []
 
 
-# =========================================================
+# ===
 # DB Metadata
-# =========================================================
+# ===
 
 def build_database_context_text(
     db_names: List[str]
@@ -361,9 +361,9 @@ def build_database_context_text(
     )
 
 
-# =========================================================
+# ===
 # Future Expansion Notes
-# =========================================================
+# ===
 
 """
 将来的な拡張ポイント
@@ -373,12 +373,13 @@ def build_database_context_text(
 PRAGMA table_info()
 
 2. Real SQL Query Execution
---------------------------------------------------------
-<<<<<<< HEAD
+
 SELECT * FROM 
-=======
+=
 SELECT * FROM ...
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
+
+=
+
 
 3. Query Safety Layer
 --------------------------------------------------------

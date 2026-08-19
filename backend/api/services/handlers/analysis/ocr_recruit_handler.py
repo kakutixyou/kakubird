@@ -9,9 +9,9 @@ from core.job_database import save_job_to_db
 from google import genai
 from google.genai import types
 
-# =========================================================
+# ===
 # 1. AIに確実なJSONを作らせるためのスキーマ定義 (Pydantic)
-# =========================================================
+# ===
 class SalaryRange(BaseModel):
     min: Optional[int] = Field(None, description="最低年収（円単位）")
     max: Optional[int] = Field(None, description="最高年収（円単位）")
@@ -54,9 +54,9 @@ class RecruitEvaluationSchema(BaseModel):
     recruitment_text_analysis: TextAnalysis
     ai_analysis: AiAnalysis
 
-# =========================================================
+# ===
 # 2. ハンドラー本体
-# =========================================================
+# ===
 class OcrRecruitHandler:
     """
     画像を直接受け取り、Gemini Visionを使って求人情報を構造化JSONに変換するハンドラー

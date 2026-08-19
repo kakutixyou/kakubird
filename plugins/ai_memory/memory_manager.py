@@ -53,9 +53,9 @@ class MemoryManager:
         self._ensure_json_file(self.tasks_path, []) # type: ignore
         self._ensure_json_file(self.files_path, []) # type: ignore
 
-    # =========================================================
+    # ===
     # Public API
-    # =========================================================
+    # ===
 
 def record_interaction(
     self,

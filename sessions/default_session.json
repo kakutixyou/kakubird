@@ -3,6 +3,7 @@
         {
             "role": "user",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "content": "フォルダー構成を読んだあとこれらを空箱で構成するset.pyを作ってほしい\nroot/\n│\n├── api/\n│   └── .env                          # [実装済み] APIキー等の環境変数\n│\n├── terminal_workflow.py               # [一部実装済 / 調整中] 統括ワークフローの入り口\n│\n├── schemas/\n│   └── knowledge_package.py          # [設計提示済み] 共通JSONフォーマットの型定義(Pydantic)\n│\n├── collectors/                       # ─── 【収集層】プラグイン化されたコレクター群\n│   ├── __init__.py\n│   ├── base_collector.py             # [設計提示済み] コレクターの共通インターフェース(ABC)\n│   ├── manager.py                    # [設計提示済み] 全コレクターを動的ロード・統括するマネージャー\n│   │\n│   ├── github/                       # 各コンポーネントに細分化\n│   │   ├── __init__.py               # [設計提示済み] サブコレクターを束ねるマスター\n│   │   ├── repository.py             # [設計提示済み] Star, Fork, 言語, ライセンス等の基本情報\n│   │   ├── issue.py                  # [これから実装] 直近の課題、議論の収集\n│   │   ├── release.py                # [これから実装] バージョン履歴、Changelog\n│   │   └── commit.py                 # [これから実装] 直近のコード変更アクティビティ\n│   │\n│   ├── qiita/\n│   │   ├── __init__.py\n│   │   └── article.py                # [これから実装] 技術記事、タグ、LGTM数の収集\n│   │\n│   └── huggingface/ / zenn/ / npm/   # [これから実装] 今後必要に応じて追加するプラグイン\n│\n├── analyzers/                        # ─── 【解析層】\n│   └── terminal_engine.py            # [一部実装済] 収集データを読み込み、Geminiで解析するエンジン\n│\n├── core/                             # ─── 【思考・検索層】エージェントの「脳」\n│   ├── knowledge_searcher.py         # [設計提示済み] SQLite/VectorDB/JSONのハイブリッド横断検索\n│   └── ofa_planner.py                # [設計提示済み] 知識を元にHandlerの実行計画(Plan)を立てる司令塔\n│\n├── data/                             # ─── 【記憶層】データベース\n│   └── agent_brain.db                # [自動生成] 結晶化したKnowledgePackageが蓄積されるSQLite\n│\n├── knowledge/                        # ─── 【静的ルール層】挙動を微調整する固定制約JSON\n│   ├── html/                         # (button.json, navbar.json など) [これから実装]\n│   ├── css/                          # (flex.json, grid.json など) [これから実装]\n│   └── terminal/                     # (git.json, docker.json など) [これから実装]\n│\n└── ts_layer/                         # ─── 【実行・具現化層】TypeScript & フロントエンド\n    ├── handlers/\n    │   └── handler.ts                # [設計提示済み] PythonからのPlan(JSON)を解釈・実行するディスパッチャー\n    │\n    └── frontend/                     # ─── 【UI出力層】\n        └── components/               # [これから実装] React / HTML / SVG / Terminalを可視化するUI"
         },
         {
@@ -12,6 +13,8 @@
     ],
     "current_mode": "script_extraction",
 =======
+=======
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
             "content": "コードを読みつつ.env_sampleとgitignoreを作ってほしい。PORT=3001\nJWT_SECRET=your-super-secret-jwt-key-change-this-in-production\nNODE_ENV=development\nDATABASE_PATH=./data/platform.db\nFRONTEND_URL=http://localhost:8000\n# VITE_GEMINI_API_KEY=AIzaSyCd-kOyzkK7ApEWPjMAHjTHRFPwcsPXEhA\nGEMINI_API_KEY=AIzaSyCd-kOyzkK7ApEWPjMAHjTHRFPwcsPXEhA\nMY_CUSTOM_API_KEY=\n# VITE_CUSTOM_API_KEY=\nCUSTOM_API_KEY=sk-eWheL6Tr_14l26mFiYpXygeY6kZaCiWI53ylYb8B1d0\nOLLAMA_URL = os.getenv(\"OLLAMA_URL\", \"http://localhost:11434/api/chat\")\nOLLAMA_BASE_URL=http://100.85.26.46:11434\nOLLAMA_URL=http://100.85.26.46:11434\ncace904ae9a2784d216ea38a2c9b5b2d34c94863(qiita_k022c0001のアカウント、スクレイピングアプリで使われる想定なのにこちらで書いてる)\n# ポート設定\nMAIN_PORT=8000\nHTML_ENGINE_PORT=8001\nCSS_ENGINE_PORT=8002\nSQL_ENGINE_PORT=8003\nAI_ENGINE_PORT=8004\nMEMORY_ENGINE_PORT=8005\n\n# API Gateway設定\nAPI_GATEWAY_URL=http://localhost:8000\nOLLAMA_ROUTER_MODEL=\"llama3:latest\"\nOLLAMA_EMBED_MODEL=nomic-embed-text\n# ollama run qwen2.5:14b"
         },
         {
@@ -20,6 +23,9 @@
         }
     ],
     "current_mode": "github_search",
+<<<<<<< HEAD
+>>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
+=======
 >>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
     "current_error": null,
     "current_code": null,

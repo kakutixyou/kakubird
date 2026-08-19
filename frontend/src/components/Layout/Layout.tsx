@@ -1,18 +1,23 @@
 // frontend/src/components/Layout/Layout.tsx
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-// 👇 作成した index.tsx から Sidebar を読み込むように変更
-import { Sidebar } from './sidebar_themes'; 
+import SidebarDefault from './sidebar_themes/Sidebar_default';
 
 export default function Layout() {
   return (
-    <div className="flex h-screen w-full bg-white dark:bg-slate-900 overflow-hidden text-slate-800 dark:text-slate-200">
-      <Sidebar />
-      <main className="flex-1 flex flex-col h-full relative">
-        <div className="flex-1 overflow-y-auto">
-          <Outlet />
-        </div>
+    // 画面全体を固定し、横並び(flex)にする
+    <div className="flex h-screen w-screen bg-slate-50 overflow-hidden">
+      
+      {/* 🟢 左側: サイドバー領域 (絶対に縮ませず、一番手前に表示) */}
+      <div className="flex-shrink-0 z-[9999] relative h-full shadow-xl">
+        <SidebarDefault />
+      </div>
+      
+      {/* 🔵 右側: メイン画面 (マップなどがここにはまる) */}
+      <main className="flex-1 relative h-full overflow-hidden">
+        <Outlet />
       </main>
+      
     </div>
   );
 }

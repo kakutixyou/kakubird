@@ -4,7 +4,7 @@ from typing import List, Tuple, Dict, Optional, NamedTuple
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Any
-# ========== 型定義 ==========
+# ==== 型定義 ====
 
 class TokenContext(Enum):
     """トークンのコンテキスト分類"""

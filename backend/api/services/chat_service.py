@@ -5,12 +5,8 @@ from typing import Tuple, Any, Optional
 from fastapi import BackgroundTasks
 
 from api.services.knowledge_service import KnowledgeService
-<<<<<<< HEAD
-from api.services.handlers.ChatHandler import ChatHandler
-=======
 from plugins.project_builder.ChatHandler import ChatHandler 
 
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 from model.chat_models import ChatRequest, ChatContext
 
 # ★変更点: 特定のOrchestratorではなく、すべてのOrchestratorが従う「型（基底クラス）」があればそれをインポートするのがベストです
@@ -37,15 +33,15 @@ class ChatService:
         print("🔥ChatService: execute_chat開始", flush=True)
 
         try:
-            # ====================================================
+            # ====
             # 1 & 2. 外部コードと知識のロード (共通の前処理)
-            # ====================================================
+            # ====
             world_knowledge = KnowledgeService.load_knowledge(self.project_root)
             request.world_knowledge = world_knowledge
 
-            # ====================================================
+            # ====
             # 3. 司令塔へ委譲（ルーターから渡されたオーケストレーターを実行）
-            # ====================================================
+            # ====
             print(f"  -> [{orchestrator.__class__.__name__}] に実行を委譲します")
             # ※メソッド名はオーケストレーター間で統一しておく必要があります（例: execute() や route_and_execute()）
             response_type, content = await orchestrator.route_and_execute(request)
@@ -54,9 +50,9 @@ class ChatService:
             if response_type == "text" and "自己解析中にエラーが発生しました" in str(content):
                 raise ValueError("Deployment parsing failed internally, falling back to chat.")
 
-            # ====================================================
+            # ====
             # 4. 事後処理と記憶の更新
-            # ====================================================
+            # ====
             self.last_used_handler = getattr(orchestrator, "last_used_handler", "Unknown")
             self.active_context = getattr(orchestrator, "active_context", None)
 
@@ -64,10 +60,10 @@ class ChatService:
             return response_type, content
 
         except Exception as e:
-            # ====================================================
+            # ====
             # 🚨 最後の砦：フォールバック処理 (共通の後処理)
-            # ====================================================
-            print(f"⚠️ エラーが発生しました: {e}。ChatHandlerにフォールバックします。", flush=True)
+            # ====
+            print(f" エラーが発生しました: {e}。ChatHandlerにフォールバックします。", flush=True)
             traceback.print_exc()
             
             try:

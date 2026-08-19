@@ -155,7 +155,7 @@ class ContextManager:
                 # 修正: json.dumps ではなく json.dump を使用
                 json.dump(state_dict, f, ensure_ascii=False, indent=2)
         except Exception as e:
-            print(f"⚠️ [ContextManager] 状態の保存に失敗: {e}")
+            print(f" [ContextManager] 状態の保存に失敗: {e}")
 
     def load_state(self):
         """保存されたステートをファイルから復元する"""
@@ -185,7 +185,7 @@ class ContextManager:
                     max_history_length=mem_data.get("max_history_length", 10)
                 )
         except Exception as e:
-            print(f"⚠️ [ContextManager] 状態のロードに失敗: {e}")
+            print(f" [ContextManager] 状態のロードに失敗: {e}")
 
 # -------------------------------------------------------------------
 # 動作確認用

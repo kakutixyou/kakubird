@@ -8,17 +8,17 @@
 </head>
 <body>
 
-  <!-- ================================================================
+  <!-- ====
        Top header
-  ================================================================ -->
+  ==== -->
   <header class="app-header">
     <span class="logo">📖 BookCMS</span>
     <span class="tagline">ノーコード ページ・フリップ CMS</span>
   </header>
 
-  <!-- ================================================================
+  <!-- ====
        Main layout: sidebar + preview
-  ================================================================ -->
+  ==== -->
   <div class="app-body">
 
     <!-- Sidebar: widget toolbar + page controls -->
@@ -64,13 +64,13 @@
   </div><!-- /.app-body -->
 
 
-  <!-- ================================================================
+  <!-- ====
        Scripts – load order matters:
          1. widget-system.js   (BaseWidget, WidgetRegistry, WidgetSystem)
          2. All widget files   (each calls WidgetRegistry.register())
          3. page-manager.js    (PageManager)
          4. Inline bootstrap   (wire everything together)
-  ================================================================ -->
+  ==== -->
   <script src="js/widget-system.js"></script>
 
   <!-- ---- Register additional widgets here ---- -->

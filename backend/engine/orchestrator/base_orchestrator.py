@@ -27,16 +27,16 @@ class BaseOrchestrator(ABC):
         config=None,
         services=None,
     ):
-        # ==========================================
+        # 
         # 共通設定
-        # ==========================================
+        # 
         self.project_root = project_root
         self.config = config
         self.services = services
 
-        # ==========================================
+        # 
         # 共通状態（State）
-        # ==========================================
+        # 
         self.orchestrator_name = self.__class__.__name__
 
         self.last_used_handler: Optional[str] = None
@@ -44,9 +44,9 @@ class BaseOrchestrator(ABC):
 
         self.execution_metadata: Dict[str, Any] = {}
 
-    # ==========================================
+    # 
     # 必須実装
-    # ==========================================
+    # 
     @abstractmethod
     async def route_and_execute(
         self,
@@ -68,9 +68,9 @@ class BaseOrchestrator(ABC):
         """
         raise NotImplementedError
 
-    # ==========================================
+    # 
     # 共通ログ
-    # ==========================================
+    # 
     def _log_start(self, task_description: str = ""):
         """処理開始ログ"""
 
@@ -94,9 +94,9 @@ class BaseOrchestrator(ABC):
         logger.info(msg)
         print(f"⏹️ {msg}", flush=True)
 
-    # ==========================================
+    # 
     # 共通エラー処理
-    # ==========================================
+    # 
     def _handle_standard_error(
         self,
         error: Exception,
@@ -134,9 +134,9 @@ class BaseOrchestrator(ABC):
             },
         )
 
-    # ==========================================
+    # 
     # 共通Context更新
-    # ==========================================
+    # 
     def _set_context(
         self,
         new_context: ChatContext,

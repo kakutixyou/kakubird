@@ -30,7 +30,7 @@ export default function RecruitReportBlock({ block }) {
       case 'gray_to_white':
         return { text: '👍 比較的安全・要確認', classes: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200' };
       case 'gray':
-        return { text: '⚠️ 注意・要警戒', classes: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200' };
+        return { text: ' 注意・要警戒', classes: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200' };
       case 'black':
         return { text: '🚨 ブラック・SESリスク大', classes: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200' };
       default:
@@ -65,9 +65,9 @@ export default function RecruitReportBlock({ block }) {
   return (
     <div className="w-full font-sans bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-sm">
       
-      {/* ==========================================
+      {/* 
           ヘッダー部: 企業名と総合判定
-      ========================================== */}
+       */}
       <div className="p-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
         <div className="flex justify-between items-start gap-4">
           <div>
@@ -94,9 +94,9 @@ export default function RecruitReportBlock({ block }) {
 
       <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        {/* ==========================================
+        {/* 
             左カラム: 基本情報 & AIの評価
-        ========================================== */}
+         */}
         <div className="space-y-6">
           
           {/* 基本情報 */}
@@ -143,9 +143,9 @@ export default function RecruitReportBlock({ block }) {
 
         </div>
 
-        {/* ==========================================
+        {/* 
             右カラム: スコアリング & パターン
-        ========================================== */}
+         */}
         <div className="space-y-6">
           
           {/* スコアリング（プログレスバー） */}

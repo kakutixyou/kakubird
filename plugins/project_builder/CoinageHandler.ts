@@ -94,7 +94,7 @@ export class CoinageHandler {
             return ["text", fallbackText];
             
         } catch (error) {
-            console.error("⚠️ CoinageHandler の実行中にエラーが発生しました:", error);
+            console.error(" CoinageHandler の実行中にエラーが発生しました:", error);
             return ["text", "造語ハンドラーの内部処理でエラーが発生しました。"];
         }
     }

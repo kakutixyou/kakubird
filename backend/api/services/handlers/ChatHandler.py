@@ -1,3 +1,4 @@
+# chathandler.py
 import json
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -34,9 +35,9 @@ class ChatHandler(BaseHandler):
         self.historical_figures_titles = historical_figures_titles or []
         self.debug_knowledge_titles = debug_knowledge_titles or [] # 👈 追加
 
-    # =========================================================
+    # ===
     # マッチング（開発ナレッジ）を追加
-    # =========================================================
+    # ===
     def _match_debug_knowledge(self, message: str) -> Optional[str]:
         # JSONの title や keywords が Orchestrator 側から渡される想定
         for title in self.debug_knowledge_titles:
@@ -94,10 +95,7 @@ class ChatHandler(BaseHandler):
 
     def estimate_size(self, message: str) -> int:
         return 500
-
-    
     # マッチング（職業名 / 歴史人物名）
-    
 
     def _match_occupation(self, message: str) -> Optional[str]:
         for title in self.occupation_titles:
@@ -116,8 +114,6 @@ class ChatHandler(BaseHandler):
 
     
     # ナレッジ検索キーワード（Orchestratorが呼び出す）
-    
-
     def get_search_keywords(self, message: str) -> list:
         # 技術系 + 防衛系トリガーキーワード
         base_keywords = [
@@ -131,9 +127,9 @@ class ChatHandler(BaseHandler):
 
     
     # 応答組み立て：職業（単元マッピング）
-    # =========================================================
+    # ===
     # 応答組み立て：開発ナレッジ・デバッグ履歴
-    # =========================================================
+    # ===
     def _build_debug_knowledge_response(self, matched_title: str, loaded_knowledge: dict) -> str:
         # loaded_knowledge の中から該当するデータを検索
         record = next(
@@ -304,7 +300,7 @@ class ChatHandler(BaseHandler):
         if matched_person:
             self._log_debug("→ 人物プロフィール分岐へ")
             if not loaded_knowledge:
-                self._log_debug("⚠️ loaded_knowledge が空。KnowledgeManager検索がヒットしなかった可能性")
+                self._log_debug(" loaded_knowledge が空。KnowledgeManager検索がヒットしなかった可能性")
                 return "text", f"「{matched_person}」の知識データが読み込まれませんでした。"
             result = self._build_person_response(matched_person, loaded_knowledge)
             self._log_debug(f"_build_person_response() の戻り値: {result[:80]!r}...")
@@ -331,7 +327,7 @@ class ChatHandler(BaseHandler):
             self._log_debug(f"_is_history_question() 結果: {is_history}")
 
             if not loaded_knowledge:
-                self._log_debug("⚠️ loaded_knowledge が空。get_search_keywords() が空配列を返した"
+                self._log_debug(" loaded_knowledge が空。get_search_keywords() が空配列を返した"
                                 "か、KnowledgeManager.search_by_keywords() がヒットしなかった可能性")
                 return "text", f"「{matched_title}」の知識データが読み込まれませんでした。"
 
@@ -345,7 +341,7 @@ class ChatHandler(BaseHandler):
                 self._log_debug(f"occupation_title一致 かつ history_figures を持つレコードの有無: {found_history_record}")
                 if not found_history_record:
                     self._log_debug(
-                        f"⚠️ loaded_knowledge の中身: "
+                        f" loaded_knowledge の中身: "
                         f"{[{'file': k, 'keys': list(v.keys())} for k, v in loaded_knowledge.items()]}"
                     )
                 result = self._build_history_response(matched_title, loaded_knowledge)
@@ -395,9 +391,9 @@ class ChatHandler(BaseHandler):
                 
             
     async def _handle_game_search(self, message: str, current_signals: dict) -> Tuple[str, Any]:
-        # =========================================================
+        # ===
         # 1. 状態の初期化（高度なプロファイリングモデル）
-        # =========================================================
+        # ===
         state = current_signals.get("game_search_state", {
             "facts": {},                # 確定した事実 (例: PvP, カードゲーム)
             "user_opinions": {},        # ユーザーの主観 (例: 4+4+2が使いやすい)
@@ -414,9 +410,9 @@ class ChatHandler(BaseHandler):
             "conversation_summary": ""  # 過去の会話の要約
         })
 
-        # =========================================================
+        # ===
         # 2. 終了シグナルと知識化
-        # =========================================================
+        # ===
         end_keywords = ["ありがと", "助かった", "もういいや", "終わる", "満足"]
         if any(kw in message for kw in end_keywords) or state["phase"] == "conclusion":
             playstyle_hyp = state["ai_inferences"]["playstyle"]["hypothesis"]
@@ -431,9 +427,9 @@ class ChatHandler(BaseHandler):
             current_signals["game_search_state"] = {}
             return "text", {"message": response, "update_signals": current_signals}
 
-        # =========================================================
+        # ===
         # 3. 情報抽出と状態の更新 (SignalExtractor & StateUpdater)
-        # =========================================================
+        # ===
         extracted_info = 0 # 今回のターンで得られた情報の数
 
         # 例: 構成と主観の抽出
@@ -464,9 +460,9 @@ class ChatHandler(BaseHandler):
         if len(state["missing_keys"]) <= 2:
             state["phase"] = "deep_dive"
 
-        # =========================================================
+        # ===
         # 4. 応答の組み立て (Response Builder)
-        # =========================================================
+        # ===
         response_blocks = []
 
         # ① 共感・リアクション (アンケート化を防ぐためのクッション)
@@ -499,9 +495,9 @@ class ChatHandler(BaseHandler):
         # 組み立てたブロックを結合
         response_msg = " ".join(response_blocks)
 
-        # =========================================================
+        # ===
         # 5. 会話サマリーの更新と保存
-        # =========================================================
+        # ===
         # 実際にはここでLLMを使って、これまでの state と message から要約文を生成・追記する
         state["conversation_summary"] = f"ユーザーは{state['user_opinions'].get('preferred_deck', '特定')}の構成を好む。"
 

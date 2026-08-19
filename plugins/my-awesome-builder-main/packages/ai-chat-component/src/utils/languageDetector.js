@@ -1,6 +1,6 @@
 /**
  * languageDetector.js
- * ===================
+ * =
  * Detects the programming language / styling framework context from user input.
  * Used to adapt the format and vocabulary of AI responses.
  */

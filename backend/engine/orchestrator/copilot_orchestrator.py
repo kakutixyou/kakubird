@@ -77,9 +77,9 @@ class CopilotOrchestrator:
                 "reason": "システム内部エラーにより、コードの提案に失敗しました。"
             }
 
-    # ==========================================
+    # 
     # ※以下は `services/` ディレクトリに切り出される「専門の作業係」のダミー実装です
-    # ==========================================
+    # 
     
     def _mock_check_permission(self, user_id: str) -> bool:
         """services.auth_service.py の役割"""

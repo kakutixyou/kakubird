@@ -1,14 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-<<<<<<< HEAD
+  // 👇 contentを1つにまとめ、正しい相対パス（../plugins/...）を指定します
   content: [
-  './index.html',
-  './src/**/*.{js,ts,jsx,tsx}',
-  './Tokyo_hackson_23/src/**/*.{js,ts,jsx,tsx}',
-],
-=======
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    '../plugins/Tokyo_hackson_23/**/*.{js,ts,jsx,tsx}' // ⬅️ frontendから1つ上の階層に上がり、pluginsを見に行く
+  ],
   theme: {
     extend: {
       colors: {

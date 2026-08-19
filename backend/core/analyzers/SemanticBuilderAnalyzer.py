@@ -1,6 +1,6 @@
 """
 semantic_builder_analyzer.py
-==============================================
+====
 
 自作AI用 セマンティック（意味的）グラフ構築モジュール
 
@@ -15,7 +15,7 @@ semantic_builder_analyzer.py
   - 例: "LoginComponent" (ノード) --[CALLS_API]--> "/api/auth" (ノード)
   - テキストの羅列ではなく、厳密にキーと値が定義された JSON スキーマを生成する。
 
-==============================================
+====
 """
 
 from __future__ import annotations

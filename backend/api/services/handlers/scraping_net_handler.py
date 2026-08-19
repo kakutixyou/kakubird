@@ -193,4 +193,4 @@ class ScrapingHandler:
 
         except Exception as e:
             traceback.print_exc()
-            return "text", f"<summary>⚠️ データの取得または保存に失敗しました</summary><details>エラー詳細: {e}</details>"
+            return "text", f"<summary> データの取得または保存に失敗しました</summary><details>エラー詳細: {e}</details>"

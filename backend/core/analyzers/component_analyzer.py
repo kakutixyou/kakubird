@@ -1,6 +1,6 @@
 """
 component_analyzer.py
-==============================================
+====
 
 Component解析モジュール
 
@@ -16,7 +16,7 @@ JSXコンポーネントへの変換を行う自作AIに対して、どのよう
 ・タグ、クラス、ID、特定要素の数から意味的なUI要素を推測（semantic_components）
 ・Custom ElementsやReact風のカスタムコンポーネントタグを検出（custom_components）
 
-==============================================
+====
 """
 
 from __future__ import annotations

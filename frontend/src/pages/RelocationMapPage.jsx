@@ -56,19 +56,21 @@ export default function RelocationMapPage() {
 
   // 🌟 マップの表示モード管理 ('3D', 'OSM_DETAIL', 'ALL_OSM')
   const [viewMode, setViewMode] = useState('3D');
-// 👇 新規追加：自動ジャンプのON/OFF状態（初期値はtrue）
+  // 👇 自動ジャンプのON/OFF状態（初期値はtrue）
   const [isAutoJumpEnabled, setIsAutoJumpEnabled] = useState(true);
-  // 🌟 2. 3Dマップで区をクリックした時のハンドラーを修正
+
+  // 🌟 3Dマップで区をクリックした時のハンドラー
   const handleDistrictSelect = (district) => {
     setSelectedDistrict(district);
     
-    // 👇 新規追加：isAutoJumpEnabled が true の時だけジャンプさせる
+    // isAutoJumpEnabled が true の時だけジャンプさせる
     if (isAutoJumpEnabled) {
       setTimeout(() => {
         setViewMode('OSM_DETAIL');
       }, 1500);
     }
   };
+
   // 実データ取得
   useEffect(() => {
     let cancelled = false;
@@ -167,29 +169,28 @@ export default function RelocationMapPage() {
   const activeWardBaseData = TOKYO_23_DISTRICTS.find(d => d.code === selectedDistrict?.code);
   const targetEffectKey = activeWardBaseData?.effectKey;
 
-
-
   return (
-    <WardLabelsProvider>
-      {/* 🌟 100vw/100vh を 100% に変更し Layout 内に収める */}
-      <div style={{
-        backgroundColor: '#02040a',
-        color: '#fff',
-        fontFamily: 'sans-serif',
-        margin: 0,
-        padding: 0,
-        height: '100%',
-        width: '100%',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
+    // 親のレイアウト（Layoutコンポーネント）でサイドバーが表示される前提で、
+    // ここではメインのマップ領域のみを返します。
+    <div style={{
+      flex: 1, // 親がFlexboxの場合、残りのスペースをすべて埋める
+      backgroundColor: '#02040a',
+      color: '#fff',
+      fontFamily: 'sans-serif',
+      margin: 0,
+      padding: 0,
+      height: '100%',
+      width: '100%',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      <WardLabelsProvider>
 
         {/* 演出用Canvas（一番後ろ） */}
         <WardEffectCanvas wardCode={targetEffectKey} />
-{/* 🌟 右上メニュー: 自動ジャンプ切替 ＆ 区名ラベル表示 ＆ ALL_OSM切替ボタン */}
+
+        {/* 🌟 右上メニュー: 自動ジャンプ切替 ＆ 区名ラベル表示 ＆ ALL_OSM切替ボタン */}
         <div style={{ position: 'absolute', top: '10px', right: '20px', zIndex: 600, display: 'flex', gap: '12px', alignItems: 'center' }}>
-          
-          {/* 👇 新規追加: 自動ジャンプON/OFFボタん */}
           <button
             onClick={() => setIsAutoJumpEnabled(prev => !prev)}
             style={{
@@ -206,6 +207,7 @@ export default function RelocationMapPage() {
           >
             {isAutoJumpEnabled ? '🚀 自動ジャンプ: ON' : '⏸️ 自動ジャンプ: OFF'}
           </button>
+          
           <WardLabelsToggle />
           
           <button
@@ -214,7 +216,7 @@ export default function RelocationMapPage() {
                 setViewMode('3D');
               } else {
                 setViewMode('ALL_OSM');
-                setSelectedDistrict(null); // 選択状態をリセットして地図のみを広く見せる
+                setSelectedDistrict(null);
               }
             }}
             className="px-4 py-2 bg-slate-900 text-white font-bold rounded-lg shadow-lg border border-slate-700 hover:bg-slate-800 transition-all text-sm"
@@ -242,9 +244,7 @@ export default function RelocationMapPage() {
           </div>
         )}
 
-        {/* ==========================================
-            レイヤー1 (奥): OSM実用マップ (MapVisualizer)
-        ========================================== */}
+        {/* レイヤー1 (奥): OSM実用マップ (MapVisualizer) */}
         <div 
           style={{
             position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
@@ -255,15 +255,13 @@ export default function RelocationMapPage() {
             backgroundColor: '#f8fafc'
           }}
         >
-          {/* 詳細モードの時のみ戻るボタンを表示（ALL_OSM時は隠す） */}
           {viewMode === 'OSM_DETAIL' && (
-            
             <button 
               onClick={() => {
                 setViewMode('3D');
                 setSelectedDistrict(null);
               }}
-              className="absolute top-6 left-2000 z-[600] px-600 py-3 bg-slate-900 text-white font-bold rounded-full shadow-2xl border border-slate-700 hover:bg-slate-800 transition-all flex items-center gap-2"
+              className="absolute top-6 left-20 z-[600] px-6 py-3 bg-slate-900 text-white font-bold rounded-full shadow-2xl border border-slate-700 hover:bg-slate-800 transition-all flex items-center gap-2"
             >
               <span>🚀</span> 宇宙マップに戻る
             </button>
@@ -274,28 +272,27 @@ export default function RelocationMapPage() {
           />
         </div>
 
-        {/* ==========================================
-            レイヤー2 (手前): 3D直感マップ (Area23Map)
-        ========================================== */}
-        <div
-          style={{ 
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
-            opacity: viewMode === '3D' ? 1 : 0,
-            pointerEvents: viewMode === '3D' ? 'auto' : 'none',
-            transition: 'opacity 1.2s ease-in-out',
-            zIndex: 20 
-          }}
-          onClick={() => setSelectedDistrict(null)}
-        >
-          <Area23Map
-            districts={districtsState}
-            selectedCode={selectedDistrict?.code}
-            onSelectDistrict={handleDistrictSelect}
-            onSettleChange={(settled) => setIsHeaderVisible(!settled)}
-          />
+        {/* レイヤー2 (手前): 3D直感マップ (Area23Map) */}
+<div
+  style={{ 
+    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
+    opacity: viewMode === '3D' ? 1 : 0,
+    pointerEvents: viewMode === '3D' ? 'auto' : 'none',
+    transition: 'opacity 1.2s ease-in-out',
+    zIndex: 20 
+  }}
+  onClick={() => setSelectedDistrict(null)}
+>
+  <Area23Map
+    districts={districtsState}
+    selectedCode={selectedDistrict?.code || null}
+    selectedCategory={activeCategoryKey} // 👈 activeCategoryKey を渡す
+    onSelectDistrict={handleDistrictSelect}
+    onSettleChange={null}
+  />
         </div>
 
-        {/* 🔽 2. 上部：カテゴリ選択 (3Dモードの時だけ表示・操作可能) 🔽 */}
+        {/* 上部：カテゴリ選択 */}
         <section style={{
           position: 'absolute',
           top: 0, left: 0, right: 0,
@@ -311,10 +308,7 @@ export default function RelocationMapPage() {
           transition: 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
           pointerEvents: 'none'
         }}>
-          <div style={{
-            pointerEvents: isHeaderVisible && viewMode === '3D' ? 'auto' : 'none',
-            display: 'flex', flexDirection: 'column', alignItems: 'center'
-          }}>
+          <div style={{ pointerEvents: isHeaderVisible && viewMode === '3D' ? 'auto' : 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h1 style={{ fontSize: '32px', margin: '0 0 10px 0', background: 'linear-gradient(90deg, #00ff9f, #05d5e7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               TOKYO 23 MATCHING
             </h1>
@@ -342,7 +336,7 @@ export default function RelocationMapPage() {
           </div>
         </section>
         
-        {/* 🔽 3. 左端：ランク凡例 (3Dモードの時だけ表示) 🔽 */}
+        {/* 左端：ランク凡例 */}
         <div style={{
           position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 30,
           display: 'flex', flexDirection: 'column', gap: '12px', background: 'rgba(10, 14, 35, 0.7)',
@@ -361,7 +355,7 @@ export default function RelocationMapPage() {
           ))}
         </div>
         
-        {/* 🔽 4. 詳細カード (区が選択されている時のみ表示) 🔽 */}
+        {/* 詳細カード */}
         {selectedDistrict && (
           <div style={{ position: 'absolute', bottom: '20px', right: '20px', zIndex: 1000, width: '400px' }}>
             <DistrictDetailCard
@@ -384,7 +378,7 @@ export default function RelocationMapPage() {
           </div>
         )}
 
-      </div>
-    </WardLabelsProvider>
+      </WardLabelsProvider>
+    </div>
   );
 }

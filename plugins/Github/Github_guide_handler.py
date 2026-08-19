@@ -20,9 +20,9 @@ class GithubGuideHandler(BaseHandler):
         self.detected_mode: Optional[str] = None
         self.base_dir = base_dir
 
-    # ==========================================
+    # 
     # 1. ユーティリティ & ルーティング処理
-    # ==========================================
+    # 
     def _get_text(self, message: Any) -> str:
         """安全にテキストを抽出するヘルパー"""
         if isinstance(message, str):
@@ -71,9 +71,9 @@ class GithubGuideHandler(BaseHandler):
 
         return 0
 
-    # ==========================================
+    # 
     # 2. ファイルテンプレート生成
-    # ==========================================
+    # 
     def _generate_gitignore(self) -> str:
         """プロジェクト用の .gitignore テンプレート"""
         return """# Node.js / React / Frontend
@@ -125,9 +125,9 @@ PORT=3000
 FRONTEND_URL=http://localhost:3000
 """
 
- # ==========================================
+ # 
     # 3. メイン処理 (ブロック生成)
-    # ==========================================
+    # 
     async def handle(self, message: Any) -> Tuple[str, Any]:
         print("⚡ [GithubGuideHandler] GitHub Pushガイドとテンプレートファイルを生成します", flush=True)
         

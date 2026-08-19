@@ -8,18 +8,18 @@ from dataclasses import dataclass
 from typing import Dict, Any, Optional, List
 
 
-# =========================================================
+# ===
 # Constants
-# =========================================================
+# ===
 
 PLUGIN_ROOT = "plugins"
 
 MANIFEST_FILENAME = "plugin.json"
 
 
-# =========================================================
+# ===
 # Data Classes
-# =========================================================
+# ===
 
 @dataclass
 class PluginManifest:
@@ -42,16 +42,16 @@ class PluginManifest:
     trigger_keywords: Optional[List[str]] = None
 
 
-# =========================================================
+# ===
 # Plugin Registry
-# =========================================================
+# ===
 
 PLUGIN_REGISTRY: Dict[str, PluginManifest] = {}
 
 
-# =========================================================
+# ===
 # Utility
-# =========================================================
+# ===
 
 def safe_import_module(
     module_path: str
@@ -73,9 +73,9 @@ def safe_import_module(
         return None
 
 
-# =========================================================
+# ===
 # Manifest Loader
-# =========================================================
+# ===
 
 def load_manifest_file(
     plugin_dir: str
@@ -150,9 +150,9 @@ def load_manifest_file(
         return None
 
 
-# =========================================================
+# ===
 # Plugin Discovery
-# =========================================================
+# ===
 
 def discover_plugins() -> Dict[str, PluginManifest]:
     """
@@ -205,9 +205,9 @@ def discover_plugins() -> Dict[str, PluginManifest]:
     return PLUGIN_REGISTRY
 
 
-# =========================================================
+# ===
 # Plugin Lookup
-# =========================================================
+# ===
 
 def get_plugin(
     plugin_name: str
@@ -231,9 +231,9 @@ def list_plugins() -> List[str]:
     )
 
 
-# =========================================================
+# ===
 # Trigger Matching
-# =========================================================
+# ===
 
 def detect_triggered_plugins(
     user_message: str
@@ -265,9 +265,9 @@ def detect_triggered_plugins(
     return triggered
 
 
-# =========================================================
+# ===
 # Plugin Entrypoint Execution
-# =========================================================
+# ===
 
 async def execute_plugin(
     plugin_name: str,
@@ -326,9 +326,9 @@ async def execute_plugin(
         }
 
 
-# =========================================================
+# ===
 # Bulk Plugin Execution
-# =========================================================
+# ===
 
 async def execute_triggered_plugins(
     user_message: str,
@@ -358,9 +358,9 @@ async def execute_triggered_plugins(
     return results
 
 
-# =========================================================
+# ===
 # Plugin Context Builder
-# =========================================================
+# ===
 
 def build_plugin_context_text() -> str:
     """
@@ -385,9 +385,9 @@ def build_plugin_context_text() -> str:
     return "\n".join(lines)
 
 
-# =========================================================
+# ===
 # Plugin Health Check
-# =========================================================
+# ===
 
 async def health_check_plugins(
 ) -> Dict[str, Any]:
@@ -423,9 +423,9 @@ async def health_check_plugins(
     return result
 
 
-# =========================================================
+# ===
 # Plugin Reload
-# =========================================================
+# ===
 
 def reload_plugins():
     """
@@ -435,16 +435,16 @@ def reload_plugins():
     return discover_plugins()
 
 
-# =========================================================
+# ===
 # Boot Initialization
-# =========================================================
+# ===
 
 discover_plugins()
 
 
-# =========================================================
+# ===
 # Future Expansion Notes
-# =========================================================
+# ===
 
 """
 将来的な拡張ポイント

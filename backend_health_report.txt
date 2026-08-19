@@ -1,23 +1,23 @@
-=================================================== 
+=== 
 Backend Health Report 
 Generated: 2026/05/29 16:47:33.87 
-=================================================== 
+=== 
  
 Python 3.10.11
  
 C:\Users\shing\AppData\Local\Microsoft\WindowsApps\python.exe
  
-=================================================
+=
 🚀 AI Server Boot
-=================================================
-📂 ROOT_DIR   : C:\Users\shing\Documents\special\新たに作るもの\To(と)
-📂 BASE_DIR   : C:\Users\shing\Documents\special\新たに作るもの\To(と)\backend
-📂 SRC_DIR    : C:\Users\shing\Documents\special\新たに作るもの\To(と)\backend\src
-📂 PLUGIN_DIR : C:\Users\shing\Documents\special\新たに作るもの\To(と)\plugins
+=
+📂 ROOT_DIR   : C:\Users\shing\Documents\special\New_Create\To(と)
+📂 BASE_DIR   : C:\Users\shing\Documents\special\New_Create\To(と)\backend
+📂 SRC_DIR    : C:\Users\shing\Documents\special\New_Create\To(と)\backend\src
+📂 PLUGIN_DIR : C:\Users\shing\Documents\special\New_Create\To(と)\plugins
 -------------------------------------------------
 🤖 OLLAMA_MODEL : gemma3
 🌐 OLLAMA_URL   : http://100.85.26.46:11434
-=================================================
+=
 [LOAD] api.routes_chat
 🧠 AI State Manager initialized.
 [OK] api.routes_chat
@@ -48,7 +48,7 @@ C:\Users\shing\AppData\Local\Microsoft\WindowsApps\python.exe
 
 [OK  ] backend.api.services.chat_orchestrator
 
-===================================================
+===
   SUMMARY
 ---------------------------------------------------
   Total   : 10
@@ -56,12 +56,12 @@ C:\Users\shing\AppData\Local\Microsoft\WindowsApps\python.exe
   FAILED  : 0
 ---------------------------------------------------
   STATUS : ALL IMPORTS OK
-===================================================
-===================================================
+===
+===
   PYTHON IMPORT TEST
   2026-05-29 16:47:34
-===================================================
-  ROOT : C:\Users\shing\Documents\special\新たに作るもの\To(と)
+===
+  ROOT : C:\Users\shing\Documents\special\New_Create\To(と)
   Python : 3.10.11
 ---------------------------------------------------
 [OK  ] backend
@@ -74,4 +74,3 @@ INFO:     Started server process [16900]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
-^C

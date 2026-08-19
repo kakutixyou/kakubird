@@ -44,9 +44,9 @@ router = APIRouter()
 # 保存先ディレクトリの共通設定
 DB_DIR = os.path.join("db", "migrations")
 
-# =========================================
+# =====
 # 1. APIディスカバリ（既存のまま）
-# =========================================
+# =====
 @router.post("/evaluate-job")
 async def process_job_evaluation(ocr_text: str):
     """
@@ -121,9 +121,9 @@ async def discover_services():
         ]
     }
 
-# =========================================
+# =====
 # 2. データベース作成 API（既存のまま）
-# =========================================
+# =====
 class CreateDBRequest(BaseModel):
     db_name: str  
 
@@ -155,9 +155,9 @@ async def create_database(req: CreateDBRequest):
         raise HTTPException(status_code=500, detail=f"Failed to create DB: {str(e)}")
 
 
-# =========================================================
+# ===
 # ✨ 3. 【新規追加】生成済みデータベース一覧取得 API (これで404を一掃！)
-# =========================================================
+# ===
 @router.get("/databases")
 async def list_databases():
     """
@@ -185,9 +185,9 @@ async def list_databases():
     return {"databases": db_files}
 
 
-# =========================================================
+# ===
 # ✨ 4. 【新規追加】データベース削除 API
-# =========================================================
+# ===
 @router.delete("/delete-db/{name}")
 async def delete_database(name: str):
     # .db がついていなければ補完
@@ -205,9 +205,9 @@ async def delete_database(name: str):
         raise HTTPException(status_code=500, detail=f"削除に失敗しました: {str(e)}")
 
 
-# =========================================================
+# ===
 # ✨ 5. 【新規追加】データベース ダウンロード API
-# =========================================================
+# ===
 @router.get("/download-db/{name}")
 async def download_database(name: str):
     filename = name if name.endswith(".db") else f"{name}.db"
@@ -222,9 +222,9 @@ async def download_database(name: str):
         filename=filename
     )
 
-# =========================================
+# =====
 # 6. DBスキーマ取得
-# =========================================
+# =====
 
 @router.get("/schema/{db_name}")
 async def get_schema(db_name: str):
@@ -258,9 +258,9 @@ async def get_schema(db_name: str):
             detail=str(e)
         )
         
-# =========================================
+# =====
 # 7. テーブル一覧取得
-# =========================================
+# =====
 
 @router.get("/tables/{db_name}")
 async def get_tables(db_name: str):
@@ -309,9 +309,9 @@ async def get_tables(db_name: str):
             detail=str(e)
         )
         
-# =========================================
+# =====
 # 8. テーブルデータ取得
-# =========================================
+# =====
 
 @router.get("/table-data/{db_name}/{table_name}")
 async def get_table_data(
@@ -378,9 +378,9 @@ async def ai_status():
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
-# =========================================================
+# ===
 # 2. Current AI Context
-# =========================================================
+# ===
 
 @router.get("/api/context")
 async def get_current_context():
@@ -394,9 +394,9 @@ async def get_current_context():
         "context": context
     }
 
-# =========================================================
+# ===
 # 3. AI Self Analysis
-# =========================================================
+# ===
 
 @router.get("/api/ai/self-analysis")
 async def ai_self_analysis():
@@ -419,9 +419,9 @@ async def ai_self_analysis():
         "analysis": summary
     }
 
-# =========================================================
+# ===
 # 4. AI File Open
-# =========================================================
+# ===
 
 @router.post("/api/file/open")
 async def open_file_api(file_path: str):
@@ -456,9 +456,9 @@ async def open_file_api(file_path: str):
         "content": content
     }
 
-# =========================================================
+# ===
 # 5. AI Search
-# =========================================================
+# ===
 
 @router.get("/api/search")
 async def search_memory_api(keyword: str):

@@ -48,9 +48,9 @@ class ConversationMemory:
         self.messages = []
         self.save()
 
-    # =========================================================
+    # ===
     # Persistence
-    # =========================================================
+    # ===
 
     def save(self) -> None:
         data = [message.to_dict() for message in self.messages]
@@ -93,9 +93,9 @@ class ConversationMemory:
 
         self.messages = messages[-self.max_messages :]
 
-    # =========================================================
+    # ===
     # Export
-    # =========================================================
+    # ===
 
     def to_dict(self) -> list[dict]:
         return [message.to_dict() for message in self.messages]

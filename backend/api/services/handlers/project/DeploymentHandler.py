@@ -112,9 +112,9 @@ from engine.orchestrator.knowledge_orchestra import KnowledgeOrchestra
 logger = logging.getLogger(__name__)
 
 
-# =========================================================
+# ===
 # Deployment command
-# =========================================================
+# ===
 
 DEPLOYMENT_COMMANDS = {
     "/deploy",
@@ -123,9 +123,9 @@ DEPLOYMENT_COMMANDS = {
 }
 
 
-# =========================================================
+# ===
 # DeploymentHandler
-# =========================================================
+# ===
 
 class DeploymentHandler(BaseHandler):
     """
@@ -218,9 +218,9 @@ class DeploymentHandler(BaseHandler):
         self.detected_theme: Optional[str] = None
         self.detected_mode: Optional[str] = None
 
-    # =========================================================
+    # ===
     # Message utility
-    # =========================================================
+    # ===
 
     def _get_text(self, message: Any) -> str:
         """
@@ -255,9 +255,9 @@ class DeploymentHandler(BaseHandler):
 
         return str(message)
 
-    # =========================================================
+    # ===
     # Estimate size
-    # =========================================================
+    # ===
 
     def estimate_size(self, message: Any) -> int:
         """
@@ -278,9 +278,9 @@ class DeploymentHandler(BaseHandler):
 
         return base_size
 
-    # =========================================================
+    # ===
     # can_handle
-    # =========================================================
+    # ===
 
     async def can_handle(self, message: Any) -> bool:
         """
@@ -325,9 +325,9 @@ class DeploymentHandler(BaseHandler):
 
         return False
 
-    # =========================================================
+    # ===
     # calculate_score
-    # =========================================================
+    # ===
 
     async def calculate_score(
         self,
@@ -446,9 +446,9 @@ class DeploymentHandler(BaseHandler):
 
         return 0
 
-    # =========================================================
+    # ===
     # handle
-    # =========================================================
+    # ===
 
     async def handle(
         self,

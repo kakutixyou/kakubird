@@ -1,385 +1,1488 @@
 // frontend/src/components/MemoryManager.jsx
-import React, { useState, useRef, useCallback } from "react";
 
-// 🌟 バックエンドの ai_server.py のポート(8765)に合わせて修正
-const API = "http://localhost:8765/api/memory";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-// ── トースト ──────────────────────────────────
-const useToast = () => {
+const API_BASE = "http://localhost:8765/api/memory";
+
+// ============================================================
+// 共通
+// ============================================================
+
+const safeArray = (value) => {
+  return Array.isArray(value) ? value : [];
+};
+
+const safeObject = (value) => {
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? value
+    : {};
+};
+
+const formatDate = (value) => {
+  if (!value) return "日時不明";
+
+  try {
+    return String(value).replace("T", " ").slice(0, 19);
+  } catch {
+    return String(value);
+  }
+};
+
+const truncate = (text, max = 180) => {
+  if (!text) return "";
+
+  const value = String(text);
+
+  if (value.length <= max) {
+    return value;
+  }
+
+  return `${value.slice(0, max)}…`;
+};
+
+// ============================================================
+// Toast
+// ============================================================
+
+function useToast() {
   const [toast, setToast] = useState(null);
-  const show = (msg, type = "ok") => {
-    setToast({ msg, type });
-    setTimeout(() => setToast(null), 3000);
+
+  const showToast = useCallback((message, type = "success") => {
+    setToast({
+      message,
+      type,
+    });
+
+    window.setTimeout(() => {
+      setToast(null);
+    }, 3200);
+  }, []);
+
+  return {
+    toast,
+    showToast,
   };
-  return [toast, show];
-};
+}
 
-// ── ドロップゾーン ────────────────────────────
-const DropZone = ({ onFiles, busy }) => {
-  const ref = useRef();
-  const [over, setOver] = useState(false);
-  const pick = useCallback(files => {
-    const imgs = [...files].filter(f => f.type.startsWith("image/"));
-    if (imgs.length) onFiles(imgs);
-  }, [onFiles]);
+// ============================================================
+// 小コンポーネント
+// ============================================================
 
+function EmptyState({
+  icon = "📭",
+  title = "記憶なし",
+  description = "まだ保存されている情報はありません。",
+}) {
   return (
-    <label style={{
-      display: "block", border: `2px dashed ${over ? "#4f8ef7" : "#2a2d3a"}`,
-      borderRadius: 10, padding: "28px 0", textAlign: "center",
-      background: over ? "rgba(79,142,247,.06)" : "#13151e",
-      cursor: busy ? "wait" : "pointer", transition: "all .18s",
-      userSelect: "none",
-    }}
-    onDragOver={e => { e.preventDefault(); setOver(true); }}
-    onDragLeave={() => setOver(false)}
-    onDrop={e => { e.preventDefault(); setOver(false); pick(e.dataTransfer.files); }}
+    <div
+      style={{
+        padding: "36px 20px",
+        textAlign: "center",
+        color: "#64748b",
+      }}
     >
-      <input ref={ref} type="file" accept="image/*" multiple hidden
-        onChange={e => pick(e.target.files)} />
-      {busy
-        ? <span style={{ color: "#4f8ef7", fontSize: ".9rem" }}>⏳ OCR処理中…</span>
-        : <>
-            <div style={{ fontSize: "1.8rem", marginBottom: 6 }}>📸</div>
-            <div style={{ color: "#c8cde0", fontWeight: 600, fontSize: ".9rem" }}>
-              スクリーンショットをドロップ（複数可）
-            </div>
-            <div style={{ color: "#4a4f65", fontSize: ".75rem", marginTop: 3 }}>
-              求人・フォルダ構成を自動で判別して保存します
-            </div>
-          </>
-      }
-    </label>
-  );
-};
-
-// ── タブ ─────────────────────────────────────
-const Tab = ({ label, count, active, onClick }) => (
-  <button onClick={onClick} style={{
-    background: "none", border: "none", cursor: "pointer",
-    padding: "8px 16px", borderRadius: 7, fontFamily: "inherit",
-    fontSize: ".85rem", fontWeight: active ? 700 : 500,
-    color: active ? "#4f8ef7" : "#5a6070",
-    background: active ? "rgba(79,142,247,.1)" : "transparent",
-    transition: "all .15s",
-  }}>
-    {label}
-    {count > 0 && (
-      <span style={{
-        marginLeft: 6, fontSize: ".7rem", fontWeight: 700,
-        background: active ? "#4f8ef7" : "#2a2d3a",
-        color: active ? "#fff" : "#8090a0",
-        padding: "1px 7px", borderRadius: 10,
-      }}>{count}</span>
-    )}
-  </button>
-);
-
-// ── 求人カード ────────────────────────────────
-const JobCard = ({ job, onDelete }) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <div style={{
-      background: "#13151e", border: "1px solid #1e2130",
-      borderRadius: 10, padding: "16px 18px",
-      borderLeft: "3px solid #4f8ef7",
-      transition: "transform .15s",
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = "translateY(-1px)"}
-    onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div>
-          <div style={{ fontWeight: 700, fontSize: ".95rem", color: "#e0e4f0" }}>
-            {job.company_name || "会社名不明"}
-          </div>
-          <div style={{ fontSize: ".8rem", color: "#4f8ef7", marginTop: 2 }}>
-            {job.job_title || "職種不明"}
-          </div>
-        </div>
-        <button onClick={() => onDelete("job", job.id)} style={{
-          background: "none", border: "1px solid #ef444440", color: "#ef4444",
-          borderRadius: 6, padding: "3px 9px", fontSize: ".72rem",
-          cursor: "pointer", fontFamily: "inherit",
-        }}>消す</button>
+      <div
+        style={{
+          fontSize: 36,
+          marginBottom: 10,
+        }}
+      >
+        {icon}
       </div>
 
-      <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: "5px 14px" }}>
-        {job.contact  && <Info icon="✉" v={job.contact} />}
-        {job.salary   && <Info icon="💴" v={job.salary} />}
-        {job.location && <Info icon="📍" v={job.location} />}
+      <div
+        style={{
+          color: "#cbd5e1",
+          fontWeight: 700,
+          marginBottom: 5,
+        }}
+      >
+        {title}
       </div>
 
-      {job.memo && (
-        <div style={{
-          marginTop: 8, fontSize: ".76rem", color: "#8090a0",
-          background: "#0e1018", borderRadius: 6, padding: "6px 10px",
-        }}>{job.memo}</div>
-      )}
-
-      {job.raw_text && (
-        <>
-          <button onClick={() => setOpen(v => !v)} style={{
-            background: "none", border: "none", color: "#4a5060",
-            fontSize: ".72rem", cursor: "pointer", marginTop: 6, fontFamily: "inherit",
-          }}>{open ? "▲ 閉じる" : "▼ OCR全文"}</button>
-          {open && (
-            <pre style={{
-              fontSize: ".68rem", color: "#5a6070", background: "#0a0c12",
-              borderRadius: 6, padding: "8px 10px", marginTop: 4, whiteSpace: "pre-wrap",
-              wordBreak: "break-all", maxHeight: 160, overflowY: "auto", margin: "4px 0 0",
-            }}>{job.raw_text}</pre>
-          )}
-        </>
-      )}
-
-      <div style={{ fontSize: ".68rem", color: "#3a3f50", marginTop: 8, textAlign: "right" }}>
-        {job.created_at?.slice(0, 16).replace("T", " ")}
+      <div
+        style={{
+          fontSize: 13,
+        }}
+      >
+        {description}
       </div>
     </div>
   );
-};
+}
 
-// ── フォルダカード ────────────────────────────
-const FolderCard = ({ folder, onDelete }) => {
-  const [open, setOpen] = useState(false);
-  const tree = folder.tree || [];
-  const dirs  = tree.filter(n => n.kind === "dir");
-  const files = tree.filter(n => n.kind === "file");
-
+function Section({
+  title,
+  icon,
+  count,
+  children,
+  description,
+  action,
+}) {
   return (
-    <div style={{
-      background: "#13151e", border: "1px solid #1e2130",
-      borderRadius: 10, padding: "16px 18px",
-      borderLeft: "3px solid #06b6d4",
-      transition: "transform .15s",
-    }}
-    onMouseEnter={e => e.currentTarget.style.transform = "translateY(-1px)"}
-    onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
+    <section
+      style={{
+        background: "#111827",
+        border: "1px solid #1f2937",
+        borderRadius: 16,
+        overflow: "hidden",
+        boxShadow: "0 8px 30px rgba(0,0,0,0.18)",
+      }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+      <div
+        style={{
+          padding: "16px 18px",
+          borderBottom: "1px solid #1f2937",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: 12,
+        }}
+      >
         <div>
-          <div style={{ fontWeight: 700, fontSize: ".95rem", color: "#e0e4f0" }}>
-            📁 {folder.root_name || "フォルダ不明"}
-          </div>
-          <div style={{ fontSize: ".78rem", color: "#06b6d4", marginTop: 2 }}>
-            {folder.summary}
-          </div>
-        </div>
-        <button onClick={() => onDelete("folder", folder.id)} style={{
-          background: "none", border: "1px solid #ef444440", color: "#ef4444",
-          borderRadius: 6, padding: "3px 9px", fontSize: ".72rem",
-          cursor: "pointer", fontFamily: "inherit",
-        }}>消す</button>
-      </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <span>{icon}</span>
 
-      <div style={{ marginTop: 8, display: "flex", gap: 12 }}>
-        <span style={{ fontSize: ".75rem", color: "#5a6070" }}>📂 {dirs.length}フォルダ</span>
-        <span style={{ fontSize: ".75rem", color: "#5a6070" }}>📄 {files.length}ファイル</span>
-      </div>
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 16,
+                color: "#f8fafc",
+              }}
+            >
+              {title}
+            </h2>
 
-      {tree.length > 0 && (
-        <>
-          <button onClick={() => setOpen(v => !v)} style={{
-            background: "none", border: "none", color: "#4a5060",
-            fontSize: ".72rem", cursor: "pointer", marginTop: 6, fontFamily: "inherit",
-          }}>{open ? "▲ 閉じる" : "▼ ツリーを見る"}</button>
-          {open && (
-            <div style={{
-              marginTop: 4, background: "#0a0c12", borderRadius: 6,
-              padding: "8px 10px", maxHeight: 200, overflowY: "auto",
-            }}>
-              {tree.map((node, i) => {
-                const depth = (node.path.match(/\//g) || []).length;
-                return (
-                  <div key={i} style={{
-                    fontSize: ".72rem", color: node.kind === "dir" ? "#06b6d4" : "#7080a0",
-                    paddingLeft: depth * 12, lineHeight: 1.7,
-                    fontFamily: "monospace",
-                  }}>
-                    {node.kind === "dir" ? "📂" : "📄"} {node.path.split("/").pop()}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </>
-      )}
-
-      <div style={{ fontSize: ".68rem", color: "#3a3f50", marginTop: 8, textAlign: "right" }}>
-        {folder.created_at?.slice(0, 16).replace("T", " ")}
-      </div>
-    </div>
-  );
-};
-
-const Info = ({ icon, v }) => (
-  <span style={{ fontSize: ".76rem", color: "#7080a0" }}>
-    {icon} {v}
-  </span>
-);
-
-// ── メイン ────────────────────────────────────
-export default function MemoryManager() {
-  const [tab, setTab]       = useState("jobs");
-  const [jobs, setJobs]     = useState([]);
-  const [folders, setFolders] = useState([]);
-  const [busy, setBusy]     = useState(false);
-  const [fetched, setFetched] = useState(false);
-  const [toast, showToast]  = useToast();
-
-  const fetchAll = async () => {
-    try {
-      const [jr, fr] = await Promise.all([
-        fetch(`${API}/jobs`).then(r => r.json()),
-        fetch(`${API}/folders`).then(r => r.json()),
-      ]);
-      setJobs(jr.jobs || []);
-      setFolders(fr.folders || []);
-      setFetched(true);
-    } catch {
-      showToast("取得失敗。バックエンドを確認してください。", "err");
-    }
-  };
-
-  const handleFiles = async files => {
-    setBusy(true);
-    let jobCount = 0, folderCount = 0, skipCount = 0;
-
-    for (const file of files) {
-      const form = new FormData();
-      form.append("file", file);
-      try {
-        const res  = await fetch(`${API}/ocr-screenshot`, { method: "POST", body: form });
-        const data = await res.json();
-        if      (data.type === "job")              jobCount++;
-        else if (data.type === "folder_structure") folderCount++;
-        else                                       skipCount++;
-      } catch {
-        showToast(`エラー: ${file.name}`, "err");
-      }
-    }
-
-    setBusy(false);
-    const parts = [];
-    if (jobCount)    parts.push(`求人 ${jobCount}件`);
-    if (folderCount) parts.push(`フォルダ構成 ${folderCount}件`);
-    if (skipCount)   parts.push(`スキップ ${skipCount}件`);
-    if (parts.length) {
-      showToast(`登録完了: ${parts.join(" / ")}`);
-      await fetchAll();
-    }
-  };
-
-  const handleDelete = async (type, id) => {
-    if (!window.confirm("この記憶を完全に消しますか？")) return;
-    try {
-      await fetch(`${API}/record/${type}/${id}`, { method: "DELETE" });
-      if (type === "job")    setJobs(p => p.filter(j => j.id !== id));
-      if (type === "folder") setFolders(p => p.filter(f => f.id !== id));
-      showToast("記憶を消しました。");
-    } catch {
-      showToast("削除失敗。", "err");
-    }
-  };
-
-  const handleDeleteAll = async () => {
-    const all = tab === "jobs" ? jobs : folders;
-    if (!all.length) return;
-    if (!window.confirm(`${tab === "jobs" ? "求人" : "フォルダ構成"}の記憶をすべて消しますか？`)) return;
-    for (const r of all) await handleDelete(tab === "jobs" ? "job" : "folder", r.id);
-    showToast("すべての記憶を消しました。");
-  };
-
-  const list = tab === "jobs" ? jobs : folders;
-
-  return (
-    <>
-      {/* 🌟 グローバルなCSS破壊を防ぐため、アニメーションのみに限定 */}
-      <style>{`
-        @keyframes fade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-        @keyframes slide { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:none; } }
-      `}</style>
-
-      {/* 🌟 全体の背景色とフォントカラーをコンポーネント内に限定して適用 */}
-      <div style={{ background: "#0d0f16", color: "#c8cde0", minHeight: "100%", fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
-        <div style={{ maxWidth: 880, margin: "0 auto", padding: "32px 20px" }}>
-
-          {/* ヘッダー */}
-          <div style={{ marginBottom: 24 }}>
-            <h1 style={{ fontSize: "1.35rem", fontWeight: 800, color: "#e8eaf0" }}>
-              🧠 スクリーンショット記憶
-            </h1>
-            <p style={{ fontSize: ".8rem", color: "#4a5060", marginTop: 4 }}>
-              求人・フォルダ構成を自動判別して保存します
-            </p>
-          </div>
-
-          {/* ドロップゾーン */}
-          <DropZone onFiles={handleFiles} busy={busy} />
-
-          {/* コントロール */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, margin: "18px 0 14px" }}>
-            <button onClick={fetchAll} style={{
-              background: "#4f8ef7", color: "#fff", border: "none",
-              borderRadius: 7, padding: "7px 16px", fontSize: ".82rem",
-              cursor: "pointer", fontFamily: "inherit", fontWeight: 700,
-            }}>一覧を更新</button>
-
-            {list.length > 0 && (
-              <button onClick={handleDeleteAll} style={{
-                background: "none", border: "1px solid #ef444440", color: "#ef4444",
-                borderRadius: 7, padding: "7px 14px", fontSize: ".78rem",
-                cursor: "pointer", fontFamily: "inherit", marginLeft: "auto",
-              }}>全記憶を消す</button>
+            {typeof count === "number" && (
+              <span
+                style={{
+                  background: "#1e293b",
+                  color: "#94a3b8",
+                  padding: "2px 8px",
+                  borderRadius: 999,
+                  fontSize: 11,
+                  fontWeight: 700,
+                }}
+              >
+                {count}
+              </span>
             )}
           </div>
 
-          {/* タブ */}
-          <div style={{ display: "flex", gap: 4, marginBottom: 16,
-                        borderBottom: "1px solid #1e2130", paddingBottom: 8 }}>
-            <Tab label="求人" count={jobs.length} active={tab === "jobs"}
-                 onClick={() => setTab("jobs")} />
-            <Tab label="フォルダ構成" count={folders.length} active={tab === "folders"}
-                 onClick={() => setTab("folders")} />
-          </div>
+          {description && (
+            <div
+              style={{
+                marginTop: 5,
+                color: "#64748b",
+                fontSize: 12,
+              }}
+            >
+              {description}
+            </div>
+          )}
+        </div>
 
-          {/* 一覧 */}
-          {!fetched ? (
-            <div style={{ textAlign: "center", color: "#3a3f50", padding: "40px 0", fontSize: ".85rem" }}>
-              「一覧を更新」で読み込みます
+        {action}
+      </div>
+
+      <div
+        style={{
+          padding: 14,
+        }}
+      >
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function MemoryCard({
+  icon = "🧠",
+  title,
+  text,
+  date,
+  tags = [],
+  accent = "#6366f1",
+  extra,
+}) {
+  return (
+    <article
+      style={{
+        border: "1px solid #1f2937",
+        borderLeft: `3px solid ${accent}`,
+        background: "#0f172a",
+        borderRadius: 10,
+        padding: 13,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 9,
+        }}
+      >
+        <span
+          style={{
+            fontSize: 18,
+          }}
+        >
+          {icon}
+        </span>
+
+        <div
+          style={{
+            minWidth: 0,
+            flex: 1,
+          }}
+        >
+          {title && (
+            <div
+              style={{
+                color: "#e2e8f0",
+                fontWeight: 700,
+                fontSize: 13,
+                marginBottom: 5,
+                wordBreak: "break-word",
+              }}
+            >
+              {title}
             </div>
-          ) : list.length === 0 ? (
-            <div style={{ textAlign: "center", color: "#3a3f50", padding: "40px 0" }}>
-              <div style={{ fontSize: "1.8rem", marginBottom: 8 }}>📭</div>
-              <div style={{ fontSize: ".82rem" }}>まだ保存された記憶はありません</div>
+          )}
+
+          {text && (
+            <div
+              style={{
+                color: "#94a3b8",
+                fontSize: 12,
+                lineHeight: 1.65,
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+              }}
+            >
+              {text}
             </div>
-          ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 14 }}>
-              {list.map((item, i) => (
-                <div key={item.id} style={{ animation: `fade .25s ease ${i * .04}s both` }}>
-                  {tab === "jobs"
-                    ? <JobCard job={item} onDelete={handleDelete} />
-                    : <FolderCard folder={item} onDelete={handleDelete} />
-                  }
-                </div>
+          )}
+
+          {extra}
+
+          {tags.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 5,
+                marginTop: 8,
+              }}
+            >
+              {tags.map((tag, index) => (
+                <span
+                  key={`${tag}-${index}`}
+                  style={{
+                    color: "#93c5fd",
+                    background: "#172554",
+                    borderRadius: 999,
+                    fontSize: 10,
+                    padding: "2px 7px",
+                  }}
+                >
+                  #{tag}
+                </span>
               ))}
+            </div>
+          )}
+
+          {date && (
+            <div
+              style={{
+                marginTop: 8,
+                fontSize: 10,
+                color: "#475569",
+                textAlign: "right",
+              }}
+            >
+              {formatDate(date)}
             </div>
           )}
         </div>
       </div>
+    </article>
+  );
+}
 
-      {/* トースト */}
+function StatCard({
+  icon,
+  label,
+  value,
+}) {
+  return (
+    <div
+      style={{
+        border: "1px solid #1f2937",
+        background: "#111827",
+        borderRadius: 12,
+        padding: "13px 15px",
+      }}
+    >
+      <div
+        style={{
+          color: "#64748b",
+          fontSize: 11,
+        }}
+      >
+        {icon} {label}
+      </div>
+
+      <div
+        style={{
+          color: "#f8fafc",
+          fontSize: 23,
+          fontWeight: 800,
+          marginTop: 4,
+        }}
+      >
+        {value ?? 0}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// MemoryManager
+// ============================================================
+
+export default function MemoryManager() {
+  const [loading, setLoading] = useState(true);
+  const [clearing, setClearing] = useState(false);
+  const [error, setError] = useState("");
+
+  const [memory, setMemory] = useState({
+    session: {},
+    recent_memories: [],
+    preferences: [],
+    tasks: [],
+    schedules: [],
+    conversations: [],
+    challenges: [],
+    long_term_memories: [],
+    recent_files: [],
+    projects: [],
+    statistics: {},
+  });
+
+  const { toast, showToast } = useToast();
+
+  // ==========================================================
+  // API
+  // ==========================================================
+
+  const loadMemory = useCallback(async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(`${API_BASE}/overview`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Memory API Error: ${response.status}`,
+        );
+      }
+
+      const data = await response.json();
+
+      setMemory({
+        session: safeObject(data.session),
+
+        recent_memories: safeArray(
+          data.recent_memories,
+        ),
+
+        preferences: safeArray(
+          data.preferences,
+        ),
+
+        tasks: safeArray(
+          data.tasks,
+        ),
+
+        schedules: safeArray(
+          data.schedules,
+        ),
+
+        conversations: safeArray(
+          data.conversations || data.messages,
+        ),
+
+        challenges: safeArray(
+          data.challenges,
+        ),
+
+        long_term_memories: safeArray(
+          data.long_term_memories,
+        ),
+
+        recent_files: safeArray(
+          data.recent_files,
+        ),
+
+        projects: safeArray(
+          data.projects,
+        ),
+
+        statistics: safeObject(
+          data.statistics,
+        ),
+      });
+    } catch (err) {
+      console.error(err);
+
+      setError(
+        "記憶データを取得できませんでした。バックエンドの /api/memory/overview を確認してください。",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // ==========================================================
+  // 全削除
+  // ==========================================================
+
+  const handleClearAllMemory = useCallback(async () => {
+    const firstConfirm = window.confirm(
+      "AIが保存している記憶をすべて削除します。\n\n会話履歴・タスク・長期記憶・プロジェクト記憶などが削除対象です。\n\n本当に続行しますか？",
+    );
+
+    if (!firstConfirm) {
+      return;
+    }
+
+    const secondConfirm = window.confirm(
+      "この操作は元に戻せません。\n本当に全記憶を削除しますか？",
+    );
+
+    if (!secondConfirm) {
+      return;
+    }
+
+    setClearing(true);
+
+    try {
+      const response = await fetch(
+        `${API_BASE}/all`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Clear memory failed: ${response.status}`,
+        );
+      }
+
+      showToast(
+        "AIの記憶をすべて削除しました。",
+      );
+
+      await loadMemory();
+    } catch (err) {
+      console.error(err);
+
+      showToast(
+        "記憶の全削除に失敗しました。",
+        "error",
+      );
+    } finally {
+      setClearing(false);
+    }
+  }, [loadMemory, showToast]);
+
+  // ==========================================================
+  // 個別タスク状態変更
+  // ==========================================================
+
+  const handleTaskStatus = useCallback(
+    async (taskId, status) => {
+      try {
+        const response = await fetch(
+          `${API_BASE}/tasks/${taskId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              status,
+            }),
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Task update failed: ${response.status}`,
+          );
+        }
+
+        setMemory((prev) => ({
+          ...prev,
+
+          tasks: prev.tasks.map(
+            (task) =>
+              task.id === taskId
+                ? {
+                    ...task,
+                    status,
+                  }
+                : task,
+          ),
+        }));
+
+        showToast(
+          "タスク状態を更新しました。",
+        );
+      } catch (err) {
+        console.error(err);
+
+        showToast(
+          "タスクの更新に失敗しました。",
+          "error",
+        );
+      }
+    },
+    [showToast],
+  );
+
+  // ==========================================================
+  // データ整理
+  // ==========================================================
+
+  const pendingTasks = useMemo(
+    () =>
+      memory.tasks.filter(
+        (task) =>
+          task.status !== "completed" &&
+          task.status !== "done",
+      ),
+    [memory.tasks],
+  );
+
+  const recentConversations = useMemo(
+    () =>
+      [...memory.conversations]
+        .reverse()
+        .slice(0, 12),
+    [memory.conversations],
+  );
+
+  const recentMemories = useMemo(() => {
+    if (
+      memory.recent_memories.length > 0
+    ) {
+      return memory.recent_memories.slice(
+        0,
+        10,
+      );
+    }
+
+    return [...memory.long_term_memories]
+      .reverse()
+      .slice(0, 10);
+  }, [
+    memory.recent_memories,
+    memory.long_term_memories,
+  ]);
+
+  // ==========================================================
+  // ロード
+  // ==========================================================
+
+  useEffect(() => {
+    loadMemory();
+  }, [loadMemory]);
+
+  // ==========================================================
+  // Loading
+  // ==========================================================
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          minHeight: "100%",
+          background: "#020617",
+          color: "#94a3b8",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 40,
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: 38,
+              marginBottom: 12,
+            }}
+          >
+            🧠
+          </div>
+
+          <div>
+            AI Memoryを読み込んでいます…
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ==========================================================
+  // Render
+  // ==========================================================
+
+  return (
+    <>
+      <div
+        style={{
+          minHeight: "100%",
+          background: "#020617",
+          color: "#cbd5e1",
+          padding: "28px 24px 60px",
+          fontFamily:
+            "'Inter', 'Helvetica Neue', Arial, sans-serif",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+          }}
+        >
+          {/* ==================================================
+              Header
+          ================================================== */}
+
+          <header
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              gap: 18,
+              flexWrap: "wrap",
+              marginBottom: 24,
+            }}
+          >
+            <div>
+              <h1
+                style={{
+                  color: "#f8fafc",
+                  fontSize: 28,
+                  margin: 0,
+                  fontWeight: 850,
+                }}
+              >
+                🧠 AI Memory Center
+              </h1>
+
+              <p
+                style={{
+                  margin:
+                    "7px 0 0",
+                  color: "#64748b",
+                  fontSize: 13,
+                }}
+              >
+                AIが現在保持している記憶・会話・タスク・予定・課題を確認できます。
+              </p>
+
+              {memory.session
+                ?.project_name && (
+                <div
+                  style={{
+                    marginTop: 8,
+                    fontSize: 11,
+                    color: "#475569",
+                  }}
+                >
+                  Current Project:{" "}
+                  <strong
+                    style={{
+                      color: "#94a3b8",
+                    }}
+                  >
+                    {
+                      memory.session
+                        .project_name
+                    }
+                  </strong>
+                </div>
+              )}
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                gap: 8,
+                flexWrap: "wrap",
+              }}
+            >
+              <button
+                type="button"
+                onClick={loadMemory}
+                style={{
+                  border:
+                    "1px solid #334155",
+                  background: "#0f172a",
+                  color: "#cbd5e1",
+                  borderRadius: 9,
+                  padding:
+                    "9px 14px",
+                  cursor: "pointer",
+                  fontWeight: 700,
+                }}
+              >
+                🔄 再読み込み
+              </button>
+
+              <button
+                type="button"
+                disabled={clearing}
+                onClick={
+                  handleClearAllMemory
+                }
+                style={{
+                  border:
+                    "1px solid #7f1d1d",
+                  background:
+                    clearing
+                      ? "#291414"
+                      : "#1f1013",
+                  color: "#f87171",
+                  borderRadius: 9,
+                  padding:
+                    "9px 14px",
+                  cursor: clearing
+                    ? "wait"
+                    : "pointer",
+                  fontWeight: 700,
+                }}
+              >
+                {clearing
+                  ? "削除中…"
+                  : "🗑 全記憶を消去"}
+              </button>
+            </div>
+          </header>
+
+          {/* ==================================================
+              Error
+          ================================================== */}
+
+          {error && (
+            <div
+              style={{
+                border:
+                  "1px solid #7f1d1d",
+                background: "#1f1013",
+                color: "#fca5a5",
+                borderRadius: 10,
+                padding:
+                  "12px 14px",
+                marginBottom: 20,
+                fontSize: 12,
+              }}
+            >
+              ⚠ {error}
+            </div>
+          )}
+
+          {/* ==================================================
+              Statistics
+          ================================================== */}
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit,minmax(150px,1fr))",
+              gap: 10,
+              marginBottom: 22,
+            }}
+          >
+            <StatCard
+              icon="💬"
+              label="会話"
+              value={
+                memory.statistics
+                  .chat_messages ??
+                memory.conversations
+                  .length
+              }
+            />
+
+            <StatCard
+              icon="🧠"
+              label="長期記憶"
+              value={
+                memory.statistics
+                  .long_term_memories ??
+                memory
+                  .long_term_memories
+                  .length
+              }
+            />
+
+            <StatCard
+              icon="✅"
+              label="タスク"
+              value={
+                memory.statistics
+                  .tasks ??
+                memory.tasks.length
+              }
+            />
+
+            <StatCard
+              icon="📁"
+              label="プロジェクト"
+              value={
+                memory.statistics
+                  .projects ??
+                memory.projects.length
+              }
+            />
+
+            <StatCard
+              icon="⚠"
+              label="大きな課題"
+              value={
+                memory.challenges.length
+              }
+            />
+          </div>
+
+          {/* ==================================================
+              Main grid
+          ================================================== */}
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit,minmax(360px,1fr))",
+              gap: 16,
+            }}
+          >
+            {/* 最近の記憶 */}
+
+            <Section
+              icon="🕒"
+              title="最近の記憶"
+              count={
+                recentMemories.length
+              }
+              description="最近AIが保持した重要な情報"
+            >
+              {recentMemories.length ===
+              0 ? (
+                <EmptyState
+                  icon="🧠"
+                  title="最近の記憶なし"
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 8,
+                  }}
+                >
+                  {recentMemories.map(
+                    (item, index) => (
+                      <MemoryCard
+                        key={
+                          item.id ??
+                          index
+                        }
+                        icon="🧠"
+                        title={
+                          item.title ||
+                          item.category ||
+                          "記憶"
+                        }
+                        text={truncate(
+                          item.text ||
+                            item.content ||
+                            item.value,
+                        )}
+                        tags={safeArray(
+                          item.tags,
+                        )}
+                        date={
+                          item.created_at ||
+                          item.updated_at
+                        }
+                        accent="#8b5cf6"
+                      />
+                    ),
+                  )}
+                </div>
+              )}
+            </Section>
+
+            {/* 好きなこと */}
+
+            <Section
+              icon="💜"
+              title="好きなこと・興味"
+              count={
+                memory.preferences.length
+              }
+              description="AIが覚えている好みや興味"
+            >
+              {memory.preferences
+                .length === 0 ? (
+                <EmptyState
+                  icon="💜"
+                  title="好みの記憶なし"
+                  description="preference / likes カテゴリの長期記憶をここに表示できます。"
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 8,
+                  }}
+                >
+                  {memory.preferences.map(
+                    (item, index) => (
+                      <MemoryCard
+                        key={
+                          item.id ??
+                          index
+                        }
+                        icon="💜"
+                        title={
+                          item.title ||
+                          item.category ||
+                          "興味"
+                        }
+                        text={truncate(
+                          item.text ||
+                            item.content,
+                        )}
+                        tags={safeArray(
+                          item.tags,
+                        )}
+                        date={
+                          item.created_at
+                        }
+                        accent="#ec4899"
+                      />
+                    ),
+                  )}
+                </div>
+              )}
+            </Section>
+
+            {/* タスク */}
+
+            <Section
+              icon="✅"
+              title="現在のタスク"
+              count={
+                pendingTasks.length
+              }
+              description="未完了の作業・やること"
+            >
+              {pendingTasks.length ===
+              0 ? (
+                <EmptyState
+                  icon="🎉"
+                  title="未完了タスクなし"
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 8,
+                  }}
+                >
+                  {pendingTasks.map(
+                    (task) => (
+                      <MemoryCard
+                        key={task.id}
+                        icon="✅"
+                        title={
+                          task.task_name ||
+                          task.title ||
+                          "タスク"
+                        }
+                        text={truncate(
+                          task.details ||
+                            task.text,
+                        )}
+                        date={
+                          task.updated_at ||
+                          task.created_at
+                        }
+                        accent="#22c55e"
+                        extra={
+                          <div
+                            style={{
+                              marginTop: 9,
+                              display:
+                                "flex",
+                              alignItems:
+                                "center",
+                              gap: 8,
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: 10,
+                                color:
+                                  "#64748b",
+                              }}
+                            >
+                              {
+                                task.status
+                              }
+                            </span>
+
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleTaskStatus(
+                                  task.id,
+                                  "completed",
+                                )
+                              }
+                              style={{
+                                marginLeft:
+                                  "auto",
+                                background:
+                                  "#052e16",
+                                color:
+                                  "#4ade80",
+                                border:
+                                  "1px solid #14532d",
+                                borderRadius: 7,
+                                cursor:
+                                  "pointer",
+                                padding:
+                                  "4px 8px",
+                                fontSize: 10,
+                              }}
+                            >
+                              完了
+                            </button>
+                          </div>
+                        }
+                      />
+                    ),
+                  )}
+                </div>
+              )}
+            </Section>
+
+            {/* 予定 */}
+
+            <Section
+              icon="📅"
+              title="予定"
+              count={
+                memory.schedules.length
+              }
+              description="予定・締切・イベント"
+            >
+              {memory.schedules.length ===
+              0 ? (
+                <EmptyState
+                  icon="📅"
+                  title="予定なし"
+                  description="schedule / event カテゴリを追加するとここへ表示できます。"
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 8,
+                  }}
+                >
+                  {memory.schedules.map(
+                    (schedule, index) => (
+                      <MemoryCard
+                        key={
+                          schedule.id ??
+                          index
+                        }
+                        icon="📅"
+                        title={
+                          schedule.title ||
+                          schedule.name ||
+                          "予定"
+                        }
+                        text={truncate(
+                          schedule.details ||
+                            schedule.text,
+                        )}
+                        date={
+                          schedule.date ||
+                          schedule
+                            .scheduled_at ||
+                          schedule
+                            .created_at
+                        }
+                        accent="#06b6d4"
+                      />
+                    ),
+                  )}
+                </div>
+              )}
+            </Section>
+
+            {/* 大きな課題 */}
+
+            <Section
+              icon="⚠️"
+              title="大きな課題"
+              count={
+                memory.challenges.length
+              }
+              description="プロジェクト上の重要な問題や未解決事項"
+            >
+              {memory.challenges.length ===
+              0 ? (
+                <EmptyState
+                  icon="✨"
+                  title="重大な課題なし"
+                  description="challenge / issue / problem カテゴリの記憶を表示できます。"
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 8,
+                  }}
+                >
+                  {memory.challenges.map(
+                    (issue, index) => (
+                      <MemoryCard
+                        key={
+                          issue.id ??
+                          index
+                        }
+                        icon="⚠️"
+                        title={
+                          issue.title ||
+                          issue.category ||
+                          "課題"
+                        }
+                        text={truncate(
+                          issue.text ||
+                            issue.details,
+                        )}
+                        tags={safeArray(
+                          issue.tags,
+                        )}
+                        date={
+                          issue.updated_at ||
+                          issue.created_at
+                        }
+                        accent="#f97316"
+                      />
+                    ),
+                  )}
+                </div>
+              )}
+            </Section>
+
+            {/* 最近触ったファイル */}
+
+            <Section
+              icon="📂"
+              title="最近のファイル"
+              count={
+                memory.recent_files.length
+              }
+              description="最近AIが参照・編集したファイル"
+            >
+              {memory.recent_files
+                .length === 0 ? (
+                <EmptyState
+                  icon="📂"
+                  title="ファイル記憶なし"
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 6,
+                  }}
+                >
+                  {memory.recent_files.map(
+                    (file, index) => (
+                      <div
+                        key={`${file}-${index}`}
+                        style={{
+                          background:
+                            "#0f172a",
+                          border:
+                            "1px solid #1f2937",
+                          borderRadius: 8,
+                          padding:
+                            "9px 11px",
+                          color:
+                            "#94a3b8",
+                          fontSize: 11,
+                          fontFamily:
+                            "monospace",
+                          wordBreak:
+                            "break-all",
+                        }}
+                      >
+                        📄{" "}
+                        {typeof file ===
+                        "string"
+                          ? file
+                          : file.path ||
+                            file.file_path ||
+                            JSON.stringify(
+                              file,
+                            )}
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
+            </Section>
+          </div>
+
+          {/* ==================================================
+              会話履歴
+          ================================================== */}
+
+          <div
+            style={{
+              marginTop: 16,
+            }}
+          >
+            <Section
+              icon="💬"
+              title="最近の会話履歴"
+              count={
+                memory.conversations.length
+              }
+              description="現在のセッションで保存されている会話"
+            >
+              {recentConversations.length ===
+              0 ? (
+                <EmptyState
+                  icon="💬"
+                  title="会話履歴なし"
+                />
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gap: 8,
+                  }}
+                >
+                  {recentConversations.map(
+                    (message, index) => {
+                      const isUser =
+                        message.role ===
+                        "user";
+
+                      return (
+                        <div
+                          key={
+                            message.id ??
+                            index
+                          }
+                          style={{
+                            background:
+                              isUser
+                                ? "#172554"
+                                : "#0f172a",
+                            border:
+                              "1px solid #1e293b",
+                            borderRadius: 10,
+                            padding:
+                              "10px 13px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display:
+                                "flex",
+                              alignItems:
+                                "center",
+                              justifyContent:
+                                "space-between",
+                              gap: 10,
+                              marginBottom: 5,
+                            }}
+                          >
+                            <strong
+                              style={{
+                                fontSize: 11,
+                                color:
+                                  isUser
+                                    ? "#93c5fd"
+                                    : "#c4b5fd",
+                              }}
+                            >
+                              {isUser
+                                ? "👤 User"
+                                : "🤖 AI"}
+                            </strong>
+
+                            <span
+                              style={{
+                                fontSize: 9,
+                                color:
+                                  "#475569",
+                              }}
+                            >
+                              {formatDate(
+                                message.timestamp ||
+                                  message.created_at,
+                              )}
+                            </span>
+                          </div>
+
+                          <div
+                            style={{
+                              fontSize: 12,
+                              lineHeight: 1.65,
+                              color:
+                                "#cbd5e1",
+                              whiteSpace:
+                                "pre-wrap",
+                              wordBreak:
+                                "break-word",
+                            }}
+                          >
+                            {truncate(
+                              message.content ||
+                                message.text,
+                              500,
+                            )}
+                          </div>
+                        </div>
+                      );
+                    },
+                  )}
+                </div>
+              )}
+            </Section>
+          </div>
+
+          {/* ==================================================
+              Session info
+          ================================================== */}
+
+          <div
+            style={{
+              marginTop: 16,
+              padding:
+                "14px 16px",
+              background: "#0f172a",
+              border:
+                "1px solid #1e293b",
+              borderRadius: 10,
+              color: "#475569",
+              fontSize: 10,
+              fontFamily: "monospace",
+            }}
+          >
+            <div>
+              Session ID:{" "}
+              {memory.session
+                ?.session_id ||
+                "なし"}
+            </div>
+
+            <div>
+              Last Active:{" "}
+              {memory.session
+                ?.last_active ||
+                "不明"}
+            </div>
+
+            <div>
+              Message Count:{" "}
+              {memory.session
+                ?.message_count ??
+                memory.conversations
+                  .length}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ======================================================
+          Toast
+      ====================================================== */}
+
       {toast && (
-        <div style={{
-          position: "fixed", bottom: 20, right: 20, zIndex: 9999,
-          background: toast.type === "err" ? "#1e0f0f" : "#0d1e18",
-          border: `1px solid ${toast.type === "err" ? "#ef444450" : "#10b98150"}`,
-          color: toast.type === "err" ? "#ef4444" : "#10b981",
-          borderRadius: 9, padding: "10px 16px", fontSize: ".82rem", fontWeight: 600,
-          animation: "slide .2s ease", boxShadow: "0 6px 24px rgba(0,0,0,.4)",
-        }}>
-          {toast.type === "err" ? "⚠️ " : "✓ "}{toast.msg}
+        <div
+          style={{
+            position: "fixed",
+            right: 22,
+            bottom: 22,
+            zIndex: 10000,
+            borderRadius: 10,
+            padding: "11px 16px",
+            fontSize: 12,
+            fontWeight: 700,
+
+            background:
+              toast.type === "error"
+                ? "#2a1014"
+                : "#052e16",
+
+            border:
+              toast.type === "error"
+                ? "1px solid #7f1d1d"
+                : "1px solid #166534",
+
+            color:
+              toast.type === "error"
+                ? "#f87171"
+                : "#4ade80",
+
+            boxShadow:
+              "0 12px 35px rgba(0,0,0,.4)",
+          }}
+        >
+          {toast.type === "error"
+            ? "⚠ "
+            : "✓ "}
+          {toast.message}
         </div>
       )}
     </>

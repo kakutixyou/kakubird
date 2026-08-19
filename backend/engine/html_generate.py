@@ -6,7 +6,7 @@ import json
 
 app = FastAPI()
 
-# =============== HTMLコンポーネントルール ===============
+# === HTMLコンポーネントルール ===
 class ComponentRule:
     """HTMLコンポーネントの標準化ルール"""
     RULES = {
@@ -41,7 +41,7 @@ class PageSpec(BaseModel):
     title: str
     components: List[ComponentSpec]
 
-# =============== HTML生成ロジック ===============
+# === HTML生成ロジック ===
 def generate_html_from_spec(page_spec: PageSpec) -> str:
     """ルール定義に基づいてHTMLを生成"""
     html = f"""<!DOCTYPE html>
@@ -85,7 +85,7 @@ def generate_html_from_spec(page_spec: PageSpec) -> str:
     
     return html
 
-# =============== API エンドポイント ===============
+# === API エンドポイント ===
 @app.post("/api/html/generate")
 async def generate_html(page_spec: PageSpec):
     """HTMLを生成"""

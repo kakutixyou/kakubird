@@ -11,11 +11,12 @@ import openai
 
 # これまでに作成したモジュールのインポート（※パスは環境に合わせて調整してください）
 # 修正: repomix_Handler -> repomix_handler (小文字に統一)
-<<<<<<< HEAD
+
 from api.services.handlers.project.repomix_Handler import RepomixHandler
-=======
+
+
 from api.services.handlers.repomix_Handler import RepomixHandler
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
+
 from api.services.manager.KnowledgeManager import KnowledgeManager
 
 logger = logging.getLogger(__name__)
@@ -51,7 +52,7 @@ class AgentOrchestrator:
 5. FINISH: 要求されたタスクがすべて完了した場合に呼び出します。
    - args: {"output": "完了報告やユーザーへの最終メッセージ"}
 
-【⚠️ 重要な自己修復ルール】
+【 重要な自己修復ルール】
 - WRITE_FILE でコードを生成した後は、必ず EXECUTE_TEST で構文チェックやビルドを実行し、エラーが出ないか確認してください。
 - ユーザーによって EXECUTE_TEST が「拒否」された場合は、そのコマンドが危険または不適切だったということです。別の安全なコマンド（例: package.jsonに定義されたスクリプト等）を探索・推論し、方針を変えてください。
 - テストが成功するまで、エラーログを読んで修正するループを繰り返してください。
@@ -155,9 +156,9 @@ class AgentOrchestrator:
         logger.warning(f"[{self.orchestrator_name}] 最大実行回数({self.max_iterations})に達したため強制終了します。")
         return {"status": "timeout", "message": "タイムアウトしました。"}
 
-    # ==========================================
+    # 
     # ツール実行用ディスパッチャー
-    # ==========================================
+    # 
     # 修正: クラスメソッドとして正しくインデント
     async def _execute_tool(self, action_type: str, action_args: Dict[str, Any]) -> str:
         try:
@@ -193,7 +194,7 @@ class AgentOrchestrator:
                 # 危険なキーワードの検知
                 dangerous_keywords = ["rm -rf", "mkfs", "drop", "chmod 777", "sudo"]
                 if any(kw in command.lower() for kw in dangerous_keywords):
-                    print("   ⚠️ 【警告】システムを破壊する可能性のある危険なコマンドが含まれています！")
+                    print("    【警告】システムを破壊する可能性のある危険なコマンドが含まれています！")
                 
                 # イベントループをブロックしないように input() を別スレッドで実行
                 user_input = await asyncio.to_thread(input, "   実行を許可しますか？ (y:許可 / n:拒否): ")
@@ -229,9 +230,9 @@ class AgentOrchestrator:
         except Exception as e:
             return f"ツール実行時エラー ({action_type}): {str(e)}"
 
-# =========================================================
+# ===
 # 動作テスト用エントリーポイント
-# =========================================================
+# ===
 # 修正: main関数ブロックを正しくインデント
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

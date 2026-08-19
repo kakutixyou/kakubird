@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# ==========================================
+# 
 # ポート設定（vite.config.tsと完全に一致させる）
-# ==========================================
+# 
 HTML_ENGINE_PORT=8001
 CSS_ENGINE_PORT=8002
 SQL_ENGINE_PORT=8003
@@ -33,9 +33,9 @@ echo "Starting AI Engine (port $AI_ENGINE_PORT)..."
 (cd backend/api && python ai_server.py) &
 AI_PID=$!
 
-# ==========================================
+# 
 # 5. メインバックエンド起動 (Node.js)
-# ==========================================
+# 
 echo "Starting Main Backend (port $MAIN_BACKEND_PORT)..."
 # 環境変数 PORT に 3001 を強制的に指定して起動する
 # ※package.jsonがあるディレクトリ（backendかルート）にいる前提です

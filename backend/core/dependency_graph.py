@@ -1,16 +1,16 @@
-# =========================================================
+# ===
 # dependency_graph.py
 # プロジェクト依存関係グラフ解析システム
-# =========================================================
+# ===
 
 import os
 import re
 import json
 from typing import Dict, List, Set, Any
 
-# =========================================================
+# ===
 # 基本設定
-# =========================================================
+# ===
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -19,9 +19,9 @@ OUTPUT_FILE = os.path.join(OUTPUT_DIR, "dependency_graph.json")
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# =========================================================
+# ===
 # 対応拡張子
-# =========================================================
+# ===
 
 SUPPORTED_EXTENSIONS = (
     ".py",
@@ -31,9 +31,9 @@ SUPPORTED_EXTENSIONS = (
     ".tsx"
 )
 
-# =========================================================
+# ===
 # 除外ディレクトリ
-# =========================================================
+# ===
 
 IGNORE_DIRS = [
     "__pycache__",
@@ -45,9 +45,9 @@ IGNORE_DIRS = [
     "coverage"
 ]
 
-# =========================================================
+# ===
 # Import解析Regex
-# =========================================================
+# ===
 
 PYTHON_IMPORT_RE_1 = r'import\s+([a-zA-Z0-9_\.]+)'
 PYTHON_IMPORT_RE_2 = r'from\s+([a-zA-Z0-9_\.]+)\s+import'
@@ -55,9 +55,9 @@ PYTHON_IMPORT_RE_2 = r'from\s+([a-zA-Z0-9_\.]+)\s+import'
 JS_IMPORT_RE = r'import\s+.*?from\s+[\'"](.*?)[\'"]'
 JS_REQUIRE_RE = r'require\([\'"](.*?)[\'"]\)'
 
-# =========================================================
+# ===
 # ユーティリティ
-# =========================================================
+# ===
 
 def is_supported_file(filename: str) -> bool:
     return filename.lower().endswith(SUPPORTED_EXTENSIONS)
@@ -67,9 +67,9 @@ def normalize_path(path: str) -> str:
     return path.replace("\\", "/")
 
 
-# =========================================================
+# ===
 # ファイル一覧取得
-# =========================================================
+# ===
 
 def collect_source_files(target_dir: str) -> List[str]:
 
@@ -89,9 +89,9 @@ def collect_source_files(target_dir: str) -> List[str]:
 
     return source_files
 
-# =========================================================
+# ===
 # Python Import解析
-# =========================================================
+# ===
 
 def extract_python_imports(content: str) -> List[str]:
 
@@ -102,9 +102,9 @@ def extract_python_imports(content: str) -> List[str]:
 
     return list(set(imports))
 
-# =========================================================
+# ===
 # JS/TS Import解析
-# =========================================================
+# ===
 
 def extract_js_imports(content: str) -> List[str]:
 
@@ -115,9 +115,9 @@ def extract_js_imports(content: str) -> List[str]:
 
     return list(set(imports))
 
-# =========================================================
+# ===
 # 言語判定
-# =========================================================
+# ===
 
 def detect_language(file_path: str) -> str:
 
@@ -134,9 +134,9 @@ def detect_language(file_path: str) -> str:
 
     return "unknown"
 
-# =========================================================
+# ===
 # 単一ファイル解析
-# =========================================================
+# ===
 
 def analyze_file_dependencies(file_path: str) -> Dict[str, Any]:
 
@@ -169,9 +169,9 @@ def analyze_file_dependencies(file_path: str) -> Dict[str, Any]:
         "language": language
     }
 
-# =========================================================
+# ===
 # Dependency Graph構築
-# =========================================================
+# ===
 
 def build_dependency_graph(
     target_dir: str
@@ -198,9 +198,9 @@ def build_dependency_graph(
 
     return graph
 
-# =========================================================
+# ===
 # 逆依存グラフ
-# =========================================================
+# ===
 
 def build_reverse_dependency_graph(
     graph: Dict[str, List[str]]
@@ -219,9 +219,9 @@ def build_reverse_dependency_graph(
 
     return reverse_graph
 
-# =========================================================
+# ===
 # ファイル接続検索
-# =========================================================
+# ===
 
 def find_related_files(
     graph: Dict[str, List[str]],
@@ -244,9 +244,9 @@ def find_related_files(
 
     return results
 
-# =========================================================
+# ===
 # 孤立ファイル検出
-# =========================================================
+# ===
 
 def detect_isolated_files(
     graph: Dict[str, List[str]]
@@ -266,9 +266,9 @@ def detect_isolated_files(
 
     return isolated
 
-# =========================================================
+# ===
 # ノード統計
-# =========================================================
+# ===
 
 def calculate_graph_statistics(
     graph: Dict[str, List[str]]
@@ -294,9 +294,9 @@ def calculate_graph_statistics(
         "most_connected_count": most_count
     }
 
-# =========================================================
+# ===
 # JSON保存
-# =========================================================
+# ===
 
 def save_dependency_graph(
     graph: Dict[str, List[str]]
@@ -320,9 +320,9 @@ def save_dependency_graph(
         print("❌ 保存失敗")
         print(e)
 
-# =========================================================
+# ===
 # JSON読み込み
-# =========================================================
+# ===
 
 def load_dependency_graph() -> Dict[str, List[str]]:
 
@@ -342,9 +342,9 @@ def load_dependency_graph() -> Dict[str, List[str]]:
 
         return {}
 
-# =========================================================
+# ===
 # グラフPretty表示
-# =========================================================
+# ===
 
 def print_graph_summary(
     graph: Dict[str, List[str]]
@@ -352,9 +352,9 @@ def print_graph_summary(
 
     stats = calculate_graph_statistics(graph)
 
-    print("\n==============================")
+    print("\n")
     print("🧠 Dependency Graph Summary")
-    print("==============================")
+    print("")
 
     print(f"Files: {stats['total_files']}")
     print(f"Dependencies: {stats['total_dependencies']}")
@@ -372,9 +372,9 @@ def print_graph_summary(
         for file in isolated[:20]:
             print(f" - {file}")
 
-# =========================================================
+# ===
 # Mermaid形式出力
-# =========================================================
+# ===
 
 def export_mermaid_graph(
     graph: Dict[str, List[str]],
@@ -410,9 +410,9 @@ def export_mermaid_graph(
         print("❌ Mermaid出力失敗")
         print(e)
 
-# =========================================================
+# ===
 # メイン解析
-# =========================================================
+# ===
 
 def analyze_project_dependencies(
     target_dir: str
@@ -428,9 +428,9 @@ def analyze_project_dependencies(
 
     return graph
 
-# =========================================================
+# ===
 # テスト実行
-# =========================================================
+# ===
 
 if __name__ == "__main__":
 

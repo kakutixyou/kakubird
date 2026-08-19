@@ -80,9 +80,9 @@ class RegistrationOrchestrator:
             }
 
 
-    # ==========================================
+    # 
     # ※以下は本来 `services/` に切り出される専門機能のモックです
-    # ==========================================
+    # 
     
     def _mock_validate_input(self, data: Dict[str, Any]) -> tuple[bool, str]:
         """services.validation_service.py の役割"""

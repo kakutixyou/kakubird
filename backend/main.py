@@ -32,9 +32,9 @@ def main():
 
 if __name__ == "__main__":
     main()
-# =========================================================
+# ===
 # 🌐 CORS（Cross-Origin Resource Sharing）の設定
-# =========================================================
+# ===
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -45,9 +45,9 @@ app.add_middleware(
     allow_headers=["*"],  # すべてのヘッダーを許可
 )
 
-# =========================================================
+# ===
 # 🚀 ルーターの登録
-# =========================================================
+# ===
 # routes_memory.py 側で prefix="/api/memory" を設定しているので、ここでは prefix を外します！
 app.include_router(memory_router)
 
@@ -56,9 +56,9 @@ app.include_router(memory_router)
 app.include_router(chat_router) 
 
 
-# =========================================================
+# ===
 # 📄 HTML解析 API (これはそのまま残します)
-# =========================================================
+# ===
 class HtmlRequest(BaseModel):
     html: str
 
@@ -77,7 +77,30 @@ async def analyze_html(request: HtmlRequest):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+# main.py
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import Dict
+from api.services.manager import SupabaseManager  # 先ほど作ったファイル
 
+app = FastAPI()
+db_manager = SupabaseManager()
+
+# JSXから送られてくるデータの形を定義
+class UserScoreRequest(BaseModel):
+    user_scores: Dict[str, float]
+    only_with_video: bool = False
+
+# JSXからアクセスするURL（エンドポイント）を作る
+@app.post("/api/recommend")
+def get_recommendations(request: UserScoreRequest):
+    # SupabaseManagerに処理を任せる
+    results = db_manager.recommend_careers(
+        user_scores=request.user_scores,
+        only_with_video=request.only_with_video
+    )
+    # 結果をJSXへ返す
+    return {"status": "success", "data": results}
 if __name__ == "__main__":
     # ポート8765でサーバーを起動
     uvicorn.run(app, host="127.0.0.1", port=8765)

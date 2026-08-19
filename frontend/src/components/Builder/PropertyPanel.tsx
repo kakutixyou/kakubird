@@ -34,9 +34,9 @@ export default function PropertyPanel() {
       </div>
 
       <div className="p-3 space-y-4">
-        {/* =======================================
+        {/* ===
             🌟 縦横サイズ指定エリア
-        ======================================= */}
+        === */}
         <div>
           <h4 className="text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">サイズ指定 (px, % など)</h4>
           <div className="flex gap-2">
@@ -63,9 +63,9 @@ export default function PropertyPanel() {
           </div>
         </div>
 
-        {/* =======================================
+        {/* ===
             🌟 将来のHTML/JS/PHPモデル読み込み用エリア
-        ======================================= */}
+        === */}
         <div>
           <h4 className="text-[10px] font-bold text-gray-500 mb-2 uppercase tracking-wider">データ / コード編集</h4>
           

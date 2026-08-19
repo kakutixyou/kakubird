@@ -1,7 +1,7 @@
 # backend/engine/orchestrator/privacy_orchestrator.py
 """
 PrivacyOrchestrator
-=====================
+===
 「プライバシー」に関するユーザーの依頼（個人情報(PII)の検出、GDPR/個人情報保護法への
 準拠チェック、データ匿名化、同意管理、データ保持期間の設計など）を、内容に応じて
 適切な Handler に振り分ける司令塔です。
@@ -36,9 +36,9 @@ from typing import Tuple, Any, Dict, List
 from engine.orchestrator.base_orchestrator import BaseOrchestrator
 from model.chat_models import ChatRequest, ChatContext
 
-# =========================================================
+# ===
 # ✅ Handlerのインポート（実装ができたらコメントを外してください）
-# =========================================================
+# ===
 # from plugins.privacy_guardian.pii_detection_handler import PiiDetectionHandler
 # from plugins.privacy_guardian.gdpr_compliance_handler import GdprComplianceHandler
 # from plugins.privacy_guardian.data_anonymization_handler import DataAnonymizationHandler
@@ -69,9 +69,9 @@ class PrivacyOrchestrator(BaseOrchestrator):
         super().__init__(project_root=project_root)
         self.last_scan_target: str | None = None
 
-    # =====================================================
+    # =====
     # 🚨 必須実装: route_and_execute
-    # =====================================================
+    # =====
     async def route_and_execute(self, request: ChatRequest, **kwargs) -> Tuple[str, Any]:
         self._log_start(task_description=request.message[:30])
 
@@ -132,9 +132,9 @@ class PrivacyOrchestrator(BaseOrchestrator):
         except Exception as e:
             return self._handle_standard_error(e, context_info="PrivacyOrchestrator.route_and_execute")
 
-    # =====================================================
+    # =====
     # 🛠️ 内部ユーティリティ
-    # =====================================================
+    # =====
     def _decide_handler(self, message: str) -> str:
         """
         メッセージ本文を見て、HANDLER_KEYWORD_MAP と照合し

@@ -1,6 +1,6 @@
 """
 design_api.py
-=============
+=
 REST API endpoints for the Design Engine
 Provides Gemini with programmatic access to design rules and recommendations
 """

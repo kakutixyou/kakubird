@@ -11,9 +11,9 @@ from api.services.manager.KnowledgeManager import KnowledgeManager
 
 logger = logging.getLogger(__name__)
 
-# =========================================================
+# ===
 # 1. 基底クラスの定義 (インターフェース)
-# =========================================================
+# ===
 class BaseAnalyzer(ABC):
     """すべてのアナライザーの雛形となる抽象基底クラス"""
     
@@ -34,9 +34,9 @@ class BaseAnalyzer(ABC):
         """
         pass
 
-# =========================================================
+# ===
 # 2. 個別アナライザーの実装 (プラグイン)
-# =========================================================
+# ===
 class ComponentAnalyzer(BaseAnalyzer):
     def __init__(self):
         self.data = {"name": "Components List", "description": "UIコンポーネントの一覧", "items": {}}
@@ -85,9 +85,9 @@ class ArchitectureAnalyzer(BaseAnalyzer):
             return None
         return {"filename": "architecture.json", "content": self.data}
 
-# =========================================================
+# ===
 # 3. オーケストレーター (メインロジック)
-# =========================================================
+# ===
 class RepomixAnalyzer:
     def __init__(self, base_dir: str = "."):
         self.manager = KnowledgeManager(base_dir=base_dir)
@@ -145,21 +145,21 @@ class RepomixAnalyzer:
                 })
 
         if not files_to_save:
-            logger.warning("⚠️ 保存するデータがありませんでした。")
+            logger.warning(" 保存するデータがありませんでした。")
             return False
 
         result = self.manager.write_from_json_data(files_to_save)
         
         if result.get("failed"):
-            logger.warning(f"⚠️ 一部のファイル保存に失敗しました: {result['failed']}")
+            logger.warning(f" 一部のファイル保存に失敗しました: {result['failed']}")
         else:
             logger.info(f"🎉 解析完了！ {output_dir} に分割JSONを保存しました。")
             
         return True
 
-# =========================================================
+# ===
 # 動作テスト用エントリーポイント
-# =========================================================
+# ===
 if __name__ == "__main__":
     # ログの基本設定
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

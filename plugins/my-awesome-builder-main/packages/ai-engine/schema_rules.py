@@ -1,6 +1,6 @@
 """
 schema_rules.py
-===============
+===
 Centralised block library and schema validation rules for the AI engine.
 
 The AI uses BLOCK_LIBRARY to validate that generated page schemas only

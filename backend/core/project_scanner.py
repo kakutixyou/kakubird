@@ -1,8 +1,8 @@
-# =========================================================
+# ===
 # project_scanner.py
 # プロジェクト全体解析システム
 # フォルダ構造 / ファイル構造 / AI解析用Index生成
-# =========================================================
+# ===
 
 import os
 import re
@@ -10,17 +10,17 @@ import json
 from datetime import datetime
 from typing import Dict, Any, List
 
-# =========================================================
+# ===
 # 内部モジュール
-# =========================================================
+# ===
 
 from core.chunk_manager_chatgpt import build_chunks_from_directory
 from core.dependency_graph import analyze_project_dependencies
 from core.memory_manager import save_project_analysis
 
-# =========================================================
+# ===
 # 基本設定
-# =========================================================
+# ===
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -33,9 +33,9 @@ SCAN_OUTPUT_DIR = os.path.join(
 
 os.makedirs(SCAN_OUTPUT_DIR, exist_ok=True)
 
-# =========================================================
+# ===
 # 無視フォルダ
-# =========================================================
+# ===
 
 IGNORE_DIRS = [
     "__pycache__",
@@ -49,9 +49,9 @@ IGNORE_DIRS = [
     "coverage"
 ]
 
-# =========================================================
+# ===
 # 対応拡張子
-# =========================================================
+# ===
 
 SOURCE_EXTENSIONS = (
     ".py",
@@ -65,15 +65,15 @@ SOURCE_EXTENSIONS = (
     ".md"
 )
 
-# =========================================================
+# ===
 # ファイルサイズ制限
-# =========================================================
+# ===
 
 MAX_FILE_SIZE = 1024 * 1024 * 2  # 2MB
 
-# =========================================================
+# ===
 # ユーティリティ
-# =========================================================
+# ===
 
 def normalize_path(path: str) -> str:
     return path.replace("\\", "/")
@@ -82,9 +82,9 @@ def normalize_path(path: str) -> str:
 def is_source_file(filename: str) -> bool:
     return filename.lower().endswith(SOURCE_EXTENSIONS)
 
-# =========================================================
+# ===
 # 言語判定
-# =========================================================
+# ===
 
 def detect_language(file_path: str) -> str:
 
@@ -104,9 +104,9 @@ def detect_language(file_path: str) -> str:
 
     return mapping.get(ext, "unknown")
 
-# =========================================================
+# ===
 # フレームワーク推定
-# =========================================================
+# ===
 
 def detect_frameworks(file_list: List[str]) -> List[str]:
 
@@ -140,9 +140,9 @@ def detect_frameworks(file_list: List[str]) -> List[str]:
 
     return list(set(frameworks))
 
-# =========================================================
+# ===
 # ファイル情報解析
-# =========================================================
+# ===
 
 def analyze_file(
     file_path: str
@@ -224,9 +224,9 @@ def analyze_file(
         "skipped": False
     }
 
-# =========================================================
+# ===
 # フォルダツリー構築
-# =========================================================
+# ===
 
 def build_folder_tree(
     target_dir: str
@@ -255,9 +255,9 @@ def build_folder_tree(
 
     return tree
 
-# =========================================================
+# ===
 # ソースファイル収集
-# =========================================================
+# ===
 
 def collect_source_files(
     target_dir: str
@@ -285,9 +285,9 @@ def collect_source_files(
 
     return collected
 
-# =========================================================
+# ===
 # Main Scanner
-# =========================================================
+# ===
 
 def scan_project(
     target_dir: str,
@@ -381,9 +381,9 @@ def scan_project(
 
     return result
 
-# =========================================================
+# ===
 # 検索
-# =========================================================
+# ===
 
 def search_project_files(
     keyword: str,
@@ -426,9 +426,9 @@ def search_project_files(
 
     return results
 
-# =========================================================
+# ===
 # 最近大きく変更された場所推定
-# =========================================================
+# ===
 
 def detect_hotspots(
     project_name: str
@@ -470,9 +470,9 @@ def detect_hotspots(
 
     return scored[:20]
 
-# =========================================================
+# ===
 # AI向けProject Summary
-# =========================================================
+# ===
 
 def build_project_summary(
     project_name: str
@@ -517,9 +517,9 @@ Frameworks:
 
     return summary
 
-# =========================================================
+# ===
 # テスト
-# =========================================================
+# ===
 
 if __name__ == "__main__":
 

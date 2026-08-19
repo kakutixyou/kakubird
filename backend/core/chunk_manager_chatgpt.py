@@ -1,7 +1,7 @@
-# =========================================================
+# ===
 # chunk_manager.py
 # ソースコード・テキストをAI向けChunkへ分割する管理システム
-# =========================================================
+# ===
 
 import os
 import re
@@ -10,9 +10,9 @@ import uuid
 from datetime import datetime
 from typing import List, Dict, Any
 
-# =========================================================
+# ===
 # 保存先設定
-# =========================================================
+# ===
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,9 +21,9 @@ CHUNK_OUTPUT_DIR = os.path.join(AI_MEMORY_DIR, "chunks")
 
 os.makedirs(CHUNK_OUTPUT_DIR, exist_ok=True)
 
-# =========================================================
+# ===
 # 対応拡張子
-# =========================================================
+# ===
 
 SUPPORTED_EXTENSIONS = (
     ".py",
@@ -38,16 +38,16 @@ SUPPORTED_EXTENSIONS = (
     ".txt"
 )
 
-# =========================================================
+# ===
 # Chunk設定
-# =========================================================
+# ===
 
 DEFAULT_CHUNK_SIZE = 1200
 DEFAULT_CHUNK_OVERLAP = 150
 
-# =========================================================
+# ===
 # ユーティリティ
-# =========================================================
+# ===
 
 def is_supported_file(filename: str) -> bool:
     return filename.lower().endswith(SUPPORTED_EXTENSIONS)
@@ -62,9 +62,9 @@ def normalize_text(text: str) -> str:
     return text.strip()
 
 
-# =========================================================
+# ===
 # メタデータ抽出
-# =========================================================
+# ===
 
 def extract_metadata(file_path: str, content: str) -> Dict[str, Any]:
     """
@@ -107,9 +107,9 @@ def extract_metadata(file_path: str, content: str) -> Dict[str, Any]:
         "size": len(content)
     }
 
-# =========================================================
+# ===
 # 言語判定
-# =========================================================
+# ===
 
 def detect_language(file_path: str) -> str:
 
@@ -130,9 +130,9 @@ def detect_language(file_path: str) -> str:
 
     return mapping.get(ext, "unknown")
 
-# =========================================================
+# ===
 # Chunk分割
-# =========================================================
+# ===
 
 def split_text_into_chunks(
     text: str,
@@ -161,9 +161,9 @@ def split_text_into_chunks(
 
     return chunks
 
-# =========================================================
+# ===
 # コード向けChunk分割
-# =========================================================
+# ===
 
 def split_code_into_chunks(
     code: str,
@@ -208,9 +208,9 @@ def split_code_into_chunks(
 
     return chunks
 
-# =========================================================
+# ===
 # Chunk生成
-# =========================================================
+# ===
 
 def build_chunks_from_file(file_path: str) -> List[Dict[str, Any]]:
     """
@@ -225,7 +225,7 @@ def build_chunks_from_file(file_path: str) -> List[Dict[str, Any]]:
             content = f.read()
 
     except UnicodeDecodeError:
-        print(f"⚠️ UTF-8読み込み失敗: {file_path}")
+        print(f" UTF-8読み込み失敗: {file_path}")
         return []
 
     except Exception as e:
@@ -271,9 +271,9 @@ def build_chunks_from_file(file_path: str) -> List[Dict[str, Any]]:
 
     return chunk_objects
 
-# =========================================================
+# ===
 # Chunk保存
-# =========================================================
+# ===
 
 def save_chunks(
     chunks: List[Dict[str, Any]],
@@ -301,9 +301,9 @@ def save_chunks(
             print(f"❌ Chunk保存失敗: {output_path}")
             print(e)
 
-# =========================================================
+# ===
 # ディレクトリ一括Chunk化
-# =========================================================
+# ===
 
 def build_chunks_from_directory(
     target_dir: str,
@@ -348,9 +348,9 @@ def build_chunks_from_directory(
 
     return all_chunks
 
-# =========================================================
+# ===
 # Chunk検索（簡易）
-# =========================================================
+# ===
 
 def search_chunks_by_keyword(
     keyword: str,
@@ -386,9 +386,9 @@ def search_chunks_by_keyword(
 
     return results
 
-# =========================================================
+# ===
 # Chunk統計
-# =========================================================
+# ===
 
 def get_chunk_statistics(
     project_name: str = "default_project"
@@ -429,9 +429,9 @@ def get_chunk_statistics(
         "languages": languages
     }
 
-# =========================================================
+# ===
 # テスト実行
-# =========================================================
+# ===
 
 if __name__ == "__main__":
 

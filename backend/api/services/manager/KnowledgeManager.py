@@ -4,13 +4,16 @@ import json
 import logging
 import re
 import time
-
+# import pylanse
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# =========================================================
+from engine.KnowledgeRouter import KnowledgeRouter
+from engine.KnowledgeLoader import KnowledgeLoader
+
+# ===
 # ✅ 1. 遅延ロード用のクラス (既存維持：開かずに検索可能)
-# =========================================================
+# ===
 class LazyKnowledge:
     def __init__(self, base_dir, full_path, rel_path, metadata=None):
         self.base_dir = base_dir
@@ -73,9 +76,9 @@ class KnowledgeManager:
             raise ValueError(f"不正なパス: {relative_path}")
         return target_path
 
-    # =========================================================
+    # ===
     # ✅ 2. 差分更新 ＆ 分散インデックス対応のビルド処理
-    # =========================================================
+    # ===
     def build_index(self, target_dir: str, index_filename: str = "index.json"):
         """
         ① & ⑤: ターゲットディレクトリ内に index_filename を作成（複数インデックス対応）
@@ -132,18 +135,15 @@ class KnowledgeManager:
                     metadata = {
                         "id": data.get("id", os.path.splitext(file)[0]),
                         "title": data.get("title", data.get("name", file)),
+                        "category": data.get("category", "未分類"),
+                        "catchphrase": data.get("catchphrase", ""),
+                        "video_url": data.get("video_url", ""),  # 動画URLを追加
+                        "subjects": data.get("subjects", []),    # 教科・単元を追加
+                        "skills": data.get("skills", []),        # 使う力を追加
                         "keywords": retrieval.get("keywords", data.get("keywords", [])),
-                        "intent": retrieval.get("intent", data.get("intent", [])),
-                        "tags": retrieval.get("tags", data.get("tags", [])),
-                        "category": data.get("category", ""),
-                        "language": data.get("language", ""),
-                        "framework": data.get("framework", ""),
-                        "difficulty": data.get("difficulty", ""),
-                        "updated_at": data.get("updated_at", ""),
-                        "score": data.get("score", 0),
                         "file_path": rel_path,
                         "size_bytes": file_size,
-                        "mtime": mtime  # 差分比較用
+                        "mtime": mtime
                     }
                     new_index[rel_path] = metadata
                     parsed_count += 1
@@ -170,9 +170,9 @@ class KnowledgeManager:
         print(f" ⏱ 処理時間     : {elapsed:.3f} 秒")
         print("="*55 + "\n")
 
-    # =========================================================
+    # ===
     # ✅ 3. キャッシュを活用した爆速ロード
-    # =========================================================
+    # ===
     def load_all_json_from_dir(self, relative_dir_path: str, index_filename: str = "index.json", force_rebuild=False) -> list:
         """
         指定したディレクトリのインデックスからLazyKnowledgeのリストを生成する。
@@ -206,16 +206,12 @@ class KnowledgeManager:
         # オブジェクトの生成 (ここはメタデータを渡すだけなので一瞬)
         loaded_list = []
         for rel_path, metadata in index_data.items():
-<<<<<<< HEAD
             # ▼ _safe_join_path を経由させて index.json 改ざん時のトラバーサルも防ぐ
             try:
                 full_path = self._safe_join_path(rel_path)
             except ValueError:
                 logger.warning(f"インデックス内に不正なパスを検出したためスキップ: {rel_path}")
                 continue
-=======
-            full_path = os.path.join(self.base_dir, rel_path)
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
             
             # 本体が削除されている場合はスキップ
             if not os.path.exists(full_path):
@@ -225,10 +221,9 @@ class KnowledgeManager:
             loaded_list.append(lazy_item)
 
         return loaded_list
-<<<<<<< HEAD
-    # =========================================================
+    # ===
     # ✅ 4. キーワード検索（Orchestrator側から呼び出す想定）
-    # =========================================================
+    # ===
     def search_by_keywords(self, relative_dir_path: str, keywords: list,
                             index_filename: str = "index.json") -> dict:
         """
@@ -267,12 +262,9 @@ class KnowledgeManager:
                     logger.error(f"知識ファイルのロードに失敗 ({item.rel_path}): {e}")
 
         return matched
-=======
-
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
-    # =========================================================
+    # ===
     # ファイル書き込み系 (既存維持)
-    # =========================================================
+    # ===
     def write_file(self, relative_path, content):
         try:
             target_path = self._safe_join_path(relative_path)
@@ -303,3 +295,70 @@ class KnowledgeManager:
         matches = re.findall(pattern, markdown_text)
         files_to_write = [{"path": p.strip(), "content": c} for p, c in matches]
         return self.write_from_json_data(files_to_write)
+    def get_career_feed(self, relative_dir_path: str = "knowledge/jobs") -> dict:
+        """
+        アプリのフィード画面向けに職業リストを返すAPIメソッド。
+        動画URLがあるものを優先して上に並べ替えます。
+        """
+        items = self.load_all_json_from_dir(relative_dir_path)
+        
+        feed_list = []
+        for item in items:
+            # item.get() はインデックス（メタデータ）にあれば本体を開かずに一瞬で取得します
+            feed_list.append({
+                "id": item.get("id"),
+                "name": item.get("title"),
+                "category": item.get("category"),
+                "catchphrase": item.get("catchphrase"),
+                "subjects": item.get("subjects"),
+                "skills": item.get("skills"),
+                "video_url": item.get("video_url"),
+                "file_path": item.get("file_path")
+            })
+
+        # ソートロジック: 動画URLがあるものを優先（True=1, False=0を利用して降順ソート）
+        # 同率の場合はカテゴリ順、さらに名前順
+        feed_list.sort(
+            key=lambda x: (bool(x["video_url"]), x["category"], x["name"]), 
+            reverse=True
+        )
+
+        return {
+            "status": "success",
+            "total_count": len(feed_list),
+            "video_count": sum(1 for x in feed_list if x["video_url"]),
+            "data": feed_list
+        }
+
+    def update_video_url(self, relative_path: str, video_url: str) -> dict:
+        """
+        特定の職業JSONの動画URLを更新し、保存する管理用APIメソッド。
+        チームで動画を見つけた際に、このメソッドを呼ぶだけでDBが更新されます。
+        """
+        target_path = self._safe_join_path(relative_path)
+        
+        if not os.path.exists(target_path):
+            return {"status": "error", "message": f"ファイルが見つかりません: {relative_path}"}
+            
+        try:
+            # 1. 既存データの読み込み
+            with open(target_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                
+            # 2. データの更新
+            data["video_url"] = video_url
+            
+            # 3. 保存
+            with open(target_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+                
+            # 4. インデックスの再構築（差分更新が走るので高速）
+            target_dir = os.path.dirname(target_path)
+            self.build_index(target_dir)
+            
+            logger.info(f"🎥 動画URLを更新しました: {relative_path} -> {video_url}")
+            return {"status": "success", "message": "動画URLを更新しました", "path": relative_path}
+            
+        except Exception as e:
+            logger.error(f"動画URL更新エラー ({relative_path}): {e}")
+            return {"status": "error", "message": str(e)}

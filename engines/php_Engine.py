@@ -33,9 +33,9 @@ class PHPEngine:
     def __init__(self, knowledge_dir: Path):
         self.knowledge_dir = Path(knowledge_dir)
 
-    # =========================================================
+    # ===
     # Public API
-    # =========================================================
+    # ===
 
     def generate(self, user_prompt: str) -> dict:
         """
@@ -72,9 +72,9 @@ class PHPEngine:
             "knowledge": knowledge,
         }
 
-    # =========================================================
+    # ===
     # Private
-    # =========================================================
+    # ===
 
     def _load_from_json(self):
         """

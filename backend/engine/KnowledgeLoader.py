@@ -1,6 +1,6 @@
 """
 KnowledgeLoader
-===============
+===
 役割:
   KnowledgeRouter.route() が返す file_paths を受け取り、実際のファイル内容を
   読み込んで PromptBuilder に渡せる形にする。
@@ -112,7 +112,7 @@ class KnowledgeLoader:
                 logger.info("📚 [Loader] 読み込み成功: %s", rel_path)
             if error is not None:
                 result.errors.append(error)
-                logger.warning("⚠️ [Loader] 読み込み失敗 (%s): %s - %s",
+                logger.warning(" [Loader] 読み込み失敗 (%s): %s - %s",
                                 error.reason, rel_path, error.detail)
 
         return result

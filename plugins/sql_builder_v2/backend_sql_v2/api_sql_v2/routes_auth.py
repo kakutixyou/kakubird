@@ -15,16 +15,16 @@ router = APIRouter()
 # ★FastAPI標準のBearerトークン取得機能（Swagger UIでのテストも可能になります）
 security = HTTPBearer()
 
-# =========================================
+# =====
 # リクエスト/レスポンス モデル
-# =========================================
+# =====
 class KeyGenerateRequest(BaseModel):
     client_name: str
     scope: str = "read_only"
 
-# =========================================
+# =====
 # 【コア機能】APIキー検証（Dependency Injection用）
-# =========================================
+# =====
 def verify_api_key(credentials: HTTPAuthorizationCredentials = Security(security)):
     """
     他のAPIエンドポイントで Depends(verify_api_key) として呼び出すための関数。
@@ -66,9 +66,9 @@ def verify_api_key(credentials: HTTPAuthorizationCredentials = Security(security
     return dict(key_data)
 
 
-# =========================================
+# =====
 # APIキー生成（1時間有効）
-# =========================================
+# =====
 @router.post("/generate")
 async def generate_api_key(request: KeyGenerateRequest):
     new_key = f"sk-{secrets.token_urlsafe(32)}"
@@ -95,9 +95,9 @@ async def generate_api_key(request: KeyGenerateRequest):
         raise HTTPException(status_code=500, detail=f"キーの生成に失敗しました: {str(e)}")
 
 
-# =========================================
+# =====
 # APIキー一覧（期限チェック込み）
-# =========================================
+# =====
 @router.get("/list")
 async def list_api_keys():
     try:
@@ -131,9 +131,9 @@ async def list_api_keys():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# =========================================
+# =====
 # APIキー削除
-# =========================================
+# =====
 @router.delete("/delete/{key_id}")
 async def delete_api_key(key_id: int):
     try:
@@ -152,9 +152,9 @@ async def delete_api_key(key_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# =========================================
+# =====
 # ★新規：自己紹介＆権限確認API (フロントやGeminiが使う)
-# =========================================
+# =====
 @router.get("/me")
 async def get_my_info(current_key: dict = Depends(verify_api_key)):
     """

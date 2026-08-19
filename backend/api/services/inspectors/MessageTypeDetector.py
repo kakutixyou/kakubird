@@ -24,9 +24,9 @@ class MessageTypeDetector:
         self.text = self.message.strip()
         self.lower = self.text.lower()
 
-    # ============================================
+    # ==
     # Public
-    # ============================================
+    # ==
 
     def detect(self) -> Dict[str, Any]:
 
@@ -105,9 +105,9 @@ class MessageTypeDetector:
 
         return result
 
-    # ============================================
+    # ==
     # HTML
-    # ============================================
+    # ==
 
     def _is_html(self):
 
@@ -131,9 +131,9 @@ class MessageTypeDetector:
 
         return score >= 2
 
-    # ============================================
+    # ==
     # JSX
-    # ============================================
+    # ==
 
     def _is_jsx(self):
 
@@ -156,9 +156,9 @@ class MessageTypeDetector:
 
         return score >= 2
 
-    # ============================================
+    # ==
     # CSS
-    # ============================================
+    # ==
 
     def _is_css(self):
 
@@ -181,9 +181,9 @@ class MessageTypeDetector:
 
         return score >= 3
 
-    # ============================================
+    # ==
     # JavaScript
-    # ============================================
+    # ==
 
     def _is_javascript(self):
 
@@ -208,17 +208,17 @@ class MessageTypeDetector:
 
         return score >= 2
 
-    # ============================================
+    # ==
     # SVG
-    # ============================================
+    # ==
 
     def _is_svg(self):
 
         return "<svg" in self.lower
 
-    # ============================================
+    # ==
     # JSON
-    # ============================================
+    # ==
 
     def _is_json(self):
 
@@ -232,9 +232,9 @@ class MessageTypeDetector:
 
         return False
 
-    # ============================================
+    # ==
     # Markdown
-    # ============================================
+    # ==
 
     def _is_markdown(self):
 

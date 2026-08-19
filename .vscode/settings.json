@@ -1,0 +1,14 @@
+{
+    "python.analysis.extraPaths": [
+        "./plugins/ai_memory",
+        "./plugins",
+        "./backend/src",
+        "./plugins/sql_builder_v2/backend",
+        "./plugins/sql_builder_v2/backend/api",
+        "./backend",
+        "./backend/api/services",
+        "./backend/api",
+        "./backend/api/services/manager"
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:system"
+}

@@ -1,7 +1,7 @@
-# =================================================
+# =
 # backend_import_test.py
 # Backend Import Health Check
-# =================================================
+# =
 
 import sys
 import os
@@ -39,9 +39,9 @@ MODULES = [
     "backend.api.services.chat_orchestrator",
 ]
 
-# =================================================
+# =
 # Header
-# =================================================
+# =
 print("=" * 51)
 print("  PYTHON IMPORT TEST")
 print(f"  {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -50,9 +50,9 @@ print(f"  ROOT : {ROOT}")
 print(f"  Python : {sys.version.split()[0]}")
 print("-" * 51)
 
-# =================================================
+# =
 # Import Test
-# =================================================
+# =
 results = []
 
 for mod in MODULES:
@@ -71,9 +71,9 @@ for mod in MODULES:
         traceback.print_exc()
     print()
 
-# =================================================
+# =
 # Summary
-# =================================================
+# =
 ok_count   = sum(1 for r in results if r[0] == "OK  ")
 fail_count = sum(1 for r in results if r[0] != "OK  ")
 

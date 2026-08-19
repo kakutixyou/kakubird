@@ -28,13 +28,13 @@ _vector_store = ChromaVectorStore(
 _embedding_service = EmbeddingService()
 client = anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
 
-# =========================================================
+# ===
 # ✅ RAG検索（custom_aiから呼ぶ）
-# =========================================================
+# ===
 
-# =========================================================
+# ===
 # ✅ RAG検索（custom_aiから呼ぶ）
-# =========================================================
+# ===
 
 def retrieve_relevant_chunks(query: str, top_k: int = 5) -> str:
     """
@@ -73,13 +73,13 @@ def retrieve_relevant_chunks(query: str, top_k: int = 5) -> str:
         return "\n\n".join(chunks)
 
     except Exception as e:
-        print(f"⚠️ RAG検索失敗: {e}")
+        print(f" RAG検索失敗: {e}")
         return ""
 
 
-# =========================================================
+# ===
 # LLM共通呼び出し口
-# =========================================================
+# ===
 
 async def call_llm_with_schema(prompt: str) -> str:
     if ANTHROPIC_API_KEY:
@@ -99,9 +99,9 @@ async def call_llm_with_schema(prompt: str) -> str:
     return ""
 
 
-# =========================================================
+# ===
 # コンテキスト構築（会話履歴）
-# =========================================================
+# ===
 
 def build_context(history: List[Dict]) -> str:
     recent = history[-5:]
@@ -113,9 +113,9 @@ def build_context(history: List[Dict]) -> str:
     return "\n".join(lines)
 
 
-# =========================================================
+# ===
 # ルールベースSQL生成（LLMなしのfallback）
-# =========================================================
+# ===
 
 def simple_sql_generator(user_input: str, context: str, schema_text: str = "") -> str:
     text = user_input.lower()
@@ -180,9 +180,9 @@ def _build_join_sql(schema_text: str) -> str:
     return "```sql\nSELECT * FROM table_a INNER JOIN table_b ON table_a.id = table_b.table_a_id;\n```"
 
 
-# =========================================================
+# ===
 # メインエントリーポイント
-# =========================================================
+# ===
 
 async def run_custom_ai(req) -> Dict:
 

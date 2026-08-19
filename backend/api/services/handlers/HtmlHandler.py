@@ -50,9 +50,9 @@ def _build_css(surface: SurfaceStyle, theme_name: str) -> str:
     css_content = theme_data.get("css", "/* No CSS defined for this theme */\n:root {}")
     return base_vars + css_content
 
-# ==========================================
+# 
 # 3. HTMLHandler 本体
-# ==========================================
+# 
 class HTMLHandler(BaseHandler):
     def __init__(self):
         # Inspectorから受け取ったメタデータを保持する箱

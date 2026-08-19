@@ -63,14 +63,14 @@ export default function BuilderContainer() {
     }
   }, [pageId, resetBuilderState]);
 
-  // =========================================================
+  // ===
   // ① ダッシュボードへのルーティング分岐
-  // =========================================================
+  // ===
 
 
-  // =========================================================
+  // ===
   // ② 読み込み中の表示
-  // =========================================================
+  // ===
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full text-gray-400 animate-pulse w-full">
@@ -79,9 +79,9 @@ export default function BuilderContainer() {
     );
   }
 
-  // =========================================================
+  // ===
   // ③ エディタ本体の完全なレイアウト構造
-  // =========================================================
+  // ===
   return (
     <div className="flex flex-col h-full bg-gray-100 overflow-hidden relative w-full font-sans">
       

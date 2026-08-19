@@ -28,9 +28,9 @@ def get_reader():
     return _reader
 
 
-# =========================================================
+# ===
 # OCR
-# =========================================================
+# ===
 
 def extract_text(image_path: Path) -> str:
     """画像からテキストを抽出する"""
@@ -39,9 +39,9 @@ def extract_text(image_path: Path) -> str:
     return "\n".join(results)
 
 
-# =========================================================
+# ===
 # AI による自動分類 + 構造化
-# =========================================================
+# ===
 
 def classify_and_parse(raw_text: str) -> dict:
     """
@@ -116,13 +116,13 @@ OCRテキスト:
                 text = text[4:]
         return json.loads(text)
     except Exception as e:
-        print(f"⚠️ Claude解析失敗、fallback: {e}")
+        print(f" Claude解析失敗、fallback: {e}")
         return {"type": "other", "raw_text": raw_text}
 
 
-# =========================================================
+# ===
 # SQLite
-# =========================================================
+# ===
 
 DB_PATH = Path(".ai_memory/memory.db")
 

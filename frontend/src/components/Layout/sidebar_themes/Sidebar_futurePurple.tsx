@@ -8,7 +8,8 @@ const NAV_ITEMS = [
   { path: "/templates", label: "Templates", icon: "🎨" },
   { path: "/databases", label: "Database", icon: "🧬" },
   { path: "/memory", label: "Memory", icon: "🧠" },
-  { path: "/settings-api", label: "Theme", icon: "⚙️" }
+  { path: "/settings-api", label: "Theme", icon: "⚙️" },
+  { path: '/relocation-map', label: '移住スコアリング', icon: '🗺️', sub: '住みやすさ可視化' }
 ];
 
 export default function SidebarFuturePurple() {

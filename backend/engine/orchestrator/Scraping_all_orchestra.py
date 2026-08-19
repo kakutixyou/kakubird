@@ -1,6 +1,6 @@
 """
 Scraping_all_orchestra.py
-==============================================
+====
 スクレイピングジョブの総司令塔（バックグラウンドワーカー）
 
 責務:
@@ -37,7 +37,7 @@ from api.services.manager.KnowledgeManager import KnowledgeManager
 
 """
 orchestrator/Scraping_all_orchestra.py
-==============================================
+====
 スクレイピングジョブの総司令塔（バックグラウンドワーカー）
 
 責務:

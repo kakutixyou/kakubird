@@ -29,9 +29,9 @@ export function usePageManager(pageId?: string) {
   const [newPageTitle, setNewPageTitle] = useState('');
   const [saving, setSaving] = useState(false);
 
-  // =========================================================
+  // ===
   // ① 初期ページ一覧の取得
-  // =========================================================
+  // ===
   useEffect(() => {
     const fetchPages = async () => {
       try {
@@ -46,9 +46,9 @@ export function usePageManager(pageId?: string) {
     fetchPages();
   }, [setPages]);
 
-  // =========================================================
+  // ===
   // ② 個別ページの読み込み (pageId が変わるたびに実行)
-  // =========================================================
+  // ===
   useEffect(() => {
     const loadPage = async () => {
       if (!pageId) {
@@ -84,9 +84,9 @@ export function usePageManager(pageId?: string) {
     loadPage();
   }, [pageId, setCurrentPage, setComponents]);
 
-  // =========================================================
+  // ===
   // ③ 新規ページ作成
-  // =========================================================
+  // ===
   const createPage = async () => {
     if (!newPageTitle.trim()) {
       toast.error('ページタイトルを入力してください');
@@ -109,9 +109,9 @@ export function usePageManager(pageId?: string) {
     }
   };
 
-  // =========================================================
+  // ===
   // ④ コンポーネント構成の保存
-  // =========================================================
+  // ===
   const savePage = async () => {
     if (!currentPage) return;
 
@@ -127,9 +127,9 @@ export function usePageManager(pageId?: string) {
     }
   };
 
-  // =========================================================
+  // ===
   // ⑤ ページの公開
-  // =========================================================
+  // ===
   const publishPage = async () => {
     if (!currentPage) return;
 
@@ -143,9 +143,9 @@ export function usePageManager(pageId?: string) {
     }
   };
 
-  // =========================================================
+  // ===
   // ⑥ ページの削除
-  // =========================================================
+  // ===
   const deletePage = async (page: Page) => {
     const ok = window.confirm(`"${page.title}" を削除しますか？`);
     if (!ok) return;

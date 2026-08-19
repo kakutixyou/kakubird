@@ -1,8 +1,8 @@
 # backend/main.py
 
-# =========================================
+# =====
 # 1. 各ルーターのインポート
-# =========================================
+# =====
 from api import routes_auth
 from api import routes_execute
 from api import routes_system  # ★ 今回作成したシステムAPIをインポート
@@ -186,9 +186,9 @@ def health():
     return {"status": "ok"}
 
 
-# =========================================
+# =====
 # 2. CORSの設定 (超重要！)
-# =========================================
+# =====
 # React (localhost:5173) からのアクセスを許可するために必須です
 app.add_middleware(
     CORSMiddleware,
@@ -198,9 +198,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# =========================================
+# =====
 # 3. ルーターの登録 (URLのマッピング)
-# =========================================
+# =====
 # 認証関連のAPI (生成、一覧、/me など) -> http://localhost:8000/api/auth/...
 app.include_router(routes_auth.router, prefix="/api/auth", tags=["Authentication"])
 
@@ -211,9 +211,9 @@ app.include_router(routes_execute.router, prefix="/api/sql", tags=["SQL Executio
 app.include_router(routes_system.router, prefix="/api", tags=["System Discovery"]) # type: ignore
 
 
-# =========================================
+# =====
 # ルートURL（動作確認用）
-# =========================================
+# =====
 @app.get("/")
 def read_root():
     return {"message": "API Server is running. Visit /docs for Swagger UI."}

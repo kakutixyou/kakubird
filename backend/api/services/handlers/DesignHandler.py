@@ -33,10 +33,10 @@ def _load_json(filepath: str) -> dict:
         with open(filepath, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"  ⚠️ [DesignHandler] {os.path.basename(filepath)} が見つかりません", flush=True)
+        print(f"   [DesignHandler] {os.path.basename(filepath)} が見つかりません", flush=True)
         return {}
     except json.JSONDecodeError as e:
-        print(f"  ⚠️ [DesignHandler] {os.path.basename(filepath)} のパースエラー: {e}", flush=True)
+        print(f"   [DesignHandler] {os.path.basename(filepath)} のパースエラー: {e}", flush=True)
         return {}
 
 # 起動時にJSONをメモリに読み込んでおく
@@ -56,9 +56,9 @@ def _build_css(surface: SurfaceStyle, theme_name: str) -> str:
 def _build_html(surface: SurfaceStyle, theme_name: str, message: str) -> str:
     return f"<div class='{surface.value}'>\n  <h1>{theme_name}</h1>\n  <p>Design generated successfully.</p>\n</div>"
 
-# ==========================================
+# 
 # 5. DesignHandler 本体
-# ==========================================
+# 
 class DesignHandler(BaseHandler):
     def __init__(self):
         self.detected_surface: Optional[SurfaceStyle] = None

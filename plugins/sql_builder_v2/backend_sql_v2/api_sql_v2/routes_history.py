@@ -10,10 +10,10 @@ from db.history_db import get_db_connection
 
 router = APIRouter()
 
-# =========================================================
+# ===
 # 1. スキーマ定義
 # ※後で schemas/history_models.py に移動させるとさらに綺麗です
-# =========================================================
+# ===
 class HistoryCreate(BaseModel):
     """履歴作成用のリクエストモデル"""
     sql_query: str = Field(..., description="実行したSQL文")
@@ -29,9 +29,9 @@ class HistoryResponse(BaseModel):
     created_at: str
 
 
-# =========================================================
+# ===
 # 2. データベース接続の管理 (Dependency Injection)
-# =========================================================
+# ===
 def get_db():
     """
     APIが呼ばれるたびにDB接続を開き、レスポンスを返す時に確実に閉じるための関数。
@@ -43,9 +43,9 @@ def get_db():
         conn.close() # 処理が終わったら必ず閉じる
 
 
-# =========================================================
+# ===
 # 3. エンドポイント
-# =========================================================
+# ===
 
 @router.get("/", response_model=List[HistoryResponse])
 async def get_history(

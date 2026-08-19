@@ -1,3 +1,5 @@
+// To\plugins\my-awesome-builder-main\packages\render-engine\config\tailwind.config.js
+
 import plugin from 'tailwindcss/plugin';
 /**
  * Tailwind CSS configuration for the educational website builder.
@@ -7,11 +9,11 @@ import plugin from 'tailwindcss/plugin';
  */
 const config = {
     // Scan all source files for class names
-    content: [
-        './src/**/*.{js,ts,jsx,tsx,mdx}',
-        './pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './components/**/*.{js,ts,jsx,tsx,mdx}',
-    ],
+        content: [
+            './src/**/*.{js,ts,jsx,tsx,mdx}',
+            './pages/**/*.{js,ts,jsx,tsx,mdx}',
+            './components/**/*.{js,ts,jsx,tsx,mdx}',
+        ],
     // Class-based dark mode so themes can control it via data attributes
     darkMode: 'class',
     theme: {

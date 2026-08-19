@@ -5,9 +5,9 @@ import traceback
 from typing import Dict, Any, List
 
 import httpx
-# =========================================================
+# ===
 # Ollama Config
-# =========================================================
+# ===
 
 OLLAMA_BASE_URL = os.getenv(
     "OLLAMA_BASE_URL",  # 🌟 "OLLAMA_BASE_URL" から変更
@@ -23,9 +23,9 @@ OLLAMA_TIMEOUT = float(
 )
 
 
-# =========================================================
+# ===
 # Tool Definitions
-# =========================================================
+# ===
 
 def build_tool_definitions() -> List[Dict[str, Any]]:
     """
@@ -83,9 +83,9 @@ def build_tool_definitions() -> List[Dict[str, Any]]:
     ]
 
 
-# =========================================================
+# ===
 # Payload Builder
-# =========================================================
+# ===
 
 def build_chat_payload(
     user_message: str,
@@ -130,9 +130,9 @@ def build_chat_payload(
     }
 
 
-# =========================================================
+# ===
 # Main Chat Function
-# =========================================================
+# ===
 
 async def ask_ollama_with_tools(
     user_message: str,
@@ -212,9 +212,9 @@ async def ask_ollama_with_tools(
         }
 
 
-# =========================================================
+# ===
 # Health Check
-# =========================================================
+# ===
 
 async def check_ollama_health() -> bool:
     """
@@ -243,9 +243,9 @@ async def check_ollama_health() -> bool:
         return False
 
 
-# =========================================================
+# ===
 # Simple Chat (No Tools)
-# =========================================================
+# ===
 
 async def simple_ollama_chat(
     prompt: str,
@@ -303,9 +303,9 @@ async def simple_ollama_chat(
         return "AI応答生成中にエラーが発生しました。"
 
 
-# =========================================================
+# ===
 # Future Expansion Notes
-# =========================================================
+# ===
 
 """
 将来的な拡張ポイント:

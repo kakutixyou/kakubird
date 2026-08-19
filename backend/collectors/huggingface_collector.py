@@ -1,6 +1,6 @@
 """
 huggingface_collector.py
-========================
+
 Hugging Face APIを使ってモデルカード（README.md）と
 Spaces の app.py などを収集する Collector。
 

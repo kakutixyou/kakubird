@@ -9,10 +9,10 @@ async def handle_code_generation(ai_response_text):
     if callable(check_python_syntax):
         checker_result = check_python_syntax(python_code)
     else:
-        print("⚠️ check_python_syntax is not callable. Please check the import.")
+        print(" check_python_syntax is not callable. Please check the import.")
 
     # if not checker_result["valid"]:
-    #     # ⚠️ 文法エラーを発見！
+    #     #  文法エラーを発見！
     #     error_info = checker_result["error"]
     #     print(f"🚨 AIのコードに文法エラーを検知: {error_info['message']} (L{error_info['line']})")
 

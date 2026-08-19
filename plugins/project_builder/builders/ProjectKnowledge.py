@@ -1,6 +1,6 @@
 """
 ProjectTypes.py
-=========================================================
+===
 Project Builder 共通データモデル
 
 役割
@@ -18,7 +18,7 @@ BuildValidator
 
 などは、この型だけを受け渡しする。
 
-=========================================================
+===
 """
 
 from __future__ import annotations
@@ -28,9 +28,9 @@ from enum import Enum
 from typing import Dict, List, Optional, Any
 
 
-# =========================================================
+# ===
 # Enum
-# =========================================================
+# ===
 
 class ProjectLanguage(str, Enum):
     PYTHON = "Python"
@@ -59,9 +59,9 @@ class PackageManager(str, Enum):
     NONE = "none"
 
 
-# =========================================================
+# ===
 # Folder
-# =========================================================
+# ===
 
 @dataclass
 class FolderNode:
@@ -74,9 +74,9 @@ class FolderNode:
     files: List[str] = field(default_factory=list)
 
 
-# =========================================================
+# ===
 # Dependency
-# =========================================================
+# ===
 
 @dataclass
 class Dependency:
@@ -86,9 +86,9 @@ class Dependency:
     required: bool = True
 
 
-# =========================================================
+# ===
 # Template
-# =========================================================
+# ===
 
 @dataclass
 class TemplateInfo:
@@ -98,9 +98,9 @@ class TemplateInfo:
     description: str = ""
 
 
-# =========================================================
+# ===
 # ProjectPlan
-# =========================================================
+# ===
 
 @dataclass
 class ProjectPlan:
@@ -123,9 +123,9 @@ class ProjectPlan:
     options: Dict[str, Any] = field(default_factory=dict)
 
 
-# =========================================================
+# ===
 # Analysis
-# =========================================================
+# ===
 
 @dataclass
 class ProjectAnalysis:
@@ -141,9 +141,9 @@ class ProjectAnalysis:
     existing_files: List[str] = field(default_factory=list)
 
 
-# =========================================================
+# ===
 # BuildPlan
-# =========================================================
+# ===
 
 @dataclass
 class BuildPlan:
@@ -158,9 +158,9 @@ class BuildPlan:
     dependencies: List[Dependency] = field(default_factory=list)
 
 
-# =========================================================
+# ===
 # Validation
-# =========================================================
+# ===
 
 @dataclass
 class ValidationResult:
@@ -172,9 +172,9 @@ class ValidationResult:
     errors: List[str] = field(default_factory=list)
 
 
-# =========================================================
+# ===
 # Knowledge
-# =========================================================
+# ===
 
 @dataclass
 class ProjectKnowledgeResult:

@@ -1,6 +1,6 @@
 /**
  * apiEndpoints.js
- * ===============
+ * ===
  * Configurable API endpoint definitions for the AI Chat Component.
  * Override via environment variables (VITE_ prefix for Vite projects,
  * REACT_APP_ prefix for Create-React-App projects).

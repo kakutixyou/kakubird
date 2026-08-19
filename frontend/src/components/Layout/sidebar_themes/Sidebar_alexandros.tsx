@@ -8,7 +8,8 @@ const NAV_ITEMS = [
   { path: "/templates", label: "テンプレート", icon: "📜" },
   { path: "/databases", label: "データベース", icon: "🏺" },
   { path: "/memory", label: "メモリー", icon: "🧠" },
-  { path: "/settings-api", label: "テーマ設定", icon: "👑" }
+  { path: "/settings-api", label: "テーマ設定", icon: "👑" },
+  { path: '/relocation-map', label: '移住スコアリング', icon: '🗺️', sub: '住みやすさ可視化' }
 ];
 
 export default function SidebarAlexandros() {

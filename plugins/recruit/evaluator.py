@@ -5,9 +5,9 @@ import httpx
 from pathlib import Path
 import copy
 
-# =========================================================
+# ===
 # Web Search Plugin Import
-# =========================================================
+# ===
 try:
     from plugins.recruit.web_search import search_company
 except ImportError:
@@ -21,9 +21,9 @@ except ImportError:
 PLUGIN_DIR = os.path.dirname(__file__)
 RULES_DIR = os.path.join(PLUGIN_DIR, "rules")
 
-# =========================================================
+# ===
 # フロントエンド (RecruitReportBlock) と完全一致するスキーマ
-# =========================================================
+# ===
 OUTPUT_SCHEMA = {
     "company": {
         "name": "不明な企業",
@@ -46,7 +46,7 @@ OUTPUT_SCHEMA = {
     "ai_analysis": {
         "overall_label": "gray",
         "analysis_comment": [
-            "⚠️ AI（Ollama）がオフラインのため、高度な文脈解析は行えませんでした。",
+            " AI（Ollama）がオフラインのため、高度な文脈解析は行えませんでした。",
             "💡 その代わり、正規表現エンジンとルール辞書を用いて文章を自動解析しました。"
         ],
         "recommendation": [
@@ -66,9 +66,9 @@ def load_json_rule(filename: str) -> dict:
         print(f"Rule Load Error ({filename}): {e}")
         return {}
 
-# =========================================================
+# ===
 # 🤖 Ollama 呼び出し関数
-# =========================================================
+# ===
 def _call_ollama(system: str, user: str) -> str:
     ollama_url = os.getenv("OLLAMA_URL", "http://100.85.26.46:11434")
     ollama_model = os.getenv("OLLAMA_MODEL", "gemma3")
@@ -88,9 +88,9 @@ def _call_ollama(system: str, user: str) -> str:
     res.raise_for_status()
     return res.json()["message"]["content"].strip()
 
-# =========================================================
+# ===
 # メインの評価ロジック
-# =========================================================
+# ===
 def evaluate(ocr_text: str) -> dict:
  
     # -----------------------------------------------------
@@ -179,7 +179,7 @@ def evaluate(ocr_text: str) -> dict:
         fixed_overtime = black_rules.get("fixed_overtime_flags", {})
         for kw in fixed_overtime.get("keywords", []):
             if kw in ocr_text:
-                detected.append({"word": f"⚠️ {kw}", "count": ocr_text.count(kw)})
+                detected.append({"word": f" {kw}", "count": ocr_text.count(kw)})
                 abstract_score += fixed_overtime.get("risk_score", 20)
                 wlb_score -= 15 # みなし残業はWLBに直結するため、WLBスコアをガッツリ下げる
                 pressure += 10
@@ -222,9 +222,9 @@ def evaluate(ocr_text: str) -> dict:
     elif wlb_score >= 80 and ses_risk < 60:
         base_result["ai_analysis"]["overall_label"] = "white"
 
-    # =====================================================
+    # =====
     # 🌟 オフライン情報抽出エンジン（正規表現）
-    # =====================================================
+    # =====
     company_match = re.search(r'([^\n]*(?:株式会社|合同会社|Inc\.|Corp\.)[^\n]*)', ocr_text)
     if company_match:
         base_result["company"]["name"] = company_match.group(1).strip()[:30]
@@ -262,7 +262,7 @@ def evaluate(ocr_text: str) -> dict:
         if min_salary and 1000000 <= min_salary < 3500000:
             detected.append({"word": "💸 低水準な給与（350万未満）", "count": 1})
             base_result["ai_analysis"]["analysis_comment"].append(
-                f"⚠️ 提示されている下限給与（{min_salary // 10000}万円）が相場より低い水準です。評価制度や昇給ペースを必ず確認してください。"
+                f" 提示されている下限給与（{min_salary // 10000}万円）が相場より低い水準です。評価制度や昇給ペースを必ず確認してください。"
             )
             
     prefectures = ["北海道", "青森", "岩手", "宮城", "秋田", "山形", "福島", "茨城", "栃木", "群馬", "埼玉", "千葉", "東京", "神奈川", "新潟", "富山", "石川", "福井", "山梨", "長野", "岐阜", "静岡", "愛知", "三重", "滋賀", "京都", "大阪", "兵庫", "奈良", "和歌山", "鳥取", "島根", "岡山", "広島", "山口", "徳島", "香川", "愛媛", "高知", "福岡", "佐賀", "長崎", "熊本", "大分", "宮崎", "鹿児島", "沖縄"]
@@ -282,9 +282,9 @@ def evaluate(ocr_text: str) -> dict:
         base_result["offer_summary"]["work_style"]["remote_possible"] = True
 
     base_result["recruitment_text_analysis"]["detected_patterns"] = detected
-    # =====================================================
+    # =====
     # ⏰ 勤務時間・就業時間の明記チェック
-    # =====================================================
+    # =====
     # 「勤務時間」「フレックス」という単語や、「09:00～18:00」のような時間表記を探す
     working_hours_match = re.search(
         r'(勤務時間|就業時間|フレックス|コアタイム|[0-9]{1,2}[:：][0-9]{2}\s*[～\-]\s*[0-9]{1,2}[:：][0-9]{2})',
@@ -338,14 +338,14 @@ def evaluate(ocr_text: str) -> dict:
         base_result["recruitment_text_analysis"]["work_life_balance_score"] = min(100, current_wlb + 10)
         base_result["recruitment_text_analysis"]["abstract_expression_score"] = max(0, current_abs - 10)
     else:
-        detected.append({"word": "⚠️ 勤務時間の明記なし（要注意）", "count": 1})
+        detected.append({"word": " 勤務時間の明記なし（要注意）", "count": 1})
         current_wlb = base_result["recruitment_text_analysis"]["work_life_balance_score"]
         current_abs = base_result["recruitment_text_analysis"]["abstract_expression_score"]
 
         base_result["recruitment_text_analysis"]["abstract_expression_score"] = min(100, current_abs + 15)
         base_result["recruitment_text_analysis"]["work_life_balance_score"] = max(0, current_wlb - 15)
         base_result["ai_analysis"]["analysis_comment"].append(
-            "⚠️ 勤務時間やコアタイムが明記されていません。常駐先依存（SES）や、裁量労働制で長時間労働になるリスクがあります。"
+            " 勤務時間やコアタイムが明記されていません。常駐先依存（SES）や、裁量労働制で長時間労働になるリスクがあります。"
         )
     # -----------------------------------------------------
     # 【フェーズ2】AI（Ollama）による高度な分析に挑戦
@@ -404,9 +404,9 @@ def evaluate(ocr_text: str) -> dict:
         if "company" in ai_result and "offer_summary" in ai_result and "recruitment_text_analysis" in ai_result and "ai_analysis" in ai_result:
             return ai_result    
         else:
-            print("⚠️ AIの返答はJSON形式でしたが、スキーマが不完全でした。オフライン解析結果を返します。")
+            print(" AIの返答はJSON形式でしたが、スキーマが不完全でした。オフライン解析結果を返します。")
             return base_result
     except Exception as e:
-        print(f"⚠️ AI分析中にエラーが発生しました: {e}")
+        print(f" AI分析中にエラーが発生しました: {e}")
         return base_result
     

@@ -1,6 +1,6 @@
 """
 ProjectTypes.py
-=========================================================
+===
 Project Builder 共通型定義
 
 第1回
@@ -22,7 +22,7 @@ BuildValidator
 
 などは、この型を利用する。
 
-=========================================================
+===
 """
 from __future__ import annotations
 
@@ -31,9 +31,9 @@ from enum import Enum
 from typing import Dict, List, Optional, Any
 
 
-# =========================================================
+# ===
 # Build Stage
-# =========================================================
+# ===
 
 class BuildStage(str, Enum):
     """
@@ -57,9 +57,9 @@ class BuildStage(str, Enum):
     FAILED = "Failed"
 
 
-# =========================================================
+# ===
 # Programming Language
-# =========================================================
+# ===
 
 class ProjectLanguage(str, Enum):
     """
@@ -89,9 +89,9 @@ class ProjectLanguage(str, Enum):
     UNKNOWN = "Unknown"
 
 
-# =========================================================
+# ===
 # Framework
-# =========================================================
+# ===
 
 class ProjectFramework(str, Enum):
     """
@@ -119,9 +119,9 @@ class ProjectFramework(str, Enum):
     UNKNOWN = "Unknown"
 
 
-# =========================================================
+# ===
 # Package Manager
-# =========================================================
+# ===
 
 class PackageManager(str, Enum):
     """
@@ -147,9 +147,9 @@ class PackageManager(str, Enum):
     UNKNOWN = "unknown"
 
 
-# =========================================================
+# ===
 # Build Mode
-# =========================================================
+# ===
 
 class BuildMode(str, Enum):
     """
@@ -167,9 +167,9 @@ class BuildMode(str, Enum):
     VALIDATE = "Validate"
 
 
-# =========================================================
+# ===
 # Build Status
-# =========================================================
+# ===
 
 class BuildStatus(str, Enum):
     """
@@ -187,9 +187,9 @@ class BuildStatus(str, Enum):
     CANCELLED = "Cancelled"
 
 
-# =========================================================
+# ===
 # Base Object
-# =========================================================
+# ===
 
 @dataclass
 class BaseProjectObject:
@@ -248,11 +248,11 @@ class BaseProjectObject:
             f"{self.__class__.__name__}"
             f"(name='{self.name}', enabled={self.enabled})"
         )
-    # =========================================================
+    # ===
 # Project Components
 # 第2回
 # Folder・File・Dependency・Template
-# =========================================================
+# ===
 
 
 
@@ -263,9 +263,9 @@ from typing import Any, Dict, List, Optional
 # from .ProjectTypes import BaseProjectObject
 
 
-# =========================================================
+# ===
 # Folder
-# =========================================================
+# ===
 
 @dataclass
 class FolderNode(BaseProjectObject):
@@ -294,9 +294,9 @@ class FolderNode(BaseProjectObject):
         return len(self.files)
 
 
-# =========================================================
+# ===
 # File
-# =========================================================
+# ===
 
 @dataclass
 class FileNode(BaseProjectObject):
@@ -321,9 +321,9 @@ class FileNode(BaseProjectObject):
     language: Optional[ProjectLanguage] = None
 
 
-# =========================================================
+# ===
 # Dependency
-# =========================================================
+# ===
 
 @dataclass
 class Dependency(BaseProjectObject):
@@ -346,9 +346,9 @@ class Dependency(BaseProjectObject):
     description: str = ""
 
 
-# =========================================================
+# ===
 # Template
-# =========================================================
+# ===
 
 @dataclass
 class TemplateInfo(BaseProjectObject):
@@ -386,9 +386,9 @@ class TemplateInfo(BaseProjectObject):
         self.dependencies.append(dependency)
 
 
-# =========================================================
+# ===
 # Workspace
-# =========================================================
+# ===
 
 @dataclass
 class WorkspaceInfo(BaseProjectObject):
@@ -416,18 +416,18 @@ class WorkspaceInfo(BaseProjectObject):
 
     def add_dependency(self, dependency: Dependency):
         self.dependencies.append(dependency)
-    # =========================================================
+    # ===
 # Planning & Analysis
 # 第3回
 # ProjectPlan・ProjectAnalysis
-# =========================================================
+# ===
 
 
 
 
-# =========================================================
+# ===
 # Project Plan
-# =========================================================
+# ===
 
 @dataclass
 class ProjectPlan(BaseProjectObject):
@@ -484,9 +484,9 @@ class ProjectPlan(BaseProjectObject):
         return self.options.get(key, default)
 
 
-# =========================================================
+# ===
 # Project Analysis
-# =========================================================
+# ===
 
 @dataclass
 class ProjectAnalysis(BaseProjectObject):
@@ -622,19 +622,19 @@ class ProjectAnalysis(BaseProjectObject):
 
             "complexity": self.complexity,
         }
-    # =========================================================
+    # ===
 # Build & Validation
 # 第4回
 # BuildPlan・ValidationResult
-# =========================================================
+# ===
 
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 
 
-# =========================================================
+# ===
 # Build Plan
-# =========================================================
+# ===
 
 @dataclass
 class BuildPlan(BaseProjectObject):
@@ -731,9 +731,9 @@ class BuildPlan(BaseProjectObject):
         return len(self.dependencies)
 
 
-# =========================================================
+# ===
 # Validation Result
-# =========================================================
+# ===
 
 @dataclass
 class ValidationResult(BaseProjectObject):
@@ -850,10 +850,10 @@ class ValidationResult(BaseProjectObject):
             "score": self.score
         }
         
-    # =========================================================
+    # ===
 # Project Knowledge Result
 # 第5回
-# =========================================================
+# ===
 
 from __future__ import annotations
 
@@ -861,9 +861,9 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
 
 
-# =========================================================
+# ===
 # Project Knowledge Result
-# =========================================================
+# ===
 
 @dataclass
 class ProjectKnowledgeResult(BaseProjectObject):

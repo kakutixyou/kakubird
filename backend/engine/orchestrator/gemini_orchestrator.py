@@ -74,9 +74,9 @@ class GeminiOrchestrator: # 本来は BaseOrchestrator を継承: class GeminiOr
             }
 
 
-    # ==========================================
+    # 
     # ※以下は本来 `services/` ディレクトリに切り出される「専門の作業係」のダミー実装です
-    # ==========================================
+    # 
     def _mock_check_input_safety(self, text: str) -> bool:
         # services.safety_filter_service.py の役割
         forbidden_words = ["攻撃", "破壊"]

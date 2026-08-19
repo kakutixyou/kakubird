@@ -63,16 +63,16 @@ class ConversionJsonHandler(BaseHandler):
         targets = parsed_intent.get("targets", [])
 
         try:
-            # ==========================================
+            # 
             # パターンA: ターゲットファイルが指定されている場合 (ZIP化処理)
-            # ==========================================
+            # 
             if targets and self.knowledge_manager:
                 result_dict = self._process_files(targets)
                 return ("ui_code", result_dict)
 
-            # ==========================================
+            # 
             # パターンB: チャットへの直打ちテキスト/JSONの場合
-            # ==========================================
+            # 
             # 1. テキストからJSONデータを構築/抽出する (旧File 2のロジック)
             parsed_original = self._extract_or_convert_to_json(message)
             
@@ -101,7 +101,7 @@ class ConversionJsonHandler(BaseHandler):
 
         except Exception as e:
             traceback.print_exc()
-            print(f"⚠️ [ConversionJsonHandler] 全体エラー: {str(e)}")
+            print(f" [ConversionJsonHandler] 全体エラー: {str(e)}")
             return ("text", {"role": "ai", "content": f"処理中にエラーが発生しました: {str(e)}"})
 
     # ---------------------------------------------------
@@ -142,7 +142,7 @@ class ConversionJsonHandler(BaseHandler):
                     })
 
             except Exception as e:
-                print(f"⚠️ [ConversionJsonHandler] エラーが発生しました ({target_file_path}): {str(e)}")
+                print(f" [ConversionJsonHandler] エラーが発生しました ({target_file_path}): {str(e)}")
                 results.append({"status": "error", "original_path": target_file_path, "message": f"処理エラー: {str(e)}"})
 
         zip_download_url = self._create_zip(translated_files)
@@ -181,7 +181,7 @@ class ConversionJsonHandler(BaseHandler):
             
             return f"/api/files/download?path={zip_filepath}"
         except Exception as e:
-            print(f"⚠️ [ConversionJsonHandler] ZIP作成エラー: {str(e)}")
+            print(f" [ConversionJsonHandler] ZIP作成エラー: {str(e)}")
             return None
 
     def _generate_en_path(self, original_path: str) -> str:
@@ -199,7 +199,7 @@ class ConversionJsonHandler(BaseHandler):
         JSONをチャンク分割してLLMで翻訳し結合する
         """
         if not self.llm_service:
-            print("⚠️ LLMサービスが存在しないため、翻訳をスキップします。")
+            print(" LLMサービスが存在しないため、翻訳をスキップします。")
             return data
 
         keys = list(data.keys())
@@ -217,7 +217,7 @@ class ConversionJsonHandler(BaseHandler):
                 parsed_chunk = json.loads(clean_text)
                 translated_result.update(parsed_chunk)
             except json.JSONDecodeError:
-                print("⚠️ [ConversionJsonHandler] LLMが不正なJSONを返しました。原文を維持します。")
+                print(" [ConversionJsonHandler] LLMが不正なJSONを返しました。原文を維持します。")
                 translated_result.update(chunk_data) 
 
         return translated_result

@@ -1,6 +1,6 @@
 /**
  * useAPIRouter.js
- * ===============
+ * ===
  * React hook that wraps the apiRouter utility, providing loading state
  * and error handling for use inside React components.
  */

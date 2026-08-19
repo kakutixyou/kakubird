@@ -1,16 +1,16 @@
-# =========================================================
+# ===
 # ProjectBuilder 共通型定義 (統合版)
 # ChatGPTの強力なパイプライン設計と、
 # Tool 1〜3のアトミック分割・AST解析の概念を統合した完全版モデル。
-# =========================================================
+# ===
 from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Any
 
-# =========================================================
+# ===
 # Enums (状態・設定)
-# =========================================================
+# ===
 class BuildStage(str, Enum):
     IDLE = "Idle"
     PLANNING = "Planning"
@@ -53,9 +53,9 @@ class BuildStatus(str, Enum):
     RUNNING = "Running"
     CANCELLED = "Cancelled"
 
-# =========================================================
+# ===
 # Base Object (すべての基底)
-# =========================================================
+# ===
 @dataclass
 class BaseProjectObject:
     name: str = ""
@@ -77,9 +77,9 @@ class BaseProjectObject:
     def get_metadata(self, key: str, default: Any = None) -> Any:
         return self.metadata.get(key, default)
 
-# =========================================================
+# ===
 # コード解析特有の拡張モデル (Tool 1〜3の概念)
-# =========================================================
+# ===
 class CodeNodeType(str, Enum):
     """アトミック分割されたコードブロックの種類 (Tool 2 & 3)"""
     IMPORT = "Import"         # 00_imports.js
@@ -112,9 +112,9 @@ class CodeNode(BaseProjectObject):
         })
         return d
 
-# =========================================================
+# ===
 # Project Components (ファイル・フォルダ)
-# =========================================================
+# ===
 @dataclass
 class FileNode(BaseProjectObject):
     path: str = ""
@@ -167,9 +167,9 @@ class WorkspaceInfo(BaseProjectObject):
         })
         return d
 
-# =========================================================
+# ===
 # Analysis & Planning (解析と計画)
-# =========================================================
+# ===
 @dataclass
 class ProjectAnalysis(BaseProjectObject):
     """AST解析・依存関係スキャンの結果 (Tool 1 & 2)"""
@@ -211,9 +211,9 @@ class ProjectPlan(BaseProjectObject):
         })
         return d
 
-# =========================================================
+# ===
 # Result (最終結果)
-# =========================================================
+# ===
 @dataclass
 class ProjectKnowledgeResult(BaseProjectObject):
     """Electron(React) へ最終的に送信される巨大なJSONの元"""

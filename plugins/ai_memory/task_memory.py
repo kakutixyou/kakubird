@@ -21,9 +21,9 @@ class TaskMemory:
         if not self.storage_path.exists():
             self._save([])
 
-    # =========================================================
+    # ===
     # Public API
-    # =========================================================
+    # ===
 
     def get_tasks(self) -> list[Task]:
         raw = self._load()

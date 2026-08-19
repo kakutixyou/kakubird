@@ -38,9 +38,9 @@ const INITIAL_RESULT = {
   query_id: null,
 };
 
-// ========================================================
+// ==
 // ここから下がカスタムHook本体
-// ========================================================
+// ==
 export function useSQL() {
   const [dbPath, setDbPath]     = useState(null);
   const [schema, setSchema]     = useState({});
@@ -56,7 +56,7 @@ export function useSQL() {
   useEffect(() => {
     if (api.onBackendCrashed) {
       api.onBackendCrashed(({ code, signal }) => {
-        setError(`⚠️ バックエンドが異常終了しました (Code: ${code})。`);
+        setError(` バックエンドが異常終了しました (Code: ${code})。`);
         setLoading(false);
       });
     }

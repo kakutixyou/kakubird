@@ -56,9 +56,9 @@ class SQLHandler:
             raw_text = request.text
 
         try:
-            # =========================================================
+            # ===
             # 1. nlp_serviceの日本語解析エンジンを駆動
-            # =========================================================
+            # ===
             # テンプレート種別の判定 (subquery, left_join, select, insert 等)
             template_type = detect_template_type(raw_text)
             
@@ -68,9 +68,9 @@ class SQLHandler:
             # 対応するSQLテンプレートとパーツデータの組み立て
             template_data = build_sql_template(template_type, raw_text, entities)
 
-            # =========================================================
+            # ===
             # 2. フロントエンド(useAiChat.js)の統一受信ルートに対応するデータ成形
-            # =========================================================
+            # ===
             # フロントの `data.response !== undefined && data.source !== undefined` に適合
             response_payload = {
                 "response": f"指示「{raw_text}」から、最適なSQLテンプレート【{template_data['title']}】を生成しました。下のパネルから微調整して実行できます。",
@@ -97,7 +97,7 @@ class SQLHandler:
         except Exception as e:
             # ハンドラー内部で予期せぬエラーが起きた場合のセーフティフォールバック
             error_payload = {
-                "response": f"⚠️ SQL生成処理中にエラーが発生しました: {str(e)}",
+                "response": f" SQL生成処理中にエラーが発生しました: {str(e)}",
                 "source": "sql_handler",
                 "response_type": "text",
                 "blocks": []

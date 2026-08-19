@@ -8,9 +8,9 @@ from typing import Dict, Any
 import httpx
 
 
-# =========================================================
+# ===
 # Constants
-# =========================================================
+# ===
 
 GEOCODING_API = (
     "https://geocoding-api.open-meteo.com/v1/search"
@@ -23,9 +23,9 @@ WEATHER_API = (
 DEFAULT_TIMEOUT = 10.0
 
 
-# =========================================================
+# ===
 # Weather Code Mapping
-# =========================================================
+# ===
 
 WEATHER_CODE_MAP = {
     0: "快晴 ☀️",
@@ -67,9 +67,9 @@ WEATHER_CODE_MAP = {
 }
 
 
-# =========================================================
+# ===
 # Helper Functions
-# =========================================================
+# ===
 
 def get_weather_description(code: int) -> str:
     """
@@ -141,9 +141,9 @@ async def geocode_city(city: str) -> Dict[str, Any]:
         }
 
 
-# =========================================================
+# ===
 # Current Weather
-# =========================================================
+# ===
 
 async def fetch_current_weather(
     city: str
@@ -234,9 +234,9 @@ async def fetch_current_weather(
         }
 
 
-# =========================================================
+# ===
 # Weekly Forecast
-# =========================================================
+# ===
 
 async def fetch_weekly_forecast(
     city: str
@@ -333,9 +333,9 @@ async def fetch_weekly_forecast(
         }
 
 
-# =========================================================
+# ===
 # Main Public API
-# =========================================================
+# ===
 
 async def execute_weather_fetch(
     city: str,
@@ -372,9 +372,9 @@ async def execute_weather_fetch(
         }
 
 
-# =========================================================
+# ===
 # Future Expansion Notes
-# =========================================================
+# ===
 
 """
 将来的な拡張ポイント

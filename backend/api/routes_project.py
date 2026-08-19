@@ -1,7 +1,7 @@
-# =========================================================
+# ===
 # routes_system.py
 # システム・ステータス・コンテキスト関連ルーティング
-# =========================================================
+# ===
 import os
 import shutil
 import tempfile
@@ -33,9 +33,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AI_MEMORY_DIR = os.path.join(BASE_DIR, ".ai_memory")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma3")
 
-# =========================================================
+# ===
 # 1. Health Check & Status
-# =========================================================
+# ===
 
 @router.get("/api/status")
 async def ai_status():
@@ -52,9 +52,9 @@ async def ai_status():
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
-# =========================================================
+# ===
 # 2. Current AI Context
-# =========================================================
+# ===
 
 @router.get("/api/context")
 async def get_current_context():
@@ -68,9 +68,9 @@ async def get_current_context():
         "context": context
     }
 
-# =========================================================
+# ===
 # 3. AI Self Analysis
-# =========================================================
+# ===
 
 @router.get("/api/ai/self-analysis")
 async def ai_self_analysis():
@@ -93,9 +93,9 @@ async def ai_self_analysis():
         "analysis": summary
     }
 
-# =========================================================
+# ===
 # 4. AI File Open
-# =========================================================
+# ===
 
 @router.post("/api/file/open")
 async def open_file_api(file_path: str):
@@ -130,9 +130,9 @@ async def open_file_api(file_path: str):
         "content": content
     }
 
-# =========================================================
+# ===
 # 5. AI Search
-# =========================================================
+# ===
 
 @router.get("/api/search")
 async def search_memory_api(keyword: str):
@@ -151,9 +151,9 @@ async def search_memory_api(keyword: str):
         "results": matched
     }
     
-# =========================================================
+# ===
 # 1. Project Scan (ローカルディレクトリの解析)
-# =========================================================
+# ===
 
 @router.post("/api/project/scan")
 async def project_scan_api(project_path: str):
@@ -188,9 +188,9 @@ async def project_scan_api(project_path: str):
         "result": result
     }
 
-# =========================================================
+# ===
 # 2. ZIP Upload (ZIPファイルをアップロードして解析)
-# =========================================================
+# ===
 
 @router.post("/api/memory/upload-zip")
 async def upload_zip_memory(file: UploadFile = File(...)):
@@ -198,9 +198,9 @@ async def upload_zip_memory(file: UploadFile = File(...)):
     ZIPファイルをアップロードし、一時フォルダで解凍してからプロジェクト解析を実行、
     AIの記憶（メモリ）に定着させる一連のフロー
     """
-    print("=================================================")
+    print("=")
     print(f"📦 ZIP Upload Started: {file.filename}")
-    print("=================================================")
+    print("=")
 
     # 一時ディレクトリの作成
     temp_dir = tempfile.mkdtemp()

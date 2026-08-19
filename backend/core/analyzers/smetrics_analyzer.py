@@ -1,6 +1,6 @@
 """
 metrics_analyzer.py
-==============================================
+====
 
 Metrics（指標・評価）解析モジュール
 
@@ -15,7 +15,7 @@ Engineが最終的な BaseKnowledgeResult を構築する際の評価フェー�
 ・構造複雑度（estimate_complexity: 相対値）
 ・構造上の懸念や最適化への警告一覧（generate_warnings）
 
-==============================================
+====
 """
 
 from __future__ import annotations

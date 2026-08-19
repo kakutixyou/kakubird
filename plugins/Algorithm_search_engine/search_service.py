@@ -3,9 +3,9 @@ import os
 import sys
 import chromadb
 
-# =========================================================
+# ===
 # パス調整：plugin/ フォルダの自作モジュールを読み込めるようにする
-# =========================================================
+# ===
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 # backendの3階層上（プロジェクトのルート）に plugin/ がある構造に対応
 ROOT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "../../../../"))
@@ -18,7 +18,7 @@ try:
     from plugin.ai_memory.embedding_service import EmbeddingService
     print("🤖 自作RAGコンポーネント (Chunker / Embedding) の読み込みに成功しました。")
 except ImportError as e:
-    print(f"⚠️ 自作RAGコンポーネントのインポートに失敗しました。パスを確認してください: {e}")
+    print(f" 自作RAGコンポーネントのインポートに失敗しました。パスを確認してください: {e}")
     # フォールバック用のダミー（エラー落ち防止）
     class CodeChunker:
         def __init__(self, *args, **kwargs): pass
@@ -27,9 +27,9 @@ except ImportError as e:
         def embed(self, t): return [0.0]*128
         def embed_many(self, ts): return [[0.0]*128]
 
-# =========================================================
+# ===
 # ChromaDBの保存先パスを設定
-# =========================================================
+# ===
 BASE_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR)) # backend フォルダ
 CHROMA_DB_PATH = os.path.join(BASE_DIR, "data", "vector_db", "chroma_store")
 
@@ -40,9 +40,9 @@ collection = client.get_or_create_collection(name="project_memory")
 chunker = CodeChunker(max_lines=100)
 embedding_service = EmbeddingService() # デフォルトでOllamaEmbeddingProviderが動きます
 
-# =========================================================
+# ===
 # 1. 記憶を保存する関数（ZIPアップロード時に呼び出される）
-# =========================================================
+# ===
 def save_memory(texts: list[str], source_names: list[str] = None): # type: ignore
     """
     ファイルを自動でコードチャンク（関数・クラス単位）に分解し、
@@ -81,7 +81,7 @@ def save_memory(texts: list[str], source_names: list[str] = None): # type: ignor
             })
 
     if not all_documents:
-        print("⚠️ 有効なコードチャンクが抽出されませんでした。")
+        print(" 有効なコードチャンクが抽出されませんでした。")
         return
 
     print(f"🧠 {len(all_documents)} 個のコードチャンクを Ollama でベクトル化中...")
@@ -99,9 +99,9 @@ def save_memory(texts: list[str], source_names: list[str] = None): # type: ignor
     )
     print(f"✅ ChromaDBに保存完了！(総チャンク数: {collection.count()}個)")
 
-# =========================================================
+# ===
 # 2. 記憶を検索する関数（AIチャット時に呼び出される）
-# =========================================================
+# ===
 def search_memory(query: str, n_results: int = 3) -> str:
     """
     ユーザーの質問をOllamaでベクトル化し、ChromaDBから最も近いコード片を検索する

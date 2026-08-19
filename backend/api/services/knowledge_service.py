@@ -78,7 +78,7 @@ class KnowledgeService:
                     domain = json_file.stem.replace("_knowledge", "")
                     current_knowledge[domain] = json.load(f)
             except Exception as e:
-                print(f"⚠️ 読み込みエラー {json_file.name}: {e}")
+                print(f" 読み込みエラー {json_file.name}: {e}")
 
         # メモリに保存して次回以降を爆速にする
         cls._world_knowledge_cache = current_knowledge

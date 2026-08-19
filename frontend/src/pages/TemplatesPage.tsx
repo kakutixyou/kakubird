@@ -127,9 +127,9 @@ export default function TemplatesPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* =========================================================
+        {/* ===
             左側・中央：標準テンプレートカード + 他のHTML（ダミー）への遷移
-           ========================================================= */}
+           === */}
         <div className="lg:col-span-2 space-y-6">
           <h2 className="text-xl font-bold flex items-center gap-2">プリセットから選ぶ</h2>
           
@@ -170,9 +170,9 @@ export default function TemplatesPage() {
           </div>
         </div>
 
-        {/* =========================================================
+        {/* ===
             右側：モデル変更 ＆ PDF直接テスト用ツールエディタ
-           ========================================================= */}
+           === */}
         <div className="bg-gray-900 text-gray-100 p-5 rounded-2xl shadow-xl space-y-4 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="border-b border-gray-800 pb-2">
@@ -217,7 +217,7 @@ export default function TemplatesPage() {
               />
               {jsonError && (
                 <div className="bg-red-950 border border-red-800 text-red-400 p-2 rounded text-[11px] mt-2 whitespace-pre-wrap">
-                  ⚠️ {jsonError}
+                   {jsonError}
                 </div>
               )}
             </div>

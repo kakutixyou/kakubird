@@ -1,6 +1,6 @@
 """
 github_collector.py
-===================
+=
 GitHub APIを使ってリポジトリの全情報を収集する Collector。
 AIのRAG（検索拡張生成）データ構築に向けた「黄金ルート」を採用。
 
@@ -407,7 +407,7 @@ class GitHubCollector:
                 
             # 2. ポジティブチェック（動画開発に関するワードが含まれているか）
             if not any(pos in text_to_check for pos in POSITIVE_KEYWORDS):
-                print(f" ⚠️ [関連ワードなし] 除外: {repo['owner']}/{repo['repo']}")
+                print(f"  [関連ワードなし] 除外: {repo['owner']}/{repo['repo']}")
                 continue
                 
             print(f" ✅ [合格] 採用: {repo['owner']}/{repo['repo']} (★{repo['stars']})")

@@ -14,7 +14,7 @@ def load_json(filepath: str) -> dict:
                 return json.load(f)
     except Exception as e:
         print(
-            f"  ⚠️ [IntentInspector] {os.path.basename(filepath)} のロードに失敗: {e}",
+            f"   [IntentInspector] {os.path.basename(filepath)} のロードに失敗: {e}",
             flush=True,
         )
     return {}

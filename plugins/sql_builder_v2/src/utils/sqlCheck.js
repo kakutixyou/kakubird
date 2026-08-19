@@ -45,7 +45,7 @@ export function checkDangerousQuery(sql) {
       return {
         isDangerous: true,
         type: pattern.type,
-        message: `⚠️ データベースの構造やデータを破壊・変更する可能性のある「${pattern.type}」文が含まれています。\n本当に実行してもよろしいですか？`
+        message: ` データベースの構造やデータを破壊・変更する可能性のある「${pattern.type}」文が含まれています。\n本当に実行してもよろしいですか？`
       };
     }
   }

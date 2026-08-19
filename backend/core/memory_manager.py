@@ -1,8 +1,8 @@
-# =========================================================
+# ===
 # memory_manager.py
 # AI記憶システム管理
 # 長期記憶 / 作業記憶 / 会話履歴 / プロジェクト記憶
-# =========================================================
+# ===
 
 import os
 import json
@@ -10,9 +10,9 @@ import uuid
 from datetime import datetime
 from typing import Dict, Any, List, Optional
 
-# =========================================================
+# ===
 # 基本パス設定
-# =========================================================
+# ===
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,18 +28,18 @@ os.makedirs(PROJECT_MEMORY_DIR, exist_ok=True)
 os.makedirs(LONG_TERM_MEMORY_DIR, exist_ok=True)
 os.makedirs(TASK_MEMORY_DIR, exist_ok=True)
 
-# =========================================================
+# ===
 # ファイル
-# =========================================================
+# ===
 
 ACTIVE_SESSION_FILE = os.path.join(
     MEMORY_DIR,
     "active_session.json"
 )
 
-# =========================================================
+# ===
 # JSON保存共通
-# =========================================================
+# ===
 
 def save_json(path: str, data: Any):
 
@@ -59,9 +59,9 @@ def save_json(path: str, data: Any):
         print(f"❌ JSON保存失敗: {path}")
         print(e)
 
-# =========================================================
+# ===
 # JSON読込共通
-# =========================================================
+# ===
 def load_json(path: str, default: Any = None) -> Any:
 
     if default is None:
@@ -83,9 +83,9 @@ def load_json(path: str, default: Any = None) -> Any:
 
         return default
 
-# =========================================================
+# ===
 # セッション管理
-# =========================================================
+# ===
 
 def create_new_session(
     project_name: str = "default_project"
@@ -106,9 +106,9 @@ def create_new_session(
 
     return session_data
 
-# =========================================================
+# ===
 # 現在セッション取得
-# =========================================================
+# ===
 
 def get_active_session() -> Dict[str, Any]:
 
@@ -118,9 +118,9 @@ def get_active_session() -> Dict[str, Any]:
 
     return load_json(ACTIVE_SESSION_FILE, {})
 
-# =========================================================
+# ===
 # セッション更新
-# =========================================================
+# ===
 
 def update_session_activity():
 
@@ -139,9 +139,9 @@ def update_session_activity():
         session
     )
 
-# =========================================================
+# ===
 # チャット履歴保存
-# =========================================================
+# ===
 
 def save_chat_message(
     role: str,
@@ -178,9 +178,9 @@ def save_chat_message(
 
     return message
 
-# =========================================================
+# ===
 # チャット履歴取得
-# =========================================================
+# ===
 
 def get_chat_history(
     limit: int = 20
@@ -199,9 +199,9 @@ def get_chat_history(
 
     return history[-limit:]
 
-# =========================================================
+# ===
 # プロジェクト記憶保存
-# =========================================================
+# ===
 
 def save_project_memory(
     project_name: str,
@@ -224,9 +224,9 @@ def save_project_memory(
 
     save_json(project_file, memory)
 
-# =========================================================
+# ===
 # プロジェクト記憶取得
-# =========================================================
+# ===
 
 def get_project_memory(
     project_name: str
@@ -239,9 +239,9 @@ def get_project_memory(
 
     return load_json(project_file, {})
 
-# =========================================================
+# ===
 # 長期記憶保存
-# =========================================================
+# ===
 
 def save_long_term_memory(
     category: str,
@@ -270,9 +270,9 @@ def save_long_term_memory(
 
     return memory_data
 
-# =========================================================
+# ===
 # 長期記憶検索
-# =========================================================
+# ===
 
 def search_long_term_memory(
     keyword: str
@@ -300,9 +300,9 @@ def search_long_term_memory(
 
     return results
 
-# =========================================================
+# ===
 # タスク保存
-# =========================================================
+# ===
 
 def save_task(
     task_name: str,
@@ -331,9 +331,9 @@ def save_task(
 
     return task_data
 
-# =========================================================
+# ===
 # タスク更新
-# =========================================================
+# ===
 
 def update_task_status(
     task_id: str,
@@ -360,9 +360,9 @@ def update_task_status(
 
     return True
 
-# =========================================================
+# ===
 # タスク一覧取得
-# =========================================================
+# ===
 
 def get_all_tasks() -> List[Dict[str, Any]]:
 
@@ -385,9 +385,9 @@ def get_all_tasks() -> List[Dict[str, Any]]:
 
     return tasks
 
-# =========================================================
+# ===
 # プロジェクト分析メモ保存
-# =========================================================
+# ===
 
 def save_project_analysis(
     project_name: str,
@@ -412,9 +412,9 @@ def save_project_analysis(
 
     save_json(output_file, analysis)
 
-# =========================================================
+# ===
 # プロジェクト分析取得
-# =========================================================
+# ===
 
 def load_project_analysis(
     project_name: str
@@ -428,9 +428,9 @@ def load_project_analysis(
 
     return load_json(path, {})
 
-# =========================================================
+# ===
 # 最近触ったファイル記憶
-# =========================================================
+# ===
 
 def remember_recent_file(
     project_name: str,
@@ -456,9 +456,9 @@ def remember_recent_file(
         "recent_files",
         recent_files
     )
-# =========================================================
+# ===
 # 汎用メモリ管理 (ai_server.py 互換用)
-# =========================================================
+# ===
 
 GENERAL_MEMORY_FILE = os.path.join(MEMORY_DIR, "general_memory.json")
 
@@ -475,9 +475,9 @@ def save_memory(key: str, value: Any):
     memory = load_memory()
     memory[key] = value
     save_json(GENERAL_MEMORY_FILE, memory)
-# =========================================================
+# ===
 # 最近触ったファイル取得
-# =========================================================
+# ===
 
 def get_recent_files(
     project_name: str
@@ -487,9 +487,9 @@ def get_recent_files(
 
     return memory.get("recent_files", [])
 
-# =========================================================
+# ===
 # Memory統計
-# =========================================================
+# ===
 
 def get_memory_statistics() -> Dict[str, Any]:
 
@@ -509,9 +509,9 @@ def get_memory_statistics() -> Dict[str, Any]:
         "projects": project_count
     }
 
-# =========================================================
+# ===
 # メモリ全体要約
-# =========================================================
+# ===
 
 def build_memory_summary() -> str:
 
@@ -546,9 +546,9 @@ Projects:
 
     return summary
 
-# =========================================================
+# ===
 # 全記憶エクスポート
-# =========================================================
+# ===
 
 def export_all_memory(
     output_path: str = "./memory_export.json"
@@ -565,9 +565,9 @@ def export_all_memory(
 
     print(f"📦 Memory Exported: {output_path}")
 
-# =========================================================
+# ===
 # テスト
-# =========================================================
+# ===
 
 if __name__ == "__main__":
 

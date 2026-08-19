@@ -77,7 +77,7 @@ export default function SupplyChainPage() {
           <div className="text-xs opacity-70 mt-1">Total Value</div>
         </div>
         <div className={`rounded-xl p-5 ${stats?.lowStock > 0 ? 'bg-red-50 text-red-700' : 'bg-gray-50 text-gray-700'}`}>
-          <div className="text-3xl mb-2">⚠️</div>
+          <div className="text-3xl mb-2"></div>
           <div className="text-2xl font-bold">{stats?.lowStock ?? 0}</div>
           <div className="text-xs opacity-70 mt-1">Low Stock Alerts</div>
         </div>
@@ -86,7 +86,7 @@ export default function SupplyChainPage() {
       {/* Low stock alerts */}
       {lowStock.length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-          <h3 className="font-semibold text-red-700 mb-2">⚠️ Low Stock Alerts</h3>
+          <h3 className="font-semibold text-red-700 mb-2"> Low Stock Alerts</h3>
           <div className="flex flex-wrap gap-2">
             {lowStock.map(i => (
               <span key={i.id} className="bg-red-100 text-red-700 text-xs px-3 py-1 rounded-full">

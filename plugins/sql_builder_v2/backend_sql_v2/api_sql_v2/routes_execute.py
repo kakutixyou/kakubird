@@ -12,9 +12,9 @@ from repositories.sql_repository import SQLRepository
 
 router = APIRouter()
 
-# =========================================
+# =====
 # リクエストモデル (クエリビルダー用)
-# =========================================
+# =====
 class Condition(BaseModel):
     field: str
     operator: str
@@ -26,15 +26,15 @@ class QueryRequest(BaseModel):
     conditions: Optional[List[Condition]] = None
     limit: Optional[int] = None
 
-# =========================================
+# =====
 # リクエストモデル (生SQL用)
-# =========================================
+# =====
 class RawQueryRequest(BaseModel):
     query: str
 
-# =========================================
+# =====
 # 1. クエリビルダー実行API (SELECT専用)
-# =========================================
+# =====
 @router.post("/run")
 async def execute_builder_sql(
     request: QueryRequest, 
@@ -70,9 +70,9 @@ async def execute_builder_sql(
         raise HTTPException(status_code=500, detail=f"クエリ実行中にエラーが発生しました: {str(e)}")
 
 
-# =========================================
+# =====
 # 2. 生SQL実行API (権限チェック付き)
-# =========================================
+# =====
 @router.post("/run_raw")
 async def execute_raw_sql(
     request: RawQueryRequest,

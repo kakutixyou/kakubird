@@ -38,9 +38,9 @@ class WeatherFetchTool(BaseTool):
         ステップ2: 緯度・経度から天気を取得
         """
         try:
-            # ==========================================
+            # 
             # 1. ジオコーディングAPI (都市名 -> 緯度/経度)
-            # ==========================================
+            # 
             geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1&language=ja&format=json"
             async with httpx.AsyncClient(timeout=10.0) as client:
                 geo_res = await client.get(geo_url)
@@ -58,9 +58,9 @@ class WeatherFetchTool(BaseTool):
             lon = location["longitude"]
             city_name_ja = location["name"]
 
-            # ==========================================
+            # 
             # 2. 天気予報API (緯度/経度 -> 天気データ)
-            # ==========================================
+            # 
             weather_url = (
                 f"https://api.open-meteo.com/v1/forecast"
                 f"?latitude={lat}&longitude={lon}&current_weather=true&timezone=Asia%2FTokyo"
@@ -78,9 +78,9 @@ class WeatherFetchTool(BaseTool):
             # 天気コードを日本語に変換
             weather_desc = self._get_weather_description(weather_code)
 
-            # ==========================================
+            # 
             # 3. フロントエンド（またはLLM）に返すデータの成形
-            # ==========================================
+            # 
             return {
                 "error": False,
                 # フロントエンドにそのままテキストとして出す用のメッセージ

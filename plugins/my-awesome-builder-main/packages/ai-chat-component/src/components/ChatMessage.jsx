@@ -1,6 +1,6 @@
 /**
  * ChatMessage.jsx
- * ===============
+ * ===
  * Renders a single chat message bubble.
  * Supports user, AI, and error message roles, as well as Custom UI blocks (ui_code).
  */
@@ -85,7 +85,7 @@ function ChatMessage({
     <div className={`ai-chat__message ${isUser ? 'ai-chat__message--user' : 'ai-chat__message--ai'}`}>
       {!isUser && (
         <div className="ai-chat__avatar" aria-hidden="true">
-          {isError ? '⚠️' : '🤖'}
+          {isError ? '' : '🤖'}
         </div>
       )}
       

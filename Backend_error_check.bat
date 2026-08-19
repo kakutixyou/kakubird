@@ -5,15 +5,15 @@ title Backend Deep Health Check
 
 set LOGFILE=backend_health_report.txt
 
-echo ===================================================
+echo ===
 echo   Backend Deep Health Check
-echo ===================================================
+echo ===
 echo.
 
-echo =================================================== > %LOGFILE%
+echo === > %LOGFILE%
 echo Backend Health Report >> %LOGFILE%
 echo Generated: %date% %time% >> %LOGFILE%
-echo =================================================== >> %LOGFILE%
+echo === >> %LOGFILE%
 echo. >> %LOGFILE%
 
 echo [1/4] Python Version...
@@ -36,14 +36,14 @@ python -m backend.api.ai_server >> %LOGFILE% 2>&1
 
 echo. >> %LOGFILE%
 
-echo =================================================== >> %LOGFILE%
+echo === >> %LOGFILE%
 echo CHECK COMPLETE >> %LOGFILE%
-echo =================================================== >> %LOGFILE%
+echo === >> %LOGFILE%
 
 echo.
-echo ===================================================
+echo ===
 echo   CHECK COMPLETE
-echo ===================================================
+echo ===
 echo.
 echo Report:
 echo %LOGFILE%

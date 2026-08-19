@@ -24,9 +24,9 @@ from plugins.recruit.evaluator import evaluate
 from core.job_database import save_job_to_db
 
 
-# ==========================================================
+# ====
 # RecruitMemory
-# ==========================================================
+# ====
 
 class RecruitMemory:
     """
@@ -47,9 +47,9 @@ class RecruitMemory:
     last_source: str = ""
 
 
-# ==========================================================
+# ====
 # Recruit Handler
-# ==========================================================
+# ====
 
 class RecruitHandler(BaseHandler):
     """
@@ -65,9 +65,9 @@ class RecruitHandler(BaseHandler):
     Part2で handle() を実装する。
     """
 
-    # ======================================================
+    # 
     # 初期化
-    # ======================================================
+    # 
 
     def __init__(self):
 
@@ -98,9 +98,9 @@ class RecruitHandler(BaseHandler):
 
         ]
 
-    # ======================================================
+    # 
     # 判定
-    # ======================================================
+    # 
 
     async def can_handle(
         self,
@@ -159,9 +159,9 @@ class RecruitHandler(BaseHandler):
 
         return False
 
-    # ======================================================
+    # 
     # スコア
-    # ======================================================
+    # 
 
     async def calculate_score(
         self,
@@ -223,9 +223,9 @@ class RecruitHandler(BaseHandler):
 
         return score
 
-    # ======================================================
+    # 
     # URL取得
-    # ======================================================
+    # 
 
     async def _fetch_url(
         self,
@@ -271,9 +271,9 @@ class RecruitHandler(BaseHandler):
 
             return message
 
-    # ======================================================
+    # 
     # 企業名抽出
-    # ======================================================
+    # 
 
     def _extract_company(
         self,
@@ -286,9 +286,9 @@ class RecruitHandler(BaseHandler):
             .get("name", "該当企業")
         )
 
-    # ======================================================
+    # 
     # RecruitReportBlock用データ生成
-    # ======================================================
+    # 
 
     def _build_job_info(
         self,
@@ -541,9 +541,9 @@ class RecruitHandler(BaseHandler):
             "ui_code",
             content
         )
-        # ======================================================
+        # 
     # Action Buttons
-    # ======================================================
+    # 
 
     def _build_action_buttons(
         self,
@@ -590,9 +590,9 @@ class RecruitHandler(BaseHandler):
         ]
 
 
-    # ======================================================
+    # 
     # UI Builder
-    # ======================================================
+    # 
 
     def _build_ui(
         self,
@@ -675,9 +675,9 @@ class RecruitHandler(BaseHandler):
         }
 
 
-    # ======================================================
+    # 
     # Success Response
-    # ======================================================
+    # 
 
     def _success_response(
         self,
@@ -704,9 +704,9 @@ class RecruitHandler(BaseHandler):
         )
 
 
-    # ======================================================
+    # 
     # Error Response
-    # ======================================================
+    # 
 
     def _error_response(
         self,
@@ -726,9 +726,9 @@ class RecruitHandler(BaseHandler):
         )
 
 
-    # ======================================================
+    # 
     # 保存確認
-    # ======================================================
+    # 
 
     def _has_memory(self) -> bool:
 
@@ -739,9 +739,9 @@ class RecruitHandler(BaseHandler):
         return RecruitMemory.last_result is not None
 
 
-    # ======================================================
+    # 
     # RecruitMemory取得
-    # ======================================================
+    # 
 
     def _get_last_result(self) -> Optional[dict]:
 
@@ -750,11 +750,9 @@ class RecruitHandler(BaseHandler):
         """
 
         return RecruitMemory.last_result
-
-
-    # ======================================================
+    # 
     # RecruitMemoryクリア
-    # ======================================================
+    # 
 
     def _clear_memory(self):
 

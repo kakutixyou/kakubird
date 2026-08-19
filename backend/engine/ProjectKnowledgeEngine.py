@@ -1,7 +1,7 @@
 # To(と)/backend/engine/ProjectKnowledgeEngine.py
 """
 ProjectKnowledgeEngine v2
-=========================
+=
 変更点（v1 からの差分）:
 
   1. can_handle フォールバック検出を追加

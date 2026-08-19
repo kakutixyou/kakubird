@@ -1,6 +1,6 @@
 /**
  * useChatHistory.js
- * =================
+ * =====
  * Custom React hook to manage the conversation history and displayed messages
  * for the AI Chat component.
  */

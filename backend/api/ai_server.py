@@ -1,4 +1,4 @@
-# =========================================================
+# ===
 
 # ai_server.py
 
@@ -6,7 +6,7 @@
 
 # FastAPI + Memory + Plugin + RAG + Ollama
 
-# =========================================================
+# ===
 print("AI_SERVER_FILE_LOADED")
 import os
 import sys
@@ -20,11 +20,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from memory_manager import load_json, save_json
 
-# =========================================================
+# ===
 
 # 1. Base Path
 
-# =========================================================
+# ===
 BASE_DIR = os.path.dirname(
     os.path.dirname(
         os.path.abspath(__file__)
@@ -35,22 +35,17 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 
 sys.path.insert(0, ROOT_DIR)
 sys.path.insert(0, BASE_DIR)
-<<<<<<< HEAD
-# from api.routes_memory import router as memory_router
-# ↑を#で止めても、別の所で読み込んでいるとか・・・サーバーがエラーを起こすと一緒に止まる。
-=======
 from api.routes_memory import router as memory_router
 
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 SRC_DIR = os.path.join(BASE_DIR, "src")
 
 PLUGIN_DIR = os.path.join(ROOT_DIR, "plugins")
 
-# =========================================================
+# ===
 
 # 2. sys.path
 
-# =========================================================
+# ===
 
 PATHS_TO_ADD = [
 ROOT_DIR,
@@ -66,11 +61,11 @@ for path in PATHS_TO_ADD:
         sys.path.append(path)
 
 
-# =========================================================
+# ===
 
 # 3. UTF-8 Fix
 
-# =========================================================
+# ===
 
 sys.stdout = io.TextIOWrapper(
 sys.stdout.buffer,
@@ -82,11 +77,11 @@ sys.stderr.buffer,
 encoding="utf-8"
 )
 
-# =========================================================
+# ===
 
 # 4. ENV
 
-# =========================================================
+# ===
 
 load_dotenv()
 
@@ -100,11 +95,11 @@ OLLAMA_MODEL = os.getenv(
 "gemma3"
 )
 
-# =========================================================
+# ===
 
 # 5. Directory Init
 
-# =========================================================
+# ===
 
 AI_MEMORY_DIR = os.path.join(
 BASE_DIR,
@@ -116,22 +111,22 @@ AI_MEMORY_DIR,
 exist_ok=True
 )
 
-# =========================================================
+# ===
 
 # 6. FastAPI Init
 
-# =========================================================
+# ===
 
 app = FastAPI(
 title="Custom AI Server",
 version="3.0"
 )
 
-# =========================================================
+# ===
 
 # 7. CORS
 
-# =========================================================
+# ===
 
 app.add_middleware(
 CORSMiddleware,
@@ -145,15 +140,15 @@ allow_headers=["*"],
 
 )
 
-# =========================================================
+# ===
 
 # 8. Boot Logs
 
-# =========================================================
+# ===
 
-print("=================================================")
+print("=")
 print("🚀 AI Server Boot")
-print("=================================================")
+print("=")
 
 print(f"📂 ROOT_DIR   : {ROOT_DIR}")
 print(f"📂 BASE_DIR   : {BASE_DIR}")
@@ -165,13 +160,13 @@ print("-------------------------------------------------")
 print(f"🤖 OLLAMA_MODEL : {OLLAMA_MODEL}")
 print(f"🌐 OLLAMA_URL   : {OLLAMA_BASE_URL}")
 
-print("=================================================")
+print("=")
 
-# =========================================================
+# ===
 
 # 9. Safe Router Loader
 
-# =========================================================
+# ===
 
 def safe_include_router(
 import_path,
@@ -212,11 +207,11 @@ router_name="router"
         traceback.print_exc()
 
 
-# =========================================================
+# ===
 
 # 10. Router Registration
 
-# =========================================================
+# ===
 
 safe_include_router("backend.api.routes_chat")
 
@@ -232,11 +227,11 @@ safe_include_router("backend.api.routes_note")
 
 safe_include_router("backend.api.routes_project")
 
-# =========================================================
+# ===
 
 # 11. Health Check
 
-# =========================================================
+# ===
 
 @app.get("/")
 async def root():
@@ -254,11 +249,11 @@ async def root():
 }
 
 
-# =========================================================
+# ===
 
 # 12. Debug Routes
 
-# =========================================================
+# ===
 
 @app.get("/api/system/ping")
 async def ping():
@@ -269,11 +264,11 @@ async def ping():
 }
 
 
-# =========================================================
+# ===
 
 # 13. Startup
 
-# =========================================================
+# ===
 
 
 if __name__ == "__main__":

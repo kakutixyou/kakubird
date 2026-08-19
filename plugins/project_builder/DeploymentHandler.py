@@ -29,9 +29,9 @@ class DeploymentHandler(BaseHandler):
         self.base_dir = os.path.abspath(base_dir)
         self.backup_existing = backup_existing
 
-    # ==========================================
+    # 
     # 1. ユーティリティ & ルーティング処理
-    # ==========================================
+    # 
     def _get_text(self, message: Any) -> str:
         """安全にテキストを抽出するヘルパー"""
         if isinstance(message, str):
@@ -80,9 +80,9 @@ class DeploymentHandler(BaseHandler):
 
         return 0
 
-    # ==========================================
+    # 
     # 2. ファイル書き込みエンジン
-    # ==========================================
+    # 
     def _safe_join_path(self, relative_path: str) -> str:
         """ディレクトリトラバーサルを防ぐ安全なパス結合"""
         normalized_rel_path = relative_path.replace("\\", "/").strip("/")
@@ -120,9 +120,9 @@ class DeploymentHandler(BaseHandler):
             logger.error(f"保存エラー ({relative_path}): {str(e)}")
             return False
 
-    # ==========================================
+    # 
     # 3. 最強ツリーパーサー
-    # ==========================================
+    # 
     def _parse_tree_to_dict(self, text: str) -> dict:
         """
         会話文を無視し、絵文字(📁)や階層(├──)から深さを測定して完全な辞書を生成する最強パーサー
@@ -194,9 +194,9 @@ class DeploymentHandler(BaseHandler):
 
         return structure
 
-    # ==========================================
+    # 
     # 4. メイン処理
-    # ==========================================
+    # 
     async def handle(self, message: Any) -> Tuple[str, Any]:
         print("⚡ [DeploymentHandler] 新型アルゴリズムでツリーをパースします！", flush=True)
         msg_str = self._get_text(message)
@@ -206,7 +206,7 @@ class DeploymentHandler(BaseHandler):
             folders_dict = self._parse_tree_to_dict(msg_str)
             
             if not folders_dict:
-                return "text", "⚠️ ツリー構造を検出できませんでした。罫線(├──)やインデントを含むフォーマットか確認してください。"
+                return "text", " ツリー構造を検出できませんでした。罫線(├──)やインデントを含むフォーマットか確認してください。"
             
             # set.py のコード生成
             set_py_code = f"""# set.py

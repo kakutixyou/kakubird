@@ -1,6 +1,6 @@
 /**
  * apiKeyManager.js
- * ================
+ * ====
  * Reads API keys from the environment and provides them to API calls.
  * Supports both Vite (VITE_) and Create-React-App (REACT_APP_) conventions.
  *

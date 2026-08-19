@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-# backend/api/routes_chat.py
-import traceback
-import json
-import os
-import threading # ✅ asyncioから変更：FastAPIの別スレッドに安全に任せるため
-from typing import Optional, List, Dict, Any
-
-=======
 # To(と)/backend/api/routes_chat.py
+import threading
 import traceback
 import json
 import os
@@ -15,7 +7,6 @@ import asyncio # ✅ 排他制御（ロック）のため
 from typing import Optional, List, Dict, Any
 # エラーが出た際に前回はapi/services/chat_service.py
 # engine/orchestrator/chat_orchestrator.pyを調べに行った。
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 from fastapi import APIRouter, HTTPException, Header, Request, BackgroundTasks
 from pydantic import BaseModel, Field
 
@@ -29,13 +20,9 @@ from model.chat_models import (
 )
 from core.memory_manager import get_chat_history, save_chat_message
 
-# =========================================================
-<<<<<<< HEAD
+# ===
 # ✅ 1. 各オーケストレーターのインポート
-=======
-# ✅ 1. 各オーケストレーターのインポート（追加分）
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
-# =========================================================
+# ===
 # ※実際にはご自身のパスに合わせてインポートしてください
 
 from engine.orchestrator.chat_orchestrator import ChatOrchestrator          # 通常チャット
@@ -57,33 +44,25 @@ from engine.orchestrator.custom_sql_orchestrator import CustomSqlOrchestrator  #
 # from engine.orchestrator.template_orchestrator import TemplateOrchestrator  # テンプレート生成
 # from engine.orchestrator.workflow_orchestrator import WorkflowOrchestrator  # ワークフロー管理
 # from engine.orchestrator.debug_orchestrator import DebugOrchestrator        # エラー解析
-# =========================================================
+# ===
 # Router
-# =========================================================
+# ===
 
 router = APIRouter(
     prefix="/api/chat",
     tags=["AI Chat & Multimodal Router"]
 )
 
-# =========================================================
+# ===
 # 信号（Signals）管理用の裏側処理（バックグラウンドタスク）
-# =========================================================
+# ===
 SIGNALS_FILE = "backend/.ai_memory/user_signals.json"
-<<<<<<< HEAD
 signal_lock = threading.Lock() # ✅ async不要の標準Lockに変更
 
 # ✅ async def ではなく、ただの def に変更（FastAPIが自動的に別スレッドで処理してくれます）
 def update_signals_in_background(updates: dict):
     """ユーザーに応答を返したあとに、裏側で安全に user_signals.json を書き換えるタスク"""
     with signal_lock: # ✅ async with ではなく with に変更
-=======
-signal_lock = asyncio.Lock()
-
-async def update_signals_in_background(updates: dict):
-    """ユーザーに応答を返したあとに、裏側で安全に user_signals.json を書き換えるタスク"""
-    async with signal_lock:
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
         current = {}
         if os.path.exists(SIGNALS_FILE):
             try:
@@ -100,12 +79,12 @@ async def update_signals_in_background(updates: dict):
                 json.dump(current, f, ensure_ascii=False, indent=2)
             print(f"🤫 [Background] 信号を更新しました: {updates}")
         except Exception as e:
-            print(f"⚠️ [Background] 信号の保存エラー: {e}")
+            print(f" [Background] 信号の保存エラー: {e}")
 
 
-# =========================================================
+# ===
 # ✅ 2. ファクトリーパターンの実装 (Orchestrator Factory)
-# =========================================================
+# ===
 class OrchestratorFactory:
     """リクエストのモードに応じて適切なオーケストレーターを生成・返却するファクトリー"""
     @staticmethod
@@ -125,9 +104,9 @@ class OrchestratorFactory:
         return orchestrator_class(project_root=project_root)
 
 
-# =========================================================
+# ===
 # Endpoints
-# =========================================================
+# ===
 
 # --- ① 旧式のエンドポイント（将来的に②に統合していく想定） ---
 # (※コードが長くなるため省略しますが、そのまま残して問題ありません)

@@ -4,12 +4,14 @@ from typing import Tuple, Any
 from datetime import datetime
 from .base_handler import BaseHandler
 from core.job_database import get_all_jobs
-<<<<<<< HEAD
+
 from api.services.inspectors.IntentInSpector import IntentInspector
-=======
+
 from ..inspectors.IntentInSpector import IntentInspector
 
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
+
+from ..inspectors.IntentInSpector import IntentInspector
+
 DB_COMMANDS = {"/db", "/database"}
 
 class DatabaseHandler(BaseHandler):
@@ -75,7 +77,7 @@ class DatabaseHandler(BaseHandler):
         label_emoji = {
             "white": "✨ 優良",
             "gray_to_white": "👍 安全",
-            "gray": "⚠️ 注意",
+            "gray": " 注意",
             "black": "🚨 警戒"
         }
 

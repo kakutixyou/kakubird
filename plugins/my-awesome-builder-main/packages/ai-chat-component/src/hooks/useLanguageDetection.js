@@ -1,6 +1,6 @@
 /**
  * useLanguageDetection.js
- * =======================
+ * =====
  * React hook that detects the programming language / styling framework
  * from a given text string and returns a result that updates reactively.
  */

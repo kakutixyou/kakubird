@@ -1,6 +1,6 @@
 /**
  * AIChatPanel.jsx
- * ===============
+ * ===
  * Main AI Chat component.
  *
  * Features:

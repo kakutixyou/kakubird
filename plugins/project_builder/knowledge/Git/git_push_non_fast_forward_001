@@ -1,0 +1,147 @@
+{
+  "id": "git_push_non_fast_forward_001",
+  "title": "GitHub push時のremote origin already existsとnon-fast-forwardエラー",
+  "category": "git",
+  "subcategory": "github_push",
+  "tags": [
+    "git",
+    "github",
+    "push",
+    "pull",
+    "remote",
+    "origin",
+    "non-fast-forward",
+    "rejected",
+    "allow-unrelated-histories",
+    "force-push"
+  ],
+  "intent_keywords": [
+    "git pushできない",
+    "GitHubにpushできない",
+    "non-fast-forward",
+    "rejected main -> main",
+    "remote origin already exists",
+    "git push rejected",
+    "GitHub側の変更を取り込みたい"
+  ],
+  "error_messages": [
+    {
+      "message": "error: remote origin already exists.",
+      "meaning": "すでにoriginという名前のリモートリポジトリが登録されている",
+      "severity": "info",
+      "is_main_error": false
+    },
+    {
+      "message": "! [rejected] main -> main (non-fast-forward)",
+      "meaning": "ローカルのmainブランチよりGitHub側のmainブランチの履歴が先に進んでいるためpushが拒否された",
+      "severity": "warning",
+      "is_main_error": true
+    },
+    {
+      "message": "error: failed to push some refs",
+      "meaning": "リモート側の履歴と整合しないためpushに失敗した",
+      "severity": "error",
+      "is_main_error": true
+    },
+    {
+      "message": "Updates were rejected because the tip of your current branch is behind its remote counterpart.",
+      "meaning": "ローカルブランチがGitHub側のブランチより遅れている",
+      "severity": "error",
+      "is_main_error": true
+    }
+  ],
+  "observed_status": {
+    "branch": "main",
+    "working_tree": "clean",
+    "status_message": "nothing to commit, working tree clean",
+    "interpretation": "ローカル側の変更はコミット済みで、未コミットの変更はない"
+  },
+  "remote": {
+    "name": "origin",
+    "url": "https://github.com/kakutixyou/kakubird",
+    "origin_status": "already_registered"
+  },
+  "root_cause": {
+    "primary": "GitHub側にローカルには存在しないコミットがある",
+    "typical_example": "GitHubリポジトリ作成時にREADMEなどを追加した",
+    "result": "ローカルとGitHubでGit履歴が一致していないためnon-fast-forwardになる"
+  },
+  "solution": {
+    "recommended": {
+      "name": "GitHub側の変更を取り込んでからpush",
+      "reason": "GitHub側のREADMEなどを残しながら履歴を統合できる",
+      "steps": [
+        {
+          "step": 1,
+          "command": "git pull origin main --allow-unrelated-histories",
+          "description": "ローカルとGitHubで別々に作られたGit履歴を統合する"
+        },
+        {
+          "step": 2,
+          "command": "git push -u origin main",
+          "description": "統合後のmainブランチをGitHubへpushする"
+        }
+      ]
+    },
+    "alternative": {
+      "name": "ローカル側を正としてGitHubを強制上書き",
+      "command": "git push -f origin main",
+      "reason": "現在のローカルmainをGitHub側のmainに強制的に合わせる",
+      "warning": "GitHub側に存在するコミットやファイルが失われる可能性がある",
+      "use_when": [
+        "GitHub側のREADMEなどが不要",
+        "GitHubリポジトリをローカルプロジェクトの状態で完全に置き換えたい",
+        "GitHub側の履歴を失っても問題ない"
+      ]
+    }
+  },
+  "remote_origin_handling": {
+    "message": "error: remote origin already exists.",
+    "action": "基本的には何もしなくてよい",
+    "check_command": "git remote -v",
+    "remove_command": "git remote remove origin",
+    "readd_command": "git remote add origin <GitHubリポジトリURL>",
+    "note": "URLを変更したい場合のみoriginを変更する"
+  },
+  "vim_handling": {
+    "trigger": "git pull実行時にMerge branch 'main' of...などの画面が表示される",
+    "command": ":wq",
+    "description": "Vimでマージコミットメッセージを保存して終了する"
+  },
+  "decision_rule": [
+    {
+      "condition": "GitHub側のREADMEなどを残したい",
+      "action": "git pull origin main --allow-unrelated-histories"
+    },
+    {
+      "condition": "GitHub側の内容は不要でPC側を正としたい",
+      "action": "git push -f origin main"
+    }
+  ],
+  "safe_diagnostic_commands": [
+    {
+      "command": "git status",
+      "purpose": "現在のブランチと未コミット変更を確認する"
+    },
+    {
+      "command": "git remote -v",
+      "purpose": "originの登録先を確認する"
+    },
+    {
+      "command": "git log --oneline --graph --all",
+      "purpose": "ローカルとリモートの履歴を確認する"
+    }
+  ],
+  "important_rules": [
+    "remote origin already existsはpush失敗の主原因ではない",
+    "non-fast-forwardはリモート側の履歴がローカルより先に進んでいることを示す",
+    "GitHub側の変更を残すならpullしてからpushする",
+    "ローカルを完全な正として扱う場合のみforce pushを検討する",
+    "force pushはGitHub側の既存コミットを失う可能性がある",
+    "git statusでworking tree cleanでもpushが成功するとは限らない"
+  ],
+  "source": {
+    "type": "gemini_conversation",
+    "description": "GeminiとのGitHub pushエラーに関するやり取りを整理したメモ"
+  }
+}

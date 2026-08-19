@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from __future__ import annotations
 
 import logging
@@ -10,9 +10,9 @@ from api.services.manager.KnowledgeManager import KnowledgeManager
 logger = logging.getLogger(__name__)
 
 
-# =========================================================
+# ===
 # 判定結果DTO
-# =========================================================
+# ===
 @dataclass
 class HumanReviewDecision:
     requires_review: bool
@@ -194,7 +194,7 @@ class KnowledgeOrchestra:
         DeploymentHandler.handle() の戻り値にそのまま使えるテキスト。
         """
         lines: List[str] = []
-        lines.append(f"⚠️ **プロジェクト [{project_name}] に関する重要なお知らせ**")
+        lines.append(f" **プロジェクト [{project_name}] に関する重要なお知らせ**")
         lines.append("")
         lines.append(str(summary))
         lines.append("")
@@ -241,7 +241,7 @@ if __name__ == "__main__":
         print("\n" + msg)
     else:
         print("✅ STOPガードは発動しませんでした。")
-=======
+
 # knowledge_orchestra.py
 import logging
 from api.services.manager.KnowledgeManager import KnowledgeManager
@@ -282,7 +282,7 @@ class KnowledgeOrchestra:
         alerts = advice_data.get("alerts", [])
 
         # チャット用のメッセージを組み立てる
-        chat_message = f"⚠️ **プロジェクト [{project_name}] に関する重要なお知らせ**\n\n{summary}\n\n"
+        chat_message = f" **プロジェクト [{project_name}] に関する重要なお知らせ**\n\n{summary}\n\n"
         
         for alert in alerts:
             chat_message += f"**[{alert['level']}] {alert['analyzer']} より:**\n"
@@ -303,5 +303,6 @@ class KnowledgeOrchestra:
 # 実行テスト用
 if __name__ == "__main__":
     orchestra = KnowledgeOrchestra()
+    
     orchestra.process_latest_knowledge()
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
+

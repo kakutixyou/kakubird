@@ -252,9 +252,9 @@ class PythonFormatter(BaseFormatter):
 
         return text.strip()
 
-    # ==========================================
+    # 
     # Lv5: 新規メソッド（自動修正・最適化）
-    # ==========================================
+    # 
 
     def _preprocess_code(self, code: str) -> str:
         """事前処理: 明らかな問題を先に修正"""
@@ -412,9 +412,9 @@ class PythonFormatter(BaseFormatter):
             self.format_context.auto_correct_common_mistakes = True
             self.format_context.max_line_length = 88
 
-    # ==========================================
+    # 
     # Lv3以降のヘルパーメソッド（従来版）
-    # ==========================================
+    # 
 
     def _adjust_block_stack(self, tval: str, ttype: str, block_stack: list) -> None:
         """新しいステートメントに基づくブロックスタックの調整"""

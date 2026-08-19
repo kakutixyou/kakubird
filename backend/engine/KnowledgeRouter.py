@@ -2,7 +2,7 @@
 """
 
 KnowledgeRouter
-===============
+===
 役割: ユーザーのメッセージを見て「どのナレッジJSONを読み込むべきか」を決める。
 
 設計方針:
@@ -43,11 +43,7 @@ import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
-<<<<<<< HEAD
 # from engine.KnowledgeLoader import KnowledgeLoader
-=======
-
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
 logger = logging.getLogger(__name__)
 
@@ -153,7 +149,7 @@ class KnowledgeRouter:
     # ---------------------------
     def _load_knowledge_files(self) -> None:
         if not self.knowledge_dir.exists():
-            logger.warning("⚠️ [Router] ナレッジディレクトリが存在しません: %s", self.knowledge_dir)
+            logger.warning(" [Router] ナレッジディレクトリが存在しません: %s", self.knowledge_dir)
             self.domains = []
             return
 
@@ -197,7 +193,7 @@ class KnowledgeRouter:
             self.domains.append(domain)
 
         except Exception as e:
-            logger.warning("⚠️ [Router] JSON読み込みエラー (%s): %s", file_path, e)
+            logger.warning(" [Router] JSON読み込みエラー (%s): %s", file_path, e)
 
     def _parse_markdown_frontmatter(self, file_path: Path) -> None:
         try:
@@ -231,7 +227,7 @@ class KnowledgeRouter:
             self.domains.append(domain)
 
         except Exception as e:
-            logger.warning("⚠️ [Router] Markdown読み込みエラー (%s): %s", file_path, e)
+            logger.warning(" [Router] Markdown読み込みエラー (%s): %s", file_path, e)
 
     # ---------------------------
     # Internal utils

@@ -2,14 +2,13 @@
 import React, { useRef, useEffect } from 'react';
 import MultiSelectMessage from './MultiSelectMessage';
 
-// ==========================================
+// 
 // ブロック名簿は blocks.jsx に一元化（重複登録によるバグを防止）
-// ==========================================
-import { BLOCK_COMPONENTS } from './blocks/blocks';
-
-// ==========================================
+// 
+import { BLOCK_COMPONENTS } from './blocks';
+// 
 // ui フォルダから純粋なデザイン部品をインポート
-// ==========================================
+// 
 import { ChatBubble, ChatLabel } from './ui/ChatBubble';
 import { WidgetCard } from './ui/WidgetCard';
 import { Collapsible } from './ui/Collapsible';

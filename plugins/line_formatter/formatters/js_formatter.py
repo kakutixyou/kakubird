@@ -95,7 +95,7 @@ class JsFormatter(BaseFormatter):
     NO_NEWLINE_AFTER = {'.', ',', '(', '[', '{'}
     NO_NEWLINE_BEFORE = {'.', ',', ')', ']', '}', ';', ':', '?'}
 
-    # === Lv5: LLMの一般的なミス ==========
+    # === Lv5: LLMの一般的なミス ====
     COMMON_LLM_MISTAKES = {
         # スペース不足
         r'if\(': 'if (',
@@ -115,7 +115,7 @@ class JsFormatter(BaseFormatter):
         r'\)\s+\)': '))',
     }
 
-    # === Lv5: JSDoc/コメント形式 ==========
+    # === Lv5: JSDoc/コメント形式 ====
     JSDOC_PATTERN = r'/\*\*[\s\S]*?\*/'
 
     def __init__(self, context: Optional[JsFormatContext] = None):
@@ -224,7 +224,7 @@ class JsFormatter(BaseFormatter):
         while i < len(message):
             ch = message[i]
 
-            # ========== JSDoc コメント処理（Lv5追加） ==========
+            # ==== JSDoc コメント処理（Lv5追加） ====
             if ch == '/' and i + 1 < len(message) and message[i+1] == '*':
                 if i + 2 < len(message) and message[i+2] == '*':
                     # JSDoc開始
@@ -239,7 +239,7 @@ class JsFormatter(BaseFormatter):
                     i = j
                     continue
 
-            # ========== テンプレートリテラル処理 =========
+            # ==== テンプレートリテラル処理 ===
             if in_template:
                 buf += ch
                 if ch == '`' and (i == 0 or message[i-1] != '\\'):
@@ -248,7 +248,7 @@ class JsFormatter(BaseFormatter):
                 i += 1
                 continue
 
-            # ========== 文字列処理 =========
+            # ==== 文字列処理 ===
             if in_string:
                 buf += ch
                 if ch == in_string and (i == 0 or message[i-1] != '\\'):
@@ -268,7 +268,7 @@ class JsFormatter(BaseFormatter):
                 i += 1
                 continue
 
-            # ========== 正規表現処理（Lv5改善） =========
+            # ==== 正規表現処理（Lv5改善） ===
             if ch == '/' and i + 1 < len(message):
                 if i > 0 and message[i-1] in '=([,;:!&|?':
                     j = i + 1
@@ -282,7 +282,7 @@ class JsFormatter(BaseFormatter):
                         i = j + 1
                         continue
 
-            # ========== 括弧スタック管理（Lv5改善） =========
+            # ==== 括弧スタック管理（Lv5改善） ===
             if ch == '(':
                 paren_stack.append('(')
                 buf += ch
@@ -329,14 +329,14 @@ class JsFormatter(BaseFormatter):
                 i += 1
                 continue
 
-            # ========== セミコロン処理（Lv5改善） =========
+            # ==== セミコロン処理（Lv5改善） ===
             elif ch == ';':
                 buf += ch
                 flush()
                 i += 1
                 continue
 
-            # ========== コンマ処理（Lv5追加） =========
+            # ==== コンマ処理（Lv5追加） ===
             elif ch == ',':
                 buf += ch
                 if i + 1 < len(message) and message[i+1] != '\n':
@@ -344,7 +344,7 @@ class JsFormatter(BaseFormatter):
                 i += 1
                 continue
 
-            # ========== JSX タグ処理（Lv5改善） =========
+            # ==== JSX タグ処理（Lv5改善） ===
             elif ch == '<' and i + 1 < len(message):
                 if re.match(r'[A-Z]|\/[a-z]', message[i+1]):
                     # 閉じタグ
@@ -372,14 +372,14 @@ class JsFormatter(BaseFormatter):
                             i += len(tag_content)
                             continue
 
-            # ========== アロー関数検出（Lv5追加） =========
+            # ==== アロー関数検出（Lv5追加） ===
             elif ch == '=' and i + 1 < len(message) and message[i+1] == '>':
                 buf += '=>'
                 arrow_func_count += 1
                 i += 2
                 continue
 
-            # ========== async/await検出（Lv5追加） =========
+            # ==== async/await検出（Lv5追加） ===
             elif ch.isalpha():
                 # キーワード検出
                 j = i
@@ -397,7 +397,7 @@ class JsFormatter(BaseFormatter):
                     i += 1
                     continue
 
-            # ========== デフォルト処理 =========
+            # ==== デフォルト処理 ===
             else:
                 buf += ch
                 i += 1
@@ -434,9 +434,9 @@ class JsFormatter(BaseFormatter):
 
         return result_text.strip()
 
-    # ==========================================
+    # 
     # Lv5: 新規メソッド（自動修正・最適化）
-    # ==========================================
+    # 
 
     def _preprocess_code(self, code: str) -> str:
         """事前処理: 明らかな問題を先に修正（Lv5新規）"""

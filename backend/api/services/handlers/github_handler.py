@@ -3,11 +3,12 @@ import traceback
 from typing import Any, Tuple
 from .base_handler import BaseHandler
 from api.services.github_service import smart_github_search
-<<<<<<< HEAD
+
 from api.services.inspectors.IntentInSpector  import IntentInspector
-=======
+
 from ..inspectors.IntentInSpector import IntentInspector
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
+
+
 
 GITHUB_COMMANDS = {"/github", "/search"}
 

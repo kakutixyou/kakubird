@@ -88,7 +88,7 @@ class GoogleSheetsAnalysisHandler:
     def _ocr_image_to_dataframe(self, image_input: Any) -> Tuple[Optional[pd.DataFrame], str]:
         """画像データに対してOCRを実行し、表構造のテキストを生成してDataFrameに変換する"""
         if not HAS_PYTESSERACT:
-            print("⚠️ pytesseract が利用できません。`pip install pytesseract pillow` を確認してください。")
+            print(" pytesseract が利用できません。`pip install pytesseract pillow` を確認してください。")
             return None, "OCRエラー"
 
         try:
@@ -153,7 +153,7 @@ class GoogleSheetsAnalysisHandler:
             return df, "OCR解析画像"
 
         except Exception as e:
-            print(f"⚠️ [OCR解析エラー]: {e}")
+            print(f" [OCR解析エラー]: {e}")
             return None, "OCR処理例外"
 
     def _parse_to_dataframe(self, sheets_input: Any) -> Tuple[Optional[pd.DataFrame], str]:
@@ -229,7 +229,7 @@ class GoogleSheetsAnalysisHandler:
 
                     alerts.append({
                         "level": "warning",
-                        "title": f"⚠️ 在庫不足アラート ({col})",
+                        "title": f" 在庫不足アラート ({col})",
                         "description": f"発注点（{self.low_stock_threshold}個以下）を下回っている項目:",
                         "items": item_names[:10]
                     })

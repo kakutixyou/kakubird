@@ -1,6 +1,6 @@
 """
 PromptBuilder
-=============
+=
 役割: KnowledgeLoader.load() の結果 + ユーザーのメッセージ + 常時適用ルールを
       1本のプロンプト文字列に組み立てて LLM に渡す。
 
@@ -19,11 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-<<<<<<< HEAD
 from .KnowledgeLoader import LoadResult, LoadedKnowledge
-=======
-from KnowledgeLoader import LoadResult, LoadedKnowledge
->>>>>>> 5d792e5e62f131b04c45504a321405bdd0a8bb17
 
 
 @dataclass
@@ -61,7 +57,7 @@ class PromptBuilder:
                 data = json.load(f)
             rules = data.get("rules", []) if isinstance(data, dict) else list(data)
         except (json.JSONDecodeError, OSError) as e:
-            print(f"⚠️ [PromptBuilder] global_rules 読み込み失敗: {e}")
+            print(f" [PromptBuilder] global_rules 読み込み失敗: {e}")
             rules = []
 
         self._global_rules_cache = (mtime, rules)
@@ -142,7 +138,7 @@ class PromptBuilder:
 
         if dropped:
             print(
-                f"⚠️ [PromptBuilder] 文字数上限 ({self.max_knowledge_chars}) を超えたため "
+                f" [PromptBuilder] 文字数上限 ({self.max_knowledge_chars}) を超えたため "
                 f"{len(dropped)} 件を除外しました: {dropped}"
             )
 
@@ -178,7 +174,7 @@ class PromptBuilder:
             parts += ["", f"# 直前の文脈: {signals['active_context']}"]
 
         if load_result.errors:
-            print(f"⚠️ [PromptBuilder] {len(load_result.errors)} 件の知識読み込みに失敗した状態でプロンプトを構築しました")
+            print(f" [PromptBuilder] {len(load_result.errors)} 件の知識読み込みに失敗した状態でプロンプトを構築しました")
 
         text = "\n".join(parts)
 

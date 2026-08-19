@@ -1,7 +1,7 @@
 # backend/engine/orchestrator/security_orchestrator.py
 """
 SecurityOrchestrator
-=====================
+===
 「セキュリティ」に関するユーザーの依頼（脆弱性チェック、認証まわりのレビュー、
 シークレット漏洩チェック、依存パッケージの監査など）を、内容に応じて
 適切な Handler に振り分ける司令塔です。
@@ -36,9 +36,9 @@ from typing import Tuple, Any, Dict, List
 from engine.orchestrator.base_orchestrator import BaseOrchestrator
 from model.chat_models import ChatRequest, ChatContext
 
-# =========================================================
+# ===
 # ✅ Handlerのインポート（実装ができたらコメントを外してください）
-# =========================================================
+# ===
 # from plugins.security_auditor.vulnerability_scan_handler import VulnerabilityScanHandler
 # from plugins.security_auditor.auth_check_handler import AuthCheckHandler
 # from plugins.security_auditor.secrets_scan_handler import SecretsScanHandler
@@ -74,9 +74,9 @@ class SecurityOrchestrator(BaseOrchestrator):
         # このOrchestrator専用の状態があればここに追加
         self.last_scan_target: str | None = None
 
-    # =====================================================
+    # =====
     # 🚨 必須実装: route_and_execute
-    # =====================================================
+    # =====
     async def route_and_execute(self, request: ChatRequest, **kwargs) -> Tuple[str, Any]:
         self._log_start(task_description=request.message[:30])
 
@@ -139,9 +139,9 @@ class SecurityOrchestrator(BaseOrchestrator):
         except Exception as e:
             return self._handle_standard_error(e, context_info="SecurityOrchestrator.route_and_execute")
 
-    # =====================================================
+    # =====
     # 🛠️ 内部ユーティリティ
-    # =====================================================
+    # =====
     def _decide_handler(self, message: str) -> str:
         """
         メッセージ本文を見て、HANDLER_KEYWORD_MAP と照合し

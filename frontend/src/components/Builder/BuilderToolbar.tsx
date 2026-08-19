@@ -54,9 +54,9 @@ export default function BuilderToolbar({
     // z-50 をつけて、無限キャンバスの上をスクロールしても隠れないようにする
     <div className="relative z-50 flex items-center justify-between px-4 py-3 bg-gray-900 text-white border-b border-gray-800 shadow-md flex-shrink-0">
       
-      {/* ==============================
+      {/* 
           左側: 戻るボタン ＆ ページ情報
-      ============================== */}
+       */}
       <div className="flex items-center gap-4">
         <button
           onClick={onBack}
@@ -77,9 +77,9 @@ export default function BuilderToolbar({
         </div>
       </div>
 
-      {/* ==============================
+      {/* 
           中央: 各種パネルのトグルスイッチ
-      ============================== */}
+       */}
       <div className="flex items-center gap-2">
         <button
           onClick={onToggleRuleEditor}
@@ -99,9 +99,9 @@ export default function BuilderToolbar({
         </button>
       </div>
 
-      {/* ==============================
+      {/* 
           右側: 保存・書き出しアクション
-      ============================== */}
+       */}
       <div className="flex items-center gap-3">
         
         {/* 印刷 / PDFボタン */}

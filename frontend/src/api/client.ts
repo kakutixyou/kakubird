@@ -8,9 +8,9 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ==========================================
+// 
 // リクエスト送信前の処理（ここで通信先を切り替える）
-// ==========================================
+// 
 api.interceptors.request.use((config) => {
   // 外部APIの設定と、内部のログイントークンを両方取得
   const { endpoint, apiKey } = useApiSettingsStore.getState();
@@ -32,9 +32,9 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// ==========================================
+// 
 // レスポンス受信時の処理（エラーハンドリング）
-// ==========================================
+// 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -56,9 +56,9 @@ api.interceptors.response.use(
 
 export default api;
 
-// ==========================================
+// 
 // 以降のAPI定義は一切変更なしでOKです！
-// ==========================================
+// 
 
 // Auth
 export const authApi = {

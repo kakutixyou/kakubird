@@ -48,7 +48,7 @@ In React, pass the `theme` and `animationLevel` props to a block component. The 
 
 **Character:** Dark, immersive, sci-fi aesthetic. Purple primary with cyan glow accents.
 
-> ⚠️ This theme is always dark — there is no light variant.
+>  This theme is always dark — there is no light variant.
 
 | Token | Value |
 |-------|-------|

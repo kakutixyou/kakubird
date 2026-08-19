@@ -15,9 +15,9 @@ class AIOrchestrator:
         db_path: str = ""
     ):
 
-        # =========================
+        # =
         # ① 会話履歴取得
-        # =========================
+        # =
 
         tasks = await memory_service.get_tasks(user_id)
 
@@ -27,9 +27,9 @@ class AIOrchestrator:
             "特になし"
         )
 
-        # =========================
+        # =
         # ② DBスキーマ取得
-        # =========================
+        # =
 
         schema_text = ""
 
@@ -42,15 +42,15 @@ class AIOrchestrator:
             except Exception as e:
                 schema_text = f"スキーマ取得失敗: {str(e)}"
 
-        # =========================
+        # =
         # ③ 意図判定
-        # =========================
+        # =
 
         intent = self._detect_intent(text)
 
-        # =========================
+        # =
         # ④ モード選択
-        # =========================
+        # =
 
         if intent == "simple":
 
@@ -72,9 +72,9 @@ class AIOrchestrator:
                 schema=schema_text
             )
 
-        # =========================
+        # =
         # ⑤ 履歴保存
-        # =========================
+        # =
 
         await memory_service.save_tasks(
             user_id,
@@ -88,9 +88,9 @@ class AIOrchestrator:
 
         return result
 
-    # =====================================
+    # =
     # 意図判定
-    # =====================================
+    # =
 
     def _detect_intent(self, text: str) -> str:
 
@@ -111,9 +111,9 @@ class AIOrchestrator:
 
         return "hybrid"
 
-    # =====================================
+    # =
     # テンプレモード
-    # =====================================
+    # =
 
     def _template_mode(self, text: str):
 
@@ -127,9 +127,9 @@ class AIOrchestrator:
             entities
         )
 
-    # =====================================
+    # =
     # AIモード
-    # =====================================
+    # =
 
     async def _ai_mode(
         self,
@@ -170,9 +170,9 @@ class AIOrchestrator:
             "parts": []
         }
 
-    # =====================================
+    # =
     # ハイブリッドモード
-    # =====================================
+    # =
 
     async def _hybrid_mode(
         self,

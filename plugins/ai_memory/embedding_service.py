@@ -9,9 +9,9 @@ from typing import Protocol
 import httpx
 
 
-# =========================================================
+# ===
 # Ollamaの起動確認
-# =========================================================
+# ===
 
 def ollama_available() -> bool:
     try:
@@ -24,18 +24,18 @@ def ollama_available() -> bool:
         return False
 
 
-# =========================================================
+# ===
 # プロバイダーインターフェース
-# =========================================================
+# ===
 
 class EmbeddingProvider(Protocol):
     def embed(self, text: str) -> list[float]:
         ...
 
 
-# =========================================================
+# ===
 # Ollamaプロバイダー（本番用）
-# =========================================================
+# ===
 
 class OllamaEmbeddingProvider:
     """
@@ -74,9 +74,9 @@ class OllamaEmbeddingProvider:
             )
 
 
-# =========================================================
+# ===
 # Deterministicプロバイダー（開発・オフライン用）
-# =========================================================
+# ===
 
 class DeterministicEmbeddingProvider:
     """
@@ -97,9 +97,9 @@ class DeterministicEmbeddingProvider:
         ]
 
 
-# =========================================================
+# ===
 # EmbeddingService（全ファイルからここだけ呼ぶ）
-# =========================================================
+# ===
 
 class EmbeddingService:
     """
@@ -126,7 +126,7 @@ class EmbeddingService:
                   f"（モデル: {os.getenv('OLLAMA_EMBED_MODEL', 'nomic-embed-text')}）")
             self.provider = OllamaEmbeddingProvider()
         else:
-            print("⚠️ Ollama未起動 → DeterministicEmbedding使用（意味検索は無効）")
+            print(" Ollama未起動 → DeterministicEmbedding使用（意味検索は無効）")
             self.provider = DeterministicEmbeddingProvider()
 
     def embed(self, text: str) -> list[float]:

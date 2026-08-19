@@ -2,9 +2,9 @@
 import DatabaseManager from './DatabaseManager';
 import React, { useState } from 'react';
 
-// ==========================================
+// 
 // バックエンド (nlp_service.py) の型定義
-// ==========================================
+// 
 interface TemplatePart {
   label: string;
   value: string;
@@ -92,9 +92,9 @@ export default function DatabasePage() {
         </header>
 
         <div className="grid grid-cols-1 gap-8">
-          {/* ==========================================
+          {/* 
               AI SQL ビルダー (nlp_service連携UI)
-          ========================================== */}
+           */}
           <section className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
             <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
               <span>✨</span> AI SQL ビルダー

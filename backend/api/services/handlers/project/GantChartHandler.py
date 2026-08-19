@@ -96,4 +96,4 @@ class GantChartHandler(BaseHandler):
             return "text", response_msg
         
         except Exception as e:
-            return "text", f"⚠️ ガントチャートの生成に失敗しました: {e}"
+            return "text", f" ガントチャートの生成に失敗しました: {e}"

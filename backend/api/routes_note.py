@@ -1,7 +1,7 @@
-# =========================================================
+# ===
 # routes_note.py
 # AIノート（メモ書き）管理用ルーティング
-# =========================================================
+# ===
 
 import os
 import json
@@ -18,9 +18,9 @@ AI_MEMORY_DIR = os.path.join(BASE_DIR, ".ai_memory")
 # ノートが保存される専用ディレクトリのパス
 NOTES_DIR = os.path.join(AI_MEMORY_DIR, "notes")
 
-# =========================================================
+# ===
 # 1. AI Save Note (ノートの保存)
-# =========================================================
+# ===
 
 @router.post("/api/note/save")
 async def save_note_api(title: str, content: str):
@@ -67,9 +67,9 @@ async def save_note_api(title: str, content: str):
         "note": data
     }
 
-# =========================================================
+# ===
 # 2. AI Notes List (ノートの一覧取得)
-# =========================================================
+# ===
 
 @router.get("/api/note/list")
 async def list_notes_api():

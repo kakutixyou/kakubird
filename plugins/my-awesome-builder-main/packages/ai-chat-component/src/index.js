@@ -1,6 +1,6 @@
 /**
  * src/index.js
- * ============
+ * 
  * Public API for @my-awesome-builder/ai-chat-component.
  *
  * Usage:

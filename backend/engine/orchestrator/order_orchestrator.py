@@ -36,9 +36,9 @@ class OrderOrchestrator:
         transaction_id = None
 
         try:
-            # ==========================================
+            # 
             # 1. 在庫の確認と確保 (Inventory Reservation)
-            # ==========================================
+            # 
             print("  -> Step 1: 在庫を確認・確保しています...")
             total_amount = 0
             for item in cart_items:
@@ -49,9 +49,9 @@ class OrderOrchestrator:
             
             print(f"  -> 在庫確保完了。合計金額: {total_amount}円")
 
-            # ==========================================
+            # 
             # 2. 決済処理 (Payment Processing)
-            # ==========================================
+            # 
             print("  -> Step 2: 決済システムと通信しています...")
             try:
                 payment_result = self._mock_process_payment(user_id, total_amount)
@@ -66,9 +66,9 @@ class OrderOrchestrator:
                     "message": "クレジットカードの決済に失敗しました。カード情報をご確認ください。"
                 }
 
-            # ==========================================
+            # 
             # 3. 配送手配 (Shipping Arrangement)
-            # ==========================================
+            # 
             print("  -> Step 3: 倉庫へ配送指示を出しています...")
             try:
                 tracking_number = self._mock_arrange_shipping(user_id, cart_items, shipping_address)
@@ -83,18 +83,18 @@ class OrderOrchestrator:
                     "message": "配送システムの連携に失敗しました。注文は取り消され、課金はされません。"
                 }
 
-            # ==========================================
+            # 
             # 4. 注文完了メールの送信 (Send Confirmation Email)
-            # ==========================================
+            # 
             print("  -> Step 4: 注文完了メールを送信しています...")
             # メール送信が失敗しても、注文自体は成立しているのでロールバックはしない
             email_sent = self._mock_send_email(user_id, transaction_id, tracking_number)
             if not email_sent:
                 print("  -> [警告] メールの送信に失敗しましたが、注文処理は完了とします。")
 
-            # ==========================================
+            # 
             # 5. 最終結果の返却
-            # ==========================================
+            # 
             print(f"[{self.orchestrator_name}] 全ての注文処理が正常に完了しました。")
             return {
                 "status": "success",
@@ -125,9 +125,9 @@ class OrderOrchestrator:
                 "message": "システムエラーが発生しました。注文が完了していない可能性があります。"
             }
 
-    # ==========================================
+    # 
     # 🚨 ロールバック（補償）メソッド
-    # ==========================================
+    # 
     def _rollback_inventory(self, items: List[Dict[str, Any]]):
         """確保した在庫を元に戻す処理"""
         if not items:
@@ -146,9 +146,9 @@ class OrderOrchestrator:
         print("    - 返金処理が完了しました。")
 
 
-    # ==========================================
+    # 
     # ※以下は本来 `services/` に切り出される専門機能のモックです
-    # ==========================================
+    # 
     def _mock_reserve_inventory(self, item_id: str, quantity: int):
         if item_id == "item_out_of_stock":
             raise OutOfStockError(f"商品 {item_id} は在庫が足りません。")

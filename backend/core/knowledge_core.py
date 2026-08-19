@@ -5,9 +5,9 @@ from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
 
-# =========================================================
+# ===
 # 1. Model (データ構造層)
-# =========================================================
+# ===
 class BaseKnowledgeResult(BaseModel):
     """すべてのEngineが共通して返す解析結果のモデル"""
     score: int = Field(default=0, description="知識解析による適合スコア")
@@ -17,9 +17,9 @@ class BaseKnowledgeResult(BaseModel):
     meta: Dict[str, Any] = Field(default_factory=dict, description="ドメイン固有の追加データ")
 
 
-# =========================================================
+# ===
 # 2. Provider (知識データ管理層)
-# =========================================================
+# ===
 class BaseKnowledgeProvider:
     """JSONファイルからキーワードやルールを読み込み、キャッシュする"""
     def __init__(self, domain: str, memory_dir: str = "backend/.ai_memory"):
@@ -33,7 +33,7 @@ class BaseKnowledgeProvider:
             return self._rules_cache
             
         if not os.path.exists(self.filepath):
-            print(f"⚠️ 辞書ファイルが見つかりません: {self.filepath}")
+            print(f" 辞書ファイルが見つかりません: {self.filepath}")
             self._rules_cache = {}
             return self._rules_cache
 
@@ -41,15 +41,15 @@ class BaseKnowledgeProvider:
             with open(self.filepath, "r", encoding="utf-8") as f:
                 self._rules_cache = json.load(f)
         except Exception as e:
-            print(f"⚠️ {self.domain}のルール読み込みエラー: {e}")
+            print(f" {self.domain}のルール読み込みエラー: {e}")
             self._rules_cache = {}
             
         return self._rules_cache
 
 
-# =========================================================
+# ===
 # 3. Engine (解析ロジック層)
-# =========================================================
+# ===
 class BaseEngine(ABC):
     """
     解析の共通パイプライン（Template Method パターン）を提供する基底クラス。

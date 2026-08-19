@@ -1,6 +1,6 @@
 """
 design_api.py
-=============
+=
 Flask chat API server with language detection, API routing,
 and step-by-step print() logging.
 

@@ -9,9 +9,9 @@ function genId() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
-// =========================================================
+// ===
 // 🌟 デフォルトのプロパティと「縦横のサイズ」を定義
-// =========================================================
+// ===
 const DEFAULT_PROPS: Record<string, Record<string, any>> = {
   header: { text: '見出しテキスト', level: 'h2', align: 'left' },
   text: { content: 'テキストを入力してください...', align: 'left' },
@@ -79,9 +79,9 @@ export const useBuilderStore = create<BuilderStore>((set) => ({
   setCurrentPage: (page) => set({ currentPage: page }),
   setComponents: (components) => set({ components, isDirty: false }),
 
-  // =========================================================
+  // ===
   // 🌟 新規コンポーネント追加（落とした位置に割り込み対応）
-  // =========================================================
+  // ===
   addComponent: (type, customProps = {}, insertIndex) => {
     const newComponent: PageComponent = {
       id: genId(),
@@ -122,9 +122,9 @@ export const useBuilderStore = create<BuilderStore>((set) => ({
     }));
   },
 
-  // =========================================================
+  // ===
   // 🌟 プロパティ（テキスト）やスタイル（縦横幅）の更新処理
-  // =========================================================
+  // ===
   updateComponent: (id, props = {}, styles = {}) => {
     set((state) => ({
       components: state.components.map((c) => {

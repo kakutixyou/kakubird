@@ -1,6 +1,6 @@
 /**
  * apiRouter.js
- * ============
+ * 
  * Routes chat messages to the appropriate API endpoint based on
  * the content of the user's message (SQL vs CSS/styling).
  *

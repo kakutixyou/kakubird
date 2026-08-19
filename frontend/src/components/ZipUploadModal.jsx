@@ -59,7 +59,7 @@ export default function ZipUploadModal({ isOpen, file, onClose, onComplete }) {
         <div className="p-6 text-center space-y-4">
           
           <h3 className="text-lg font-bold text-slate-800 dark:text-white">
-            {status === 'error' ? '⚠️ インポート失敗' : 'プロジェクトを記憶中...'}
+            {status === 'error' ? ' インポート失敗' : 'プロジェクトを記憶中...'}
           </h3>
           
           <div className="text-xs text-slate-500 font-mono bg-slate-50 dark:bg-slate-900 p-2 rounded truncate">

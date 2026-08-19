@@ -1,15 +1,15 @@
-# =========================================================
+# ===
 # context_builder.py
 # AIへ渡す「現在必要な文脈(Context)」を構築する
-# =========================================================
+# ===
 
 import os
 import json
 from typing import Dict, Any, List
 
-# =========================================================
+# ===
 # 内部モジュール
-# =========================================================
+# ===
 
 from core.ai_state_manager import (
     get_active_context,
@@ -23,9 +23,9 @@ from core.chunk_manager_chatgpt import (
     search_chunks_by_keyword
 )
 
-# =========================================================
+# ===
 # 基本設定
-# =========================================================
+# ===
 
 MAX_HISTORY_MESSAGES = 8
 MAX_RELATED_CHUNKS = 6
@@ -33,17 +33,17 @@ MAX_CHUNK_LENGTH = 1800
 
 def build_ai_context() -> dict:
     return { "system_prompt": "You...", "recent_context": "..." }
-# =========================================================
+# ===
 # 基本設定
-# =========================================================
+# ===
 
 MAX_HISTORY_MESSAGES = 8
 MAX_RELATED_CHUNKS = 6
 MAX_CHUNK_LENGTH = 1800
 MAX_PROMPT_LENGTH = 15000 # トークン溢れ防止用の安全装置
-# =========================================================
+# ===
 # テキスト整形
-# =========================================================
+# ===
 
 def safe_trim(text: str, limit: int = MAX_CHUNK_LENGTH) -> str:
     """
@@ -55,9 +55,9 @@ def safe_trim(text: str, limit: int = MAX_CHUNK_LENGTH) -> str:
 
     return text[:limit] + "\n...(truncated)"
 
-# =========================================================
+# ===
 # 会話履歴整理
-# =========================================================
+# ===
 
 def build_history_context(history: List[Dict[str, Any]]) -> str:
     """
@@ -80,9 +80,9 @@ def build_history_context(history: List[Dict[str, Any]]) -> str:
 
     return "\n".join(lines)
 
-# =========================================================
+# ===
 # Active Context構築
-# =========================================================
+# ===
 
 def build_active_context_text() -> str:
 
@@ -95,9 +95,9 @@ def build_active_context_text() -> str:
         f"注目コンポーネント: {active.get('focused_component')}\n"
     )
 
-# =========================================================
+# ===
 # Workspace Context構築
-# =========================================================
+# ===
 
 def build_workspace_context_text() -> str:
 
@@ -113,9 +113,9 @@ def build_workspace_context_text() -> str:
         f"Languages: {', '.join(languages)}\n"
     )
 
-# =========================================================
+# ===
 # Current Task Context
-# =========================================================
+# ===
 
 def build_current_task_text() -> str:
 
@@ -128,9 +128,9 @@ def build_current_task_text() -> str:
         f"Details: {task.get('details')}\n"
     )
 
-# =========================================================
+# ===
 # Project Map Context
-# =========================================================
+# ===
 
 def build_project_map_text() -> str:
 
@@ -151,9 +151,9 @@ def build_project_map_text() -> str:
 
     return "\n".join(lines)
 
-# =========================================================
+# ===
 # Dependency Context
-# =========================================================
+# ===
 
 def build_dependency_context(target_file: str = None) -> str:
 
@@ -186,9 +186,9 @@ def build_dependency_context(target_file: str = None) -> str:
 
     return "\n".join(lines)
 
-# =========================================================
+# ===
 # 関連Chunk検索
-# =========================================================
+# ===
 
 def build_related_chunks_text(
     query: str,
@@ -212,11 +212,11 @@ def build_related_chunks_text(
 
         lines.append(
             f"""
-==============================
+
 Chunk #{idx + 1}
 File: {chunk.get('file_name')}
 Language: {chunk.get('language')}
-==============================
+
 
 {safe_trim(chunk.get('content', ''))}
 """
@@ -224,9 +224,9 @@ Language: {chunk.get('language')}
 
     return "\n".join(lines)
 
-# =========================================================
+# ===
 # システム能力Context
-# =========================================================
+# ===
 
 def build_system_capabilities_text() -> str:
 
@@ -246,9 +246,9 @@ def build_system_capabilities_text() -> str:
 
 """
 
-# =========================================================
+# ===
 # メインContext Builder
-# =========================================================
+# ===
 
 def build_full_context(
     user_message: str,
@@ -263,60 +263,60 @@ def build_full_context(
         history = []
 
     full_context_text = f"""
-# =====================================================
+# =====
 # AI SYSTEM CONTEXT
-# =====================================================
+# =====
 
 {build_system_capabilities_text()}
 
-# =====================================================
+# =====
 # ACTIVE CONTEXT
-# =====================================================
+# =====
 
 {build_active_context_text()}
 
-# =====================================================
+# =====
 # WORKSPACE STATE
-# =====================================================
+# =====
 
 {build_workspace_context_text()}
 
-# =====================================================
+# =====
 # CURRENT TASK
-# =====================================================
+# =====
 
 {build_current_task_text()}
 
-# =====================================================
+# =====
 # PROJECT MAP
-# =====================================================
+# =====
 
 {build_project_map_text()}
 
-# =====================================================
+# =====
 # DEPENDENCY GRAPH
-# =====================================================
+# =====
 
 {build_dependency_context()}
 
-# =====================================================
+# =====
 # RECENT CHAT HISTORY
-# =====================================================
+# =====
 
 {build_history_context(history)}
 
-# =====================================================
+# =====
 # RELATED KNOWLEDGE CHUNKS
-# =====================================================
+# =====
 
 {build_related_chunks_text(
     query=user_message,
     project_name=project_name
 )}
 
-# =====================================================
+# =====
 # USER MESSAGE
-# =====================================================
+# =====
 
 {user_message}
 
@@ -331,9 +331,9 @@ def build_full_context(
         "dependency_graph": get_dependency_graph()
     }
 
-# =========================================================
+# ===
 # 軽量Context
-# =========================================================
+# ===
 
 def build_lightweight_context(
     user_message: str
@@ -352,25 +352,25 @@ def build_lightweight_context(
 {user_message}
 """
 
-# =========================================================
+# ===
 # Debug表示
-# =========================================================
+# ===
 
 def debug_print_context(context: Dict[str, Any]):
 
-    print("\n==============================")
+    print("\n")
     print("🧠 AI Context Debug")
-    print("==============================")
+    print("")
 
     system_context = context.get("system_context", "")
 
     print(system_context[:3000])
 
-    print("\n==============================")
+    print("\n")
 
-# =========================================================
+# ===
 # JSON保存（デバッグ用）
-# =========================================================
+# ===
 
 def save_context_snapshot(
     context: Dict[str, Any],
@@ -387,9 +387,9 @@ def save_context_snapshot(
         print("❌ Context保存失敗")
         print(e)
 
-# =========================================================
+# ===
 # テスト
-# =========================================================
+# ===
 
 if __name__ == "__main__":
 

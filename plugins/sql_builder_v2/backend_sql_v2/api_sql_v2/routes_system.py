@@ -9,9 +9,9 @@ from datetime import datetime
 from ai.schema_loader import load_sqlite_schema
 router = APIRouter()
 # 
-# =========================================
+# =====
 # 1. APIディスカバリ（提供しているサービス一覧を返す）
-# =========================================
+# =====
 @router.get("/schema/{db_name}")
 async def get_schema(db_name: str):
 
@@ -76,9 +76,9 @@ async def discover_services():
         ]
     }
 
-# =========================================
+# =====
 # 2. データベース作成 API
-# =========================================
+# =====
 
 # フロントエンドから受け取るJSONの型定義
 class CreateDBRequest(BaseModel):
@@ -186,9 +186,9 @@ async def download_database(db_name: str):
         media_type='application/x-sqlite3'
     )
     
-# =========================================
+# =====
 # 5. 指定したDBファイルを削除
-# =========================================
+# =====
 
 # 削除禁止DB
 PROTECTED_DATABASES = [

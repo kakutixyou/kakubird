@@ -3,9 +3,9 @@ import httpx
 from bs4 import BeautifulSoup
 from typing import Optional, Tuple
 
-# ===============================
+# =
 # 非同期スクレイパー (FastAPI対応)
-# ===============================
+# =
 class AsyncWebScraper:
     # 求人サイトにBot弾きされないよう、一般的なブラウザを装う
     HEADERS = {
@@ -23,9 +23,9 @@ class AsyncWebScraper:
             response.encoding = response.charset_encoding or "utf-8"
             return response.text
 
-# ===============================
+# =
 # 求人特化型クリーナー
-# ===============================
+# =
 class JobTextCleaner:
     # 先生の設定に加えて、求人サイトで邪魔になるヘッダーやフッターも除去
     REMOVE_TAGS = [
@@ -59,9 +59,9 @@ class JobTextCleaner:
 
         return title, text.strip()
 
-# ===============================
+# =
 # 実行用メイン関数（Handlerから呼び出す用）
-# ===============================
+# =
 async def extract_job_text(url: str) -> Optional[str]:
     """
     URLから求人情報を抽出し、AIエンジン（Evaluator）に渡しやすく整形した文字列を返す
@@ -74,7 +74,7 @@ async def extract_job_text(url: str) -> Optional[str]:
         title, content = cleaner.clean(html)
         
         if len(content) < 100:
-            print("⚠️ 本文が短すぎます（ログインが必要、またはJS描画のサイトの可能性）")
+            print(" 本文が短すぎます（ログインが必要、またはJS描画のサイトの可能性）")
             return None
             
         # AIが文脈を理解しやすいようにヘッダーをつけて返す

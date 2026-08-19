@@ -10,9 +10,9 @@ export const renderSmartContent = (text) => {
     );
   }
 
-  // ==========================================
+  // 
   // summary/details UI
-  // ==========================================
+  // 
   if (text.includes('<summary>') && text.includes('<details>')) {
     const summaryText = text.match(/<summary>([\s\S]*?)<\/summary>/)?.[1] || '結論';
     const detailsText = text.match(/<details>([\s\S]*?)<\/details>/)?.[1] || '';
@@ -38,9 +38,9 @@ export const renderSmartContent = (text) => {
     );
   }
 
-  // ==========================================
+  // 
   // Normal Text
-  // ==========================================
+  // 
   return (
     <div className="whitespace-pre-wrap">
       {text}

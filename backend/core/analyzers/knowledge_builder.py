@@ -1,6 +1,6 @@
 """
 knowledge_builder.py
-==============================================
+====
 
 Knowledge（解析結果オブジェクト）構築モジュール
 
@@ -17,7 +17,7 @@ Knowledge（解析結果オブジェクト）構築モジュール
 3. MetricsAnalyzer による総合評価の算出
 4. BaseKnowledgeResult のインスタンス化と返却
 
-==============================================
+====
 """
 
 from __future__ import annotations

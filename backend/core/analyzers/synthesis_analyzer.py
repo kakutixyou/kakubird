@@ -1,6 +1,6 @@
 """
 synthesis_analyzer.py
-==============================================
+====
 
 自作AI用 コンテキスト統合・蒸留モジュール
 
@@ -19,7 +19,7 @@ RepomixAnalyzerの配下にある各独立したAnalyzer（Component, Api, Depen
 4. 情報の蒸留（重要度の低いTodoや肥大化したログのカット）
 5. SynthesizedContext のインスタンス化と返却
 
-==============================================
+====
 """
 
 from __future__ import annotations
