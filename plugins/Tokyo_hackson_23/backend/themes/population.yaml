@@ -1,0 +1,38 @@
+name: population
+
+description: "人口推移（増加率）"
+
+metric_key: population
+
+label: "人口推移"
+
+emoji: "📈"
+
+# ⚠️ 他テーマと違い、このqueriesはスコア計算には使われない。
+# 人口推移スコアは run_population_score() が WARD_DEMOGRAPHICS の
+# population_10k / population_10k_5y_ago から直接計算するため、
+# opendata_queue のデータセット件数（COUNT）はスコアに一切関係しない。
+# ここに残しているのは、将来 collect/import_csv で「人口関連のCKAN
+# データセット一覧」を参考情報として集めたくなった場合のフィルタ用。
+queries:
+  - 人口
+  - 推計人口
+  - 住民基本台帳人口
+
+formats:
+  - CSV
+  - XLSX
+  - JSON
+
+group: all
+
+rows: 200
+
+max_packages: 2000
+
+batch_size: 100
+
+output_dir: output/opendata_jsons/population
+
+# run_population_score() でのみ参照。他テーマのdenominator/weightとは意味が違う。
+weight: 1.0

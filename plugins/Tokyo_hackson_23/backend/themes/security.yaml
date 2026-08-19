@@ -1,0 +1,18 @@
+name: "security"
+label: "治安・防犯"
+description: "交番・警察署の設置状況や、防犯カメラ・街路灯などの防犯インフラ充実度"
+emoji: "🛡️"
+queries:
+  - "交番"
+  - "警察"
+  - "防犯"
+  - "街路灯"
+formats:
+  - "CSV"
+  - "JSON"
+  - "GEOJSON"
+  - "SHP"
+group: "livability"
+denominator: "area_sqkm"
+weight: 1.0
+batch_size: 200

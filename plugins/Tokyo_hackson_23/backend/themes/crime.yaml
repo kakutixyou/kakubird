@@ -1,0 +1,16 @@
+name: "crime"
+label: "犯罪・事故"
+description: "犯罪発生件数や交通事故など、地域の安全性に関するデータ状況"
+emoji: "🚨"
+queries:
+  - "犯罪"
+  - "事故"
+  - "不審者"
+  - "発生状況"
+formats:
+  - "CSV"
+  - "JSON"
+  - "GEOJSON"
+group: "livability"
+denominator: "population_10k"
+weight: 1.0

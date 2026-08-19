@@ -1,0 +1,12 @@
+# themes/library.yaml
+name: library
+label: "図書館"
+emoji: "📚"
+group: "区"
+queries:
+  - "図書館"
+formats:
+  - "CSV"
+denominator: population_10k
+weight: 1.0
+maps_query_template: "{city} 図書館 {keyword}"

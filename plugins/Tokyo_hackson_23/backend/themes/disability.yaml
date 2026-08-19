@@ -1,0 +1,15 @@
+# themes/disability.yaml
+name: disability
+description: "障害者関連施設・サービスのデータ"
+queries:
+  - "障害者"
+  - "障がい者"
+  - "バリアフリー"
+formats:
+  - "CSV"
+  - "XLSX"
+group: all
+rows: 200
+max_packages: 2000
+batch_size: 100
+output_dir: "output/opendata_jsons/disability"

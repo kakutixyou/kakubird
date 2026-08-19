@@ -1,0 +1,12 @@
+# themes/shopping.yaml（暫定案）
+name: shopping
+label: "普段の買い物"
+emoji: "🛒"
+group: "区"
+queries:
+  - "大規模小売店舗"
+  - "スーパーマーケット"
+formats:
+  - "CSV"
+denominator: population_10k
+weight: 0.8   # データ密度が薄い可能性を織り込み低めに
