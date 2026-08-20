@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 
 // --- 設定 ---
 const CHAT_ENDPOINT = import.meta.env.VITE_CHAT_ENDPOINT || "http://127.0.0.1:8765/api/chat";
-const API_BASE = "http://localhost:8000";
+const API_BASE = "http://kakubird.onrender.com";
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || "http://127.0.0.1:8765/api/sql/run";
 const ENV_REMOTE_API_KEY = import.meta.env.VITE_REMOTE_API_KEY || "";
 

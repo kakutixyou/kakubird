@@ -1,10 +1,4 @@
 fastapi
-uvicorn# 1. 追加したファイルをGitに認識させる
-git add .
-
-# 2. 変更内容に名前をつける
-git commit -m "requirements.txtを追加"
-
-# 3. GitHubへアップロードする
-git push origin main
+uvicorn
 psycopg2-binary
+

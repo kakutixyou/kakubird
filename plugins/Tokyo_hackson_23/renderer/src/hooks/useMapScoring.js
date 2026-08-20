@@ -62,90 +62,69 @@ export function useMapScoring(initialCenter) {
     setWorkplace(newWorkplace);
     recalculateScore(center, categories, poiList, newWorkplace);
   }, [center, categories, poiList, recalculateScore]);
-
-  const fetchPois = useCallback(async (targetLat, targetLng) => {
+const fetchPois = useCallback(async (targetLat, targetLng) => {
     if (abortControllerRef.current) abortControllerRef.current.abort();
     abortControllerRef.current = new AbortController();
 
     setIsEvaluating(true);
-    setApiError(false); // 🌟 追加: リクエスト開始時にエラー状態をリセット
+    setApiError(false);
 
     try {
-      const radius = 800;
-      // const query = `
-      //   [out:json][timeout:25];
-      //   (
-      //     nwr["office"](around:${radius},${targetLat},${targetLng});
-      //     nwr["amenity"="hospital"](around:${radius},${targetLat},${targetLng});
-      //     nwr["amenity"="clinic"](around:${radius},${targetLat},${targetLng});
-      //     nwr["shop"="supermarket"](around:${radius},${targetLat},${targetLng});
-      //     nwr["shop"="convenience"](around:${radius},${targetLat},${targetLng});
-      //     nwr["shop"="mall"](around:${radius},${targetLat},${targetLng});
-      //     nwr["leisure"="fitness_centre"](around:${radius},${targetLat},${targetLng});
-      //     nwr["leisure"="park"](around:${radius},${targetLat},${targetLng});
-      //   );
-      //   out center;
-      // `;
-      // 修正前: nwr["office"]...
-      // 修正後: node["office"]... とし、out body; に戻す
- // useMapScoring.js の 90行目付近の query を以下に書き換え
-      const query = `
-        [out:json][timeout:15];
-        (
-          node["office"](around:${radius},${targetLat},${targetLng});
-          node["amenity"="hospital"](around:${radius},${targetLat},${targetLng});
-          node["amenity"="clinic"](around:${radius},${targetLat},${targetLng});
-          node["shop"="supermarket"](around:${radius},${targetLat},${targetLng});
-          node["shop"="convenience"](around:${radius},${targetLat},${targetLng});
-          node["shop"="mall"](around:${radius},${targetLat},${targetLng});
-          node["leisure"="fitness_centre"](around:${radius},${targetLat},${targetLng});
-          node["leisure"="park"](around:${radius},${targetLat},${targetLng});
-        );
-        out body;
-      `;
+      // 🌟 ① 確認できたRenderのAPI URLを指定
+      const BASE_URL = 'https://kakubird.onrender.com';
 
-      const response = await fetch('https://lz4.overpass-api.de/api/interpreter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ data: query }),
-        signal: abortControllerRef.current.signal
+      // 🌟 ② フロントのカテゴリと、バックエンドの「theme」を紐付け
+      const themeMapping = {
+        'Medical': 'medical',
+        'Shopping': 'shopping',
+        'Health': 'sports', 
+        'Park': 'park',
+      };
+
+      // 有効なカテゴリだけを抽出し、リクエスト用の配列を作成
+      const activeThemes = categories
+        .filter(cat => cat.enabled && themeMapping[cat.id])
+        .map(cat => ({ categoryId: cat.id, theme: themeMapping[cat.id] }));
+
+      // 🌟 ③ 各テーマのバックエンドAPIを同時にリクエスト
+      const fetchPromises = activeThemes.map(async ({ categoryId, theme }) => {
+        // バックエンドの /api/facilities エンドポイントを叩く
+        const res = await fetch(`${BASE_URL}/api/facilities?theme=${theme}&limit=1000`, {
+          signal: abortControllerRef.current.signal
+        });
+        
+        if (!res.ok) throw new Error(`APIエラー: ${theme} - ${res.status}`);
+        const data = await res.json();
+        
+        // 🌟 ④ バックエンドのデータをフロントの形式 (lat, lng, category) に変換
+        return data.map(facility => ({
+          id: facility.id,
+          name: facility.name || '不明な施設',
+          lat: facility.latitude,
+          lng: facility.longitude,
+          category: categoryId
+        }));
       });
 
-      if (!response.ok) throw new Error(`ネットワークエラー: ${response.status}`);
-      const data = await response.json();
-
-      const realPois = data.elements.map(el => {
-        let category = 'Other';
-        const tags = el.tags || {};
-        if (tags.office) category = 'Work';
-        else if (tags.amenity === 'hospital' || tags.amenity === 'clinic') category = 'Medical';
-        else if (tags.shop === 'supermarket' || tags.shop === 'mall' || tags.shop === 'convenience') category = 'Shopping';
-        else if (tags.leisure === 'fitness_centre') category = 'Health';
-        else if (tags.leisure === 'park') category = 'Park';
-
-        // 👇 修正：node のみになったので center へのフォールバックを削除
-        const lat = el.lat;
-        const lon = el.lon;
-        if (!lat || !lon) return null;
-
-        return { id: el.id, name: tags.name || '不明な施設', lat: lat, lng: lon, category };
-      }).filter(poi => poi && poi.category !== 'Other');
+      // すべてのAPIリクエストが完了するのを待つ
+      const results = await Promise.all(fetchPromises);
+      
+      // 複数のテーマの配列を1つにまとめ、緯度経度がない不正データを弾く
+      const realPois = results.flat().filter(poi => poi.lat && poi.lng);
 
       setPoiList(realPois);
       recalculateScore([targetLat, targetLng], categories, realPois, workplace);
-      setPreviousCenter([targetLat, targetLng]); // 🌟 成功したら「最後に成功した座標」を更新
+      setPreviousCenter([targetLat, targetLng]);
 
     } catch (error) {
       if (error.name === 'AbortError') return;
       console.error("データ取得失敗", error);
-      setApiError(true);           // 🌟 エラー状態をON
-      setCenter(previousCenter);   // 🌟 失敗したら「最後に成功した座標」にマップを戻す
-      // 💡 setPoiList([]) と setScore(0) を削除したため、前回のデータが維持される
+      setApiError(true);
+      setCenter(previousCenter);
     } finally {
       setIsEvaluating(false);
     }
   }, [categories, workplace, recalculateScore, previousCenter]);
-
   const handleMapClick = useCallback((newPos) => {
     setCenter(newPos);
     fetchPois(newPos[0], newPos[1]);

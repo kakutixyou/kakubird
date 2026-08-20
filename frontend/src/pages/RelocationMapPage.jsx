@@ -20,7 +20,7 @@ import {
 } from '@tokyo/constants/pillarMeta';
 import { WardLabelsProvider, WardLabelsToggle } from '@tokyo/components/wardnav/wardLabels';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://kakubird.onrender.com';
 
 async function fetchAllThemeScores() {
   const backendThemes = IMPLEMENTED_METRIC_KEYS

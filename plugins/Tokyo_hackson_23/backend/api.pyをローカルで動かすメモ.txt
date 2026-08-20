@@ -1,0 +1,63 @@
+ただし、ここで止まる可能性があります
+
+一番大きいのは SQLiteファイルの存在です。
+
+コードは、
+
+DB_PATH = BASE_DIR / "data" / "opendata_queue.db"
+
+なので、ファイル配置が、
+
+backend/
+├─ api.py
+└─ data/
+   └─ opendata_queue.db
+
+である必要があります。
+
+存在しなければ明示的に500エラーになります。
+
+if not DB_PATH.exists():
+    raise HTTPException(
+        status_code=500,
+        detail=f"データベースが存在しません ({DB_PATH})。先にデータを収集してください。"
+    )
+
+さらに、DBの中に少なくとも次のテーブルが必要です。
+
+ward_scores
+opendata_queue
+normalized_facilities
+
+これらがないと、
+
+sqlite3.OperationalError:
+no such table: ward_scores
+
+のようなエラーになります。
+
+もう1つ注意したいところ
+
+SQLiteしか使わないとしても、この行があります。
+
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
+これはファイル読み込み時点で実行されるので、
+
+pip install psycopg2-binary
+
+していない環境だと、SQLiteを使うつもりでも、
+
+ModuleNotFoundError: No module named 'psycopg2'
+
+でサーバーそのものが起動しない可能性があります。
+
+これは少しもったいない設計です。
+
+本当に「Supabaseなしでも完全に動かす」なら、
+
+if is_postgres:
+    import psycopg2
+
+のようにPostgreSQL利用時だけimportする設計にすると、より完全なローカル対応になります。

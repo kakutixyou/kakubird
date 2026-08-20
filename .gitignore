@@ -43,11 +43,6 @@ tmp/
 # Generated output
 # =
 
-# # 自動生成されたオープンデータJSON
-# frontend/Tokyo_hackson_23/backend/orchestrator/output/
-
-# # 特に巨大・大量になりやすいデータ
-# frontend/Tokyo_hackson_23/backend/orchestrator/output/opendata_jsons/
 
 # =
 # Database

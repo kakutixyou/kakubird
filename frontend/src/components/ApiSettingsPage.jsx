@@ -11,7 +11,7 @@ const ApiSelector = ({ onSelectService }) => {
     const fetchServices = async () => {
       try {
         // 先ほど作ったカタログAPIを叩く
-        const response = await fetch('http://localhost:8000/api/services');
+        const response = await fetch('http://kakubird.onrender.com/api/services');
         if (!response.ok) throw new Error('APIカタログの取得に失敗しました');
         
         const data = await response.json();

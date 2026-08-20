@@ -192,7 +192,7 @@ def health():
 # React (localhost:5173) からのアクセスを許可するために必須です
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173","http://localhost:8000", "http://localhost:3000"], # フロントエンドのURL
+    allow_origins=["http://localhost:5173","http://kakubird.onrender.com", "http://localhost:3000"], # フロントエンドのURL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -201,13 +201,13 @@ app.add_middleware(
 # =====
 # 3. ルーターの登録 (URLのマッピング)
 # =====
-# 認証関連のAPI (生成、一覧、/me など) -> http://localhost:8000/api/auth/...
+# 認証関連のAPI (生成、一覧、/me など) -> http://kakubird.onrender.com/api/auth/...
 app.include_router(routes_auth.router, prefix="/api/auth", tags=["Authentication"])
 
-# SQL実行関連のAPI (/run, /run_raw など) -> http://localhost:8000/api/sql/...
+# SQL実行関連のAPI (/run, /run_raw など) -> http://kakubird.onrender.com/api/sql/...
 app.include_router(routes_execute.router, prefix="/api/sql", tags=["SQL Execution"])
 
-# ★ システム・ディスカバリAPI (/services など) -> http://localhost:8000/api/...
+# ★ システム・ディスカバリAPI (/services など) -> http://kakubird.onrender.com/api/...
 app.include_router(routes_system.router, prefix="/api", tags=["System Discovery"]) # type: ignore
 
 

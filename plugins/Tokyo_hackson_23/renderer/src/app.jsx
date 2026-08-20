@@ -21,8 +21,8 @@ import {
 import './App.css';
 import { WardLabelsProvider, WardLabelsToggle } from './components/wardnav/wardLabels';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
-
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://kakubird.onrender.com';
+// const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
 // APIから各テーマのスコアを取得
 async function fetchAllThemeScores() {
   const backendThemes = IMPLEMENTED_METRIC_KEYS

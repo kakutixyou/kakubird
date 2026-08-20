@@ -5,6 +5,11 @@ backend/api.py
 ──────
 フロントエンド（Web画面）からの非同期リクエストに応じ、
 23区のスコア一覧や、区をクリックした際の「詳細内訳」データを配信する FastAPI サーバー。
+
+【アップデート内容】
+- Supabase (PostgreSQL) とローカル (SQLite) の両対応化
+- 環境変数 `DATABASE_URL` または `RENDER` の有無により自動で接続先を切り替え
+- JSONB型の自動パース対応、プレースホルダーの方言（? と %s）吸収
 """
 
 from __future__ import annotations
@@ -12,6 +17,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import sqlite3
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -21,14 +27,14 @@ from psycopg2.extras import RealDictCursor
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
+from fastapi import Request
 logger = logging.getLogger(__name__)
 
 # プロジェクトルート & DBパスの自動判定
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "data" / "opendata_queue.db"
 
-# orchestrator/opendata_workflow.py と共通の23区公式統計データ（一次情報）
+# 23区公式統計データ（一次情報）
 WARD_DEMOGRAPHICS = {
     "千代田区": {"population_10k": 6.80,  "area_sqkm": 11.66, "children_0_5": 3500,  "population_10k_5y_ago": 6.80},
     "中央区":   {"population_10k": 17.50, "area_sqkm": 10.21, "children_0_5": 11000, "population_10k_5y_ago": 17.50},
@@ -69,18 +75,49 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+@app.middleware("http")
+async def add_custom_header(request: Request, call_next):
+    response = await call_next(request)
+    # F12の開発者ツールで確認できる隠しメッセージ
+    response.headers["X-Backend-Greeting"] = "Hello python!! Render deployment is successful!"
+    return response
+# ──────────────────────────────────────────────
+# データベース接続管理 (PostgreSQL / SQLite 両対応)
+# ──────────────────────────────────────────────
 def get_db_connection():
-    # Render等の環境変数からURLを取得
+    """環境変数に応じて接続先を切り替え、コネクションとDBのタイプを返す"""
     db_url = os.getenv("DATABASE_URL")
-    if not db_url:
-        raise HTTPException(
-            status_code=500,
-            detail="DATABASE_URL が設定されていません。環境変数を確認してください。"
-        )
-    # PostgreSQL (Supabase/Render) に接続
-    conn = psycopg2.connect(db_url, cursor_factory=RealDictCursor)
-    return conn
+    is_postgres = (os.getenv("RENDER") == "true") or bool(db_url)
+
+    if is_postgres:
+        if not db_url:
+            raise HTTPException(
+                status_code=500,
+                detail="イベントモード(PostgreSQL)ですが DATABASE_URL が設定されていません。"
+            )
+        conn = psycopg2.connect(db_url, cursor_factory=RealDictCursor)
+        return conn, "postgres"
+    else:
+        if not DB_PATH.exists():
+            raise HTTPException(
+                status_code=500,
+                detail=f"データベースが存在しません ({DB_PATH})。先にデータを収集してください。"
+            )
+        conn = sqlite3.connect(str(DB_PATH))
+        conn.row_factory = sqlite3.Row
+        return conn, "sqlite"
+
+def execute_select(conn, db_type: str, query: str, params: tuple = ()) -> List[dict]:
+    """SELECTクエリの方言を吸収して実行するヘルパー"""
+    if db_type == "postgres":
+        pg_query = query.replace("?", "%s")
+        with conn.cursor() as cur:
+            cur.execute(pg_query, params)
+            return [dict(r) for r in cur.fetchall()]
+    else:
+        cur = conn.execute(query, params)
+        return [dict(r) for r in cur.fetchall()]
+
 
 # ──────────────────────────────────────────────
 # Pydantic レスポンススキーマ定義
@@ -92,7 +129,6 @@ class WardScoreSummary(BaseModel):
     richness_score: float
     raw_count: int
 
-
 class FacilityDetail(BaseModel):
     id: str
     name: str
@@ -100,7 +136,6 @@ class FacilityDetail(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     raw_json: Optional[Dict[str, Any]] = None
-
 
 class DatasetResourceDetail(BaseModel):
     id: str
@@ -110,7 +145,6 @@ class DatasetResourceDetail(BaseModel):
     status: str
     has_coordinates: bool
 
-
 class DatasetEvidenceItem(BaseModel):
     dataset_id: str
     title: str
@@ -119,7 +153,6 @@ class DatasetEvidenceItem(BaseModel):
     status: str
     license_status: str
     facility_count: int
-
 
 class FacilityEvidenceItem(BaseModel):
     facility_id: str
@@ -132,7 +165,6 @@ class FacilityEvidenceItem(BaseModel):
     dataset_title: str
     dataset_url: str
 
-
 class WardEvidenceSummary(BaseModel):
     metric_label: str
     facility_count: int
@@ -140,7 +172,6 @@ class WardEvidenceSummary(BaseModel):
     confidence_score: Optional[float] = None
     datasets: List[DatasetEvidenceItem]
     sample_facilities: List[FacilityEvidenceItem]
-
 
 class WardDetailResponse(BaseModel):
     theme: str
@@ -155,39 +186,32 @@ class WardDetailResponse(BaseModel):
 # ──────────────────────────────────────────────
 # API エンドポイント
 # ──────────────────────────────────────────────
-
 @app.get("/", summary="ヘルスチェック")
 def read_root():
-    return {"status": "ok", "message": "OpenData API is running."}
+    return {"status": "ok", "message": "OpenData API is running with DB auto-switching."}
 
 
 @app.get("/api/scores", response_model=List[WardScoreSummary], summary="23区のスコアランキング取得")
 def get_ward_scores(theme: str = Query(..., description="テーマ識別子 (例: childcare, park, aed)")):
-    """一覧画面やグラフ描画で使う全23区のスコアランキングを返します。"""
-    conn = get_db_connection()
+    conn, db_type = get_db_connection()
     try:
-        # psycopg2の場合は cursor を取得してから execute を実行する
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                SELECT city_name, total_score, quality_score, richness_score, raw_count
-                FROM ward_scores
-                WHERE theme = %s
-                ORDER BY total_score DESC
-                """,
-                (theme,)  # psycopg2ではプレースホルダーが ? ではなく %s になります
+        query = """
+            SELECT city_name, total_score, quality_score, richness_score, raw_count
+            FROM ward_scores
+            WHERE theme = ?
+            ORDER BY total_score DESC
+        """
+        rows = execute_select(conn, db_type, query, (theme,))
+        return [
+            WardScoreSummary(
+                city_name=r["city_name"],
+                total_score=r["total_score"],
+                quality_score=r["quality_score"],
+                richness_score=r["richness_score"],
+                raw_count=r["raw_count"],
             )
-            rows = cur.fetchall()
-            return [
-                WardScoreSummary(
-                    city_name=r["city_name"],
-                    total_score=r["total_score"],
-                    quality_score=r["quality_score"],
-                    richness_score=r["richness_score"],
-                    raw_count=r["raw_count"],
-                )
-                for r in rows
-            ]
+            for r in rows
+        ]
     finally:
         conn.close()
 
@@ -196,16 +220,18 @@ def _build_ward_evidence(theme: str, ward_name: str) -> Optional[WardEvidenceSum
     try:
         from Tokyo_hackson_23.backend.engines.evidence_engine import get_ward_evidence
     except ImportError:
-        logger.warning("engines/evidence_engine.py が見つかりません。evidence は null で返します。")
+        logger.warning("engines/evidence_engine.py が見つかりません。")
         return None
 
     try:
+        # ※ 注意: 現在 evidence_engine は SQLite を直接見に行く仕様になっています。
+        # PostgreSQL対応にするには別途 evidence_engine 側の改修が必要ですが、
+        # 失敗した場合は None を返し、フロントエンドには影響が出ない安全設計になっています。
         ev = get_ward_evidence(db_path=str(DB_PATH), theme=theme, city_name=ward_name)
     except Exception as e:
         logger.warning(f"[{theme}/{ward_name}] evidence 計算に失敗しました: {e}")
         return None
 
-    # 施設数が0でもエビデンス（オープンデータ情報など）はフロントエンドに返す
     sample_facs = []
     if ev.facility_count > 0:
         sample_facs = [FacilityEvidenceItem(**asdict(f)) for f in ev.sample_facilities]
@@ -219,88 +245,70 @@ def _build_ward_evidence(theme: str, ward_name: str) -> Optional[WardEvidenceSum
         sample_facilities=sample_facs,
     )
 
+
 @app.get("/api/wards/{ward_name}", response_model=WardDetailResponse, summary="クリック時の「詳細内訳」取得")
 def get_ward_detail(
     ward_name: str,
     theme: str = Query(..., description="テーマ識別子 (例: childcare, park)"),
 ):
-    conn = get_db_connection()
+    conn, db_type = get_db_connection()
     try:
         # 1. 人口・統計データの取得
         demo = WARD_DEMOGRAPHICS.get(ward_name)
         if not demo:
             raise HTTPException(status_code=404, detail=f"指定された区が存在しません: {ward_name}")
 
-        with conn.cursor() as cur:
-            # 2. スコア内訳の取得
-            cur.execute(
-                """
-                SELECT raw_count, quality_score, richness_score, total_score, calculated_at
-                FROM ward_scores
-                WHERE theme = %s AND city_name = %s
-                """,
-                (theme, ward_name),
-            )
-            score_row = cur.fetchone()
-            score_breakdown = dict(score_row) if score_row else {
-                "raw_count": 0, "quality_score": 0.0, "richness_score": 0.0, "total_score": 0.0
-            }
+        # 2. スコア内訳の取得
+        score_rows = execute_select(
+            conn, db_type,
+            "SELECT raw_count, quality_score, richness_score, total_score, calculated_at FROM ward_scores WHERE theme = ? AND city_name = ?",
+            (theme, ward_name)
+        )
+        score_breakdown = score_rows[0] if score_rows else {
+            "raw_count": 0, "quality_score": 0.0, "richness_score": 0.0, "total_score": 0.0
+        }
 
-            # 3. 収集済みオープンデータセット（CKANリンク集）
-            cur.execute(
-                """
-                SELECT id, title, format, url, status, has_coordinates
-                FROM opendata_queue
-                WHERE theme = %s AND municipality = %s
-                ORDER BY created_at DESC
-                LIMIT 100
-                """,
-                (theme, ward_name),
+        # 3. 収集済みオープンデータセット
+        ds_rows = execute_select(
+            conn, db_type,
+            "SELECT id, title, format, url, status, has_coordinates FROM opendata_queue WHERE theme = ? AND municipality = ? ORDER BY created_at DESC LIMIT 100",
+            (theme, ward_name)
+        )
+        datasets = [
+            DatasetResourceDetail(
+                id=r["id"],
+                title=r["title"] or "名称未設定",
+                format=r["format"] or "UNKNOWN",
+                url=r["url"] or "",
+                status=r["status"] or "UNASSESSED",
+                has_coordinates=bool(r["has_coordinates"]),
             )
-            datasets = [
-                DatasetResourceDetail(
-                    id=r["id"],
-                    title=r["title"] or "名称未設定",
-                    format=r["format"] or "UNKNOWN",
-                    url=r["url"] or "",
-                    status=r["status"] or "UNASSESSED",
-                    has_coordinates=bool(r["has_coordinates"]),
-                )
-                for r in cur.fetchall()
-            ]
+            for r in ds_rows
+        ]
 
-            # 4. 正規化済み施設リスト
-            cur.execute(
-                """
-                SELECT id, name, address, latitude, longitude, raw_json
-                FROM normalized_facilities
-                WHERE theme = %s AND municipality = %s
-                ORDER BY name ASC
-                LIMIT 500
-                """,
-                (theme, ward_name),
-            )
-            
-            facilities = []
-            for r in cur.fetchall():
-                # psycopg2のJSONB型は自動でdictになりますが、テキスト型で入っている場合に備えて安全に変換します
-                raw_json = r["raw_json"]
-                if isinstance(raw_json, str):
-                    try:
-                        raw_json = json.loads(raw_json)
-                    except json.JSONDecodeError:
-                        raw_json = None
-                
-                facilities.append(
-                    FacilityDetail(
-                        id=str(r["id"]),
-                        name=r["name"],
-                        address=r["address"],
-                        latitude=r["latitude"],
-                        longitude=r["longitude"],
-                        raw_json=raw_json,
-                    )
-                )
+        # 4. 正規化済み施設リスト
+        fac_rows = execute_select(
+            conn, db_type,
+            "SELECT id, name, address, latitude, longitude, raw_json FROM normalized_facilities WHERE theme = ? AND municipality = ? ORDER BY name ASC LIMIT 500",
+            (theme, ward_name)
+        )
+        
+        facilities = []
+        for r in fac_rows:
+            # PostgreSQLのJSONB型は自動でdictになる。SQLiteのTEXT型は手動パースが必要。
+            if db_type == "postgres":
+                parsed_json = r["raw_json"]
+            else:
+                parsed_json = json.loads(r["raw_json"]) if r["raw_json"] else None
+
+            facilities.append(FacilityDetail(
+                id=str(r["id"]),
+                name=r["name"],
+                address=r["address"],
+                latitude=r["latitude"],
+                longitude=r["longitude"],
+                raw_json=parsed_json,
+            ))
 
         # 5. スコアの根拠（evidence_engine）
         evidence = _build_ward_evidence(theme, ward_name)
@@ -314,7 +322,6 @@ def get_ward_detail(
             facilities=facilities,
             evidence=evidence,
         )
-
     finally:
         conn.close()
 
@@ -325,47 +332,39 @@ def search_facilities(
     municipality: Optional[str] = Query(None, description="区名でフィルタ（省略時は全区）"),
     limit: int = Query(500, le=2000, description="最大取得件数"),
 ):
-    """地図上に施設ピンをまとめて表示する用途向けのエンドポイント。"""
-    conn = get_db_connection()
+    conn, db_type = get_db_connection()
     try:
-        with conn.cursor() as cur:
-            query = "SELECT id, name, address, latitude, longitude, raw_json FROM normalized_facilities WHERE theme = %s"
-            params: list = [theme]
-            
-            if municipality:
-                query += " AND municipality = %s"
-                params.append(municipality)
-                
-            query += " LIMIT %s"
-            params.append(limit)
+        query = "SELECT id, name, address, latitude, longitude, raw_json FROM normalized_facilities WHERE theme = ?"
+        params: list = [theme]
+        if municipality:
+            query += " AND municipality = ?"
+            params.append(municipality)
+        query += " LIMIT ?"
+        params.append(limit)
 
-            cur.execute(query, tuple(params))
-            
-            facilities = []
-            for r in cur.fetchall():
-                raw_json = r["raw_json"]
-                if isinstance(raw_json, str):
-                    try:
-                        raw_json = json.loads(raw_json)
-                    except json.JSONDecodeError:
-                        raw_json = None
+        fac_rows = execute_select(conn, db_type, query, tuple(params))
+        
+        facilities = []
+        for r in fac_rows:
+            if db_type == "postgres":
+                parsed_json = r["raw_json"]
+            else:
+                parsed_json = json.loads(r["raw_json"]) if r["raw_json"] else None
 
-                facilities.append(
-                    FacilityDetail(
-                        id=str(r["id"]),
-                        name=r["name"],
-                        address=r["address"],
-                        latitude=r["latitude"],
-                        longitude=r["longitude"],
-                        raw_json=raw_json,
-                    )
-                )
-            return facilities
+            facilities.append(FacilityDetail(
+                id=str(r["id"]),
+                name=r["name"],
+                address=r["address"],
+                latitude=r["latitude"],
+                longitude=r["longitude"],
+                raw_json=parsed_json,
+            ))
+        return facilities
     finally:
         conn.close()
 
 
 if __name__ == "__main__":
     import uvicorn
-    # サーバー起動 (http://localhost:8000)
+    # サーバー起動 (http://kakubird.onrender.com)
     uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)

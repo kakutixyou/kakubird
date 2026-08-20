@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  // 👇 contentを1つにまとめ、正しい相対パス（../plugins/...）を指定します
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    '../plugins/Tokyo_hackson_23/**/*.{js,ts,jsx,tsx}' // ⬅️ frontendから1つ上の階層に上がり、pluginsを見に行く
+    
+    // 🚨 修正ポイント: `**` でフォルダ全体を指定するのをやめ、
+    // 実際に画面のコードが入っているフォルダだけを狙い撃ちします。
+    // （※もし他のフォルダにも画面コードがあれば、行を追加してください）
+    '../plugins/Tokyo_hackson_23/renderer/src/**/*.{js,ts,jsx,tsx}',
+    '../plugins/Tokyo_hackson_23/src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {
