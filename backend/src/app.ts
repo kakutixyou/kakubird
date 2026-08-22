@@ -25,7 +25,7 @@ const app = express();
 app.use('/api/html', htmlRoutes);
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://kakubird.onrender.com',//元々は5173
+  origin: process.env.FRONTEND_URL || 'https://kakubird.onrender.com',//元々は5173
   credentials: true,
 }));
 app.use(morgan('dev'));

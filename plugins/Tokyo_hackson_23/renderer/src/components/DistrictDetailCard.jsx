@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+// DistrictDetailCard.jsx
+import React, { useState, useEffect } from 'react';
 import { getGoogleSearchUrl, getGoogleMapsUrl, getMetricMeta } from '../constants/pillarMeta';
 import {
   getTwitterShareUrl,
@@ -7,8 +8,11 @@ import {
   shareNative,
 } from '../utils/shareUtils';
 import './DistrictDetailCard.css';
-// import { WARD_ART_META } from '../data/wardArtMeta';
+import { WARD_ART_META } from '../data/wardArtMeta';
 import { TOKYO_23_DISTRICTS } from '../data/tokyoData';
+
+// 🌟 閉じた時にどれだけ見せておくか(px)
+const DRAWER_PEEK_WIDTH = 56;
 
 export function DistrictDetailCard({
   district,
@@ -19,36 +23,36 @@ export function DistrictDetailCard({
   onClose,
   viewMode = '3D',
 }) {
-  if (!district) return null;
-
+  // ==========================================
+  // 🌟 Hooks（フック）は必ずここ（関数の中の先頭）で宣言する
+  // ==========================================
   const [expandedKey, setExpandedKey] = useState(null);
-  const toggleExpand = (key) => setExpandedKey(expandedKey === key ? null : key);
   const [copied, setCopied] = useState(false);
   const [detail, setDetail] = useState(null);
   const [openKey, setOpenKey] = useState(null);
+  const [isArtMetaExpanded, setIsArtMetaExpanded] = useState(false);
   
-  // 🌟 トップに戻るためのRef
-  const scrollContainerRef = useRef(null);
+  // OSMモード時の「引き出し」の開閉状態
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  
+  // 🌟 閉じるアニメーション用の状態
+  const [isClosing, setIsClosing] = useState(false);
 
-  // 🌟 トップに戻る関数
-  const scrollToTop = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
+  // OSMモードに切り替わった瞬間は、一旦引き出しを閉じて右端に隠す
+  useEffect(() => {
+    if (viewMode === 'OSM') setIsDrawerOpen(false);
+  }, [viewMode]);
 
-  const formatScore = (value) => {
-    if (value === 0 || value === '0' || value === null || value === undefined) {
-      return '-';
-    }
-    return value;
-  };
+  // districtが空の場合は何も描画しない
+  if (!district) return null;
+
+  const toggleExpand = (key) => setExpandedKey(expandedKey === key ? null : key);
 
   async function handlePillarClick(metricKey, backendTheme, wardName) {
     if (!backendTheme) return;
     setOpenKey(metricKey);
     const res = await fetch(
-      `${import.meta.env.VITE_API_BASE || 'kakubird.onrender.com'}/api/wards/${encodeURIComponent(wardName)}?theme=${encodeURIComponent(backendTheme)}`
+      `${import.meta.env.VITE_API_BASE || 'https://kakubird.onrender.com'}/api/wards/${encodeURIComponent(wardName)}?theme=${encodeURIComponent(backendTheme)}`
     );
     const data = await res.json();
     setDetail(data);
@@ -104,54 +108,67 @@ export function DistrictDetailCard({
     }
   };
 
+  // 🌟 ×ボタンを押したときの処理（アニメーションして消える）
+// 🌟 修正1: handleCloseClick の先頭でデフォルトのブラウザ動作を殺す
+  const handleCloseClick = (e) => {
+    e.preventDefault();  // 👈 🌟 追加: ページリロードなどの余計なブラウザ挙動を完全に防ぐ
+    e.stopPropagation(); // クリックの貫通を防ぐ
+    
+    setIsClosing(true); // CSSアニメーションを発動させて下へスライド
+
+    // 350ms後に親(App.jsx)のカード非表示を実行
+    setTimeout(() => {
+      if (onClose) onClose(OSM);
+    }, 350);
+  };
+
   const getScoreColor = (score) => {
-    if (score === null || score === undefined || score === 0 || score === '0') return '#7f8c8d'; 
+    if (score === null || score === undefined) return '#7f8c8d';
     if (score >= 25) return '#00ff9f';
     if (score >= 4) return '#ffd700';
     if (score >= 1) return '#05d5e7';
     return '#ff5e00';
   };
 
-  const baseData = TOKYO_23_DISTRICTS.find(d => d.code === district.code);
+  const baseData = TOKYO_23_DISTRICTS.find((d) => d.code === district.code);
   const safeEffectKey = district.effectKey || baseData?.effectKey;
-  
-  const rawMainScore = district.categoryNormalizedScore
-    ?? (activeCategory && district.scores ? district.scores[activeCategory.key] : undefined)
-    ?? district.categoryTotalScore;
-    
-  const formattedMainScore = rawMainScore !== undefined && rawMainScore !== null 
-    ? formatScore(rawMainScore) 
-    : 'データ準備中';
+  const artMeta = safeEffectKey ? WARD_ART_META[safeEffectKey] : null;
+  const activeScore = district.categoryNormalizedScore
+    ?? (activeCategory && district.scores ? district.scores[activeCategory.key] : undefined);
 
   const isOSM = viewMode === 'OSM';
 
-  // 🌟 CSSのhoverを阻害しないよう、transformやopacityはJS側には書かない
+  // 外側の枠は位置・サイズだけを担当し、transformは持たない
   const cardStyle = isOSM
     ? {
         position: 'fixed',
         top: '80px',
-        right: '24px',
+        right: '35px',
         bottom: '24px',
         width: '360px',
         maxWidth: '85vw',
-        borderRadius: '24px',
+        borderRadius: '24px 0 0 24px',
       }
     : {
         position: 'fixed',
         bottom: '24px',
-        right: '10px', /* CSSで左に引き出す分(-70px)を考慮して少し右寄りに配置 */
+        right: '-30px',
         width: 'calc(100% - 48px)',
-        maxWidth: '360px',
+        maxWidth: '400px',
         maxHeight: '85vh',
         borderRadius: '24px',
+        animation: 'cardSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
       };
 
   return (
     <div
-      className="district-detail-card"
+      // 🌟 isClosingがtrueのとき 'closing' クラスが付き、CSSアニメーションで下に消える
+      className={`district-detail-card ${isClosing ? 'closing' : ''}`}
       style={{
         ...cardStyle,
         backgroundColor: 'rgba(10, 14, 35, 0.90)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
         border: '1px solid rgba(255, 215, 0, 0.35)',
         boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.15)',
         color: '#ffffff',
@@ -160,25 +177,68 @@ export function DistrictDetailCard({
         zIndex: 600,
         overflow: 'hidden',
         fontFamily: "'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif",
-        // CSS側（:hover）で backdropFilter を切り替えるため、JS側からは削除
       }}
     >
+      {/* 🌟 OSMモード専用の引き出しつまみ */}
+      {isOSM && (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsDrawerOpen(!isDrawerOpen);
+          }}
+          style={{
+            position: 'absolute',
+            left: '-10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: '40px',
+            height: '110px',
+            backgroundColor: 'rgba(10, 14, 35, 0.95)',
+            border: '1px solid rgba(255, 215, 0, 0.35)',
+            borderRight: 'none',
+            borderRadius: '12px 0 0 12px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '-5px 0 15px rgba(0,0,0,0.4)',
+            color: '#ffd700',
+            fontWeight: 'bold',
+            gap: '8px',
+            pointerEvents: 'auto',
+            zIndex: 2,
+          }}
+        >
+          <span style={{ fontSize: '18px' }}>{isDrawerOpen ? '▶' : '◀'}</span>
+          <span style={{ writingMode: 'vertical-rl', fontSize: '12px', letterSpacing: '2px' }}>
+            区の詳細
+          </span>
+        </div>
+      )}
+
+      {/* 🌟 中身だけをスライドさせる内側ラッパー */}
       <div
-        ref={scrollContainerRef}
         style={{
           position: 'relative',
           height: '100%',
           padding: '24px',
           boxSizing: 'border-box',
-          overflowY: 'auto',
+          overflowY: isOSM && !isDrawerOpen ? 'hidden' : 'auto',
+          transform: isOSM
+            ? isDrawerOpen
+              ? 'translateX(0)'
+              : `translateX(calc(100% - ${DRAWER_PEEK_WIDTH}px))`
+            : 'none',
+          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
+        {/* 閉じるボタン */}
+{/* 🌟 修正2: button に type="button" を明記する */}
         <div style={{ position: 'absolute', top: '16px', right: '16px', zIndex: 700 }}>
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              if (onClose) onClose();
-            }}
+            type="button" // 👈 🌟 追加: "これは送信ボタンではない" とブラウザにわからせる
+            onClick={handleCloseClick}
             style={{
               background: 'rgba(255, 255, 255, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -196,7 +256,7 @@ export function DistrictDetailCard({
             ✕
           </button>
         </div>
-
+        {/* ヘッダーエリア */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px' }}>
           <span style={{ fontSize: '38px', filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.5))' }}>
             {district.bestEmoji || '✨'}
@@ -205,7 +265,16 @@ export function DistrictDetailCard({
             <h2 style={{ margin: 0, fontSize: '24px', fontWeight: 'bold', color: '#ffffff' }}>
               {district.name}
             </h2>
-            <div style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.6)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div
+              style={{
+                fontSize: '11px',
+                color: 'rgba(255, 255, 255, 0.6)',
+                marginTop: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
               <span>行政コード: {district.code}</span>
               <span style={{ background: 'rgba(255, 255, 255, 0.15)', padding: '2px 6px', borderRadius: '4px', color: '#05d5e7' }}>
                 演出: {safeEffectKey}
@@ -214,6 +283,7 @@ export function DistrictDetailCard({
           </div>
         </div>
 
+        {/* 概要メッセージ */}
         {district.description && (
           <p
             style={{
@@ -231,6 +301,51 @@ export function DistrictDetailCard({
           </p>
         )}
 
+        {/* 🎨 演出のネタ（背景アート解説）アコーディオン */}
+        {artMeta && (
+          <div style={{ marginBottom: '18px' }}>
+            <button
+              onClick={() => setIsArtMetaExpanded(!isArtMetaExpanded)}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: isArtMetaExpanded ? 'rgba(5, 213, 231, 0.15)' : 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(5, 213, 231, 0.4)',
+                padding: '8px 12px',
+                borderRadius: '8px',
+                color: '#05d5e7',
+                fontSize: '12px',
+                cursor: 'pointer',
+                transition: 'background 0.2s ease',
+              }}
+            >
+              <span style={{ fontWeight: 'bold' }}>🎨 演出テーマ: {artMeta.title}</span>
+              <span style={{ fontSize: '10px' }}>{isArtMetaExpanded ? '▲ 閉じる' : '▼ 解説を見る'}</span>
+            </button>
+
+            {isArtMetaExpanded && (
+              <div
+                style={{
+                  marginTop: '8px',
+                  padding: '10px 12px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.25)',
+                  borderRadius: '8px',
+                  borderLeft: '3px solid #05d5e7',
+                  fontSize: '12px',
+                  color: '#dddddd',
+                  lineHeight: '1.6',
+                  animation: 'fadeInDown 0.3s ease-out',
+                }}
+              >
+                {artMeta.description}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* カテゴリスコア表示 */}
         {activeCategory && district.scores && (
           <div
             style={{
@@ -248,20 +363,20 @@ export function DistrictDetailCard({
               <span style={{ fontSize: '20px' }}>{activeCategory.emoji}</span>
               <span style={{ fontSize: '14px', fontWeight: 'bold' }}>{activeCategory.label}</span>
             </div>
-            
             <span
               style={{
                 fontSize: '22px',
                 fontWeight: '900',
-                color: getScoreColor(rawMainScore),
+                color: getScoreColor(activeScore ?? district.categoryTotalScore),
               }}
             >
-              {formattedMainScore}
-              {formattedMainScore !== '-' && formattedMainScore !== 'データ準備中' ? ' 点' : ''}
+              {activeScore ?? district.categoryTotalScore ?? 'データ準備中'}
+              {(activeScore !== null && activeScore !== undefined) || district.categoryTotalScore != null ? ' 点' : ''}
             </span>
           </div>
         )}
 
+        {/* 強み・弱み・補完区 */}
         {analysis && (
           <div
             style={{
@@ -274,15 +389,11 @@ export function DistrictDetailCard({
           >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span>💪 強み: {analysis.best.meta.emoji} {analysis.best.meta.label}</span>
-              <span style={{ fontWeight: 'bold', color: '#00ff9f' }}>
-                {formatScore(analysis.best.score) === '-' ? '-' : `${formatScore(analysis.best.score)}点`}
-              </span>
+              <span style={{ fontWeight: 'bold', color: '#00ff9f' }}>{analysis.best.score}点</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <span>⚠️ 弱み: {analysis.worst.meta.emoji} {analysis.worst.meta.label}</span>
-              <span style={{ fontWeight: 'bold', color: '#ff5e00' }}>
-                {formatScore(analysis.worst.score) === '-' ? '-' : `${formatScore(analysis.worst.score)}点`}
-              </span>
+              <span style={{ fontWeight: 'bold', color: '#ff5e00' }}>{analysis.worst.score}点</span>
             </div>
             {analysis.complement && (
               <button
@@ -306,10 +417,13 @@ export function DistrictDetailCard({
           </div>
         )}
 
+        {/* スコア一覧 */}
         <div style={{ marginBottom: '18px' }}>
           <h3 style={{ fontSize: '13px', color: '#ffd700', margin: '0 0 10px 0' }}>
             📊 指標別スコア一覧
-            <p className="click-hint" style={{ fontSize: '10px', color: '#aaa', margin: '2px 0 0 0' }}>👆 各スコアをクリックして根拠データを見る</p>
+            <p className="click-hint" style={{ fontSize: '10px', color: '#aaa', margin: '2px 0 0 0' }}>
+              👆 各スコアをクリックして根拠データを見る
+            </p>
           </h3>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -319,10 +433,8 @@ export function DistrictDetailCard({
                 const hasScore = score !== null && score !== undefined;
                 const status = district.scoreStatus?.[key];
                 const label = status === 'not_implemented' ? '未実装' : status === 'no_data' ? '資料なし' : null;
-                
                 const scoreColor = getScoreColor(score);
                 const isExpanded = expandedKey === key;
-                const formattedScore = formatScore(score);
 
                 return (
                   <div key={key}>
@@ -335,13 +447,13 @@ export function DistrictDetailCard({
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '3px' }}>
                         <span>{meta.emoji} {meta.label}</span>
                         <span style={{ fontWeight: 'bold', color: scoreColor }}>
-                          {hasScore ? (formattedScore === '-' ? '-' : `${formattedScore}点`) : label}
+                          {hasScore ? `${score}点` : label}
                         </span>
                       </div>
                       <div style={{ width: '100%', height: '5px', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '3px' }}>
                         <div
                           style={{
-                            width: hasScore && formattedScore !== '-' ? `${score}%` : (formattedScore === '-' ? '0%' : '100%'),
+                            width: hasScore ? `${score}%` : '100%',
                             height: '100%',
                             backgroundColor: hasScore ? scoreColor : 'rgba(255, 255, 255, 0.08)',
                             backgroundImage: hasScore
@@ -354,22 +466,22 @@ export function DistrictDetailCard({
                     </div>
 
                     {isExpanded && (
-                      <div className="mysterious-breakdown">
+                      <div className="mysterious-breakdown" style={{ marginTop: '8px', padding: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px' }}>
                         <div style={{ marginBottom: '6px', fontSize: '11px' }}>
                           <span style={{ color: '#aaa' }}>施設・データ総数: </span>
-                          <span className="mysterious-text">
+                          <span className="mysterious-text" style={{ color: '#fff' }}>
                             {district.evidence?.facility_count || 0} 件
                           </span>
                         </div>
                         <div style={{ marginBottom: '6px', fontSize: '11px' }}>
                           <span style={{ color: '#aaa' }}>データ信頼性: </span>
-                          <span className="mysterious-text">
+                          <span className="mysterious-text" style={{ color: '#fff' }}>
                             {district.evidence?.confidence_score || '---'} %
                           </span>
                         </div>
                         <div style={{ fontSize: '11px' }}>
                           <span style={{ color: '#aaa' }}>参照元情報: </span>
-                          <span className="mysterious-text" style={{ fontSize: '10px' }}>
+                          <span className="mysterious-text" style={{ fontSize: '10px', color: '#fff' }}>
                             {district.evidence?.datasets?.[0]?.title || '情報収集中...'}
                           </span>
                         </div>
@@ -382,6 +494,7 @@ export function DistrictDetailCard({
         </div>
 
         <div className="card-content">
+          {/* 🔍 周辺検索ボタン群 */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '14px' }}>
             <button
               className="detail-card-btn"
@@ -417,10 +530,9 @@ export function DistrictDetailCard({
             </button>
           </div>
 
+          {/* 📤 SNS共有ボタン群 */}
           <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '14px' }}>
-            <h3 style={{ fontSize: '12px', color: '#aaaaaa', margin: '0 0 10px 0' }}>
-              📤 この結果をシェアする
-            </h3>
+            <h3 style={{ fontSize: '12px', color: '#aaaaaa', margin: '0 0 10px 0' }}>📤 この結果をシェアする</h3>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
               <button
                 className="detail-card-btn"
@@ -462,7 +574,7 @@ export function DistrictDetailCard({
                 style={{
                   padding: '9px 4px',
                   borderRadius: '10px',
-                  border: '1px solid copied ? #00ff9f : rgba(255, 255, 255, 0.2)',
+                  border: copied ? '1px solid #00ff9f' : '1px solid rgba(255, 255, 255, 0.2)',
                   background: copied ? 'rgba(0, 255, 159, 0.2)' : 'rgba(255, 255, 255, 0.08)',
                   color: copied ? '#00ff9f' : '#ffffff',
                   fontSize: '11px',
@@ -475,27 +587,6 @@ export function DistrictDetailCard({
               </button>
             </div>
           </div>
-          
-          {/* 🌟 トップに戻るボタンを追加 */}
-          <button
-            onClick={scrollToTop}
-            style={{
-              marginTop: '20px',
-              padding: '10px',
-              width: '100%',
-              borderRadius: '10px',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              background: 'rgba(255, 255, 255, 0.05)',
-              color: '#ffffff',
-              fontSize: '12px',
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)')}
-            onMouseOut={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)')}
-          >
-            ⬆ トップに戻る
-          </button>
         </div>
       </div>
     </div>

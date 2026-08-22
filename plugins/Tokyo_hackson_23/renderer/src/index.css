@@ -59,6 +59,7 @@ body {
 @keyframes slideUp {
   from {
     transform: translateY(30px);
+    
     opacity: 0;
   }
   to {

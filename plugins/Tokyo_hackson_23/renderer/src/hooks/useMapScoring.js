@@ -1,4 +1,4 @@
-// frontend/Tokyo_hackson_23/src/hooks/useMapScoring.js
+ // frontend/Tokyo_hackson_23/src/hooks/useMapScoring.js(apiを使わなくても動くよう.txt)
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { PILLAR_CATEGORIES, calculateDistanceMeters, getDistanceScore } from '../utils/distanceUtils';
 
@@ -70,51 +70,59 @@ const fetchPois = useCallback(async (targetLat, targetLng) => {
     setApiError(false);
 
     try {
-      // 🌟 ① 確認できたRenderのAPI URLを指定
-      const BASE_URL = 'https://kakubird.onrender.com';
+      const radius = 800;
+      // 🌟修正1: node ではなく nwr (Node, Way, Relation) を使用し、out center にする
+      const query = `
+        [out:json][timeout:15];
+        (
+          nwr["office"](around:${radius},${targetLat},${targetLng});
+          nwr["amenity"="hospital"](around:${radius},${targetLat},${targetLng});
+          nwr["amenity"="clinic"](around:${radius},${targetLat},${targetLng});
+          nwr["shop"="supermarket"](around:${radius},${targetLat},${targetLng});
+          nwr["shop"="convenience"](around:${radius},${targetLat},${targetLng});
+          nwr["shop"="mall"](around:${radius},${targetLat},${targetLng});
+          nwr["leisure"="fitness_centre"](around:${radius},${targetLat},${targetLng});
+          nwr["leisure"="park"](around:${radius},${targetLat},${targetLng});
+        );
+        out center;
+      `;
 
-      // 🌟 ② フロントのカテゴリと、バックエンドの「theme」を紐付け
-      const themeMapping = {
-        'Medical': 'medical',
-        'Shopping': 'shopping',
-        'Health': 'sports', 
-        'Park': 'park',
-      };
-
-      // 有効なカテゴリだけを抽出し、リクエスト用の配列を作成
-      const activeThemes = categories
-        .filter(cat => cat.enabled && themeMapping[cat.id])
-        .map(cat => ({ categoryId: cat.id, theme: themeMapping[cat.id] }));
-
-      // 🌟 ③ 各テーマのバックエンドAPIを同時にリクエスト
-      const fetchPromises = activeThemes.map(async ({ categoryId, theme }) => {
-        // バックエンドの /api/facilities エンドポイントを叩く
-        const res = await fetch(`${BASE_URL}/api/facilities?theme=${theme}&limit=1000`, {
-          signal: abortControllerRef.current.signal
-        });
-        
-        if (!res.ok) throw new Error(`APIエラー: ${theme} - ${res.status}`);
-        const data = await res.json();
-        
-        // 🌟 ④ バックエンドのデータをフロントの形式 (lat, lng, category) に変換
-        return data.map(facility => ({
-          id: facility.id,
-          name: facility.name || '不明な施設',
-          lat: facility.latitude,
-          lng: facility.longitude,
-          category: categoryId
-        }));
+      // 🌟修正2: 安定している公式メインサーバーに変更
+      const response = await fetch('https://overpass-api.de/api/interpreter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ data: query }),
+        signal: abortControllerRef.current.signal
       });
 
-      // すべてのAPIリクエストが完了するのを待つ
-      const results = await Promise.all(fetchPromises);
-      
-      // 複数のテーマの配列を1つにまとめ、緯度経度がない不正データを弾く
-      const realPois = results.flat().filter(poi => poi.lat && poi.lng);
+      if (!response.ok) throw new Error(`ネットワークエラー: ${response.status}`);
+      const data = await response.json();
+
+      // 🌟修正3: API制限等で elements が無い場合のクラッシュを防ぐ
+      if (!data || !data.elements) {
+        throw new Error('APIから期待するデータが返ってきませんでした');
+      }
+
+      const realPois = data.elements.map(el => {
+        let category = 'Other';
+        const tags = el.tags || {};
+        if (tags.office) category = 'Work';
+        else if (tags.amenity === 'hospital' || tags.amenity === 'clinic') category = 'Medical';
+        else if (tags.shop === 'supermarket' || tags.shop === 'mall' || tags.shop === 'convenience') category = 'Shopping';
+        else if (tags.leisure === 'fitness_centre') category = 'Health';
+        else if (tags.leisure === 'park') category = 'Park';
+
+        // 🌟修正4: out center; の場合、wayやrelationの座標は el.center に入る
+        const lat = el.lat || (el.center && el.center.lat);
+        const lon = el.lon || (el.center && el.center.lon);
+        if (!lat || !lon) return null;
+
+        return { id: el.id, name: tags.name || '不明な施設', lat: lat, lng: lon, category };
+      }).filter(poi => poi && poi.category !== 'Other');
 
       setPoiList(realPois);
       recalculateScore([targetLat, targetLng], categories, realPois, workplace);
-      setPreviousCenter([targetLat, targetLng]);
+      setPreviousCenter([targetLat, targetLng]); 
 
     } catch (error) {
       if (error.name === 'AbortError') return;
@@ -125,6 +133,7 @@ const fetchPois = useCallback(async (targetLat, targetLng) => {
       setIsEvaluating(false);
     }
   }, [categories, workplace, recalculateScore, previousCenter]);
+
   const handleMapClick = useCallback((newPos) => {
     setCenter(newPos);
     fetchPois(newPos[0], newPos[1]);

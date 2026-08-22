@@ -1,5 +1,6 @@
 // // data/wardArtMeta.js
-// export const WARD_ART_META = {
+export const WARD_ART_META = {
+}
 //   adachi:{
 //     title:"足立区",
 

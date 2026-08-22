@@ -366,5 +366,5 @@ def search_facilities(
 
 if __name__ == "__main__":
     import uvicorn
-    # サーバー起動 (http://kakubird.onrender.com)
+    # サーバー起動 (https://kakubird.onrender.com)
     uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)

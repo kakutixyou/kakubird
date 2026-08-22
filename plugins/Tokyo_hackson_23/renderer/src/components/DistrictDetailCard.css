@@ -41,9 +41,26 @@
   transition: all .3s ease;
 }
 
-/* マウス（または指）を乗せた時にカードを左へ引き出す */
+/* マウス（または指）を乗せた時にカードを左へ引き出す予定、上に引き上げられる方がいいかも？ */
 .district-detail-card:hover {
   transform: translateX(-70px) ;
   opacity: 1.0;
   backdrop-filter: blur(16px) !important;
+}
+/* 🌟 追加: カードが下へスライドして消えるアニメーション */
+@keyframes slideDownExit {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(120%); /* 画面下部へ完全に隠す */
+    opacity: 0;
+  }
+}
+
+/* closingクラスが付与されたら、hoverなどの他のtransformを上書きして強制的に下へ落とす */
+.district-detail-card.closing {
+  animation: slideDownExit 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  pointer-events: none; /* 閉じている最中は誤操作を防ぐ */
 }
