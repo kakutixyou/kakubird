@@ -1,6 +1,6 @@
 
 handler.py、orchstrator.py、blocks.jsx、frontend/src/components/AiChatMessageList.jsx（表示担当）を基本的にAIに見せたり、作ったりしてもらうこと
-
+詳しくはhttps://wix.app/mobile.apps/1tojHMi?ref=2_cl
  ## サードパーティライセンス
 本プロジェクトは、以下のオープンソースソフトウェアを利用・参考にしています。
 ライセンスの詳細は `licenses` フォルダをご確認ください。
