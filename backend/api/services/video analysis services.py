@@ -101,7 +101,19 @@ from typing import (
     Union,
 )
 
+from api.services.llm.LocalLLMEngine import LocalLLMEngine
+from api.services.video.VideoAnalysisService import create_video_analysis_service
+from api.services.video.providers.LocalVideoProvider import LocalVideoProvider
 
+# 1. エンジンを起動
+engine = LocalLLMEngine(config_path="config.json")
+
+# 2. LocalVideoProvider を作成し、Service に注入
+local_provider = LocalVideoProvider(engine)
+service = create_video_analysis_service(video_provider=local_provider)
+
+# 3. 解析実行
+# await service.analyze(...)
 # ============================================================
 # Logger
 # ============================================================
