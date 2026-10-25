@@ -1,10 +1,11 @@
-# api/services/handlers/GagHandler/prompt_builder.py
+# backend/api/services/handlers/GagHandler/prompt_builder.py
 # -*- coding: utf-8 -*-
 """
 prompt_builder.py
 
-GagRuleProfile とスタイル設定から、LLM用のギャグ生成プロンプトおよび
-再生成時の具体的なダメ出しフィードバックを構築する。
+- LLMに渡すプロンプトを自然な日本語ダジャレ向けに調整する
+- 固定の文に縛られず、比較・反転・結論の流れを要求する
+- 複数個生成モードにも対応する
 """
 
 from __future__ import annotations
@@ -14,14 +15,11 @@ from typing import Any, Dict, List, Optional
 from .GagRuleEngine import GagEvaluation, GagRuleProfile
 
 STYLE_EXAMPLES: Dict[str, str] = {
-    "dajare": "解体される階段を買いたい、値段が高い、財布が痛い、商談のメモを書いた、桜が咲いた、予定が空いた！",
-    "shoten": "司会「商談とかけて階段と解きます」回答「どちらも解体（買いたい）と願う人が多く、上るほど財布が痛いです」",
-    "manzai": "A「プールがプルプルしてるぞ！」B「いや水面の波だろ！ルールでスルーすな！」",
-    "manzai_3p": "A「階段買いたい！」B「値段高いし財布痛いよ！」C「いや商談のメモ書いたんかい！予定空いたわ！」",
-    "manzai_solo": "階段を買いたい…って誰が解体屋やねん！値段が高い、財布が痛い、でも予定が空いたから買っちゃおう！",
-    "general": "商談で冗談交じりの大展開、期待と不安で胃が痛い。予定が空いたし、美味い鯛でも食べたい！",
+    "dajare": "GitHub CopilotがPRを見たら、reviewのほうがbranchより先に落ち着く。merge後の気持ちも、issueより安定してる。",
+    "shoten": "司会「PRとかけてreviewと解きます」回答「どちらもmerge前の心が揺れてるから、issueに落ち着くんです」",
+    "manzai": "A「branchが長いね」B「そうだね、reviewも長いよ」A「じゃあ今日はmergeして、気持ちを短くしよう」",
+    "general": "雨の会議で財布を見たら、コーヒーとPRが同時に落ち着いて、気分だけmergeしたかった。",
 }
-
 
 def build_gag_prompt(
     user_message: str,
@@ -31,46 +29,64 @@ def build_gag_prompt(
 ) -> str:
     style_key = getattr(profile, "style", None) or rules.get("style", "general")
     style_label = rules.get("style_label", "リズム感のある高度な言葉遊び・ギャグ")
-    example = STYLE_EXAMPLES.get(style_key, STYLE_EXAMPLES["general"])
+    count = max(1, int(rules.get("count", 1)))
+    list_mode = bool(rules.get("list_mode", False))
+    topic = str(rules.get("topic", "general"))
 
-    min_chars = profile.min_characters or 20
-    max_chars = profile.max_characters or 50
-    target_words = profile.target_words
-    required_words = profile.required_words
-    target_occ = profile.target_occurrences
+    target_words = profile.target_words or rules.get("target_words") or ["GitHub Copilot", "PR"]
+    required_words = profile.required_words or []
 
-    if profile.keyword_count_mode == "minimize":
-        word_rule = (
-            f"対象単語 {target_words} の使用回数を最小限（0〜1回）に抑えつつ、文脈の妙で笑わせてください。"
+    if list_mode and count > 1:
+        list_line = (
+            f"\n- {count}個のネタを、番号付きで出力してください。\n"
+            "- 同じフレーズを繰り返さず、別の切り口にしてください。\n"
+            "- 各ネタは文として成立させてください。\n"
+            "- 技術語と日常語を混ぜると自然で笑える。\n"
+            "- 1つ目から最後まで、比較・反転・結論の流れがあるようにしてください。\n"
         )
     else:
-        word_rule = (
-            f"お題単語 {target_words} を合計 {target_occ}回以上 文章中に登場させてください。\n"
-            "   「× プルプルしたプール → 〇 プールがプルプルしている」のように、"
-            "少し強引でも助詞（が・を・に・で）を挟んで主語・述語のある文にねじ込んでください。"
+        list_line = (
+            "\n- 1つだけのネタを出してください。\n"
+            "- 同じ語彙を連続で使わない。\n"
+            "- 文として成立させてください。\n"
+            "- 技術語と生活の語彙を混ぜてください。\n"
+            "- 比較・反転・結論が一文に入っていると自然です。\n"
         )
 
-    req_line = f"\n- 必須単語（欠けると大幅減点）: {required_words}" if required_words else ""
+    word_rule = (
+        f"お題語: {target_words}\n"
+        "必ず文の中で意味が通るように使ってください。\n"
+        "単語の羅列ではなく、主語・述語・比較・結論がある文にしてください。\n"
+        "同じ単語を連続で使わないでください。\n"
+        "技術語と生活語を混ぜて、言い回しを多様にしてください。\n"
+    )
+
+    req_line = f"\n- 必須単語: {required_words}" if required_words else ""
     feedback_section = f"\n\n{retry_feedback}" if retry_feedback else ""
 
     return f"""
-あなたは言葉遊びとリズム感に優れたプロのコメディアンAIです。
-以下の条件を守り、最高密度のネタを1つだけ作成してください。
+あなたは日本語の言葉遊びに長けたコメディアンAIです。
+以下の条件を厳密に守って、ネタ本文だけを出してください。
 
+【テーマ】: {topic}
 【スタイル】: {style_label}
-【文字数制限】: {min_chars}文字以上、{max_chars}文字以内（制限ギリギリを狙うこと）
-【採点ルール】:
-- {word_rule}{req_line}
-- 単語の直列連呼（例：「プールプールプール」）は0点になります。必ず助詞を挟んで文にしてください。
-- 同じ母音・韻を踏む語彙をテンポよく連鎖させてください。
+【文字数】: {profile.min_characters or 20}文字以上、{profile.max_characters or 50}文字以内
+{word_rule}{req_line}
+{list_line}
 
-【高評価のお手本】:
-{example}
+- 同じ語句を連続させない
+- 技術語と日常語を混ぜる
+- 例: PR + 雨 + 財布 + 会議 + コーヒー
+- 文として意味が通る
+- 「比較」「反転」「結論」がある
+- ただし、説明文ではなく、ネタ本文だけ
+- ラベル、前置き、文字数書き込み、解説は不要
 
-【ユーザーの依頼】: {user_message}{feedback_section}
-※解説や前置き、文字数カウント（「（48文字）」等）は一切出力せず、ネタの本文のみを1段落で出力してください。
+【参考例】
+{STYLE_EXAMPLES.get(style_key, STYLE_EXAMPLES["general"])}
+
+【ユーザー依頼】: {user_message}{feedback_section}
 """.strip()
-
 
 def build_retry_feedback(
     previous_text: str,
@@ -79,34 +95,30 @@ def build_retry_feedback(
     naturalness_score: float,
     advice_patch: str = "",
 ) -> str:
-    """再生成時にプロンプトへ追加する具体的なダメ出し指示。"""
+    """
+    前回のダジャレの弱点を、明確に伝える。
+    """
     reasons: List[str] = []
-    target_occ = profile.target_occurrences if profile.target_occurrences is not None else 1
 
     if ev.missing_required_words:
-        reasons.append(f"必須単語 {ev.missing_required_words} が抜けています。必ず文頭に入れてください。")
+        reasons.append(f"必須単語 {ev.missing_required_words} が抜けています。文中で自然に使ってください。")
 
-    if profile.keyword_count_mode == "maximize" and ev.keyword_occurrences < target_occ:
-        reasons.append(
-            f"前回はお題単語 {profile.target_words} が {ev.keyword_occurrences}回 しか使えませんでした。"
-            f"目標の {target_occ}回以上 になるよう、修飾語や目的語にも追加してください。"
-        )
-    elif profile.keyword_count_mode == "minimize" and ev.keyword_occurrences > 1:
-        reasons.append(
-            f"前回はお題単語を {ev.keyword_occurrences}回 使ってしまいました。0〜1回に減らしてください。"
-        )
-
-    if profile.min_characters and ev.character_count < profile.min_characters:
-        diff = profile.min_characters - ev.character_count
-        reasons.append(f"文字数が {diff}文字 足りません。韻を踏むフレーズを足して伸ばしてください。")
-    elif profile.max_characters and ev.character_count > profile.max_characters:
-        diff = ev.character_count - profile.max_characters
-        reasons.append(f"文字数が {diff}文字 超過しています。余分な接続詞を削って短くしてください。")
+    if profile.keyword_count_mode == "maximize" and ev.keyword_occurrences < 1:
+        reasons.append("お題語が少ないです。比較や反転の中に自然に織り込んでください。")
 
     if naturalness_score < 50.0:
-        reasons.append("単語の単純連呼が検出されました。助詞を挟んで自然な文脈にしてください。")
+        reasons.append("言葉の連呼が多いです。主語・比較・結論を一文に入れてください。")
+
+    if profile.min_characters and ev.character_count < profile.min_characters:
+        reasons.append("短すぎます。比較の流れと結論を足してください。")
+
+    if profile.max_characters and ev.character_count > profile.max_characters:
+        reasons.append("長すぎます。余計な説明を削って、短い反転でまとめてください。")
 
     if advice_patch:
         reasons.append(advice_patch)
 
-    return f"【前回の出力（{ev.score}点）】: 「{previous_text}」\n【改善指示】: " + " ".join(reasons)
+    return (
+        f"【前回の出力（{ev.score}点）】: 「{previous_text}」\n"
+        "【改善指示】: " + " ".join(reasons)
+    )

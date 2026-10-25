@@ -27,25 +27,29 @@ def should_show_score(user_message: str, rules: Dict[str, Any]) -> bool:
         or any(w in user_message for w in ("点数", "スコア", "採点", "評価", "何点"))
     )
 
-
 def format_gag_output(
-    gag_text: str,
+    gag_text: Any,
     evaluation: GagEvaluation,
     profile: GagRuleProfile,
     advice_data: Dict[str, Any],
     user_message: str,
     rules: Dict[str, Any],
 ) -> str:
-    blocks = [gag_text]
+    if rules.get("list_mode") and int(rules.get("count", 1)) > 1:
+        items = gag_text if isinstance(gag_text, list) else [str(gag_text)]
+        numbered = [f"{idx}. {item.strip()}" for idx, item in enumerate(items, 1) if item and str(item).strip()]
+        summary = "\n".join(numbered)
+        if should_show_score(user_message, rules):
+            summary += f"\n\n📊 【採点】 {evaluation.score}点"
+        return summary
 
+    blocks = [str(gag_text)]
     if should_show_score(user_message, rules):
         words_label = "・".join(profile.target_words) if profile.target_words else "なし"
         blocks.append(
             f"📊 【採点】 {evaluation.score}点 "
             f"（{evaluation.character_count}文字 / お題『{words_label}』使用: {evaluation.keyword_occurrences}回）"
         )
-
     if should_request_advice(user_message, rules) and advice_data.get("comment"):
         blocks.append(f"💡 【裏方Geminiのアドバイス】\n{advice_data['comment']}")
-
     return "\n\n".join(blocks)

@@ -66,6 +66,7 @@ class GagRuleEngine:
 
     # 1. 異種ジャンル別シードプール（JSONファイル不要の内蔵辞書）
     GENRE_WORD_POOLS: dict[str, list[str]] = {
+        
         "machine": [
             "ギア", "モーター", "トルク", "バルブ", "ベアリング",
             "ピストン", "コンプレッサー", "タービン", "油圧", "ナット",
@@ -441,6 +442,80 @@ class GagRuleEngine:
             character_count=character_count,
             rule_mode=profile.keyword_count_mode,
         )
+    def create_profile_from_rules(self, rules, previous=None, history_texts=None):
+        if rules is None:
+            rules = {}
 
-    def create_profile_from_rules(self, rules, previous, history_texts):
-        ...
+        if isinstance(previous, GagRuleProfile):
+            profile = GagRuleProfile(**previous.to_dict())
+        elif isinstance(previous, dict):
+            valid_keys = GagRuleProfile.__dataclass_fields__.keys()
+            filtered = {k: v for k, v in previous.items() if k in valid_keys}
+            profile = GagRuleProfile(**filtered)
+        else:
+            profile = GagRuleProfile()
+
+        if not isinstance(rules, dict):
+            return profile
+
+        # 文字数
+        if "length_min" in rules and rules["length_min"] is not None:
+            profile.min_characters = int(rules["length_min"])
+        if "length_max" in rules and rules["length_max"] is not None:
+            profile.max_characters = int(rules["length_max"])
+
+        if "min_characters" in rules and rules["min_characters"] is not None:
+            profile.min_characters = int(rules["min_characters"])
+        if "max_characters" in rules and rules["max_characters"] is not None:
+            profile.max_characters = int(rules["max_characters"])
+
+        # 単語
+        target_words = rules.get("target_words") or []
+        if target_words:
+            profile.target_words = [str(w) for w in target_words if str(w).strip()]
+        elif getattr(profile, "target_words", None):
+            profile.target_words = [str(w) for w in profile.target_words if str(w).strip()]
+
+        required_words = rules.get("required_words") or []
+        if required_words:
+            profile.required_words = [str(w) for w in required_words if str(w).strip()]
+
+        # キーワード数モード
+        if rules.get("keyword_count_mode"):
+            profile.keyword_count_mode = str(rules["keyword_count_mode"])
+
+        # 重み
+        if rules.get("weight_focus") == "naturalness":
+            profile.naturalness_weight = 60
+            profile.keyword_weight = 20
+            profile.originality_weight = 20
+        elif rules.get("weight_focus") == "originality":
+            profile.originality_weight = 60
+            profile.keyword_weight = 20
+            profile.naturalness_weight = 20
+
+        # 既存のロジックに戻す
+        weights = [
+            max(0, profile.keyword_weight),
+            max(0, profile.naturalness_weight),
+            max(0, profile.originality_weight),
+        ]
+        total = sum(weights)
+        if total == 0:
+            weights = [60, 20, 20]
+            total = 100
+
+        (
+            profile.keyword_weight,
+            profile.naturalness_weight,
+            profile.originality_weight,
+        ) = [round(weight * 100 / total) for weight in weights]
+
+        profile.originality_weight += (
+            100
+            - profile.keyword_weight
+            - profile.naturalness_weight
+            - profile.originality_weight
+        )
+
+        return profile
