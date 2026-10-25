@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 tools/html/html_decompose_tool.py
-HTML内の <script> / <style> / JSON設定ブロックを検出・抽出・分解するツール。
+旧 IntentInspector._detect_decomposition_request() を切り出した <script> 抽出ツール。
 """
 from __future__ import annotations
 
@@ -13,18 +13,16 @@ from tools.base_tool import BaseTool
 
 class HtmlDecomposeTool(BaseTool):
     name = "script_decomposition"
-    aliases = ["decomposition", "extract_script", "extract_style"]
+    aliases = ["decomposition", "extract_script"]
     category = "html"
-    description = "HTML内の<script>タグや<style>タグ、埋め込み設定JSONを検出・抽出・分解します。"
+    description = "HTML内の<script>タグや埋め込みスクリプトを検出・抽出・分解します。"
 
+    # IntentInspector 高速ルーティング設定
     fast_route_enabled = True
     priority = 10
     mode = "script_extraction"
     forced_handler = "DecompositionHandler"
     fast_route_score = 100
-
-    _SCRIPT_RE = re.compile(r"<script\b[^>]*>", re.IGNORECASE)
-    _STYLE_RE = re.compile(r"<style\b[^>]*>", re.IGNORECASE)
 
     @classmethod
     def can_fast_route(
@@ -34,23 +32,18 @@ class HtmlDecomposeTool(BaseTool):
         cache: Dict[str, Any],
         context: Optional[Dict[str, Any]] = None,
     ) -> Tuple[bool, str]:
-        has_script_tag = bool(cls._SCRIPT_RE.search(message))
-        has_style_tag = bool(cls._STYLE_RE.search(message))
-        if not (has_script_tag or has_style_tag):
+        has_script_tag = bool(
+            re.search(r"<script\b[^>]*>", message, flags=re.IGNORECASE)
+        )
+        if not has_script_tag:
             return False, ""
 
         pk = cache.get("parser_keywords", {})
-        decomp_kws = pk.get(
-            "DECOMPOSITION_KEYWORDS",
-            ["分解", "抽出", "切り出し", "スクリプト", "extract", "decompose"],
-        )
+        decomp_kws = pk.get("DECOMPOSITION_KEYWORDS", [])
         if any(kw in msg_lower for kw in decomp_kws):
             return True, "script_tag_extraction"
 
-        if has_script_tag:
-            return True, "script_tag_detected"
-
-        return False, ""
+        return True, "script_tag_detected"
 
     def get_parameters_schema(self) -> Dict[str, Any]:
         return {
