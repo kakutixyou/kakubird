@@ -3,7 +3,22 @@ from typing import Any, Tuple
 from .base_handler import BaseHandler
 from api.services.weather_service import execute_weather_fetch
 
+# backend/api/services/handlers/weather_handler.py
 class WeatherHandler(BaseHandler):
+    GAG_HINTS = (
+        "ダジャレ", "だじゃれ", "ギャグ", "ジョーク", "ネタ",
+        "おもしろい話", "面白い話", "笑", "冗談", "漫才"
+    )
+    WEATHER_HINTS = (
+        "天気", "気温", "降水", "雨", "晴れ", "曇り",
+        "風", "湿度", "予報", "今の天気", "今日の天気"
+    )
+
+    async def can_handle(self, message: str) -> bool:
+        text = (message or "").lower()
+        if any(h.lower() in text for h in self.GAG_HINTS):
+            return False
+        return any(h.lower() in text for h in self.WEATHER_HINTS)
     """
     天気情報の取得リクエストを担当するハンドラー
     """
