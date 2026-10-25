@@ -3,6 +3,7 @@ from typing import Any, Tuple
 from .base_handler import BaseHandler
 from api.services.weather_service import execute_weather_fetch
 
+
 # backend/api/services/handlers/weather_handler.py
 class WeatherHandler(BaseHandler):
     GAG_HINTS = (
@@ -14,21 +15,20 @@ class WeatherHandler(BaseHandler):
         "風", "湿度", "予報", "今の天気", "今日の天気"
     )
 
-    async def can_handle(self, message: str) -> bool:
-        text = (message or "").lower()
-        if any(h.lower() in text for h in self.GAG_HINTS):
-            return False
-        return any(h.lower() in text for h in self.WEATHER_HINTS)
+
     """
     天気情報の取得リクエストを担当するハンドラー
     """
-    def __init__(self):
-        # 🌟 修正ポイント: 海外APIが漢字で空振りする現象を防ぐため、
-        # 確実にヒットする「英語名」に変換する辞書を用意しました！
+    def __init__(self, **kwargs):
+        # 🌟 追加: 親クラス(BaseHandler)の __init__ を呼び出し、
+        # enabled, priority, metadata などの必須プロパティを初期化する
+        super().__init__(**kwargs)
+        
+        # その後に固有のプロパティを定義する
         self.CITY_MAP = {
             "札幌": "Sapporo", "青森": "Aomori", "盛岡": "Morioka", "仙台": "Sendai",
             "秋田": "Akita", "山形": "Yamagata", "福島": "Fukushima", "水戸": "Mito",
-            "宇歩宮": "Utsunomiya", "前橋": "Maebashi", "さいたま": "Saitama", "埼玉": "Saitama",
+            "宇都宮": "Utsunomiya", "前橋": "Maebashi", "さいたま": "Saitama", "埼玉": "Saitama",
             "千葉": "Chiba", "東京": "Tokyo", "横浜": "Yokohama", "新潟": "Niigata",
             "富山": "Toyama", "金沢": "Kanazawa", "福井": "Fukui", "甲府": "Kofu",
             "長野": "Nagano", "岐阜": "Gifu", "静岡": "Shizuoka", "名古屋": "Nagoya",
@@ -41,7 +41,10 @@ class WeatherHandler(BaseHandler):
         }
 
     async def can_handle(self, message: str) -> bool:
-        return "天気" in message
+        text = (message or "").lower()
+        if any(h.lower() in text for h in self.GAG_HINTS):
+            return False
+        return any(h.lower() in text for h in self.WEATHER_HINTS)
 
     async def handle(self, message: str) -> Tuple[str, Any]:
         print("☁️ Weather Handler 発動: 天気予報を取得します")
@@ -69,3 +72,9 @@ class WeatherHandler(BaseHandler):
         except Exception as e:
             print(f"Weather Handler Error: {e}")
             return "text", "天気情報の取得に失敗しました。"
+        
+        # super().__init__(**kwargs) は、クラスが 「親クラス（今回の場合は BaseHandler）」を継承していること を前提としています。
+
+# Pythonの super() は「親クラスのメソッドを呼び出す」ための特別な関数です。そのため、BaseHandler を import して class WeatherHandler(BaseHandler): のように継承しないと、親クラスが存在しない（正確にはデフォルトの object クラスが親になる）ため、エラーになってしまいます。
+
+# つまり、「BaseHandler.py があり、それを継承しているからこそ super().__init__(**kwargs) が書ける（そして enabled などの便利な機能が自動でセットされる）」 という関係性になります。
