@@ -1,14 +1,16 @@
 # api/services/handlers/GagHandler/generator.py
 # -*- coding: utf-8 -*-
 """
-generator.py
+generator.py (high-score version)
 
 設計方針:
-1. 「単なるランダムな穴埋め」ではなく、「音の重なり（韻・語呂合わせ）」を核にして文を組み立てる
-2. お題単語（A）に対して、音が似ている相方（A_pun）と関連動作（Action）をペアで割り当てる
-3. 辞書にない未知の単語でも、反復・語尾変化で確実にダジャレとして成立する文型を用意する
-4. state.history とモジュール内キャッシュの両方から past_gags を収集し、ネタ被りを徹底排除する
-5. 「10個考えて」などの複数個リクエストにも自動で対応する
+1. 「音の重なり（韻・語呂合わせ）」を核に文を組み立てる
+2. 採点条件（必須ワード・出現回数・文字数レンジ）を生成側でも守る
+   - repeat_count / minimum_use / required_words / min_characters / max_characters
+3. LLM は複数サンプル → 制約適合度で最良を選ぶ → 足りなければ修復(repair)
+4. 辞書にない単語でも、そのまま使える反復型の文型で成立させる
+5. state.history・rules["past_gags"]・モジュールキャッシュで被りを排除
+6. 「10個考えて」などの複数個リクエストにも対応
 """
 
 from __future__ import annotations
@@ -21,17 +23,15 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 from api.services.handlers.ChatHandler.llm_bridge import generate_with_local_llm
 from .GagRuleEngine import GagRuleProfile
 
-# プロセス内で直近に出したダジャレを記憶し、連続呼び出しでも絶対に被らせないキャッシュ
 _RECENT_GENERATED_GAGS: List[str] = []
 _MAX_RECENT_CACHE = 50
 
+# LLM を何回サンプリングして最良を選ぶか（rules["llm_samples"] で上書き可）
+_DEFAULT_LLM_SAMPLES = 2
+
 # ==========================
-# 語彙の土台 & 音ペア辞書（ダジャレの核）
+# 音ペア辞書
 # ==========================
-# key: お題ワード
-# pun: 音が重なる語呂合わせワード
-# sub: セットで使うと文脈が自然になる補助ワード
-# act: オチに使える自然な述語・状況
 PUN_KNOWLEDGE_BASE: Dict[str, Dict[str, str]] = {
     "GitHub Copilot": {"pun": "コパイロットが濃いパイロット", "sub": "操縦席のコード", "act": "ナイスフライトでバグを回避した"},
     "PR": {"pun": "PR（ピーアール）で自己PR", "sub": "渾身のコミット", "act": "レビュアーの心にマージされた"},
@@ -68,16 +68,8 @@ PUN_KNOWLEDGE_BASE: Dict[str, Dict[str, str]] = {
 DEFAULT_WORD_BANK: List[str] = list(PUN_KNOWLEDGE_BASE.keys())
 
 # ==========================
-# 文型ライブラリ（リズム・オチ重視）
+# 文型ライブラリ
 # ==========================
-# 重要:
-# - {A}: お題単語
-# - {A_pun}: {A}を使った音遊びフレーズ
-# - {A_sub}: {A}に関連する情景ワード
-# - {A_act}: オチの行動
-# - {B}: 対比・掛け合わせ用の第2ワード
-# - {B_pun}: {B}を使った音遊びフレーズ
-
 PATTERN_LIBRARY: List[str] = [
     "「{A_pun}！」と叫んだら、{A_sub}までピタッと止まって{A_act}。",
     "{A}を見つめて一言、「{A_pun}」。おかげで{A_sub}もすっかり{A_act}。",
@@ -104,33 +96,45 @@ PATTERN_LIBRARY_DAILY: List[str] = [
     "{B}を眺めながら「{A_pun}！」と呟いたら、周りの空気も和んで{A_act}。",
 ]
 
-# 辞書にない未知のお題ワード（例：「みかん」「布団」「Python」など）が来た時の万能ダジャレ生成テンプレート
+# 辞書にない単語用。お題ワード {W} を必ず複数回含む「反復型」で、
+# 意味が通る範囲で言葉のリズムを作る（出現回数の採点にも強い）。
 DYNAMIC_PUN_TEMPLATES: List[Dict[str, str]] = [
     {
-        "pun": "{W}が{W}（みかん・未完）のままじゃ終われない",
+        "pun": "{W}は{W}でも、{W}だからこそ{W}らしい！",
         "sub": "{W}の準備",
         "act": "最後までバッチリ完成させた",
     },
     {
-        "pun": "{W}だけに、{W}（いい感）じに仕上がった",
-        "sub": "{W}のクオリティ",
+        "pun": "{W}と聞いて、思わず「{W}？{W}！」と二度見した",
+        "sub": "目の前の{W}",
         "act": "みんなから拍手喝采を浴びた",
     },
     {
-        "pun": "{W}を見たら、心が「{W}（ドカン）」と盛り上がった",
-        "sub": "目の前の{W}",
-        "act": "テンション最高潮で乗り切った",
+        "pun": "{W}だけに、{W}しないで{W}しよう！",
+        "sub": "{W}のクオリティ",
+        "act": "いい感じに仕上がった",
     },
     {
-        "pun": "{W}のことが気になって、{W}（いかん）ともしがたい",
-        "sub": "{W}の魅力",
-        "act": "結局どっぷりハマってしまった",
-    },
-    {
-        "pun": "{W}を使って、{W}（快感）なリズムで作業中",
+        "pun": "{W}を制する者は{W}を制す！つまり{W}が最強",
         "sub": "{W}との相性",
         "act": "過去最高スピードで片付いた",
     },
+    {
+        "pun": "{W}の{W}による{W}のための一日",
+        "sub": "{W}の魅力",
+        "act": "結局どっぷりハマってしまった",
+    },
+]
+
+# 回数・文字数が足りないときの修復用フレーズ
+_REPAIR_TAILS: List[str] = [
+    "ここで一言、{W}！",
+    "しかも{W}だから、もう一回{W}！",
+    "というわけで、{W}でした。",
+]
+_PAD_FILLERS: List[str] = [
+    "ちなみに、これは{W}だけにちょっとした自信作です。",
+    "もう一度言います、{W}！",
 ]
 
 
@@ -140,45 +144,37 @@ DYNAMIC_PUN_TEMPLATES: List[Dict[str, str]] = [
 def _normalize_words(values: Any) -> List[str]:
     if values is None:
         return []
-
     if isinstance(values, str):
-        # カンマ・読点・空白で分割
         out = [v.strip() for v in re.split(r"[,、\s]+", values)]
         return [v for v in out if v and v != "（自由なお題）"]
-
-    if isinstance(values, list):
-        out: List[str] = []
+    if isinstance(values, (list, tuple, set)):
+        res: List[str] = []
         for v in values:
             if isinstance(v, str):
                 vv = v.strip()
                 if vv and vv != "（自由なお題）":
-                    out.append(vv)
-        return out
-
+                    res.append(vv)
+        return res
     return []
 
 
 def _extract_requested_count(raw_message: str, default: int = 1) -> int:
-    """
-    ユーザーのメッセージから「10個」「5つ」「3連発」などの要求個数を抽出する（最大15個）。
-    """
     if not raw_message:
         return default
     m = re.search(r"(\d+)\s*(?:個|つ|連発|本|件|発)", str(raw_message))
     if m:
         try:
-            val = int(m.group(1))
-            return max(1, min(val, 15))
+            return max(1, min(int(m.group(1)), 15))
         except ValueError:
             pass
     return default
 
 
+def _strip_numbering(line: str) -> str:
+    return re.sub(r"^\d+[\.\s、:：]+", "", line.strip())
+
+
 def _extract_past_gags_from_state(state: Any, rules: Dict[str, Any]) -> List[str]:
-    """
-    state.history、rules["past_gags"]、およびモジュール内キャッシュから
-    過去に出力したダジャレ一覧を集める。
-    """
     past: List[str] = list(_RECENT_GENERATED_GAGS)
 
     rule_past = rules.get("past_gags")
@@ -191,12 +187,10 @@ def _extract_past_gags_from_state(state: Any, rules: Dict[str, Any]) -> List[str
             for item in history[-20:]:
                 if isinstance(item, dict) and item.get("role") == "assistant":
                     content = str(item.get("content", "")).strip()
-                    if content:
-                        # 複数行の場合は行ごとに分割して登録
-                        for line in content.splitlines():
-                            clean_line = re.sub(r"^\d+[\.\s、:：]+", "", line.strip())
-                            if clean_line:
-                                past.append(clean_line)
+                    for line in content.splitlines():
+                        clean_line = _strip_numbering(line)
+                        if clean_line:
+                            past.append(clean_line)
     return past
 
 
@@ -206,51 +200,35 @@ def _pick_words(
     raw_user_message: str = "",
 ) -> List[str]:
     """
-    語彙は次の優先順で選ぶ:
-    1. profile.target_words
-    2. rules["target_words"]
-    3. ユーザー発話に含まれる辞書登録ワード
-    4. DEFAULT_WORD_BANK からランダム選出
+    優先順: profile.target_words → rules["target_words"] → 発話中の既知語 → ランダム補充
     """
     picked: List[str] = []
-
     if profile is not None:
         picked.extend(_normalize_words(getattr(profile, "target_words", None)))
-
+        picked.extend(_normalize_words(getattr(profile, "required_words", None)))
     picked.extend(_normalize_words(rules.get("target_words")))
 
-    # ユーザー発話の中に既知の単語があれば優先採用
     if raw_user_message:
         for known_word in DEFAULT_WORD_BANK:
             if known_word in raw_user_message and known_word not in picked:
                 picked.append(known_word)
 
-    # 重複除去しつつ順序維持
     uniq_picked: List[str] = []
     for w in picked:
         if w not in uniq_picked:
             uniq_picked.append(w)
 
-    # 4語に満たない場合はワードバンクから補充
     bank = [w for w in DEFAULT_WORD_BANK if w not in uniq_picked]
     random.shuffle(bank)
     return (uniq_picked + bank)[: max(4, len(uniq_picked))]
 
 
 def _get_pun_info(word: str) -> Dict[str, str]:
-    """
-    お題ワードに対する音遊び情報（pun, sub, act）を取得する。
-    辞書にない未知の単語でも動的テンプレートで必ずダジャレ化する。
-    """
     if word in PUN_KNOWLEDGE_BASE:
         return PUN_KNOWLEDGE_BASE[word]
-
-    # 部分一致チェック
     for k, v in PUN_KNOWLEDGE_BASE.items():
         if k in word or word in k:
             return v
-
-    # 未知の単語向け動的ダジャレ生成
     tmpl = random.choice(DYNAMIC_PUN_TEMPLATES)
     return {
         "pun": tmpl["pun"].format(W=word),
@@ -260,10 +238,6 @@ def _get_pun_info(word: str) -> Dict[str, str]:
 
 
 def _make_word_slots(words: List[str]) -> Dict[str, str]:
-    """
-    A/B/C/D の基本スロットに加え、ダジャレ用の音遊びスロット（A_pun, A_sub, A_act 等）を生成する。
-    既存のカスタム文型（{A}〜{D}のみを使うもの）とも100%後方互換性を保つ。
-    """
     w_a = words[0] if len(words) > 0 else "GitHub Copilot"
     w_b = words[1] if len(words) > 1 else "PR"
     w_c = words[2] if len(words) > 2 else "雨"
@@ -273,16 +247,9 @@ def _make_word_slots(words: List[str]) -> Dict[str, str]:
     info_b = _get_pun_info(w_b)
 
     return {
-        "A": w_a,
-        "B": w_b,
-        "C": w_c,
-        "D": w_d,
-        "A_pun": info_a["pun"],
-        "A_sub": info_a["sub"],
-        "A_act": info_a["act"],
-        "B_pun": info_b["pun"],
-        "B_sub": info_b["sub"],
-        "B_act": info_b["act"],
+        "A": w_a, "B": w_b, "C": w_c, "D": w_d,
+        "A_pun": info_a["pun"], "A_sub": info_a["sub"], "A_act": info_a["act"],
+        "B_pun": info_b["pun"], "B_sub": info_b["sub"], "B_act": info_b["act"],
     }
 
 
@@ -297,12 +264,10 @@ def _choose_pattern(topic: str) -> str:
 def _build_text(topic: str, words: List[str]) -> str:
     slots = _make_word_slots(words)
     pattern = _choose_pattern(topic)
-
     try:
         return pattern.format(**slots)
     except Exception:
-        fallback = random.choice(PATTERN_LIBRARY)
-        return fallback.format(**slots)
+        return random.choice(PATTERN_LIBRARY).format(**slots)
 
 
 def _similarity_ratio(a: str, b: str) -> float:
@@ -312,10 +277,6 @@ def _similarity_ratio(a: str, b: str) -> float:
 
 
 def is_novel_candidate(candidate: str, past_gags: List[str], threshold: float = 0.68) -> bool:
-    """
-    新規性チェック。過去のネタと似すぎる場合は False。
-    threshold を 0.68 に引き締め、同じお題や同じ文型の連続採用を防ぐ。
-    """
     for past in past_gags:
         if not past:
             continue
@@ -325,93 +286,241 @@ def is_novel_candidate(candidate: str, past_gags: List[str], threshold: float = 
 
 
 def _record_generated_gag(gag_text: str) -> None:
-    """生成したダジャレをキャッシュに登録し、次回以降の重複を防ぐ。"""
     for line in str(gag_text).splitlines():
-        clean = re.sub(r"^\d+[\.\s、:：]+", "", line.strip())
+        clean = _strip_numbering(line)
         if clean and clean not in _RECENT_GENERATED_GAGS:
             _RECENT_GENERATED_GAGS.append(clean)
     while len(_RECENT_GENERATED_GAGS) > _MAX_RECENT_CACHE:
         _RECENT_GENERATED_GAGS.pop(0)
 
 
+# ==========================
+# 採点条件に合わせた制約チェック & 修復
+# ==========================
+def _constraint_words(profile: Optional[GagRuleProfile], rules: Dict[str, Any]) -> Tuple[List[str], List[str]]:
+    """(必須ワード, 出現回数を数えるワード) を返す。"""
+    required = _normalize_words(getattr(profile, "required_words", None)) if profile else []
+    targets = _normalize_words(getattr(profile, "target_words", None)) if profile else []
+    if not targets:
+        targets = _normalize_words(rules.get("target_words"))
+    if not required:
+        required = _normalize_words(rules.get("required_words"))
+    return required, targets
+
+
+def _need_occurrences(rules: Dict[str, Any]) -> int:
+    try:
+        rep = int(rules.get("repeat_count", 1) or 1)
+        mn = int(rules.get("minimum_use", 0) or 0)
+    except (TypeError, ValueError):
+        return 1
+    return max(rep, mn, 1)
+
+
+def _count_occurrences(text: str, words: List[str]) -> int:
+    return sum(text.count(w) for w in words if w)
+
+
+def _char_range(profile: Optional[GagRuleProfile]) -> Tuple[Optional[int], Optional[int]]:
+    lo = getattr(profile, "min_characters", None) if profile else None
+    hi = getattr(profile, "max_characters", None) if profile else None
+    return lo, hi
+
+
+def _heuristic_score(text: str, profile: Optional[GagRuleProfile], rules: Dict[str, Any]) -> float:
+    """
+    GagRuleEngine の採点を呼べない場所で候補を比較するための簡易スコア。
+    必須語・出現回数・文字数レンジ・リズム要素（！「」・繰り返し）を見る。
+    """
+    if not text:
+        return 0.0
+    required, targets = _constraint_words(profile, rules)
+    need = _need_occurrences(rules)
+    lo, hi = _char_range(profile)
+    n = len(text)
+    score = 40.0
+
+    if required:
+        hit = sum(1 for w in required if w in text)
+        score += 25.0 * hit / len(required)
+    else:
+        score += 25.0
+
+    if targets:
+        occ = _count_occurrences(text, targets)
+        score += 20.0 if occ >= need else 20.0 * occ / max(need, 1)
+    else:
+        score += 20.0
+
+    in_range = (lo is None or n >= lo) and (hi is None or n <= hi)
+    if in_range:
+        score += 10.0
+    # 範囲指定がないときは 20〜70 字をちょうどよい長さとみなす
+    if lo is None and hi is None and 20 <= n <= 70:
+        score += 3.0
+
+    if "！" in text or "？" in text:
+        score += 1.0
+    if "「" in text and "」" in text:
+        score += 1.0
+    return score
+
+
+def _repair_text(text: str, profile: Optional[GagRuleProfile], rules: Dict[str, Any]) -> str:
+    """必須語・出現回数・文字数が不足していたら、自然な短文を足して補う。"""
+    if not text:
+        return text
+    required, targets = _constraint_words(profile, rules)
+    need = _need_occurrences(rules)
+    lo, hi = _char_range(profile)
+    out = text.strip()
+
+    # 1. 必須ワード
+    for w in required:
+        if w not in out:
+            out += f"ここで一言、{w}！"
+
+    # 2. 出現回数
+    if targets:
+        w = targets[0]
+        guard = 0
+        while _count_occurrences(out, targets) < need and guard < 6:
+            out += random.choice(_REPAIR_TAILS).format(W=w)
+            guard += 1
+
+    # 3. 文字数: 長すぎる場合は文末で切る（必須語が消えない場合のみ）
+    if hi is not None and len(out) > hi:
+        cut = out[:hi]
+        idx = max(cut.rfind("。"), cut.rfind("！"), cut.rfind("？"))
+        if idx >= 0:
+            cut = cut[: idx + 1]
+        if all(w in cut for w in required) and (not targets or _count_occurrences(cut, targets) >= need):
+            out = cut
+
+    # 4. 文字数: 短すぎる場合は補足を足す
+    if lo is not None and len(out) < lo and targets:
+        guard = 0
+        while len(out) < lo and guard < 4:
+            out += random.choice(_PAD_FILLERS).format(W=targets[0])
+            guard += 1
+        if hi is not None and len(out) > hi:
+            out = out[:hi]
+
+    return out
+
+
+# ==========================
+# ルールベース候補生成
+# ==========================
 def build_novel_candidates(
     words: List[str],
     topic: str,
     past_gags: List[str],
     count: int = 5,
     max_attempts: int = 60,
+    profile: Optional[GagRuleProfile] = None,
+    rules: Optional[Dict[str, Any]] = None,
 ) -> List[str]:
     """
-    複数候補を生成して、過去および今回のリスト内で似ていないものだけ残す。
-    たくさん要求された場合（例：10個）でも主語（A）が毎回変わるようにローテーションする。
+    複数候補を生成し、過去・今回リスト内で似ていないものだけ残す。
+    profile / rules があれば制約適合度の高い候補を優先して採用する。
     """
+    rules = rules or {}
     candidates: List[str] = []
     attempts = 0
 
-    # 候補生成用の語彙プールを広めに確保（10個要求されても主語が被らないようにする）
     pool = list(words)
     for w in DEFAULT_WORD_BANK:
         if w not in pool:
             pool.append(w)
 
+    # ユーザー指定語は常に主語に使う候補として優先
+    fixed = _normalize_words(getattr(profile, "target_words", None)) if profile else []
     used_primary_words = set()
+
+    def _make(primary: str) -> str:
+        others = [w for w in pool if w != primary]
+        random.shuffle(others)
+        text = _build_text(topic, [primary] + others[:3])
+        return _repair_text(text, profile, rules) if profile is not None else text
 
     while attempts < max_attempts and len(candidates) < count:
         attempts += 1
+        if fixed:
+            primary = fixed[len(candidates) % len(fixed)] if attempts <= len(fixed) * 3 else random.choice(pool)
+        else:
+            unused = [w for w in pool if w not in used_primary_words] or list(pool)
+            if len(unused) == len(pool):
+                used_primary_words.clear()
+            primary = random.choice(unused)
 
-        # まだ主語(A)として使っていない単語を優先的に先頭にする
-        unused_primaries = [w for w in pool if w not in used_primary_words]
-        if not unused_primaries:
-            used_primary_words.clear()
-            unused_primaries = list(pool)
+        # 同じ主語で数案作り、制約適合度が最高のものを選ぶ
+        trials = [_make(primary) for _ in range(3)]
+        trials.sort(key=lambda t: _heuristic_score(t, profile, rules), reverse=True)
+        candidate = trials[0]
 
-        primary = random.choice(unused_primaries)
-        others = [w for w in pool if w != primary]
-        random.shuffle(others)
-
-        local_words = [primary] + others[:3]
-        candidate = _build_text(topic, local_words)
-
-        # 過去のダジャレ ＋ 今回すでに採用した候補 の両方に対して類似度チェック
-        combined_past = past_gags + candidates
-        if candidate and is_novel_candidate(candidate, combined_past):
+        if candidate and is_novel_candidate(candidate, past_gags + candidates):
             candidates.append(candidate)
             used_primary_words.add(primary)
 
-    # 万が一目標数に届かなかった場合は閾値を緩めて補充
     while len(candidates) < count and attempts < max_attempts + 20:
         attempts += 1
         random.shuffle(pool)
         candidate = _build_text(topic, pool[:4])
+        if profile is not None:
+            candidate = _repair_text(candidate, profile, rules)
         if candidate and candidate not in candidates:
             candidates.append(candidate)
 
     if not candidates:
-        fallback = _build_text(topic, pool[:4])
-        candidates = [fallback]
+        candidates = [_build_text(topic, pool[:4])]
 
     return candidates[:count]
 
 
-# ==========================
-# fallback 生成
-# ==========================
 def synthesize_fallback_gag(profile: GagRuleProfile, rules: Dict[str, Any]) -> str:
-    """
-    最後の砦となる fallback 生成。
-    """
     words = _pick_words(profile, rules)
     topic = str(rules.get("topic", "general"))
     past_gags = _extract_past_gags_from_state(None, rules)
-    cands = build_novel_candidates(words, topic, past_gags=past_gags, count=1)
+    cands = build_novel_candidates(
+        words, topic, past_gags=past_gags, count=1, profile=profile, rules=rules
+    )
     result = cands[0]
     _record_generated_gag(result)
     return result
 
 
 # ==========================
-# 本体の生成関数
+# 本体
 # ==========================
+def _try_llm(
+    prompt: str,
+    local_llm: Any,
+    analysis: Dict[str, Any],
+    state: Any,
+    summary: Dict[str, Any],
+    knowledge_data: Any,
+    debug: Optional[Callable[[str], None]],
+) -> Optional[str]:
+    try:
+        res = generate_with_local_llm(
+            local_llm=local_llm,
+            prompt_builder=None,
+            user_message=prompt,
+            analysis=analysis,
+            state=state,
+            summary=summary,
+            knowledge_data=knowledge_data,
+            debug=debug,
+        )
+        if res and str(res).strip():
+            return str(res).strip()
+    except Exception as exc:
+        if debug:
+            debug(f"generate_with_local_llm failed: {exc}")
+    return None
+
+
 def generate_gag_once(
     prompt: str,
     raw_user_message: str,
@@ -426,36 +535,28 @@ def generate_gag_once(
     debug: Optional[Callable[[str], None]] = None,
 ) -> Tuple[str, str]:
     """
-    1. local_llm が使えれば使う
-    2. 複数個リクエスト（「10個考えて」など）や LLM 失敗時は、
-       音ペア辞書＋新規性保証つきの build_novel_candidates で高品質なダジャレを返す
+    1. LLM を複数サンプル → 制約適合度が最高の候補を採用（不足は repair）
+    2. fallback_generate（単発のみ）
+    3. 音ペア辞書＋新規性保証＋制約修復のルールエンジン
     """
     requested_count = _extract_requested_count(raw_user_message, default=1)
     past_gags = _extract_past_gags_from_state(state, rules)
 
-    # 1. Local LLM 試行
-    if local_llm is not None and callable(generate_with_local_llm):
-        try:
-            res = generate_with_local_llm(
-                local_llm=local_llm,
-                prompt_builder=None,
-                user_message=prompt,
-                analysis=analysis,
-                state=state,
-                summary=summary,
-                knowledge_data=knowledge_data,
-                debug=debug,
-            )
-            if res and str(res).strip():
-                text = str(res).strip()
-                if is_novel_candidate(text, past_gags):
-                    _record_generated_gag(text)
-                    return text, "local_llm+gag"
-        except Exception as exc:
-            if debug:
-                debug(f"generate_with_local_llm failed: {exc}")
+    # 1. Local LLM: 単発要求のときだけ。複数サンプルして最良を選ぶ
+    if requested_count == 1 and local_llm is not None and callable(generate_with_local_llm):
+        samples = int(rules.get("llm_samples", _DEFAULT_LLM_SAMPLES) or _DEFAULT_LLM_SAMPLES)
+        pool: List[Tuple[float, str]] = []
+        for _ in range(max(1, samples)):
+            text = _try_llm(prompt, local_llm, analysis, state, summary, knowledge_data, debug)
+            if text and is_novel_candidate(text, past_gags):
+                pool.append((_heuristic_score(text, profile, rules), text))
+        if pool:
+            pool.sort(key=lambda x: x[0], reverse=True)
+            best = _repair_text(pool[0][1], profile, rules)
+            _record_generated_gag(best)
+            return best, "local_llm+gag"
 
-    # 2. 複数個要求されていない場合のみ、単発の fallback_generate を試行
+    # 2. fallback_generate（単発のみ）
     if requested_count == 1 and callable(fallback_generate):
         try:
             res = fallback_generate(
@@ -468,13 +569,14 @@ def generate_gag_once(
             if res and str(res).strip():
                 text = str(res).strip()
                 if is_novel_candidate(text, past_gags):
+                    text = _repair_text(text, profile, rules)
                     _record_generated_gag(text)
                     return text, "fallback_llm+gag"
         except Exception as exc:
             if debug:
                 debug(f"fallback_generate failed: {exc}")
 
-    # 3. 音ペア辞書＆重複排除エンジンで生成
+    # 3. ルールエンジン
     words = _pick_words(profile, rules, raw_user_message=raw_user_message)
     topic = str(rules.get("topic", "general"))
     candidates = build_novel_candidates(
@@ -482,6 +584,8 @@ def generate_gag_once(
         topic=topic,
         past_gags=past_gags,
         count=requested_count,
+        profile=profile,
+        rules=rules,
     )
 
     if requested_count > 1:
