@@ -7,6 +7,8 @@ const livesText = document.getElementById('livesText');
 const bossHpText = document.getElementById('bossHpText');
 const shieldText = document.getElementById('shieldText');
 const restartButton = document.getElementById('restartButton');
+const downloadLogButton = document.getElementById('downloadLogButton');
+const downloadSummaryButton = document.getElementById('downloadSummaryButton');
 
 const FALLBACK_GAME_CONFIG = {
   projectName: 'shooter_boss_trial',
@@ -49,6 +51,18 @@ window.__shooterSummary = {
   finalBossHp: GAME_CONFIG.bossMaxHp,
   shieldActive: false,
 };
+
+function downloadJsonFile(filename, content) {
+  const blob = new Blob([content], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
 
 function recordEvent(eventName, payload = {}) {
   const entry = {
@@ -633,6 +647,14 @@ window.addEventListener('keyup', (event) => {
 
 restartButton.addEventListener('click', () => {
   resetGame();
+});
+
+downloadLogButton.addEventListener('click', () => {
+  downloadJsonFile('shooter_event_log.json', window.exportShooterLog());
+});
+
+downloadSummaryButton.addEventListener('click', () => {
+  downloadJsonFile('shooter_summary.json', window.exportShooterSummary());
 });
 
 resetGame();
