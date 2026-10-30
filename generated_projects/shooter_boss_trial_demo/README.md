@@ -15,7 +15,8 @@
 
 ログ:
 - ブラウザの開発者ツールで `window.__shooterEvents` を確認できます
-- あるいは `window.exportShooterLog()` を実行すると JSON 文字列を取得できます
+- `window.exportShooterLog()` で JSON 文字列を取得できます
+- `window.exportShooterSummary()` で最終サマリーも取得できます
 
 ブラウザで開くと遊べます:
 
@@ -23,3 +24,4 @@
 2. WASD または 矢印キーで移動
 3. Space で弾を発射
 4. ボスを倒し、アイテムを拾う
+5. 開発者ツールで log を確認し、設定と実行のズレを確認する

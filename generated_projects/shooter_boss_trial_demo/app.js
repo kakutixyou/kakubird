@@ -40,6 +40,15 @@ const FALLBACK_GAME_CONFIG = {
 
 const GAME_CONFIG = window.SHOOTER_GAME_CONFIG || FALLBACK_GAME_CONFIG;
 window.__shooterEvents = [];
+window.__shooterSummary = {
+  startedAt: Date.now(),
+  totalEvents: 0,
+  finalPlayerHp: GAME_CONFIG.playerBaseHp,
+  finalPlayerAttack: GAME_CONFIG.playerBaseAttack,
+  finalLives: GAME_CONFIG.playerLives,
+  finalBossHp: GAME_CONFIG.bossMaxHp,
+  shieldActive: false,
+};
 
 function recordEvent(eventName, payload = {}) {
   const entry = {
@@ -48,11 +57,43 @@ function recordEvent(eventName, payload = {}) {
     ...payload,
   };
   window.__shooterEvents.push(entry);
+  window.__shooterSummary.totalEvents = window.__shooterEvents.length;
   console.log('[ShooterEvent]', entry);
+}
+
+function updateSummarySnapshot() {
+  window.__shooterSummary.finalPlayerHp = player.hp;
+  window.__shooterSummary.finalPlayerAttack = player.attack;
+  window.__shooterSummary.finalLives = player.lives;
+  window.__shooterSummary.finalBossHp = boss.hp;
+  window.__shooterSummary.shieldActive = performance.now() < player.shieldUntil;
 }
 
 window.exportShooterLog = function exportShooterLog() {
   return JSON.stringify(window.__shooterEvents, null, 2);
+};
+
+window.exportShooterSummary = function exportShooterSummary() {
+  updateSummarySnapshot();
+  return JSON.stringify({
+    project_name: GAME_CONFIG.projectName,
+    started_at: window.__shooterSummary.startedAt,
+    duration_ms: Date.now() - window.__shooterSummary.startedAt,
+    total_events: window.__shooterSummary.totalEvents,
+    final_player_hp: window.__shooterSummary.finalPlayerHp,
+    final_player_attack: window.__shooterSummary.finalPlayerAttack,
+    final_lives: window.__shooterSummary.finalLives,
+    final_boss_hp: window.__shooterSummary.finalBossHp,
+    shield_active: window.__shooterSummary.shieldActive,
+    config: {
+      drop_interval_ms: GAME_CONFIG.dropIntervalMs,
+      boss_max_hp: GAME_CONFIG.bossMaxHp,
+      player_lives: GAME_CONFIG.playerLives,
+      player_base_hp: GAME_CONFIG.playerBaseHp,
+      player_base_attack: GAME_CONFIG.playerBaseAttack,
+      item_ids: Object.keys(GAME_CONFIG.itemConfigs),
+    },
+  }, null, 2);
 };
 
 const keys = {};
@@ -94,6 +135,16 @@ let message = '';
 
 function resetGame() {
   window.__shooterEvents = [];
+  window.__shooterSummary = {
+    startedAt: Date.now(),
+    totalEvents: 0,
+    finalPlayerHp: GAME_CONFIG.playerBaseHp,
+    finalPlayerAttack: GAME_CONFIG.playerBaseAttack,
+    finalLives: GAME_CONFIG.playerLives,
+    finalBossHp: GAME_CONFIG.bossMaxHp,
+    shieldActive: false,
+  };
+
   player.x = canvas.width / 2;
   player.y = canvas.height - 80;
   player.hp = GAME_CONFIG.playerBaseHp;
@@ -119,6 +170,14 @@ function resetGame() {
     base_hp: player.hp,
     boss_hp: boss.hp,
     attack: player.attack,
+    config_snapshot: {
+      drop_interval_ms: GAME_CONFIG.dropIntervalMs,
+      boss_max_hp: GAME_CONFIG.bossMaxHp,
+      player_base_hp: GAME_CONFIG.playerBaseHp,
+      player_base_attack: GAME_CONFIG.playerBaseAttack,
+      player_lives: GAME_CONFIG.playerLives,
+      item_ids: Object.keys(GAME_CONFIG.itemConfigs),
+    },
   });
   updateHud();
 }
@@ -147,6 +206,7 @@ function updateHud() {
   livesText.textContent = String(player.lives);
   bossHpText.textContent = String(Math.max(0, boss.hp));
   shieldText.textContent = performance.now() < player.shieldUntil ? 'ON' : 'OFF';
+  updateSummarySnapshot();
 }
 
 function spawnEnemy() {
@@ -288,6 +348,7 @@ function takeDamage(amount) {
         reason: 'player_defeated',
         remaining_lives: player.lives,
       });
+      console.log('[ShooterSummary]', window.exportShooterSummary());
     }
   }
   updateHud();
@@ -341,6 +402,7 @@ function updateBullets(dt) {
           reason: 'boss_defeated',
           boss_hp: boss.hp,
         });
+        console.log('[ShooterSummary]', window.exportShooterSummary());
       }
       updateHud();
     }
