@@ -18,6 +18,7 @@ from .detectors import (
 )
 from .MessageTypeDetector import MessageTypeDetector
 from .mode_rule import PYTHON_MODE_RULES, build_mode_rules
+from .grammar.GrammarEngine import GrammarEngine
 
 # ============================================================
 # Path / Cache
@@ -38,7 +39,12 @@ _REQUIRED_KNOWLEDGE_KEYS = (
     "parser_keywords",
     "feature_aliases",
     "crud_features",
-    "tools",  # ← tools.json を自動キャッシュ対象に追加
+    "conversation_actions",
+    "tools",
+    # grammar フォルダー配下の JSON 定義（deictics.json, modality.json, orthography.json）
+    "deictics",
+    "modality",
+    "orthography",
 )
 
 
@@ -83,17 +89,20 @@ def get_knowledge_cache() -> Dict[str, Any]:
 
 class IntentInspector:
     """
-    Detector群・ModeRule・toolsフォルダーのプラグインを統合し、
+    Detector群・GrammarEngine・ModeRule・toolsフォルダーのプラグインを統合し、
     Handler選択用のIntentを生成するスリムな司令塔。
+    文法解析・指示語照応・モダリティ判定はすべて grammar/ フォルダーへ委譲する。
     """
 
     def __init__(
         self,
         message: Any,
         available_knowledge_keys: Optional[List[str]] = None,
+        session_context: Optional[Dict[str, Any]] = None,
     ) -> None:
         self.raw_message = message
         self.available_knowledge_keys = available_knowledge_keys or []
+        self.session_context = session_context or {}
 
         self.message = self._normalize_message(message)
         self.msg_lower = self.message.lower().strip()
@@ -125,8 +134,13 @@ class IntentInspector:
         )
         self.message_detector = MessageTypeDetector(self.message)
 
+        # 文法理解フォルダー (grammar/) のエンジンを初期化
+        self.grammar_engine = GrammarEngine(
+            knowledge_cache=_INSPECTOR_CACHE,
+            session_context=self.session_context,
+        )
+
         mode_rule_data = _INSPECTOR_CACHE["mode_rules"]
-        # mode_rules.json が未設定でも PYTHON_MODE_RULES の7種が必ず動くように順序を構築
         rule_order = list(mode_rule_data.keys()) if mode_rule_data else list(PYTHON_MODE_RULES.keys())
         for py_mode in PYTHON_MODE_RULES:
             if py_mode not in rule_order:
@@ -148,6 +162,7 @@ class IntentInspector:
         ui_context: Dict[str, Any],
         deployment: Dict[str, Any],
         target_categories: List[str],
+        grammar_frame: Dict[str, Any],
     ) -> Dict[str, Any]:
         return {
             "message_type": message_type.get("type", "unknown"),
@@ -161,6 +176,8 @@ class IntentInspector:
             "deployment_surface": deployment.get("deployment_surface"),
             "deployment_theme": deployment.get("deployment_theme"),
             "target_categories": target_categories,
+            "grammar_frame": grammar_frame,
+            "session_context": self.session_context,
             "_KW_named_themes": _INSPECTOR_CACHE.get("deployment_keywords", {}).get(
                 "named_themes", {}
             ),
@@ -204,10 +221,6 @@ class IntentInspector:
         self,
         context: Dict[str, Any],
     ) -> Tuple[Optional[Dict[str, Any]], str, Dict[str, bool], Optional[str]]:
-        """
-        tools.json に登録されたツール群を優先度順にチェックする。
-        個別ロジックは tools/*_tool.py 側の can_fast_route() に委譲する。
-        """
         tools_list = _INSPECTOR_CACHE.get("tools", {}).get("tools", [])
         sorted_tools = sorted(
             tools_list,
@@ -248,11 +261,6 @@ class IntentInspector:
         routing_cfg: Dict[str, Any],
         context: Dict[str, Any],
     ) -> Tuple[bool, str, Optional[str]]:
-        """
-        1. tool_module (例: tools.math.calculator_tool.CalculatorTool) が指定されていれば
-           その can_fast_route() を呼ぶ。
-        2. 指定がなければ JSON 内の triggers (regex / slash_commands / keywords) で判定する。
-        """
         detector_Spec = routing_cfg.get("tool_detector") or {}
         module_path = detector_Spec.get("module")
         class_name = detector_Spec.get("class")
@@ -271,7 +279,6 @@ class IntentInspector:
             except Exception as exc:
                 print(f"⚠️ [IntentInspector] ToolDetector失敗 ({module_path}.{class_name}): {exc}", flush=True)
 
-        # JSON宣言トリガーによるフォールバック判定
         triggers = routing_cfg.get("triggers", {})
         for cmd in triggers.get("slash_commands", []):
             if self.msg_lower.startswith(cmd.lower()):
@@ -376,20 +383,33 @@ class IntentInspector:
     def inspect(self) -> Dict[str, Any]:
         print("🚨 [IntentInspector ENTER]", repr(self.message), flush=True)
 
+        # 1. grammar/ フォルダーによる文法・指示語・モダリティ・表記ゆれの構造解析
+        grammar_frame = self.grammar_engine.analyze(self.message)
+
+        # 文法エンジンが指示語（さっき・あれ）を実体パスに解決できた場合はターゲット検出にも反映
+        effective_text_lower = grammar_frame.get("expanded_text_lower") or self.msg_lower
+
         forced_handler = self.forced_detector.detect(self.message)
         message_type = self.message_detector.detect()
-        actions = self.action_detector.detect(self.msg_lower)
-        targets = self.target_detector.detect_words(self.msg_lower)
-        target_categories = self.target_detector.detect_categories(self.msg_lower)
-        ui_context = self.theme_detector.detect(self.msg_lower)
-        deployment = self.deployment_detector.detect(self.msg_lower)
+        actions = self.action_detector.detect(effective_text_lower)
+        targets = self.target_detector.detect_words(effective_text_lower)
+        target_categories = self.target_detector.detect_categories(effective_text_lower)
+        ui_context = self.theme_detector.detect(effective_text_lower)
+        deployment = self.deployment_detector.detect(effective_text_lower)
 
-        context = self._build_context(message_type, ui_context, deployment, target_categories)
+        context = self._build_context(
+            message_type, ui_context, deployment, target_categories, grammar_frame
+        )
         best_mode, highest_score = self._calculate_mode(actions, targets, context)
 
         conversation_intent, conversation_score, conversation_matches = (
             self._detect_conversation_intent()
         )
+
+        # 文法エンジンが特定した意図（例: あれ？→直前結果の検証、アレ→多義確認、さっき→直前フォルダ参照）を統合
+        if grammar_frame.get("override_intent"):
+            conversation_intent = grammar_frame["override_intent"]
+            conversation_score = max(conversation_score, grammar_frame.get("confidence", 85))
 
         result: Dict[str, Any] = {
             "mode": best_mode,
@@ -403,6 +423,7 @@ class IntentInspector:
             "target_categories": target_categories,
             "message_type_info": message_type,
             "available_knowledge": self.available_knowledge_keys,
+            "grammar": grammar_frame,
             **ui_context,
             **deployment,
         }
@@ -413,14 +434,19 @@ class IntentInspector:
             highest_score = 0
             result["forced_handler"] = None
 
+        # --- 文法安全ガード：「アレ」（寝落ち/変換ミス/Allez）等の要確認入力時は副作用Handlerを遮断 ---
+        if grammar_frame.get("block_side_effects"):
+            result["forced_handler"] = None
+
         # --- Tool Fast-Routing（tools.json & tools/*_tool.py による一括判定） ---
         matched_routing, routing_reason, routing_flags, detected_language = (
             self._evaluate_tools(context)
         )
 
-        if matched_routing:
+        if matched_routing and not grammar_frame.get("block_side_effects"):
             best_mode = matched_routing.get("mode", best_mode)
             highest_score = matched_routing.get("score", 100)
+            conversation_intent = best_mode
             if matched_routing.get("forced_handler"):
                 result["forced_handler"] = matched_routing["forced_handler"]
 
@@ -445,6 +471,8 @@ class IntentInspector:
                 "score": highest_score,
                 "handler": result.get("forced_handler"),
                 "language": detected_language,
+                "grammar_intent": grammar_frame.get("override_intent"),
+                "resolved_target": grammar_frame.get("resolved_target"),
                 "routing": routing_flags,
                 "reason": routing_reason,
                 "is_code": message_type.get("is_code", False),
