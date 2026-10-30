@@ -39,6 +39,21 @@ const FALLBACK_GAME_CONFIG = {
 };
 
 const GAME_CONFIG = window.SHOOTER_GAME_CONFIG || FALLBACK_GAME_CONFIG;
+window.__shooterEvents = [];
+
+function recordEvent(eventName, payload = {}) {
+  const entry = {
+    timestamp: Date.now(),
+    event: eventName,
+    ...payload,
+  };
+  window.__shooterEvents.push(entry);
+  console.log('[ShooterEvent]', entry);
+}
+
+window.exportShooterLog = function exportShooterLog() {
+  return JSON.stringify(window.__shooterEvents, null, 2);
+};
 
 const keys = {};
 const bullets = [];
@@ -78,6 +93,7 @@ let running = true;
 let message = '';
 
 function resetGame() {
+  window.__shooterEvents = [];
   player.x = canvas.width / 2;
   player.y = canvas.height - 80;
   player.hp = GAME_CONFIG.playerBaseHp;
@@ -97,6 +113,13 @@ function resetGame() {
   dropTimer = 0;
   message = '';
   running = true;
+  recordEvent('game_reset', {
+    project_name: GAME_CONFIG.projectName,
+    player_lives: player.lives,
+    base_hp: player.hp,
+    boss_hp: boss.hp,
+    attack: player.attack,
+  });
   updateHud();
 }
 
@@ -150,13 +173,18 @@ function shootPlayerBullet() {
     from: 'player',
   };
   bullets.push(bullet);
+  recordEvent('player_shot', {
+    x: bullet.x,
+    y: bullet.y,
+    damage: bullet.damage,
+  });
 }
 
 function shootBossBullet() {
   const dirX = player.x - boss.x;
   const dirY = player.y - boss.y;
   const len = Math.hypot(dirX, dirY) || 1;
-  enemyBullets.push({
+  const bullet = {
     x: boss.x,
     y: boss.y + boss.h,
     w: 8,
@@ -165,6 +193,13 @@ function shootBossBullet() {
     vx: (dirX / len) * 3.2,
     vy: (dirY / len) * 3.2,
     from: 'enemy',
+  };
+  enemyBullets.push(bullet);
+  recordEvent('boss_shot', {
+    x: bullet.x,
+    y: bullet.y,
+    target_x: player.x,
+    target_y: player.y,
   });
 }
 
@@ -178,6 +213,11 @@ function dropRandomItem(x, y) {
     r: 11,
     speed: 2.2,
   });
+  recordEvent('item_dropped', {
+    item_id: itemId,
+    x,
+    y,
+  });
 }
 
 function applyItem(item) {
@@ -186,10 +226,27 @@ function applyItem(item) {
 
   if (itemConfig.id === 'attack_plus_3') {
     player.attack += itemConfig.value;
+    recordEvent('attack_boost_applied', {
+      item_id: item.id,
+      attack_after: player.attack,
+      attack_delta: itemConfig.value,
+    });
   }
+
   if (itemConfig.id === 'damage_nullify_10s') {
     player.shieldUntil = performance.now() + (itemConfig.durationMs || 0);
+    recordEvent('damage_nullify_started', {
+      item_id: item.id,
+      started_at: player.shieldUntil,
+      duration_ms: itemConfig.durationMs,
+    });
   }
+
+  recordEvent('item_collected', {
+    item_id: item.id,
+    attack: player.attack,
+    shield_until: player.shieldUntil,
+  });
   updateHud();
 }
 
@@ -198,18 +255,39 @@ function takeDamage(amount) {
   if (now < player.invulnerableUntil) return;
   if (now < player.shieldUntil) {
     createExplosion(player.x, player.y, '#7dd3fc');
+    recordEvent('damage_blocked_by_shield', {
+      amount,
+      shield_remaining_ms: Math.max(0, player.shieldUntil - now),
+    });
     return;
   }
 
+  const prevHp = player.hp;
   player.hp -= amount;
   player.invulnerableUntil = now + 1000;
+  recordEvent('damage_taken', {
+    previous_hp: prevHp,
+    damage: amount,
+    current_hp: player.hp,
+  });
+
   if (player.hp <= 0) {
+    const prevLives = player.lives;
     player.lives -= 1;
     player.hp = player.maxHp;
     player.invulnerableUntil = now + 1500;
+    recordEvent('life_lost', {
+      previous_lives: prevLives,
+      current_lives: player.lives,
+      remaining_hp: player.hp,
+    });
     if (player.lives <= 0) {
       running = false;
       message = 'ゲームオーバー';
+      recordEvent('game_over', {
+        reason: 'player_defeated',
+        remaining_lives: player.lives,
+      });
     }
   }
   updateHud();
@@ -246,13 +324,23 @@ function updateBullets(dt) {
 
     if (bullet.y < boss.y + boss.h && bullet.y + bullet.h > boss.y &&
         bullet.x > boss.x - boss.w / 2 && bullet.x < boss.x + boss.w / 2) {
+      const prevBossHp = boss.hp;
       boss.hp -= bullet.damage;
       bullets.splice(i, 1);
       createExplosion(bullet.x, bullet.y, '#f97316');
+      recordEvent('boss_hp_changed', {
+        previous_hp: prevBossHp,
+        new_hp: boss.hp,
+        damage: bullet.damage,
+      });
       if (boss.hp <= 0) {
         boss.hp = 0;
         running = false;
         message = 'ボス撃破!';
+        recordEvent('game_over', {
+          reason: 'boss_defeated',
+          boss_hp: boss.hp,
+        });
       }
       updateHud();
     }
