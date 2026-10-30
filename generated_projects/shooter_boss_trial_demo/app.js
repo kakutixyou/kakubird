@@ -8,15 +8,37 @@ const bossHpText = document.getElementById('bossHpText');
 const shieldText = document.getElementById('shieldText');
 const restartButton = document.getElementById('restartButton');
 
-const GAME_CONFIG = {
+const FALLBACK_GAME_CONFIG = {
+  projectName: 'shooter_boss_trial',
   dropIntervalMs: 3000,
   bossMaxHp: 200,
   playerLives: 2,
   playerBaseHp: 100,
+  playerMaxHp: 100,
   playerBaseAttack: 10,
   playerFireRateMs: 180,
   bossDamage: 12,
+  itemConfigs: {
+    attack_plus_3: {
+      id: 'attack_plus_3',
+      name: '攻撃力UP',
+      type: 'persistent',
+      effect: 'attack +3',
+      value: 3,
+      durationMs: null,
+    },
+    damage_nullify_10s: {
+      id: 'damage_nullify_10s',
+      name: 'ダメージ無効化',
+      type: 'temporary',
+      effect: 'all_damage_nullified',
+      value: 0,
+      durationMs: 10000,
+    },
+  },
 };
+
+const GAME_CONFIG = window.SHOOTER_GAME_CONFIG || FALLBACK_GAME_CONFIG;
 
 const keys = {};
 const bullets = [];
@@ -32,7 +54,7 @@ const player = {
   height: 26,
   speed: 5,
   hp: GAME_CONFIG.playerBaseHp,
-  maxHp: GAME_CONFIG.playerBaseHp,
+  maxHp: GAME_CONFIG.playerMaxHp,
   attack: GAME_CONFIG.playerBaseAttack,
   lives: GAME_CONFIG.playerLives,
   fireCooldown: 0,
@@ -59,7 +81,7 @@ function resetGame() {
   player.x = canvas.width / 2;
   player.y = canvas.height - 80;
   player.hp = GAME_CONFIG.playerBaseHp;
-  player.maxHp = GAME_CONFIG.playerBaseHp;
+  player.maxHp = GAME_CONFIG.playerMaxHp;
   player.attack = GAME_CONFIG.playerBaseAttack;
   player.lives = GAME_CONFIG.playerLives;
   player.invulnerableUntil = 0;
@@ -147,8 +169,8 @@ function shootBossBullet() {
 }
 
 function dropRandomItem(x, y) {
-  const roll = Math.random();
-  const itemId = roll < 0.7 ? 'attack_plus_3' : 'damage_nullify_10s';
+  const ids = Object.keys(GAME_CONFIG.itemConfigs);
+  const itemId = ids[Math.floor(Math.random() * ids.length)];
   items.push({
     id: itemId,
     x,
@@ -159,11 +181,14 @@ function dropRandomItem(x, y) {
 }
 
 function applyItem(item) {
-  if (item.id === 'attack_plus_3') {
-    player.attack += 3;
+  const itemConfig = GAME_CONFIG.itemConfigs[item.id];
+  if (!itemConfig) return;
+
+  if (itemConfig.id === 'attack_plus_3') {
+    player.attack += itemConfig.value;
   }
-  if (item.id === 'damage_nullify_10s') {
-    player.shieldUntil = performance.now() + 10_000;
+  if (itemConfig.id === 'damage_nullify_10s') {
+    player.shieldUntil = performance.now() + (itemConfig.durationMs || 0);
   }
   updateHud();
 }
@@ -397,7 +422,8 @@ function drawEnemies() {
 
 function drawItems() {
   for (const item of items) {
-    ctx.fillStyle = item.id === 'attack_plus_3' ? '#22c55e' : '#a78bfa';
+    const itemColor = item.id === 'attack_plus_3' ? '#22c55e' : '#a78bfa';
+    ctx.fillStyle = itemColor;
     ctx.beginPath();
     ctx.arc(item.x, item.y, item.r, 0, Math.PI * 2);
     ctx.fill();
