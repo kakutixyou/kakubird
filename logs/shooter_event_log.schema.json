@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "event_types": [
+    "player_spawn",
+    "enemy_spawned",
+    "item_dropped",
+    "item_collected",
+    "damage_taken",
+    "damage_nullified",
+    "boss_hp_changed",
+    "life_lost",
+    "game_over"
+  ]
+}

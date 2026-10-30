@@ -1,0 +1,40 @@
+{
+  "backgrounds": [
+    {
+      "id": "city_night",
+      "path": "assets/backgrounds/city_night.png",
+      "description": "夜の街背景"
+    }
+  ],
+  "enemies": [
+    {
+      "id": "drone",
+      "path": "assets/enemies/drone.png",
+      "description": "基本敵"
+    },
+    {
+      "id": "boss",
+      "path": "assets/enemies/boss.png",
+      "description": "ボス敵"
+    }
+  ],
+  "allies": [
+    {
+      "id": "scout",
+      "path": "assets/allies/scout.png",
+      "description": "味方プレイヤーの基本スキン"
+    }
+  ],
+  "items": [
+    {
+      "id": "attack_plus_3",
+      "path": "assets/items/attack_plus_3.png",
+      "description": "攻撃力アップアイテム"
+    },
+    {
+      "id": "damage_nullify_10s",
+      "path": "assets/items/damage_nullify_10s.png",
+      "description": "ダメージ無効化アイテム"
+    }
+  ]
+}
