@@ -1,339 +1,1104 @@
 // frontend/src/hooks/useAiChat.js
-import { useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { buildCommandPayload } from '../hooks/useCommandRouter';
 import { correctTypo } from '../utils/typoCorrector';
 
-export function useAiChat({ onImportDB }) {
-  // --- 1. State管理 ---
+export const CHAT_MODES = Object.freeze({
+  AI: 'ai',
+  CHATBOT: 'chatbot',
+});
+
+export const DEFAULT_CHAT_MODE = CHAT_MODES.AI;
+
+const CHAT_MODE_STORAGE_KEY = 'ai_chat_mode';
+
+const isObject = (value) => (
+  value !== null
+  && typeof value === 'object'
+  && !Array.isArray(value)
+);
+
+const normalizeChatMode = (value, fallback = null) => {
+  if (value === CHAT_MODES.AI || value === CHAT_MODES.CHATBOT) {
+    return value;
+  }
+  return fallback;
+};
+
+const readStoredChatMode = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  try {
+    return normalizeChatMode(
+      window.localStorage.getItem(CHAT_MODE_STORAGE_KEY),
+      null,
+    );
+  } catch (error) {
+    console.warn(
+      '[useAiChat] モード設定を読み込めませんでした。',
+      error,
+    );
+    return null;
+  }
+};
+
+const saveStoredChatMode = (mode) => {
+  if (typeof window === 'undefined') return;
+
+  try {
+    window.localStorage.setItem(CHAT_MODE_STORAGE_KEY, mode);
+  } catch (error) {
+    console.warn(
+      '[useAiChat] モード設定を保存できませんでした。',
+      error,
+    );
+  }
+};
+
+const valueToText = (value) => {
+  if (value === null || value === undefined) return '';
+
+  if (typeof value === 'string') return value;
+
+  if (
+    typeof value === 'number'
+    || typeof value === 'boolean'
+  ) {
+    return String(value);
+  }
+
+  if (isObject(value)) {
+    const preferred = (
+      value.message
+      ?? value.text
+      ?? value.response
+      ?? value.content
+    );
+
+    if (
+      preferred !== undefined
+      && preferred !== value
+    ) {
+      return valueToText(preferred);
+    }
+  }
+
+  try {
+    return JSON.stringify(value);
+  } catch (_error) {
+    return String(value);
+  }
+};
+
+const getMessageContent = (message) => {
+  if (!message) return '';
+
+  if (message.content !== undefined) {
+    return valueToText(message.content);
+  }
+
+  if (message.text !== undefined) {
+    return valueToText(message.text);
+  }
+
+  if (message.message !== undefined) {
+    return valueToText(message.message);
+  }
+
+  return '';
+};
+
+const formatHistoryForApi = (
+  currentMessages,
+  lastUserText,
+) => {
+  const nextHistory = [
+    ...currentMessages,
+    {
+      role: 'user',
+      content: lastUserText,
+    },
+  ];
+
+  return nextHistory
+    .filter((message) => message?.role)
+    .map((message) => ({
+      role: message.role,
+      content: getMessageContent(message),
+    }));
+};
+
+const unwrapJsonResponse = (data) => {
+  if (!isObject(data)) {
+    return {
+      outer: {},
+      content: data,
+      payload: {},
+    };
+  }
+
+  const nestedContent = data.content;
+
+  const nestedPayload = isObject(nestedContent)
+    ? nestedContent
+    : {};
+
+  return {
+    outer: data,
+    content: nestedContent,
+    payload: {
+      ...data,
+      ...nestedPayload,
+    },
+  };
+};
+
+const extractBackendStatus = (
+  data,
+  requestedMode,
+) => {
+  const {
+    outer,
+    payload,
+  } = unwrapJsonResponse(data);
+
+  const confirmedMode = normalizeChatMode(
+    payload.chat_mode
+      ?? payload.mode
+      ?? outer.chat_mode
+      ?? outer.mode,
+    null,
+  );
+
+  const effectiveMode = (
+    confirmedMode
+    ?? requestedMode
+  );
+
+  const explicitAiEnabled = (
+    payload.ai_enabled
+    ?? outer.ai_enabled
+  );
+
+  const explicitChatbotEnabled = (
+    payload.chatbot_enabled
+    ?? outer.chatbot_enabled
+  );
+
+  return {
+    requestedMode,
+    mode: effectiveMode,
+
+    aiEnabled:
+      typeof explicitAiEnabled === 'boolean'
+        ? explicitAiEnabled
+        : effectiveMode === CHAT_MODES.AI,
+
+    chatbotEnabled:
+      typeof explicitChatbotEnabled === 'boolean'
+        ? explicitChatbotEnabled
+        : effectiveMode === CHAT_MODES.CHATBOT,
+
+    source:
+      payload.source
+      ?? outer.source
+      ?? 'unknown',
+
+    llmAvailable:
+      typeof payload.llm_available === 'boolean'
+        ? payload.llm_available
+        : null,
+
+    confirmed: confirmedMode !== null,
+    updatedAt: new Date().toISOString(),
+  };
+};
+
+const extractStreamText = (parsed) => {
+  if (!isObject(parsed)) return '';
+
+  return valueToText(
+    parsed.message?.content
+      ?? parsed.delta?.content
+      ?? parsed.token
+      ?? parsed.response
+      ?? parsed.text
+      ?? (
+        typeof parsed.content === 'string'
+          ? parsed.content
+          : ''
+      ),
+  );
+};
+
+const buildApiError = async (response) => {
+  let responseBody = '';
+
+  try {
+    responseBody = (
+      await response.text()
+    ).trim();
+  } catch (_error) {
+    responseBody = '';
+  }
+
+  let details = responseBody;
+
+  if (responseBody) {
+    try {
+      const parsed = JSON.parse(responseBody);
+
+      details = valueToText(
+        parsed.detail
+          ?? parsed.message
+          ?? parsed.error
+          ?? responseBody,
+      );
+    } catch (_error) {
+      // FastAPI以外のプレーンテキスト応答は
+      // そのまま表示する。
+    }
+  }
+
+  const error = new Error(
+    response.status === 404
+      ? '404_NOT_FOUND'
+      : `HTTP_${response.status}`,
+  );
+
+  error.status = response.status;
+  error.statusText = response.statusText;
+  error.details = details;
+
+  return error;
+};
+
+export function useAiChat({
+  onImportDB,
+  initialChatMode = DEFAULT_CHAT_MODE,
+} = {}) {
+  const firstMode = normalizeChatMode(
+    readStoredChatMode(),
+    normalizeChatMode(
+      initialChatMode,
+      DEFAULT_CHAT_MODE,
+    ),
+  );
+
   const [messages, setMessages] = useState([
     {
       id: Date.now(),
       role: 'assistant',
-      content: '<summary>優秀なデータベースエンジニアAI＆CSSジェネレーターとしてスタンバイしました！</summary><details>新規DBの作成、既存DBの読み込み、/sql、/cssコマンドまで対応できます。</details>',
+      type: 'text',
+      source: 'system',
+      content:
+        '<summary>アプリ開発AIとしてスタンバイしました！</summary>'
+        + '<details>AIモードを標準にして、'
+        + 'チャットボットモードへも切り替えられます。</details>',
     },
   ]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isRagMode, setIsRagMode] = useState(false);
   const [forceJsonMode, setForceJsonMode] = useState(false);
 
-  // --- 2. 履歴データのフォーマット共通処理 ---
-  const formatHistoryForApi = (currentMessages, lastUserText) => {
-    const nextHistory = [
-      ...currentMessages,
-      { role: 'user', content: lastUserText }
-    ];
-    return nextHistory.map((m) => {
-      let safeContent = m.content;
-      if (typeof safeContent === 'object' && safeContent !== null) {
-        safeContent = safeContent.message || JSON.stringify(safeContent);
-      }
-      return { role: m.role, content: String(safeContent) };
-    });
-  };
+  const [
+    chatMode,
+    setChatModeState,
+  ] = useState(firstMode);
 
-  // --- 3. アクション関数 ---
-  const loadHistory = (historyName) => {
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        role: 'system',
-        content: `【システム】履歴「${historyName}」を読み込みました。`,
-      },
-    ]);
-    if (onImportDB) onImportDB(historyName);
-  };
+  const [
+    backendStatus,
+    setBackendStatus,
+  ] = useState({
+    requestedMode: firstMode,
+    mode: firstMode,
+    aiEnabled: firstMode === CHAT_MODES.AI,
+    chatbotEnabled: firstMode === CHAT_MODES.CHATBOT,
+    source: 'initial',
+    llmAvailable: null,
+    confirmed: false,
+    updatedAt: null,
+  });
 
-  const addSystemMessage = (text) => {
-    setMessages((prev) => [...prev, { id: Date.now(), role: 'system', content: text }]);
-  };
+  const requestInFlightRef = useRef(false);
+  const abortControllerRef = useRef(null);
+  const nextIdRef = useRef(Date.now() + 1);
 
-  // --- 4. メッセージ送信ロジック（メイン処理） ---
-  const sendMessage = async (rawInput) => {
-    if (!rawInput.trim() || isLoading) return;
+  const nextMessageId = useCallback(() => {
+    nextIdRef.current += 1;
+    return nextIdRef.current;
+  }, []);
 
-    const userMsg = { id: Date.now(), role: 'user', content: rawInput };
-    const { correctedText, wasCorrected, detectedTargets } = correctTypo(rawInput);
-    
-    // APIへ渡す履歴をあらかじめ生成
-    const apiHistory = formatHistoryForApi(messages, correctedText);
-
-    // フロントの画面（State）を更新
-    setMessages((prev) => {
-      const updated = [...prev, userMsg];
-      if (wasCorrected) {
-        updated.push({
-          id: Date.now() + 1,
+  const addSystemMessage = useCallback(
+    (text) => {
+      setMessages((previous) => [
+        ...previous,
+        {
+          id: nextMessageId(),
           role: 'system',
-          content: `💡 「${detectedTargets.join('、')}」として補正して処理します。`,
-        });
+          type: 'text',
+          source: 'system',
+          content: String(text),
+          text: String(text),
+        },
+      ]);
+    },
+    [nextMessageId],
+  );
+
+  const setChatMode = useCallback((nextMode) => {
+    const normalized = normalizeChatMode(
+      nextMode,
+      DEFAULT_CHAT_MODE,
+    );
+
+    setChatModeState(normalized);
+    saveStoredChatMode(normalized);
+
+    setBackendStatus((previous) => ({
+      ...previous,
+      requestedMode: normalized,
+      mode: normalized,
+      aiEnabled: normalized === CHAT_MODES.AI,
+      chatbotEnabled:
+        normalized === CHAT_MODES.CHATBOT,
+      confirmed: false,
+      updatedAt: new Date().toISOString(),
+    }));
+  }, []);
+
+  const toggleChatMode = useCallback(() => {
+    setChatMode(
+      chatMode === CHAT_MODES.AI
+        ? CHAT_MODES.CHATBOT
+        : CHAT_MODES.AI,
+    );
+  }, [
+    chatMode,
+    setChatMode,
+  ]);
+
+  const syncBackendStatus = useCallback(
+    (data, requestedMode) => {
+      const status = extractBackendStatus(
+        data,
+        requestedMode,
+      );
+
+      setBackendStatus(status);
+
+      if (status.confirmed) {
+        setChatModeState(status.mode);
+        saveStoredChatMode(status.mode);
       }
-      return updated;
-    });
 
-    // ペイロード組み立て
-    const commandPayload = buildCommandPayload(correctedText);
-    const apiPayload = {
-      ...commandPayload,
-      message: correctedText, 
-      force_json_ui: forceJsonMode,
-      history: apiHistory,
-      mode: isRagMode ? "rag_chat" : undefined,
-    };
+      return status;
+    },
+    [],
+  );
 
-    setIsLoading(true);
+  const loadHistory = useCallback(
+    (historyName) => {
+      addSystemMessage(
+        `【システム】履歴「${historyName}」を読み込みました。`,
+      );
 
-    try {
-      console.log("🚀 [useAiChat] 1. API送信直前 - ペイロード:", apiPayload);
+      if (onImportDB) {
+        onImportDB(historyName);
+      }
+    },
+    [
+      addSystemMessage,
+      onImportDB,
+    ],
+  );
+
+  const cancelRequest = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+  }, []);
+
+  const addJsonResponseMessage = useCallback(
+    (data, requestedMode) => {
+      const {
+        outer,
+        content,
+        payload,
+      } = unwrapJsonResponse(data);
+
+      const status = syncBackendStatus(
+        data,
+        requestedMode,
+      );
+
+      const responseType = (
+        outer.response_type
+        ?? payload.response_type
+        ?? outer.type
+        ?? payload.type
+        ?? 'text'
+      );
+
+      const blocks = Array.isArray(payload.blocks)
+        ? payload.blocks
+        : (
+          Array.isArray(outer.blocks)
+            ? outer.blocks
+            : []
+        );
+
+      if (responseType === 'multi_select') {
+       setMessages((previous) => [
+        ...previous,
+        {
+          // 1. まず API から来た payload の中身を丸ごと展開（これによって data や metadata が引き継がれます）
+          ...payload,
+          
+          // 2. その上で、UI 制御に必要な基本プロパティを上書き設定
+          id: nextMessageId(),
+          role: 'assistant',
+          
+          // type は payload.type があればそれを優先、なければ 'text'
+          type: payload.type || 'text', 
+          
+          response_type: responseType,
+          source: status.source,
+          chat_mode: status.mode,
+          ai_enabled: status.aiEnabled,
+          content: textMessage,
+          text: textMessage,
+        },
+      ]);
+
+        return;
+      }
+
+      const hasBlocks = blocks.length > 0;
+
+      const hasUiCode = (
+        responseType === 'ui_code'
+        || hasBlocks
+      );
+
+      const textMessage = valueToText(
+        payload.message
+          ?? outer.message
+          ?? outer.response
+          ?? payload.response
+          ?? (
+            typeof content === 'string'
+              ? content
+              : ''
+          ),
+      ) || (
+        hasUiCode
+          ? '生成結果を受信しました。'
+          : '応答を受信しました。'
+      );
+
+      if (hasUiCode) {
+        const uiContent = {
+          message: textMessage,
+          blocks,
+          response_type: responseType,
+        };
+
+        setMessages((previous) => [
+          ...previous,
+          {
+            id: nextMessageId(),
+            role: 'assistant',
+
+            // 既存UIのブロック描画分岐との
+            // 互換性は維持する。
+            type: 'ui_code',
+
+            // project_buildなどの
+            // 実際の応答種別は失わない。
+            response_type: responseType,
+
+            source:
+              status.source
+              || responseType,
+
+            chat_mode: status.mode,
+            ai_enabled: status.aiEnabled,
+            content: uiContent,
+            text: uiContent,
+            blocks,
+          },
+        ]);
+
+        return;
+      }
+
+      setMessages((previous) => [
+        ...previous,
+        {
+          id: nextMessageId(),
+          role: 'assistant',
+          type: 'text',
+          response_type: responseType,
+          source: status.source,
+          chat_mode: status.mode,
+          ai_enabled: status.aiEnabled,
+          content: textMessage,
+          text: textMessage,
+        },
+      ]);
+    },
+    [
+      nextMessageId,
+      syncBackendStatus,
+    ],
+  );
+
+  const consumeStreamingResponse = useCallback(
+    async (
+      response,
+      requestedMode,
+    ) => {
+      if (!response.body) {
+        throw new Error('STREAM_BODY_NOT_FOUND');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+
+      const assistantMessageId = nextMessageId();
+
+      let buffer = '';
+      let fullText = '';
+
+      setMessages((previous) => [
+        ...previous,
+        {
+          id: assistantMessageId,
+          role: 'assistant',
+          type: 'text',
+          response_type: 'text',
+          source: 'stream',
+          chat_mode: requestedMode,
+          ai_enabled:
+            requestedMode === CHAT_MODES.AI,
+          content: '',
+          text: '',
+        },
+      ]);
+
+      const appendText = (text) => {
+        if (!text) return;
+
+        fullText += text;
+
+        setMessages((previous) => (
+          previous.map((message) => (
+            message.id === assistantMessageId
+              ? {
+                ...message,
+                content: fullText,
+                text: fullText,
+              }
+              : message
+          ))
+        ));
+      };
+
+      const consumeLine = (rawLine) => {
+        const trimmed = rawLine.trim();
+
+        if (
+          !trimmed
+          || trimmed === '[DONE]'
+        ) {
+          return;
+        }
+
+        const candidate = trimmed.startsWith('data:')
+          ? trimmed.slice(5).trim()
+          : trimmed;
+
+        if (
+          !candidate
+          || candidate === '[DONE]'
+        ) {
+          return;
+        }
+
+        try {
+          const parsed = JSON.parse(candidate);
+
+          const streamStatus = extractBackendStatus(
+            parsed,
+            requestedMode,
+          );
+
+          if (
+            streamStatus.confirmed
+            || streamStatus.source !== 'unknown'
+          ) {
+            setBackendStatus(streamStatus);
+
+            if (streamStatus.confirmed) {
+              setChatModeState(streamStatus.mode);
+              saveStoredChatMode(streamStatus.mode);
+            }
+          }
+
+          appendText(
+            extractStreamText(parsed),
+          );
+        } catch (_error) {
+          appendText(candidate);
+        }
+      };
+
+      while (true) {
+        const {
+          done,
+          value,
+        } = await reader.read();
+
+        if (done) break;
+
+        buffer += decoder.decode(
+          value,
+          { stream: true },
+        );
+
+        const lines = buffer.split(/\r?\n/);
+
+        buffer = lines.pop() ?? '';
+
+        lines.forEach(consumeLine);
+      }
+
+      buffer += decoder.decode();
+
+      if (buffer.trim()) {
+        consumeLine(buffer);
+      }
+
+      if (!fullText) {
+        appendText(
+          'ストリーミング応答は完了しましたが、'
+          + '表示できる本文がありませんでした。',
+        );
+      }
+    },
+    [nextMessageId],
+  );
+
+  const postChatRequest = useCallback(
+    async (apiPayload) => {
+      const controller = new AbortController();
+
+      abortControllerRef.current = controller;
+
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(apiPayload),
+        signal: controller.signal,
       });
 
-      console.log("📡 [useAiChat] 2. レスポンス受信 - ステータス:", response.status, response.statusText);
-      
-      // 👇 
-      // 👇 エラーハンドリングを親切に強化
-      // 👇 
       if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("404_NOT_FOUND");
-        }
-        throw new Error(`HTTP ${response.status}`);
+        throw await buildApiError(response);
       }
 
-      const contentType = response.headers.get('content-type');
-      console.log("ℹ️ [useAiChat] 3. Content-Type:", contentType);
+      return response;
+    },
+    [],
+  );
 
-// ==
-      // パターンA: JSONレスポンス（一括返却）
-      // ==
-      if (contentType && contentType.includes('application/json')) {
-        const data = await response.json();
-        console.log("📥 バックエンドから届いたデータ:", data);
+  const handleRequestError = useCallback(
+    (error, requestLabel) => {
+      console.error(
+        `[useAiChat] ${requestLabel}エラー:`,
+        error,
+      );
 
-        // 💡 【最優先：今回の ui_code 構造を確実にキャッチする】
-        if (data.response_type === 'ui_code' || data.content?.blocks) {
-          const blocks = data.content?.blocks || data.blocks || [];
-          const textMsg = data.content?.message || data.message || data.response || "フォルダ構造を生成しました。";
-          
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: Date.now() + 2,
-              role: 'assistant',
-              source: data.source || 'ui_code',
-              type: 'ui_code',
-              response_type: 'ui_code',
-              text: {
-                message: textMsg,
-                blocks: blocks
-              },
-              blocks: blocks
-            },
-          ]);
-          return;
-        }
-
-        // ② 統一フォーマット対応のフォールバック
-        if (data.response !== undefined && data.source !== undefined) {
-          const hasBlocks = data.blocks && data.blocks.length > 0;
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: Date.now() + 2,
-              role: 'assistant',
-              source: data.source,
-              type: hasBlocks ? 'ui_code' : 'text',
-              response_type: hasBlocks ? 'ui_code' : 'text',
-              text: hasBlocks 
-                ? { message: data.response, blocks: data.blocks }
-                : data.response,
-              blocks: data.blocks || null
-            },
-          ]);
-          return;
-        }
-
-        // ③ 既存の特殊コンポーネント用フォーマット分岐
-        if (data.response_type === 'multi_select' || data.type === 'multi_select') {
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: Date.now() + 2,
-              role: 'assistant',
-              type: 'multi_select',
-              question: data.question || data.content?.question,
-              options: data.options || data.content?.options,
-              plugin: data.plugin || data.content?.plugin,
-            },
-          ]);
-        } 
-        else {
-          // ④ 完全に通常の文字列テキストレスポンスとして処理
-          const finalContent = typeof data.content === 'string' ? data.content : (data.response || data.message || JSON.stringify(data));
-          setMessages((prev) => [
-            ...prev,
-            { 
-              id: Date.now() + 2, 
-              role: 'assistant', 
-              source: data.source || 'default',
-              type: 'text',
-              response_type: 'text',
-              text: finalContent 
-            },
-          ]);
-        }
+      if (error?.name === 'AbortError') {
+        addSystemMessage(
+          `${requestLabel}をキャンセルしました。`,
+        );
+        return;
       }
-      // ==
-      // パターンB: ストリーミング（文字をパラパラ表示）
-      // ==
-      else {
-        console.log("🌊 [useAiChat] 4. ストリーミングルートに突入しました");
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder('utf-8');
-        const assistantMsgId = Date.now() + 2;
 
-        setMessages((prev) => [...prev, { id: assistantMsgId, role: 'assistant', type: 'text', text: '' }]);
+      if (error?.message === '404_NOT_FOUND') {
+        addSystemMessage(
+          'AIサーバー（Backend）が見つかりません。'
+          + 'Python側の起動状態と'
+          + ' /api/chat を確認してください。',
+        );
+        return;
+      }
 
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+      if (
+        error instanceof TypeError
+        && /failed to fetch|networkerror|load failed/i
+          .test(error.message)
+      ) {
+        addSystemMessage(
+          'AIサーバーへ接続できません。'
+          + 'Backendが起動しているか、'
+          + 'ポート8765を確認してください。',
+        );
+        return;
+      }
 
-          const chunkText = decoder.decode(value, { stream: true });
-          const lines = chunkText.split('\n');
-          let newText = "";
+      if (Number(error?.status) >= 500) {
+        const details = error?.details
+          ? `\nBackend詳細: ${error.details}`
+          : '';
 
-          for (const line of lines) {
-            if (line.trim() === '') continue;
-            if (line.includes('[Ollama Stream Error')) {
-              newText += line;
-              continue;
-            }
-            try {
-              const parsed = JSON.parse(line);
-              if (parsed.message?.content) newText += parsed.message.content;
-            } catch (e) {
-              console.log("parse skip:", e);
-            }
-          }
+        addSystemMessage(
+          `${requestLabel}中にBackend内部エラー`
+          + `（HTTP ${error.status}）が発生しました。`
+          + details,
+        );
 
-          if (newText) {
-            setMessages((prev) =>
-              prev.map((msg) => msg.id === assistantMsgId ? { ...msg, text: (msg.text || '') + newText } : msg)
-            );
-          }
+        return;
+      }
+
+      if (
+        error?.message
+        === 'STREAM_BODY_NOT_FOUND'
+      ) {
+        addSystemMessage(
+          'ストリーミング本文を取得できませんでした。',
+        );
+        return;
+      }
+
+      const details = error?.details
+        ? `\n詳細: ${error.details}`
+        : '';
+
+      addSystemMessage(
+        `${requestLabel}で通信エラーが発生しました。`
+        + 'Backendの状態を確認してください。'
+        + details,
+      );
+    },
+    [addSystemMessage],
+  );
+
+  const sendMessage = useCallback(
+    async (rawInput) => {
+      const input = typeof rawInput === 'string'
+        ? rawInput
+        : valueToText(rawInput);
+
+      if (
+        !input.trim()
+        || requestInFlightRef.current
+      ) {
+        return;
+      }
+
+      const requestedMode = chatMode;
+
+      const {
+        correctedText,
+        wasCorrected,
+        detectedTargets = [],
+      } = correctTypo(input);
+
+      const safeCorrectedText = valueToText(
+        correctedText || input,
+      );
+
+      const apiHistory = formatHistoryForApi(
+        messages,
+        safeCorrectedText,
+      );
+
+      const commandPayload = buildCommandPayload(
+        safeCorrectedText,
+      );
+
+      setMessages((previous) => {
+        const updated = [
+          ...previous,
+          {
+            id: nextMessageId(),
+            role: 'user',
+            type: 'text',
+            content: input,
+            text: input,
+            chat_mode: requestedMode,
+          },
+        ];
+
+        if (wasCorrected) {
+          updated.push({
+            id: nextMessageId(),
+            role: 'system',
+            type: 'text',
+            source: 'typo_corrector',
+
+            content:
+              detectedTargets.length > 0
+                ? `💡「${detectedTargets.join('、')}」として補正して処理します。`
+                : `💡「${safeCorrectedText}」として補正して処理します。`,
+          });
         }
 
-        setMessages((prev) => {
-          const assistantMessage = prev.find((msg) => msg.id === assistantMsgId);
-          if (assistantMessage && String(assistantMessage.text).includes('[Ollama Stream Error')) {
-            return prev.map((msg) =>
-              msg.id === assistantMsgId
-                ? {
-                    ...msg,
-                    text: '<summary> Ollama 接続エラー</summary><details>ローカルのOllamaサーバーが起動しているか、接続設定を確認してください。</details>',
-                  }
-                : msg
-            );
-          }
-          return prev;
-        });
-      }
-    } catch (error) {
-      console.error('通信エラー:', error);
-      // 👇 
-      // 👇 エラーメッセージを親切なものに変更
-      // 👇 
-      if (error.message === "404_NOT_FOUND") {
-        addSystemMessage(' AIサーバー(バックエンド)が見つかりません。Python側の起動ログにエラーが出ていないか確認してください。');
-      } else {
-        addSystemMessage(' サーバー通信エラーが発生しました。バックエンドの状態を確認してください。');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // --- 5. 画像送信（OCR解析）ロジック ---
-  const sendImage = async (file) => {
-    if (!file || isLoading) return;
-
-    setIsLoading(true);
-    setMessages((prev) => [
-      ...prev,
-      { id: Date.now(), role: 'user', text: `📸 画像データを送信しました: ${file.name}` },
-    ]);
-
-    try {
-      const base64Image = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
+        return updated;
       });
 
       const apiPayload = {
-        message: "【画像解析リクエスト】", 
-        image_base64: base64Image,
+        ...(
+          isObject(commandPayload)
+            ? commandPayload
+            : {}
+        ),
+
+        message: safeCorrectedText,
         force_json_ui: forceJsonMode,
-        history: formatHistoryForApi(messages, "【画像送信】"),
+        history: apiHistory,
+
+        // RAGの処理モード。
+        // AI/チャットボットとは別の軸。
+        mode: isRagMode
+          ? 'rag_chat'
+          : undefined,
+
+        // BackendのChatHandlerが使用する
+        // 会話エンジンモード。
+        chat_mode: requestedMode,
+
+        ai_mode:
+          requestedMode === CHAT_MODES.AI,
       };
 
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(apiPayload),
-      });
+      requestInFlightRef.current = true;
+      setIsLoading(true);
 
-      // 👇 画像側も同じく404対策
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("404_NOT_FOUND");
+      setBackendStatus((previous) => ({
+        ...previous,
+        requestedMode,
+        confirmed: false,
+      }));
+
+      try {
+        console.log(
+          '[useAiChat] API送信:',
+          apiPayload,
+        );
+
+        const response = await postChatRequest(
+          apiPayload,
+        );
+
+        const contentType = (
+          response.headers.get('content-type')
+          || ''
+        );
+
+        if (
+          contentType.includes('application/json')
+        ) {
+          const data = await response.json();
+
+          console.log(
+            '[useAiChat] Backend応答:',
+            data,
+          );
+
+          addJsonResponseMessage(
+            data,
+            requestedMode,
+          );
+        } else {
+          await consumeStreamingResponse(
+            response,
+            requestedMode,
+          );
         }
-        throw new Error(`HTTP ${response.status}`);
+      } catch (error) {
+        handleRequestError(
+          error,
+          'メッセージ送信',
+        );
+      } finally {
+        requestInFlightRef.current = false;
+        abortControllerRef.current = null;
+        setIsLoading(false);
+      }
+    },
+    [
+      addJsonResponseMessage,
+      chatMode,
+      consumeStreamingResponse,
+      forceJsonMode,
+      handleRequestError,
+      isRagMode,
+      messages,
+      nextMessageId,
+      postChatRequest,
+    ],
+  );
+
+  const sendImage = useCallback(
+    async (file) => {
+      if (
+        !file
+        || requestInFlightRef.current
+      ) {
+        return;
       }
 
-      const data = await response.json();
+      const requestedMode = chatMode;
 
-      if (data.response !== undefined || data.content !== undefined) {
-        const hasBlocks = data.blocks && data.blocks.length > 0;
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now() + 2,
-            role: 'assistant',
-            type: hasBlocks ? 'ui_code' : (data.response_type || 'text'),
-            text: hasBlocks 
-              ? { message: data.response || data.message || data.content?.message, blocks: data.blocks }
-              : (data.content || data.response),
-            blocks: data.blocks || null
+      requestInFlightRef.current = true;
+      setIsLoading(true);
+
+      setMessages((previous) => [
+        ...previous,
+        {
+          id: nextMessageId(),
+          role: 'user',
+          type: 'text',
+          content:
+            `📸 画像データを送信しました: ${file.name}`,
+          text:
+            `📸 画像データを送信しました: ${file.name}`,
+          chat_mode: requestedMode,
+        },
+      ]);
+
+      try {
+        const base64Image = await new Promise(
+          (resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = () => {
+              resolve(reader.result);
+            };
+
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
           },
-        ]);
+        );
+
+        const apiPayload = {
+          message: '【画像解析リクエスト】',
+          image_base64: base64Image,
+          force_json_ui: forceJsonMode,
+
+          history: formatHistoryForApi(
+            messages,
+            '【画像送信】',
+          ),
+
+          mode: isRagMode
+            ? 'rag_chat'
+            : undefined,
+
+          chat_mode: requestedMode,
+
+          ai_mode:
+            requestedMode === CHAT_MODES.AI,
+        };
+
+        const response = await postChatRequest(
+          apiPayload,
+        );
+
+        const contentType = (
+          response.headers.get('content-type')
+          || ''
+        );
+
+        if (
+          contentType.includes('application/json')
+        ) {
+          const data = await response.json();
+
+          addJsonResponseMessage(
+            data,
+            requestedMode,
+          );
+        } else {
+          await consumeStreamingResponse(
+            response,
+            requestedMode,
+          );
+        }
+      } catch (error) {
+        handleRequestError(
+          error,
+          '画像解析',
+        );
+      } finally {
+        requestInFlightRef.current = false;
+        abortControllerRef.current = null;
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('画像送信・OCR通信エラー:', error);
-      if (error.message === "404_NOT_FOUND") {
-        addSystemMessage(' AIサーバーが見つかりません。画像解析の受付窓口が存在しません。');
-      } else {
-        addSystemMessage(' 画像解析エラー。バックエンドのOCRモジュールまたはAPIの状態を確認してください。');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [
+      addJsonResponseMessage,
+      chatMode,
+      consumeStreamingResponse,
+      forceJsonMode,
+      handleRequestError,
+      isRagMode,
+      messages,
+      nextMessageId,
+      postChatRequest,
+    ],
+  );
+
+  const modeLabel = useMemo(
+    () => (
+      chatMode === CHAT_MODES.AI
+        ? 'AI'
+        : 'チャットボット'
+    ),
+    [chatMode],
+  );
 
   return {
     messages,
     isLoading,
+
     sendMessage,
     sendImage,
+    cancelRequest,
     loadHistory,
     addSystemMessage,
+
     isRagMode,
     setIsRagMode,
+
     forceJsonMode,
-    setForceJsonMode
+    setForceJsonMode,
+
+    chatMode,
+    setChatMode,
+    toggleChatMode,
+    modeLabel,
+
+    isAiMode:
+      chatMode === CHAT_MODES.AI,
+
+    isChatbotMode:
+      chatMode === CHAT_MODES.CHATBOT,
+
+    backendStatus,
+    backendMode: backendStatus.mode,
+    backendSource: backendStatus.source,
+
+    isBackendModeConfirmed:
+      backendStatus.confirmed,
   };
 }
