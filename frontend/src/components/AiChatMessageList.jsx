@@ -4,7 +4,7 @@
 // ToAiStudioDashboard (.tsx) の埋め込みと、体験談JSONメモ (3.75)、および自作モデル会話応答を統合した完全版です。
 
 import React, { useEffect, useRef } from "react";
-
+import LikeButton from "./LikeButton";
 import MultiSelectMessage from "./MultiSelectMessage";
 import { RenderBlocks } from "./blocks";
 import { ChatBlock } from "./blocks/ChatBlock";
