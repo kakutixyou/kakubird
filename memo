@@ -1,0 +1,197 @@
+実際の useAiChat を見ると、画像は image_base64(data URL形式)で、メッセージは固定の 【画像解析リクエスト】 で送られていました。そのため、前回の request.image は request.image_base64 に直し、手相の合図を送れるように sendImage を少し変えます。
+1. useAiChat.js の sendImage
+第2引数 message を追加します。省略時は今まで通りの動作です。
+const sendImage = useCallback(
+  async (file, message = '【画像解析リクエスト】') => {
+    if (!file || requestInFlightRef.current) {
+      return;
+    }
+
+    const requestedMode = chatMode;
+
+    requestInFlightRef.current = true;
+    setIsLoading(true);
+
+    const userText = message === '【画像解析リクエスト】'
+      ? `📸 画像データを送信しました: ${file.name}`
+      : `📸 ${message}（${file.name}）`;
+
+    setMessages((previous) => [
+      ...previous,
+      {
+        id: nextMessageId(),
+        role: 'user',
+        type: 'text',
+        content: userText,
+        text: userText,
+        chat_mode: requestedMode,
+      },
+    ]);
+
+    try {
+      const base64Image = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const apiPayload = {
+        message,                       // ← 固定文言をやめて引数を使う
+        image_base64: base64Image,
+        force_json_ui: forceJsonMode,
+        history: formatHistoryForApi(messages, message),
+        mode: isRagMode ? 'rag_chat' : undefined,
+        chat_mode: requestedMode,
+        ai_mode: requestedMode === CHAT_MODES.AI,
+      };
+
+      const response = await postChatRequest(apiPayload);
+      const contentType = response.headers.get('content-type') || '';
+
+      if (contentType.includes('application/json')) {
+        addJsonResponseMessage(await response.json(), requestedMode);
+      } else {
+        await consumeStreamingResponse(response, requestedMode);
+      }
+    } catch (error) {
+      handleRequestError(error, '画像解析');
+    } finally {
+      requestInFlightRef.current = false;
+      abortControllerRef.current = null;
+      setIsLoading(false);
+    }
+  },
+  [
+    addJsonResponseMessage,
+    chatMode,
+    consumeStreamingResponse,
+    forceJsonMode,
+    handleRequestError,
+    isRagMode,
+    messages,
+    nextMessageId,
+    postChatRequest,
+  ],
+);
+2. 既存バグの修正:addJsonResponseMessage の multi_select 分岐
+textMessage を宣言より前に使っているため、このまま multi_select が来ると ReferenceError になります。textMessage の計算を分岐の上へ移動してください。
+const hasBlocks = blocks.length > 0;
+const hasUiCode = responseType === 'ui_code' || hasBlocks;
+
+// ↓ multi_select 分岐より前に移動
+const textMessage = valueToText(
+  payload.message
+    ?? outer.message
+    ?? outer.response
+    ?? payload.response
+    ?? (typeof content === 'string' ? content : ''),
+) || (hasUiCode ? '生成結果を受信しました。' : '応答を受信しました。');
+
+if (responseType === 'multi_select') {
+  setMessages((previous) => [
+    ...previous,
+    {
+      ...payload,
+      id: nextMessageId(),
+      role: 'assistant',
+      type: payload.type || 'text',
+      response_type: responseType,
+      source: status.source,
+      chat_mode: status.mode,
+      ai_enabled: status.aiEnabled,
+      content: textMessage,
+      text: textMessage,
+    },
+  ]);
+  return;
+}
+3. handlers/palm_handler.py(画像の受け取りを実際の形式に合わせる)
+import base64
+import re
+from typing import Optional, Tuple
+from .base_handler import BaseHandler
+from tools.palm_tools import load_palm_knowledge, parse_palm_features, build_reading
+from tools.palm_vision import analyze_palm_image
+
+
+class PalmHandler(BaseHandler):
+    TRIGGERS = ["手相", "生命線", "感情線", "知能線", "運命線"]
+
+    def _get_image(self, request) -> Optional[Tuple[bytes, str]]:
+        """image_base64（data URL形式）→ (bytes, media_type)"""
+        raw = getattr(request, "image_base64", None)
+        if not raw:
+            return None
+
+        media_type = "image/jpeg"
+        m = re.match(r"data:(image/[\w.+-]+);base64,", raw)
+        if m:
+            media_type = m.group(1)
+
+        try:
+            return base64.b64decode(raw.split(",")[-1]), media_type
+        except Exception:
+            return None
+
+    async def calculate_score(self, message: str, current_signals: dict = None) -> int:
+        # 「手相を見て」など手相ワードがある時だけ最優先
+        # （通常のスクショ解析 = 【画像解析リクエスト】 とは競合しない）
+        return 95 if any(t in message for t in self.TRIGGERS) else 0
+
+    def estimate_size(self, message: str) -> int:
+        return 600
+
+    async def handle(self, request) -> Tuple[str, str]:
+        message = getattr(request, "message", "")
+        knowledge = load_palm_knowledge()
+        if not knowledge:
+            return "text", "手相データ（palm/lines.json）が見つかりません。"
+
+        image = self._get_image(request)
+
+        if image:
+            img_bytes, media_type = image
+            try:
+                parsed = await analyze_palm_image(img_bytes, media_type)
+            except Exception as e:
+                return "text", f"画像の解析に失敗しました: {e}"
+            if not parsed:
+                return "text", (
+                    "手のひらの線を読み取れませんでした📷\n"
+                    "明るい場所で、手を開いて真上から撮り直してみてください。"
+                )
+        else:
+            parsed = parse_palm_features(message)
+            if not parsed:
+                return "text", "手のひらの写真を送るか、線の特徴を教えてください✋"
+
+        reading = build_reading(parsed, knowledge)
+        return "text", (
+            f"手相の鑑定結果です🔮\n\n{reading}\n"
+            "※画像からの読み取りは目安です。占いは楽しむためのものです。"
+        )
+tools/palm_vision.py は前回のままで使えます(media_type 引数はすでにあります)。
+4. AiChatPanel.tsx に「手相を見る」ボタンを追加
+AiChatHeader の近くに置けます。
+const handlePalmReading = () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = () => {
+    const file = input.files?.[0];
+    if (file) sendImage(file, '手相を見て');
+  };
+  input.click();
+};
+
+// JSX内
+<button
+  onClick={handlePalmReading}
+  className="px-3 py-1.5 text-sm rounded-lg bg-purple-500 text-white hover:bg-purple-600"
+>
+  ✋ 手相を見る
+</button>
+注意点が2つあります。
+* スクショの貼り付け: 画像を貼り付けた場合は、今まで通り全部 sendImage(file) で送られます。手相として読むときは、専用ボタンから送ってください。
+* バックエンドの受け取り: FastAPI側のリクエストモデルに image_base64 が定義されているか確認してください。request.image_base64 が取れない場合は、実際のモデル定義を教えてもらえれば合わせます。
