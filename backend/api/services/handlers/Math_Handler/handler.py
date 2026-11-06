@@ -25,6 +25,9 @@ from .result_normalizer import (
 # 実際の処理を行うスタッフたち
 from .exchange_service import ExchangeService
 from .calculator import Calculator
+# 追加実装した専門ソルバーをインポート（ファイルが存在する前提）
+from .base_converter import FractionBaseConverter
+from .logic_solver import LogicSolver
 
 logger = logging.getLogger(__name__)
 
@@ -54,12 +57,14 @@ class MathHandler(BaseHandler):
         self.extractor = Extractor()
         self.exchange = ExchangeService()
         self.calculator = Calculator()
+        # 追加スタッフのインスタンス化
+        self.base_converter = FractionBaseConverter()
+        self.logic_solver = LogicSolver()
         
         self.last_result: Optional[Dict[str, Any]] = None
         self.last_score: int = 0
 
     async def calculate_score(self, message: str, current_signals: Optional[dict] = None) -> int:
-        # extract.py の関数を使用してテキストとシグナルを取得
         text = message_text(message)
         signals = dict(current_signals or {})
         
@@ -74,22 +79,24 @@ class MathHandler(BaseHandler):
             self.last_score = 0
             return 0
 
-        # 🌟 3. 会話的意図（教えて、謎など）があるかチェックし、LLM(ChatHandler)に譲る
+        # 3. 会話的意図（教えて、謎など）があるかチェックし、LLM(ChatHandler)に譲る
         intent = signals.get("intent") or getattr(self, "intent_inspector_result", {}).get("intent")
         conversational_keywords = ["教えて", "謎", "理由", "とは", "について", "語って"]
         
         if intent == "knowledge_question" or any(k in text for k in conversational_keywords):
-            # 100点ではなく低い点を返し、ChatHandler(通常70点)に負けるようにする
             self.last_score = 10
             return 10
 
-        # 🌟 4. 実際に数式や為替変換が含まれているか Extractor で事前判定する
+        # 🌟 4. 数式・為替・基数変換・論理演算のいずれかが含まれているか判定
         extracted = self.extractor.extract(text)
-        if extracted.is_currency_conversion or extracted.formula:
+        if (extracted.is_currency_conversion or 
+            extracted.formula or 
+            extracted.is_base_conversion or 
+            extracted.is_logic_expression):
             self.last_score = self.MAX_SCORE
             return self.MAX_SCORE
 
-        # 5. 上記どれにも当てはまらない単なるテキスト（挨拶や未知の質問など）は0点
+        # 5. 上記どれにも当てはまらない単なるテキストは0点
         self.last_score = 0
         return 0
 
@@ -97,23 +104,19 @@ class MathHandler(BaseHandler):
         return await self.calculate_score(message, current_signals) > 0
 
     def estimate_size(self, message: str) -> int:
-        # extract.py の関数を使用
         length = len(message_text(message))
         return min(1024, max(256, length * 4))
 
     def get_name(self) -> str:
-        # Pylanceエラー対策: Noneの場合は必ず文字列を返すように保証する
         return self.HANDLER_NAME or "MathHandler"
 
     async def handle(self, request: Any) -> Tuple[str, Dict[str, Any]]:
         """現場監督として、各スタッフに指示を出して処理を進める"""
         started = time.perf_counter()
         
-        # extract.py の関数を使用して抽出
         expression = extract_message(request)
         current_signals = extract_signals(request)
 
-        # エラー: 式が空
         if not expression:
             data = error_data(
                 code="empty_expression",
@@ -123,7 +126,6 @@ class MathHandler(BaseHandler):
             )
             return self._finish(data, started)
 
-        # エラー: 担当外のメッセージが回ってきたらブロックする
         if must_yield_to_another_handler(expression, current_signals):
             data = error_data(
                 code="math_handler_not_applicable",
@@ -131,42 +133,59 @@ class MathHandler(BaseHandler):
                 expression=expression,
                 handler_name=self.get_name()
             )
-            # 推奨ハンドラを添える
             data.setdefault("metadata", {})["recommended_handler"] = recommended_handler(expression)
             return self._finish(data, started)
 
-        # ==========================================
-        # 3. 実際の計算・抽出・為替取得フロー
-        # ==========================================
         try:
-            # 1. テキストから数式や為替の意図を抽出
+            # 1. 抽出
             extracted_data = self.extractor.extract(expression)
 
-            # 空のformulaをブロックする安全装置
-            if not extracted_data.is_currency_conversion and not extracted_data.formula:
+            # 🌟 空ブロック判定に新しい要素（基数変換・論理演算）を追加
+            if not (extracted_data.is_currency_conversion or 
+                    extracted_data.formula or 
+                    extracted_data.is_base_conversion or 
+                    extracted_data.is_logic_expression):
                 data = error_data(
                     code="invalid_math_expression",
-                    message="有効な数式を検出できませんでした。",
+                    message="有効な数式・演算式を検出できませんでした。",
                     expression=expression,
                     handler_name=self.get_name()
                 )
                 return self._finish(data, started)
 
-            # 2. 為替変換か、通常の四則演算かで処理を分岐
-            if extracted_data.is_currency_conversion:
+            # 🌟 2. 各専用ソルバーへのルーティング
+            if extracted_data.is_logic_expression:
+                # 論理演算モジュールへ渡す
+                raw_result = self.logic_solver.evaluate_expression(
+                    extracted_data.logic_formula, 
+                    extracted_data.variables
+                )
+                logger.info(f"🧮 論理演算完了: {extracted_data.logic_formula}")
+                
+            elif extracted_data.is_base_conversion:
+                # 基数変換モジュールへ渡す
+                raw_result = self.base_converter.convert_base(
+                    value=extracted_data.raw_value,
+                    from_base=extracted_data.source_base,
+                    to_base=extracted_data.target_base
+                )
+                logger.info(f"🧮 基数変換完了: {extracted_data.raw_value}({extracted_data.source_base}進数) -> {extracted_data.target_base}進数")
+
+            elif extracted_data.is_currency_conversion:
+                # 為替モジュールへ渡す
                 rate = await self.exchange.get_rate(
                     base=extracted_data.base_currency, 
                     target=extracted_data.target_currency
                 )
                 raw_result = self.calculator.convert_currency(extracted_data.amount, rate)
-                
                 logger.info(f"🧮 為替計算完了: {extracted_data.amount}{extracted_data.base_currency} -> {raw_result}{extracted_data.target_currency} (レート: {rate})")
+                
             else:
-                # 3. MathEngine の強力な評価エンジンへ渡す
+                # 従来の数式評価モジュールへ渡す
                 raw_result = self.calculator.evaluate_expression(extracted_data.formula)
                 logger.info(f"🧮 計算完了: {extracted_data.formula} = {raw_result}")
 
-            # 4. result_normalizer.py の関数を使ってAIが返しやすい辞書に変換
+            # 3. 辞書化（各ソルバーがDataClassやDictを返した場合も対応できるよう result_to_dict 側で吸収する想定）
             data = result_to_dict(raw_result)
             data.setdefault("success", not contains_error(data))
             data.setdefault("expression", expression)
@@ -175,13 +194,10 @@ class MathHandler(BaseHandler):
             if self.enable_debug:
                 raise
             logger.warning("MathHandler execution failed: %s", exc)
-            # 例外も result_normalizer.py の関数で整形
             data = error_from_exception(exc, expression, handler_name=self.get_name())
 
         return self._finish(data, started)
 
-    # ユーティリティ: 仕上げ処理
-    # --------------------------------------------------------
     def _finish(self, data: Dict[str, Any], started: float) -> Tuple[str, Dict[str, Any]]:
         """結果に処理時間やハンドラ名などの共通メタデータを付与して返す"""
         duration_ms = (time.perf_counter() - started) * 1_000
@@ -194,11 +210,7 @@ class MathHandler(BaseHandler):
         data["metadata"] = metadata
         data.setdefault("duration_ms", round(duration_ms, 3))
         
-        # ==========================================
-        # 🚨 データの消失を防ぐ「密輸」処理
-        # ==========================================
-        # APIルートのお節介な上書き処理を回避するため、
-        # "content" と "message" に計算結果のJSON文字列をねじ込みます。
+        # データの消失を防ぐ「密輸」処理
         data["content"] = json.dumps(data, ensure_ascii=False)
         data["message"] = json.dumps(data, ensure_ascii=False)
         
