@@ -4,7 +4,7 @@
 // ToAiStudioDashboard (.tsx) の埋め込みと、体験談JSONメモ (3.75)、および自作モデル会話応答を統合した完全版です。
 
 import React, { useEffect, useRef } from "react";
-import LikeButton from "./LikeButton";
+
 import MultiSelectMessage from "./MultiSelectMessage";
 import { RenderBlocks } from "./blocks";
 import { ChatBlock } from "./blocks/ChatBlock";
@@ -488,9 +488,13 @@ export default function AiChatMessageList({
           >
             <ChatLabel role={role} />
             <ChatBubble role={role}>
-              {/* 💡 user も MarkdownChatBlock の対象に追加し、role を渡す */}
               {role === "assistant" || role === "ai" || role === "user" ? (
-                <MarkdownChatBlock text={String(normalContent || "")} role={role} />
+                <MarkdownChatBlock 
+                  text={String(normalContent || "")} 
+                  role={role} 
+                  // 💡 追加: これがないとボタンの命令がAiChatPanelに届きません
+                  onOptionSelect={onOptionSelect} 
+                />
               ) : (
                 <RenderSmartContent value={normalContent} />
               )}
