@@ -1,5 +1,5 @@
 # ===
-# routes_system.py
+# routes_system.pyと書いてあるものの、routes_project.pyの中に書かれている。
 # システム・ステータス・コンテキスト関連ルーティング
 # ===
 import os

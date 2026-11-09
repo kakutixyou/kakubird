@@ -118,6 +118,16 @@ class OrchestratorFactory:
 @router.post("/", response_model=OrchestratorResponse, include_in_schema=False)
 async def handle_ai_chat(request: ChatRequest, background_tasks: BackgroundTasks):
     print("🔥 handle_ai_chat に入りました", flush=True)
+    print(
+    "🎛️ [routes_chat] "
+    f"orchestrator_mode="
+    f"{getattr(request, 'mode', None)!r}, "
+    f"chat_mode="
+    f"{getattr(request, 'chat_mode', None)!r}, "
+    f"ai_mode="
+    f"{getattr(request, 'ai_mode', None)!r}",
+    flush=True,
+)
     try:
         # 1. ユーザー入力のDB保存
         save_chat_message(role="user", content=request.message)
