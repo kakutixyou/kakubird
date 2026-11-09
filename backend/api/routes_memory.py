@@ -27,7 +27,33 @@ from core.memory_manager import (
     clear_all_memory,
     update_task_status,
 )
+# backend/api/routes_memory.py に追加（KnowledgeManager 連携）
+from api.services.manager.KnowledgeManager import KnowledgeManager
 
+kb_manager = KnowledgeManager(base_dir=_BACKEND_DIR)
+
+@router.get("/studio/bundle")
+async def get_studio_knowledge_bundle():
+    """
+    KnowledgeManager を使ってフォルダーごとに検証済みのJSONデータを一括取得する。
+    ToAiStudioDashboard.tsx 側のハードコード定数をゼロにするためのエンドポイント。
+    """
+    def _collect(folder: str) -> list[dict]:
+        # LazyKnowledge一覧を取得し、型がdictのものだけを展開
+        lazy_items = kb_manager.load_all_json_from_dir(f"knowledge/{folder}")
+        return [item.data for item in lazy_items if isinstance(item.data, dict)]
+
+    ethics_docs = _collect("ethics_trolley")
+    questions = []
+    for doc in ethics_docs:
+        questions.extend(doc.get("questions", []))
+
+    return {
+        "status": "success",
+        "questions": questions,
+        "video_presets": _collect("video_presets"),
+        "code_snippets": _collect("architecture_snippets"),
+    }
 router = APIRouter(
     prefix="/api/to",  # フロントの fetch('/api/to/...') に対応
     tags=["Memory & Workspace"]
