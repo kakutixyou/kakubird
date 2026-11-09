@@ -1,3 +1,4 @@
+# pip install youtube-transcript-apiをダウンロード済みです。Youtubeの文字お越しを無料でできるようになります。
 # backend/api/services/handlers/ChatHandler/ChatHandler.py
 from __future__ import annotations
 
@@ -7,6 +8,9 @@ import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+import asyncio
+from api.services.manager.KnowledgeManager import KnowledgeManager
+from api.services.Video.VideoClaimService import VideoClaimService, extract_video_id
 
 try:
     from ..base_handler import BaseHandler
@@ -353,7 +357,11 @@ class ChatHandler(BaseHandler):
 
         self.knowledge_dir: str = str(resolved_knowledge_dir)
         self.knowledge_cache: Dict[str, Any] = {}
-
+        _km = KnowledgeManager(
+            base_dir=self.knowledge_dir,
+            knowledge_dirs=[self.knowledge_dir],
+        )
+        self.video_service = VideoClaimService(_km, claim_dir="Video/Claim")
         # シミュレーターとTo_model共同学習エンジンの初期化
         self.lab_simulator = (
             ExternalLabSimulator()
@@ -386,7 +394,8 @@ class ChatHandler(BaseHandler):
         # 🧪 パターンM：マルウェア解析・仮想ラボコマンド・To_model共同学習モード（確定100点）
         if self._is_malware_or_lab_query(message, current_signals):
             return 100
-
+        if self._is_video_query(message):
+            return 100
         # ---------------------------------------------------------
         # パターンA：システムの仕組みやルールについて聞かれている場合
         # ---------------------------------------------------------
@@ -455,7 +464,14 @@ class ChatHandler(BaseHandler):
             "auto ens33", "reset-lab", "ラボ初期化",
         )
         return cleaned.startswith(cmd_prefixes)
-
+    def _is_video_query(self, message: str) -> str | None:
+        """'analyze' / 'ask' / None"""
+        if extract_video_id(message) and any(w in message for w in ("解析", "分析", "調べ", "見て")):
+            return "analyze"
+        if any(w in message for w in ("感想", "メッセージ性", "伝えたい", "何を言って")) \
+            and self.video_service.has_claims():
+            return "ask"
+        return None
     def _is_defense_console_request(self, message: str) -> bool:
         lower = str(message or "").lower()
         console_words = (
@@ -769,7 +785,16 @@ class ChatHandler(BaseHandler):
 
         inspector = IntentInspector(msg)
         analysis = inspector.inspect()
-
+        kind = self._is_video_query(msg)
+        if kind == "analyze":
+            res = await asyncio.to_thread(self.video_service.analyze_and_save, msg)
+            doc = res.get("doc", {})
+            n = len(doc.get("claims", []))
+            if res["status"] == "no_transcript":
+                return "text", {"message": "字幕が取得できませんでした。この動画は解析できていません。", "blocks": []}
+            return "text", {"message": f"🎬 「{doc.get('title')}」を解析し、主張を{n}件保存しました（{res['path']}）。\n「感想を教えて」「メッセージ性はあった？」と聞いてください。", "blocks": []}
+        if kind == "ask":
+            return "text", {"message": self.video_service.answer(msg), "blocks": []}
         # ------------------------------------------------
         # 🛡️ 1. 自己防衛モード（メンタル・リーガル）
         # ------------------------------------------------
@@ -878,3 +903,4 @@ class ChatHandler(BaseHandler):
             response_lines.append("")
 
         return "text", "\n".join(response_lines)
+        
