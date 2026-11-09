@@ -30,7 +30,11 @@ from core.memory_manager import (
 # backend/api/routes_memory.py に追加（KnowledgeManager 連携）
 from api.services.manager.KnowledgeManager import KnowledgeManager
 
-kb_manager = KnowledgeManager(base_dir=_BACKEND_DIR)
+router = APIRouter(
+    prefix="/api/to",  # フロントの fetch('/api/to/...') に対応
+    tags=["Memory & Workspace"]
+)
+
 
 @router.get("/studio/bundle")
 async def get_studio_knowledge_bundle():
@@ -54,16 +58,13 @@ async def get_studio_knowledge_bundle():
         "video_presets": _collect("video_presets"),
         "code_snippets": _collect("architecture_snippets"),
     }
-router = APIRouter(
-    prefix="/api/to",  # フロントの fetch('/api/to/...') に対応
-    tags=["Memory & Workspace"]
-)
 
 # ===
 # パス定数 & ディレクトリ構成
 # ===
 
 _BACKEND_DIR = Path(__file__).parent.parent
+kb_manager = KnowledgeManager(base_dir=_BACKEND_DIR)
 MEMORY_DIR   = _BACKEND_DIR / ".ai_memory"
 AI_NOTES_FILE = MEMORY_DIR / "ai_notes.json"
 USER_SIGNALS_FILE = MEMORY_DIR / "user_signals.json"
