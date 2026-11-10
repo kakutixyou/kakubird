@@ -24,12 +24,10 @@ from engine.orchestrator.base_orchestrator import BaseOrchestrator
 
 from api.services.inspectors.IntentInSpector import IntentInspector
 from api.services.manager.KnowledgeManager import KnowledgeManager
-
-
 # ============================================================
 # Handlers
 # ============================================================
-
+from api.services.handlers.Python.PythonCodeHandler import PythonCodeHandler
 from api.services.handlers.project.repomix_Handler import RepomixHandler
 from api.services.handlers.analysis.ocr_recruit_handler import OcrRecruitHandler
 from api.services.handlers.github_handler import GithubHandler
@@ -52,14 +50,9 @@ from api.services.handlers.code.Decompositionhandler import DecompositionHandler
 from api.services.handlers.Github_guide_handler import GithubGuideHandler
 from api.services.handlers.LineFormatHandler import LineFormatHandler
 from api.services.handlers.perserhandler import ParserHandler
-from api.services.handlers.stock_research import StockResearchHandler
-
-try:
-    from api.services.handlers.Math_Handler import MathHandler
-except ModuleNotFoundError as e:
-    if e.name != "api.services.handlers.Math_Handler":
-        raise
-    MathHandler = None
+from api.services.handlers.Math_Handler.MathHandler import MathHandler
+from api.services.handlers.GagHandler.GagHandler import GagHandler
+from api.services.handlers.VSCode.VSCodeHandler import VSCodeTool
 
 # ============================================================
 # ProjectBuilderHandlerだけは安全にimportする
@@ -463,18 +456,40 @@ class ChatOrchestrator(BaseOrchestrator):
             traceback.print_exc()
 
             self.knowledge_manager = None
+        def fallback_llm_logic(user_message="", analysis=None, state=None, **kwargs):
+            import random
 
+            msg = str(user_message)
+            intent = analysis.get("intent", "") if isinstance(analysis, dict) else ""
+            gag_keywords = ("ダジャレ", "だじゃれ", "ギャグ", "漫才", "笑点", "ボケ", "笑わせて", "面白いこと")
+
+            # ダジャレ・ギャグが要求された場合のみ発動する
+            if intent == "gag_request" or any(kw in msg for kw in gag_keywords):
+                # お題単語が設定されていれば、それを無理やり詰め込んだ構文を生成
+                target = None
+                if state and hasattr(state, "facts"):
+                    target = state.facts.get("gag_target_word")
+
+                if target and target != "（自由なお題）":
+                    return f"{target}がプルプルしている{target}で{target}を買いたい！値段が高い、財布が痛い！"
+
+                gags = [
+                    "解体される階段を買いたい、値段が高い、財布が痛い、メモを書いた、桜が咲いた、予定が空いた！",
+                    "ローカルLLMが落ちていて、オー！ラマった（困った）！",
+                    "JSONに依存して、胃、存外痛い！",
+                    "エラーを吐いて、ルーターが宙に浮いたー！",
+                ]
+                return random.choice(gags)
+
+            # ダジャレ要求でない場合は None を返し、後続の通常フォールバックに任せる
+            return None
         # ====================================================
         # Handlers
         # ====================================================
 
-        self.handlers = []
-
-        if MathHandler is not None:
-            self.handlers.append(MathHandler())
-
-        self.handlers.extend([
-            StockResearchHandler(),
+        self.handlers = [
+            PythonCodeHandler(),
+            MathHandler(),
             KnowledgeReloadHandler(
                 reload_callback=self._reload_knowledge_system,
             ),
@@ -483,14 +498,14 @@ class ChatOrchestrator(BaseOrchestrator):
             GithubGuideHandler(),
             APICollectHandler(),
             RepomixHandler(),
-        ])
+        ]
 
         # ----------------------------------------------------
         # ProjectBuilderHandler
         #
         # importできた場合だけ追加。
         # ----------------------------------------------------
-
+        
         if (
             PROJECT_BUILDER_AVAILABLE
             and
@@ -538,6 +553,7 @@ class ChatOrchestrator(BaseOrchestrator):
 
         self.handlers.extend(
             [
+                
                 PhpHandler(),
                 ConversionJsonHandler(),
 
@@ -546,9 +562,9 @@ class ChatOrchestrator(BaseOrchestrator):
                     manager_base_dir=default_manager_base_dir,
                     cache_enabled=True,
                 ),
-
+                VSCodeTool(),
                 ChatHandler(),
-
+                GagHandler(),
                 LineFormatHandler(),
                 HTMLHandler(),
                 GithubHandler(),
@@ -676,7 +692,82 @@ class ChatOrchestrator(BaseOrchestrator):
             )
 
         return {}
+    def _reset_all_memory(self) -> Dict[str, Any]:
+        """
+        1. user_signals.json (.ai_memory内)
+        2. ContextManager の履歴・状態ファイル
+        3. オンメモリの ConversationState
+        のすべてを完全に初期化する。
+        """
+        # 1. 新しい空の ConversationState を作成
+        try:
+            from conversation.ConversationState import ConversationState
+            empty_state = ConversationState().to_dict()
+        except Exception:
+            empty_state = {
+                "mode": "chatbot",
+                "turn_count": 0,
+                "current_topic": None,
+                "previous_topic": None,
+                "current_intent": None,
+                "previous_intent": None,
+                "last_entity": None,
+                "active_knowledge": [],
+                "facts": {},
+                "user_opinions": {},
+                "project_context": {},
+                "history": [],
+                "summary": {},
+                "error": None,
+            }
 
+        clean_signals = {
+            "conversation_state": empty_state,
+            "recent_files": [],
+            "active_mode": "chatbot",
+        }
+
+        # 2. backend/.ai_memory/user_signals.json を空データで上書き
+        self._save_signals(clean_signals)
+
+        # 3. ContextManager 側の履歴と保存ファイルもクリア
+        try:
+            clear_method = getattr(self.context_manager, "clear", None)
+            reset_method = getattr(self.context_manager, "reset", None)
+            if callable(clear_method):
+                clear_method()
+            elif callable(reset_method):
+                reset_method()
+            else:
+                # 属性を直接空にして save_state() で上書き保存
+                for attr in ("history", "chat_history", "messages"):
+                    if hasattr(self.context_manager, attr):
+                        setattr(self.context_manager, attr, [])
+                state = getattr(self.context_manager, "state", None)
+                reset_all = getattr(state, "reset_all", None)
+                if callable(reset_all):
+                    reset_all()
+            if hasattr(self.context_manager, "save_state"):
+                self.context_manager.save_state()
+        except Exception as e:
+            print(f"⚠️ [ChatOrchestrator] ContextManagerのリセット中に警告: {e}")
+
+        # 4. .ai_memory フォルダ内の他のJSONキャッシュ（context_state.json等）も念のため初期化
+        try:
+            if os.path.exists(self.memory_dir):
+                for fname in os.listdir(self.memory_dir):
+                    if fname.endswith(".json") and fname not in ("knowledge_audit_cache.json", "feedback_scores.json"):
+                        fpath = os.path.join(self.memory_dir, fname)
+                        if fname != "user_signals.json":
+                            os.remove(fpath)
+                            print(f"🗑️ [ChatOrchestrator] 記憶ファイルを削除: {fpath}")
+        except Exception as e:
+            print(f"⚠️ [ChatOrchestrator] メモリフォルダ掃除中に警告: {e}")
+
+        self.current_signals = clean_signals
+        self.active_context = None
+        print("🧹 [ChatOrchestrator] すべての会話メモリ・Project Contextを完全消去しました！")
+        return clean_signals
     # ========================================================
     # Created Files
     # ========================================================
@@ -1288,7 +1379,7 @@ class ChatOrchestrator(BaseOrchestrator):
                 load_status=self.last_knowledge_load_status,
                 selection=self.last_knowledge_selection,
                 loaded_knowledge=knowledge,
-                startup_audit=self.knowledge_startup_report,
+                # startup_audit=self.knowledge_startup_report,
             )
             health_data = report.to_dict()
             health_context = report.to_prompt_context()
@@ -1641,10 +1732,10 @@ class ChatOrchestrator(BaseOrchestrator):
     # ========================================================
 
     async def route_and_execute(
-        self,
-        request,
-        **kwargs,
-    ):
+            self,
+            request,
+            **kwargs,
+        ):
         self.request = request
 
         self.message = getattr(
@@ -1661,10 +1752,28 @@ class ChatOrchestrator(BaseOrchestrator):
                 self.message
             )
 
-        # ----------------------------------------------------
-        # History
-        # ----------------------------------------------------
+        # ====================================================
+        # ★ 追加：メモリ消去コマンドの即時割り込み処理
+        # ====================================================
+        RESET_COMMANDS = {
+            "メモリ消去", "メモリ削除", "記憶リセット", "記憶消去",
+            "履歴削除", "リセット", "/reset", "/clear"
+        }
+        if self.message.strip() in RESET_COMMANDS:
+            clean_signals = self._reset_all_memory()
+            setattr(self.request, "current_signals", clean_signals)
+            return (
+                "text",
+                {
+                    "message": "🧹 会話履歴とプロジェクト記憶（Project Context）を完全にリセットしました！（Turn: 0 / History: 0）",
+                    "blocks": [],
+                    "update_signals": clean_signals,
+                },
+            )
 
+        # ----------------------------------------------------
+        # History（ここから下は元のコードそのまま）
+        # ----------------------------------------------------
         self.context_manager.add_chat_history(
             "user",
             self.message,
@@ -1783,90 +1892,46 @@ class ChatOrchestrator(BaseOrchestrator):
                 loaded_knowledges
             )
 
-        # ====================================================
+# ====================================================
         # 1. IntentInspector
-        #
-        # 現在の入力を最初に一度だけ解析し、その結果を
-        # KnowledgeRouterと全Handlerで共有する。
         # ====================================================
 
         try:
             inspector = IntentInspector(
                 self.message,
-                available_knowledge_keys=
-                    available_keys,
+                available_knowledge_keys=available_keys,
             )
-
         except TypeError:
+            inspector = IntentInspector(self.message)
+            print("⚠️ 古いIntentInspectorを検出。フォールバック初期化しました。")
 
-            inspector = IntentInspector(
-                self.message
-            )
-
-            print(
-                "⚠️ 古いIntentInspectorを検出。"
-                "フォールバック初期化しました。"
-            )
-
-        inspect_result = (
-            inspector.inspect()
-        )
-
-        self.context_manager.apply_inspector_result(
-            inspect_result
-        )
+        inspect_result = inspector.inspect()
+        self.context_manager.apply_inspector_result(inspect_result)
 
         # ====================================================
-        # 2. Signals
+        # 2. Signals & Mode 伝播 (インスペクター主導モデル)
         # ====================================================
 
-        current_signals = (
-            self._get_current_signals()
-        )
+        current_signals = self._get_current_signals()
+        current_signals["intent_analysis"] = inspect_result
 
-        current_signals[
-            "intent_analysis"
-        ] = inspect_result
+        # 🎯 ここが最重要：司令塔の決断（mode）を active_mode として全ハンドラーへ通達する
+        current_signals["active_mode"] = inspect_result.get("mode", "unknown")
 
-        # ChatHandler.calculate_scoreとhandleの両方から読めるようにする
-        self.request.current_signals = (
-            current_signals
-        )
+        self.request.current_signals = current_signals
+        self.request.intent_analysis = inspect_result
+        setattr(self.request, "current_signals", current_signals)
+        self.current_signals = current_signals
+        self.active_context = current_signals.get("active_context")
 
-        self.request.intent_analysis = (
-            inspect_result
-        )
-
-        setattr(
-            self.request,
-            "current_signals",
-            current_signals,
-        )
-
-        self.current_signals = (
-            current_signals
-        )
-
-        self.active_context = (
-            current_signals.get(
-                "active_context"
-            )
-        )
         if current_signals:
-            # intent_analysisにはavailable_knowledgeが数百件入る場合がある。
-            # Signals全体を出力せず、運用確認に必要な項目だけを記録する。
-            intent_summary = (
-                inspect_result
-                if isinstance(inspect_result, dict)
-                else {}
-            )
+            intent_summary = inspect_result if isinstance(inspect_result, dict) else {}
             print(
                 "📡 [ChatOrchestrator] "
                 f"mode={intent_summary.get('mode', 'unknown')} "
                 f"intent={intent_summary.get('intent', 'unknown')} "
-                f"handler={intent_summary.get('handler')} "
+                f"forced_handler={intent_summary.get('forced_handler')} "
                 f"knowledge_count={len(available_keys)} "
-                f"active_context={self.active_context!r}"
             )
 
         # ====================================================
@@ -2173,7 +2238,40 @@ class ChatOrchestrator(BaseOrchestrator):
                 )
 
             return result
+        # ====================================================
+        # 4.5 司令塔による絶対君主制ルーティング (Forced Handler)
+        # ====================================================
+        forced_handler_name = inspect_result.get("forced_handler")
 
+        # 🛡️ 追加：マルウェア解析や仮想ラボのコマンド学習中は ChatHandler を優先
+        malware_or_lab_keywords = (
+            "マルウェア", "malware", "表層解析", "静的解析", "動的解析", "メモリ解析",
+            "逆アセンブル", "inetsim", "pefile", "yara", "ssdeep", "wireshark",
+            "remnux", "flare", "host-only", "ホストオンリー", "sudo apt", "sudo su"
+        )
+        if any(kw in self.message.lower() for kw in malware_or_lab_keywords):
+            forced_handler_name = "ChatHandler"
+        if forced_handler_name:
+            print(f"👑 [IntentInspector] 絶対命令: {forced_handler_name} を強制実行します")
+
+            # 登録されている全ハンドラーから、名前が一致するものを探す
+            target_handler = next(
+                (h for h in self.handlers if h.__class__.__name__ == forced_handler_name), 
+                None
+            )
+
+            if target_handler:
+                self.last_used_handler = forced_handler_name
+                result = await self._invoke_handler(target_handler)
+
+                if result:
+                    res_type, res_content = result
+                    self._save_assistant_response_and_state(res_content)
+                    return (res_type, res_content)
+                else:
+                    return ("text", {"message": f"{forced_handler_name} の処理に失敗しました。", "blocks": []})
+            else:
+                print(f"⚠️ 指定された {forced_handler_name} は見つかりません。通常のスコアリングへ移行します。")
         # ====================================================
         # 5. Handler Scoring
         # ====================================================
@@ -2457,175 +2555,35 @@ class ChatOrchestrator(BaseOrchestrator):
                     ],
                 },
             )
-
+            # ====================================================
+        # 9. トップハンドラーの単独実行（Gemini推奨のシンプル設計）
         # ====================================================
-        # 9. 競合
-        # ====================================================
+        top_name = top["handler"].__class__.__name__
+        
+        print(f"🚀 [ChatOrchestrator] {top_name} を単独実行します (Score: {top['score']})")
 
-        if (
-            second["handler"]
-            is not None
-            and
-            (
-                top["score"]
-                -
-                second["score"]
-            )
-            <= 10
-        ):
-            top_name = (
-                top["handler"]
-                .__class__
-                .__name__
-            )
+        self.last_used_handler = top_name
+        result = await self._invoke_handler(top["handler"])
 
-            second_name = (
-                second["handler"]
-                .__class__
-                .__name__
-            )
-
-            print(
-                "🤔 競合:"
-                f"{top_name}"
-                " vs "
-                f"{second_name}"
-            )
-
-            total_size = (
-                top["size"]
-                +
-                second["size"]
-            )
-
-            if total_size >= 20000:
-
-                return (
-                    "text",
-                    {
-                        "message":
-                            f"{top_name} と "
-                            f"{second_name} が"
-                            "競合しています。\n"
-                            "どちらを優先しますか？",
-
-                        "blocks": [
-                            debug_block
-                        ],
-                    },
-                )
-
-            print(
-                "🚀 2つのHandlerを実行して"
-                "マージします。"
-            )
-
-            result1 = await (
-                self._invoke_handler(
-                    top["handler"]
-                )
-            )
-
-            result2 = await (
-                self._invoke_handler(
-                    second["handler"]
-                )
-            )
-
-            if (
-                result1 is None
-                and
-                result2 is None
-            ):
-                return (
-                    "text",
-                    {
-                        "message":
-                            "両方のHandlerで"
-                            "エラーが発生しました。",
-
-                        "blocks": [
-                            debug_block
-                        ],
-                    },
-                )
-
-            if result1 is None:
-
-                res_type, res_content = (
-                    result2
-                )
-
-                self.last_used_handler = (
-                    second_name
-                )
-
-                self._save_assistant_response_and_state(
-                    res_content
-                )
-
-                return (
-                    res_type,
-                    attach_debug_block(
-                        res_content
-                    ),
-                )
-
-            if result2 is None:
-
-                res_type, res_content = (
-                    result1
-                )
-
-                self.last_used_handler = (
-                    top_name
-                )
-
-                self._save_assistant_response_and_state(
-                    res_content
-                )
-
-                return (
-                    res_type,
-                    attach_debug_block(
-                        res_content
-                    ),
-                )
-
-            _, res_content1 = result1
-            _, res_content2 = result2
-
-            merged = (
-                self._merge_responses(
-                    res_content1,
-                    res_content2,
-                )
-            )
-
-            self.last_used_handler = (
-                top_name
-            )
-
-            final_type = (
-                "ui_code"
-
-                if merged.get(
-                    "blocks"
-                )
-
-                else "text"
-            )
-
-            self._save_assistant_response_and_state(
-                merged
-            )
-
+        if result is None:
             return (
-                final_type,
-                attach_debug_block(
-                    merged
-                ),
+                "text",
+                {
+                    "message": f"{top_name} の処理中にエラーが発生しました。",
+                    "blocks": [debug_block],
+                },
             )
+
+        res_type, res_content = result
+
+        print(f"📦 [ChatOrchestrator] 実行完了 res_type={res_type}")
+
+        self._save_assistant_response_and_state(res_content)
+
+        return (
+            res_type,
+            attach_debug_block(res_content),
+        )
 
         # ====================================================
         # 10. 通常実行
