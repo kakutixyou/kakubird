@@ -1,7 +1,7 @@
 """Custom AI unified FastAPI backend server."""
-# ai_server.py
+# backend/api/ai_server.py
 from __future__ import annotations
-# routes_project_download.pyを読むことで、Zipが行き届くかがわかるとか
+
 import io
 import os
 import sys
@@ -116,6 +116,9 @@ safe_include_router("backend.api.routes_sql")
 safe_include_router("backend.api.routes_css")
 safe_include_router("backend.api.routes_note")
 safe_include_router("backend.api.routes_project")
+
+# 先生の採点支援 ＆ ラズパイ答案スキャン連携ルート
+safe_include_router("backend.api.routes_grading")
 
 # ProjectBuildServiceが作成したZIPを配信する専用route。
 safe_include_router("backend.api.routes_project_download")
