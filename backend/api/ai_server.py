@@ -44,7 +44,7 @@ def configure_utf8_streams() -> None:
         buffer = getattr(stream, "buffer", None)
         if buffer is not None:
             setattr(sys, stream_name, io.TextIOWrapper(buffer, encoding="utf-8"))
-
+    
 
 configure_utf8_streams()
 load_dotenv(ROOT_DIR / ".env")
@@ -65,7 +65,14 @@ PROJECT_ZIP_OUTPUT_ROOT = Path(
 os.environ["PROJECT_ZIP_OUTPUT_ROOT"] = str(PROJECT_ZIP_OUTPUT_ROOT)
 
 app = FastAPI(title="Custom AI Server", version="3.1")
+IS_RENDER = bool(os.getenv("RENDER"))
+BACKEND_HOST = os.getenv("TO_BACKEND_HOST", "0.0.0.0" if IS_RENDER else "127.0.0.1")
+BACKEND_PORT = int(os.getenv("PORT") or os.getenv("TO_BACKEND_PORT") or "8765")
 
+# CORS設定も Cloudflare Pages (*.pages.dev) を許可するように追加
+FRONTEND_ORIGINS = [
+    o.strip() for o in os.getenv("FRONTEND_ORIGINS", "").split(",") if o.strip()
+]
 # Viteの開発ポートが5174以降へずれた場合にも対応する。
 app.add_middleware(
     CORSMiddleware,
@@ -87,7 +94,6 @@ print("-------------------------------------------------")
 print(f"🤖 OLLAMA_MODEL : {OLLAMA_MODEL}")
 print(f"🌐 OLLAMA_URL   : {OLLAMA_BASE_URL}")
 print("=")
-
 
 def safe_include_router(import_path: str, router_name: str = "router") -> bool:
     """Isolate one broken optional route without hiding its traceback."""
