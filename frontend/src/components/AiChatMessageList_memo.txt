@@ -1,0 +1,6 @@
+ファイル	今後の役割
+AIChatMessageList.tsx	メッセージ一覧・スクロール・会話表示
+BlockDispatcher.tsx	回答種類に応じた表示先の選択
+blockValidators.ts	Handlerから届いたJSONの検証
+ToolAndHandlerBlock.tsx	汎用データ・ツール実行結果の表示
+専用ウィジェット	キノコ栽培・数学・動画などの専門表示

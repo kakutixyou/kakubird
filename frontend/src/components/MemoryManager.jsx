@@ -7,8 +7,9 @@ import React, {
   useState,
 } from "react";
 
-const API_BASE = "http://localhost:8765/api/memory";
-
+// const API_BASE = "http://localhost:8765/api/memory";
+// ⭕ 修正後（routes_memory.py の prefix="/api/to" に合わせる）
+const API_BASE = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:8765"}/api/to/memory`;
 // ============================================================
 // 共通
 // ============================================================
