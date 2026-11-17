@@ -14,33 +14,33 @@ _TO_MODEL_SRC = _PROJECT_ROOT / "to-model-app" / "src"
 if _TO_MODEL_SRC.is_dir() and str(_TO_MODEL_SRC) not in sys.path:
     sys.path.insert(0, str(_TO_MODEL_SRC))
 
-from tools.poster_builder_tool import PosterSpec, create_and_store_poster_kit
+from api.services.tools.poster.poster_builder_tool import PosterSpec, create_and_store_poster_kit
 
 # ==========================================
 # to_model 各モジュールの安全な動的インポート
 # ==========================================
 try:
-    from to_model.grammar.reference_resolver import ReferenceResolver
+    from to_model.grammar.reference_resolver import ReferenceResolver  # pyright: ignore[reportAttributeAccessIssue,reportMissingImports]
 except Exception:
     ReferenceResolver = None
 
 try:
-    from to_model.intent.predict import predict_intent
+    from to_model.intent.predict import predict_intent  # pyright: ignore[reportAttributeAccessIssue,reportMissingImports]
 except Exception:
     predict_intent = None
 
 try:
-    from to_model.reasoning.decision_policy import DecisionPolicy
+    from to_model.reasoning.decision_policy import DecisionPolicy  # pyright: ignore[reportAttributeAccessIssue,reportMissingImports]
 except Exception:
     DecisionPolicy = None
 
 try:
-    from to_model.reasoning.jp_nlu_memo import extract_structured_memo
+    from to_model.reasoning.jp_nlu_memo import extract_structured_memo  # pyright: ignore[reportAttributeAccessIssue,reportMissingImports]
 except Exception:
     extract_structured_memo = None
 
 try:
-    from to_model.adapters.local_model_adapter import LocalModelAdapter
+    from to_model.adapters.local_model_adapter import LocalModelAdapter  # pyright: ignore[reportAttributeAccessIssue,reportMissingImports]
 except Exception:
     LocalModelAdapter = None
 
@@ -368,7 +368,7 @@ class PosterGeneratorHandler:
                                 "💡 **文脈に応じた連続アレンジも可能です（そのまま続けて話しかけてください）：**\n"
                                 "- 「タイトルはそのままで、**大会っぽく赤色**に変えて」\n"
                                 "- 「**4枠のカタログ風**にレイアウトを変えて」\n"
-                                "- 「会場を**吉祥寺コミュニティセンター**に変更して再発行して」"
+                                "- 「会場を**コミュニティセンター**に変更して再発行して」"
                             )
                         },
                     },
