@@ -28,13 +28,13 @@ from engine.orchestrator.base_orchestrator import BaseOrchestrator
 from api.services.inspectors.IntentInSpector import IntentInspector
 from api.services.manager.KnowledgeManager import KnowledgeManager
 
-from engine.orchestrator.chat_orchestrator.elevator_enricher import (
+from backend.engine.orchestrator.chat_orchestrator.elevator_enricher import (
     ELEVATOR_ENABLED_HANDLERS,
     attach_elevator_metadata,
     diagnose_elevator_files,
     is_empty_knowledge_note_reply,
 )
-from engine.orchestrator.chat_orchestrator.elevator_planner import (
+from backend.engine.orchestrator.chat_orchestrator.elevator_planner import (
     NEXT_FLOOR_COMMANDS,
     PREV_FLOOR_COMMANDS,
     ElevatorPlanner,
