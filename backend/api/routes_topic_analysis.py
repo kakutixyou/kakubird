@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import re
-from collections import Counter
 from typing import Literal
 
 import requests
@@ -29,9 +28,18 @@ CATEGORY_TERMS = {
     "売買理由": ["理由", "なぜ", "損益", "利益", "損失", "売買", "trade", "reason"],
 }
 STOCK_TERMS = ("株", "株式", "株価", "投資", "stock", "trading")
-WIN_TERMS = ("勝ち", "勝った", "利益", "儲", "プラス", "profit", "gain", "win")
-LOSS_TERMS = ("負け", "負けた", "損失", "損", "マイナス", "loss", "lose")
-REASON_TERMS = ("理由", "なぜ", "原因", "根拠", "分析", "reason", "because", "因為")
+# Only count wording that explicitly reports a realized or personal outcome. Generic words like
+# 「上昇」「下落」 are intentionally excluded: price movement alone doesn't establish a trade result.
+WIN_PHRASES = ("利益確定", "利確", "儲かった", "勝った", "勝ちました", "利益が出", "利益を出", "プラスにな", "profit", "gained", "made a profit")
+LOSS_PHRASES = ("損切り", "損失", "負けた", "負けました", "損した", "損しました", "含み損", "マイナスにな", "loss", "lost money", "lost")
+REASON_TERMS = ("理由", "なぜ", "原因", "根拠", "分析", "reason", "because")
+FOLLOWING_TERMS = ("従って買", "従って株", "言う通りに買", "言われて買", "おすすめされて買", "推奨されて買", "紹介されて買", "following", "followed", "recommendation")
+RISK_TERMS = {
+    "損失・損切りへの言及": ("損失", "損切り", "負けた", "損した", "含み損", "loss"),
+    "推奨に従った取引への言及": FOLLOWING_TERMS,
+    "実績・根拠の確認が必要": ("勝率", "実績", "根拠", "バックテスト", "検証", "過去成績"),
+    "広告・利益相反の確認が必要": ("広告", "pr", "アフィリエイト", "利益相反", "スポンサー", "有料サロン"),
+}
 
 
 class TopicAnalysisRequest(BaseModel):
@@ -43,14 +51,12 @@ class TopicAnalysisRequest(BaseModel):
 def _terms(query: str) -> list[str]:
     normalized = query.strip()
     terms = ALIASES.get(normalized.lower(), ALIASES.get(normalized, [normalized]))
-    # Keep user intent while including common Japanese/English variants for the common ambiguous topics.
     return list(dict.fromkeys([normalized, *terms]))[:6]
 
 
 def _search_query(query: str, category: str) -> str:
     terms = _terms(query)
     category_terms = CATEGORY_TERMS.get(category, []) if category != "すべて" else []
-    # Search APIs treat spaces as AND; use a readable query rather than an unsafe raw query expression.
     return " ".join([terms[0], *category_terms[:2]])
 
 
@@ -58,16 +64,59 @@ def _text(item: dict) -> str:
     return " ".join(str(item.get(key) or "") for key in ("title", "description", "body", "snippet"))
 
 
+def _contains_any(text: str, phrases: tuple[str, ...]) -> bool:
+    normalized = text.casefold()
+    return any(phrase.casefold() in normalized for phrase in phrases)
+
+
+def _classify_reported_outcome(item: dict) -> tuple[str | None, list[str]]:
+    text = _text(item)
+    wins = [phrase for phrase in WIN_PHRASES if phrase.casefold() in text.casefold()]
+    losses = [phrase for phrase in LOSS_PHRASES if phrase.casefold() in text.casefold()]
+    # Ambiguous reports (both win and loss, such as a mixed portfolio) are not forced into either bucket.
+    if bool(wins) == bool(losses):
+        return None, []
+    return ("win", wins) if wins else ("loss", losses)
+
+
 def _stock_summary(results: list[dict]) -> dict | None:
-    if not any(term in " ".join(_text(item) for item in results).lower() for term in STOCK_TERMS):
+    stock_results = [item for item in results if _contains_any(_text(item), STOCK_TERMS)]
+    if not stock_results:
         return None
-    text = " ".join(_text(item) for item in results).lower()
-    count = lambda terms: sum(text.count(term.lower()) for term in terms)
+
+    classified = []
+    following_posts = []
+    risk_counts = {label: 0 for label in RISK_TERMS}
+    for item in stock_results:
+        text = _text(item)
+        outcome, evidence = _classify_reported_outcome(item)
+        if outcome:
+            classified.append({
+                "title": item.get("title", ""),
+                "url": item.get("url", ""),
+                "source": item.get("source", ""),
+                "outcome": outcome,
+                "evidence": evidence,
+            })
+        if _contains_any(text, FOLLOWING_TERMS):
+            following_posts.append({"title": item.get("title", ""), "url": item.get("url", ""), "source": item.get("source", "")})
+        for label, terms in RISK_TERMS.items():
+            if _contains_any(text, terms):
+                risk_counts[label] += 1
+
+    wins = sum(1 for item in classified if item["outcome"] == "win")
+    losses = sum(1 for item in classified if item["outcome"] == "loss")
+    sample_size = wins + losses
     return {
-        "win_mentions": count(WIN_TERMS),
-        "loss_mentions": count(LOSS_TERMS),
-        "reason_mentions": count(REASON_TERMS),
-        "note": "検索結果のタイトル・概要に含まれる語句の出現回数です。勝敗金額や実際の取引件数ではなく、個々の結果を開いて内容を確認してく���さい。投資判断を示すものではありません。",
+        "win_rate_percent": round(wins / sample_size * 100, 1) if sample_size else None,
+        "wins": wins,
+        "losses": losses,
+        "sample_size": sample_size,
+        "unclassified_posts": max(0, len(stock_results) - sample_size),
+        "recommendation_following_posts": following_posts[:10],
+        "risk_signals": [{"label": label, "count": count} for label, count in risk_counts.items() if count],
+        "classified_posts": classified[:20],
+        "note": "これは検索結果のタイトル・概要に、利益/損失を明示した投稿だけを1投稿=1件として数えた参考値です。全記事・全取引の勝率ではなく、投稿者や推奨者の実力、将来の成績を示しません。検索結果の抜粋による誤分類や、勝ちだけを公開する選択バイアスがあります。投資判断に使わず、元記事と取引条件を確認してください。",
     }
 
 
@@ -140,7 +189,6 @@ def analyze_topic(request: TopicAnalysisRequest):
         try:
             results.extend(searches[source](query, category))
         except Exception as exc:
-            # Keep partial results from the remaining sources if one API is unavailable.
             warnings.append(f"{source}: {str(exc)[:240]}")
     corpus = " ".join(_text(item) for item in results).lower()
     evidence_terms = ("勝ち", "利益", "負け", "損失", "理由", "なぜ", "根拠", "おいしい", "美味しい", "レシピ", "料金", "価格")
