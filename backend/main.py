@@ -1,4 +1,5 @@
-# backend/main.py
+# GitHub Copilot からの補完機能 :contentReference[oaicite:0]{index=0}
+
 print("2? backend/main.py が起動しました", flush=True)
 import uvicorn
 from fastapi import FastAPI, HTTPException
@@ -42,7 +43,7 @@ app.add_middleware(
     ],
     allow_credentials=True,
     allow_methods=["*"],  # すべてのメソッドを許可
-    allow_headers=["*"],  # すべてのヘッダーを許可
+    allow_headers=["*"],
 )
 
 # ===
@@ -53,7 +54,7 @@ app.include_router(memory_router)
 
 # chat_router 側で prefix を設定しているかどうかに応じて調整してください
 # もし routes_chat.py で prefix を設定していないなら、ここを prefix="/api/chat" にします
-app.include_router(chat_router) 
+app.include_router(chat_router)
 
 
 # ===
@@ -67,13 +68,13 @@ async def analyze_html(request: HtmlRequest):
     try:
         engine = HTMLEngine()
         result = engine.analyze(request.html)
-        
+
         return {
             "status": "success",
             "score": result.score,
             "complexity": result.complexity,
             "warnings": result.warnings,
-            "meta": result.meta 
+            "meta": result.meta
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -101,6 +102,10 @@ def get_recommendations(request: UserScoreRequest):
     )
     # 結果をJSXへ返す
     return {"status": "success", "data": results}
+
+from api.routes_topic_analysis import router as topic_analysis_router
+app.include_router(topic_analysis_router)
+
 if __name__ == "__main__":
     # ポート8765でサーバーを起動
     uvicorn.run(app, host="127.0.0.1", port=8765)

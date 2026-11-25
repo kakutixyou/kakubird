@@ -1,0 +1,2 @@
+# 既存のrequirements.txtに以下を追加
+requests
