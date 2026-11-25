@@ -15,6 +15,7 @@ import TemplatesPage from './pages/TemplatesPage.jsx';
 import RelocationMapPage from './pages/RelocationMapPage.jsx';
 import DatabasePage from './components/DatabasePage';
 import TopicAnalysisPage from './pages/TopicAnalysisPage';
+import StockFollowupPage from './pages/StockFollowupPage';
 import React from 'react';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="builder/:pageId" element={<Builder />} />
           <Route path="memory" element={<MemoryPage />} />
           <Route path="analysis" element={<TopicAnalysisPage />} />
+          <Route path="stock-followup" element={<StockFollowupPage />} />
           <Route path="settings-api" element={<ApiSettingsPage />} />
           <Route path="backoffice" element={<BackOfficePage />} />
           <Route path="frontoffice" element={<FrontOfficePage />} />

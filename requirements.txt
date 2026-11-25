@@ -1,5 +1,6 @@
 fastapi
 uvicorn
-supabase  
-pandas    
+supabase
+pandas
 python-dotenv
+requests
